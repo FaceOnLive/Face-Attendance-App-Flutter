@@ -1,7 +1,8 @@
 class AppImages {
-  static const String LOGO = 'assets/logo.png';
-  static const String LOGIN_HERO = 'assets/login_hero_image.png';
-  static const String GOOGLE_LOGO = 'assets/google_logo.png';
+  static const String MAIN_LOGO = 'assets/images/logos/logo.png';
+  static const String GOOGLE_LOGO = 'assets/images/logos/google_logo.png';
+  static const String LOGIN_FACE_LOGO =
+      'assets/images/illustration/face_id_logo.png';
 
   /* <---- Cover Photo Link ----> */
   static const List<String> randomImages = [

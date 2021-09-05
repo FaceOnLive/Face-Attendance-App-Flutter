@@ -1,5 +1,6 @@
-import 'package:face_attendance/consts/app_colors.dart';
-import 'package:face_attendance/consts/app_sizes.dart';
+import 'package:face_attendance/constants/app_colors.dart';
+import 'package:face_attendance/constants/app_defaults.dart';
+import 'package:face_attendance/constants/app_sizes.dart';
 import 'package:face_attendance/utils/ui_helper.dart';
 import 'package:face_attendance/views/themes/text.dart';
 import 'package:flutter/material.dart';
@@ -32,19 +33,19 @@ class AppThemes {
       backwardsCompatibility: false,
     ),
     inputDecorationTheme: InputDecorationTheme(
-        // enabledBorder: OutlineInputBorder(
-        //   borderRadius: AppDefault.defaulBorderRadius,
-        //   borderSide: BorderSide(
-        //     color: AppColors.PLACEHOLDER_COLOR,
-        //   ),
-        // ),
-        // focusedBorder: OutlineInputBorder(
-        //   borderRadius: AppDefault.defaulBorderRadius,
-        //   borderSide: BorderSide(
-        //     color: AppColors.ACCENT_COLOR,
-        //   ),
-        // ),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: AppDefaults.defaulBorderRadius,
+        borderSide: BorderSide(
+          color: AppColors.PLACEHOLDER_COLOR,
         ),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: AppDefaults.defaulBorderRadius,
+        borderSide: BorderSide(
+          color: AppColors.ACCENT_COLOR,
+        ),
+      ),
+    ),
     iconTheme: IconThemeData(
       color: AppColors.PRIMARY_COLOR,
     ),

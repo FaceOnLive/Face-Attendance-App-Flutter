@@ -1,5 +1,5 @@
-import 'package:face_attendance/consts/app_colors.dart';
-import 'package:face_attendance/consts/app_defaults.dart';
+import 'package:face_attendance/constants/app_colors.dart';
+import 'package:face_attendance/constants/app_defaults.dart';
 import 'package:face_attendance/views/themes/text.dart';
 import 'package:flutter/material.dart';
 
