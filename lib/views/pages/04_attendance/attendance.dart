@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:face_attendance/views/pages/04_attendance/user_list.dart';
+import 'package:face_attendance/views/pages/07_settings/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -62,11 +63,20 @@ class AttendanceScreen extends StatelessWidget {
                     ],
                   ),
                   /* <---- Right Side ----> */
-                  CircleAvatar(
-                    backgroundImage: CachedNetworkImageProvider(
-                      AppImages.unsplashPersons[0],
+                  // ADMIN PROFILE PICTURE
+                  InkWell(
+                    onTap: () {
+                      Get.to(() => AdminSettingScreen());
+                    },
+                    child: Hero(
+                      tag: AppImages.unsplashPersons[0],
+                      child: CircleAvatar(
+                        backgroundImage: CachedNetworkImageProvider(
+                          AppImages.unsplashPersons[0],
+                        ),
+                        radius: Get.width * 0.07,
+                      ),
                     ),
-                    radius: Get.width * 0.07,
                   ),
                 ],
               ),

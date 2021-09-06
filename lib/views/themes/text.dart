@@ -21,4 +21,6 @@ class AppText {
   /* <---- Extra ----> */
   static TextStyle get bLight =>
       Get.textTheme.bodyText1!.copyWith(fontWeight: FontWeight.w100);
+  static TextStyle get bBOLD =>
+      Get.textTheme.bodyText1!.copyWith(fontWeight: FontWeight.bold);
 }

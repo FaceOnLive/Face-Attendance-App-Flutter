@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
       theme: AppThemes.lightTheme,
       // darkTheme: AppThemes.darkTheme,
       home: AppRoot(),
-      defaultTransition: Transition.cupertino,
+      // defaultTransition: Transition.cupertino,
     );
   }
 }
