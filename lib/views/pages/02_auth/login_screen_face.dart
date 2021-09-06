@@ -2,12 +2,57 @@ import 'package:face_attendance/constants/app_colors.dart';
 import 'package:face_attendance/constants/app_images.dart';
 import 'package:face_attendance/constants/app_sizes.dart';
 import 'package:face_attendance/views/pages/02_auth/login_screen.dart';
+import 'package:face_attendance/views/pages/02_auth/signup_screen.dart';
+import 'package:face_attendance/views/pages/03_main/main_screen.dart';
 import 'package:face_attendance/views/themes/text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
+
+  @override
+  _LoginScreenState createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen>
+    with TickerProviderStateMixin {
+  late final AnimationController _controller;
+
+  /* <---- Trigger the animation on face detection ----> */
+  late LottieComposition _composition;
+  _onFaceVerified() async {
+    await Future.delayed(Duration(seconds: 2)).then((value) {
+      _controller
+        ..duration = _composition.duration
+        ..forward();
+      _controller.addStatusListener((status) {
+        if (status == AnimationStatus.completed) {
+          Get.offAll(() => MainScreenUI());
+        }
+      });
+    });
+  }
+
+  _onFaceUnverified() async {
+    print("NEED TO IMPLEMENT UNVERIFIED STATUS ON FACE");
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(vsync: this);
+    _onFaceVerified();
+    _onFaceUnverified();
+  }
+
+  @override
+  void dispose() {
+    _controller.removeListener(() {});
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,12 +82,30 @@ class LoginScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       /* <---- FaceLOGO ----> */
+                      // This one is static
+                      // Container(
+                      //   width: Get.width * 0.5,
+                      //   child: AspectRatio(
+                      //     aspectRatio: 1 / 1,
+                      //     child: Image.asset(
+                      //       AppImages.ILLUSTRATION_FACE,
+                      //     ),
+                      //   ),
+                      // ),
                       Container(
                         width: Get.width * 0.5,
                         child: AspectRatio(
                           aspectRatio: 1 / 1,
-                          child: Image.asset(
-                            AppImages.LOGIN_FACE_LOGO,
+                          child: Lottie.asset(
+                            'assets/lottie/face_id.json',
+                            controller: _controller,
+                            frameRate: FrameRate.max,
+                            onLoaded: (composition) {
+                              _composition = composition;
+                              // _controller
+                              //   ..duration = composition.duration
+                              //   ..forward();
+                            },
                           ),
                         ),
                       ),
@@ -75,7 +138,25 @@ class LoginScreen extends StatelessWidget {
                 onPressed: () {
                   Get.to(() => LoginScreenAlt());
                 },
-                child: Text('Sign In With Other Option'),
+                child: Text(
+                  'Sign in With Other Option',
+                  style: AppText.b1.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.PRIMARY_COLOR,
+                  ),
+                ),
+              ),
+              TextButton(
+                onPressed: () {
+                  Get.to(() => SignUpScreen());
+                },
+                child: Text(
+                  'New User ?',
+                  style: AppText.b1.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.PRIMARY_COLOR,
+                  ),
+                ),
               ),
             ],
           ),

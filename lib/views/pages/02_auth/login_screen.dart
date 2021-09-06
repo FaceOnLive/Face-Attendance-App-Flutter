@@ -1,6 +1,8 @@
 import 'package:face_attendance/constants/app_colors.dart';
 import 'package:face_attendance/constants/app_images.dart';
 import 'package:face_attendance/constants/app_sizes.dart';
+import 'package:face_attendance/views/pages/02_auth/signup_screen.dart';
+import 'package:face_attendance/views/pages/03_main/main_screen.dart';
 import 'package:face_attendance/views/themes/text.dart';
 import 'package:face_attendance/views/widgets/app_button.dart';
 import 'package:flutter/material.dart';
@@ -112,11 +114,14 @@ class _LoginScreenAltState extends State<LoginScreenAlt> {
                         AppButton(
                           margin: EdgeInsets.symmetric(vertical: 30),
                           label: 'Login',
-                          onTap: () {},
+                          onTap: () {
+                            Get.to(() => MainScreenUI());
+                          },
                         ),
                       ],
                     ),
                   ),
+                  /* <---- Sign UP BUTTON ----> */
                   Container(
                     margin: EdgeInsets.symmetric(vertical: 20),
                     child: Row(
@@ -124,7 +129,9 @@ class _LoginScreenAltState extends State<LoginScreenAlt> {
                       children: [
                         Text('Don\'t have an account?'),
                         TextButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Get.to(() => SignUpScreen());
+                          },
                           child: Text(
                             'Sign up',
                             style: AppText.b1.copyWith(

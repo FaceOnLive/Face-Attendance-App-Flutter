@@ -1,3 +1,4 @@
+import 'package:face_attendance/utils/ui_helper.dart';
 import 'package:face_attendance/views/root.dart';
 import 'package:face_attendance/views/themes/themes.dart';
 import 'package:flutter/material.dart';
@@ -5,6 +6,7 @@ import 'package:get/get.dart';
 
 void main() {
   runApp(MyApp());
+  AppUiHelper.dontAutoRotate();
 }
 
 class MyApp extends StatelessWidget {

@@ -2,21 +2,19 @@ import 'package:camera/camera.dart';
 import 'package:face_attendance/constants/app_colors.dart';
 import 'package:face_attendance/constants/app_defaults.dart';
 import 'package:face_attendance/constants/app_sizes.dart';
-import 'package:face_attendance/views/pages/05_verifier/static_verifier_password.dart';
+import 'package:face_attendance/views/pages/05_verifier/static_verifier_unlock.dart';
 import 'package:face_attendance/views/themes/text.dart';
-import 'package:face_attendance/views/widgets/app_button.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class VerifierScreen extends StatefulWidget {
-  const VerifierScreen({Key? key}) : super(key: key);
+class StaticVerifierScreen extends StatefulWidget {
+  const StaticVerifierScreen({Key? key}) : super(key: key);
 
   @override
-  _VerifierScreenState createState() => _VerifierScreenState();
+  _StaticVerifierScreenState createState() => _StaticVerifierScreenState();
 }
 
-class _VerifierScreenState extends State<VerifierScreen> {
+class _StaticVerifierScreenState extends State<StaticVerifierScreen> {
   late List<CameraDescription> cameras;
   RxBool _activatingCamera = true.obs;
 
@@ -83,21 +81,18 @@ class _VerifierScreenState extends State<VerifierScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: Get.width,
-      child: SafeArea(
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Verifier'),
+        leading: BackButton(
+          onPressed: () {
+            Get.bottomSheet(StaticVerifierUnlock(), isScrollControlled: true);
+          },
+        ),
+      ),
+      body: Container(
         child: Column(
           children: [
-            Container(
-              margin: EdgeInsets.symmetric(vertical: 10),
-              child: Text(
-                'Verifier',
-                style: AppText.h6.copyWith(
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.PRIMARY_COLOR,
-                ),
-              ),
-            ),
             Obx(
               () => _activatingCamera.isTrue
                   ? Center(child: CircularProgressIndicator())
@@ -108,7 +103,7 @@ class _VerifierScreenState extends State<VerifierScreen> {
                           /* <---- Verifier Button ----> */
                           Positioned(
                             bottom: 0,
-                            child: _UseAsAVerifierButton(),
+                            child: _UnlockButton(),
                           ),
                           /* <---- Camear Switch Button ----> */
                           Positioned(
@@ -131,8 +126,8 @@ class _VerifierScreenState extends State<VerifierScreen> {
   }
 }
 
-class _UseAsAVerifierButton extends StatelessWidget {
-  const _UseAsAVerifierButton({
+class _UnlockButton extends StatelessWidget {
+  const _UnlockButton({
     Key? key,
   }) : super(key: key);
 
@@ -140,12 +135,10 @@ class _UseAsAVerifierButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Get.bottomSheet(
-          StaticVerifierPasswordSet(),
-          isScrollControlled: true,
-        );
+        Get.bottomSheet(StaticVerifierUnlock(), isScrollControlled: true);
       },
       child: Container(
+        height: Get.height * 0.1,
         width: Get.width,
         padding: EdgeInsets.all(AppSizes.DEFAULT_PADDING),
         margin: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
@@ -161,21 +154,12 @@ class _UseAsAVerifierButton extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Text(
-              'Use as a static verifier',
-              style: AppText.b2.copyWith(
+              'UNLOCK',
+              style: AppText.h6.copyWith(
                 fontWeight: FontWeight.bold,
                 color: Colors.white,
               ),
             ),
-            Switch(
-              value: false,
-              onChanged: (val) {
-                Get.bottomSheet(
-                  StaticVerifierPasswordSet(),
-                  isScrollControlled: true,
-                );
-              },
-            )
           ],
         ),
       ),

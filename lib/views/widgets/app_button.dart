@@ -12,6 +12,7 @@ class AppButton extends StatelessWidget {
     this.width,
     this.margin,
     this.padding,
+    this.height,
     this.color = AppColors.PRIMARY_COLOR,
   }) : super(key: key);
 
@@ -19,6 +20,7 @@ class AppButton extends StatelessWidget {
   final void Function() onTap;
   final bool isLoading;
   final double? width;
+  final double? height;
   final EdgeInsetsGeometry? margin;
   final EdgeInsetsGeometry? padding;
   final Color color;
@@ -28,6 +30,7 @@ class AppButton extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: AnimatedContainer(
+        height: height,
         duration: AppDefaults.defaultDuration,
         margin: margin ?? EdgeInsets.symmetric(vertical: 10),
         alignment: Alignment.center,
