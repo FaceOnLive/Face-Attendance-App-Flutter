@@ -86,7 +86,7 @@ class _MembersListState extends State<MembersList> {
                       trailing: IconButton(
                         icon: Icon(
                           Icons.info_outlined,
-                          color: Colors.green,
+                          color: AppColors.APP_GREEN,
                         ),
                         onPressed: () {},
                       ),

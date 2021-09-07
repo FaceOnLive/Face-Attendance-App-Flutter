@@ -125,7 +125,7 @@ class _AttendedUserListState extends State<AttendedUserList> {
                             subtitle: Text('+852 XXXX XXXX'),
                             trailing: Icon(
                               Icons.check,
-                              color: Colors.green,
+                              color: AppColors.APP_GREEN,
                             ),
                           );
                         },

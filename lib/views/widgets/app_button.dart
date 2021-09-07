@@ -13,7 +13,9 @@ class AppButton extends StatelessWidget {
     this.margin,
     this.padding,
     this.height,
-    this.color = AppColors.PRIMARY_COLOR,
+    this.suffixIcon,
+    this.prefixIcon,
+    this.color,
   }) : super(key: key);
 
   final String label;
@@ -23,7 +25,9 @@ class AppButton extends StatelessWidget {
   final double? height;
   final EdgeInsetsGeometry? margin;
   final EdgeInsetsGeometry? padding;
-  final Color color;
+  final Color? color;
+  final Icon? suffixIcon;
+  final Icon? prefixIcon;
 
   @override
   Widget build(BuildContext context) {
@@ -36,20 +40,36 @@ class AppButton extends StatelessWidget {
         alignment: Alignment.center,
         padding: padding ?? EdgeInsets.symmetric(horizontal: 14, vertical: 14),
         decoration: BoxDecoration(
-          color: color,
+          color: color ?? AppColors.PRIMARY_COLOR,
           borderRadius: AppDefaults.defaulBorderRadius,
         ),
         width: width,
         child: isLoading
-            ? CircularProgressIndicator(
-                color: Colors.white,
-              )
-            : Text(
-                label,
-                style: AppText.b1.copyWith(
-                  fontWeight: FontWeight.bold,
+            ? AspectRatio(
+                aspectRatio: 1 / 1,
+                child: CircularProgressIndicator(
                   color: Colors.white,
                 ),
+              )
+            : Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  prefixIcon != null
+                      ? Container(
+                          margin: EdgeInsets.only(left: 5), child: prefixIcon)
+                      : SizedBox(),
+                  Text(
+                    label,
+                    style: AppText.b1.copyWith(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                  suffixIcon != null
+                      ? Container(
+                          margin: EdgeInsets.only(left: 5), child: suffixIcon)
+                      : SizedBox(),
+                ],
               ),
       ),
     );

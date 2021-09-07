@@ -10,4 +10,12 @@ class AppColors {
   // For Shimmer Loading Effect
   static Color shimmerHighlightColor = Color(0xFF845EC2).withOpacity(0.6);
   static Color shimmerBaseColor = Color(0xFFC1BDCA);
+
+  // Error Warning Success Color
+  // RED
+  static const Color APP_RED = Color(0xFFFF6584);
+  // Green
+  static const Color APP_GREEN = Color(0xFF79C76E);
+  // Yellow
+  static const Color APP_YELLOW = Color(0xFFFFD300);
 }
