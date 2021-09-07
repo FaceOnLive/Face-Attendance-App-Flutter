@@ -1,4 +1,5 @@
 import 'package:face_attendance/constants/app_colors.dart';
+import 'package:face_attendance/views/pages/06_members/member_add.dart';
 import 'package:face_attendance/views/pages/06_members/members_list.dart';
 import 'package:face_attendance/views/themes/text.dart';
 import 'package:flutter/material.dart';
@@ -30,11 +31,14 @@ class MembersScreen extends StatelessWidget {
                 MembersList(),
               ],
             ),
+            /* <---- Member Add ----> */
             Positioned(
               bottom: 20,
               right: Get.width * 0.07,
               child: FloatingActionButton(
-                onPressed: () {},
+                onPressed: () {
+                  Get.to(() => MemberAddScreen());
+                },
                 child: Icon(Icons.add),
               ),
             ),

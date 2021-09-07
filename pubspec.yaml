@@ -33,6 +33,8 @@ dependencies:
   intl: ^0.17.0
   lottie: ^1.1.0
   shimmer: ^2.0.0
+  image_picker: ^0.8.4
+  image_cropper: ^1.4.1
 
 dev_dependencies:
   flutter_test:

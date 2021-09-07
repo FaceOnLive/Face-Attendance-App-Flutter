@@ -21,7 +21,7 @@ class AppThemes {
       actionsIconTheme: IconThemeData(
         color: AppColors.DARK_COLOR,
       ),
-      titleTextStyle: TextStyle(
+      titleTextStyle: AppText.b1.copyWith(
         color: AppColors.DARK_COLOR,
         fontWeight: FontWeight.bold,
       ),
