@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:face_attendance/constants/app_colors.dart';
 import 'package:face_attendance/constants/app_defaults.dart';
 import 'package:face_attendance/constants/app_sizes.dart';
@@ -40,9 +42,11 @@ class CameraGallerySelectDialog extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      GestureDetector(
-                        onTap: () {
-                          AppPhotoService.getImageFromCamera();
+                      InkWell(
+                        onTap: () async {
+                          File? _image =
+                              await AppPhotoService.getImageFromCamera();
+                          Get.back(result: _image);
                         },
                         child: Column(
                           children: [
@@ -54,9 +58,11 @@ class CameraGallerySelectDialog extends StatelessWidget {
                           ],
                         ),
                       ),
-                      GestureDetector(
-                        onTap: () {
-                          AppPhotoService.getImageFromGallery();
+                      InkWell(
+                        onTap: () async {
+                          File? _image =
+                              await AppPhotoService.getImageFromGallery();
+                          Get.back(result: _image);
                         },
                         child: Column(
                           children: [

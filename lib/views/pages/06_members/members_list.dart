@@ -3,6 +3,7 @@ import 'package:face_attendance/constants/app_colors.dart';
 import 'package:face_attendance/constants/app_defaults.dart';
 import 'package:face_attendance/constants/app_images.dart';
 import 'package:face_attendance/constants/app_sizes.dart';
+import 'package:face_attendance/views/pages/06_members/member_info.dart';
 import 'package:face_attendance/views/themes/text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -76,6 +77,9 @@ class _MembersListState extends State<MembersList> {
 
                     // Attended Person
                     return ListTile(
+                      onTap: () {
+                        Get.to(() => MemberInfoScreen());
+                      },
                       leading: CircleAvatar(
                         backgroundImage: CachedNetworkImageProvider(
                           AppImages.unsplashPersons[index],

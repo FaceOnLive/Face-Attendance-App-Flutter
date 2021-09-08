@@ -1,3 +1,4 @@
+import 'package:face_attendance/views/pages/08_spaces/spaces.dart';
 import 'package:face_attendance/views/widgets/app_button.dart';
 import 'package:face_attendance/views/widgets/picture_display.dart';
 import 'package:flutter/cupertino.dart';
@@ -30,6 +31,7 @@ class AdminSettingScreen extends StatelessWidget {
               child: SingleChildScrollView(
                 child: Column(
                   children: [
+                    AppSizes.hGap10,
                     // ADMIN PROFILE PICTURE
                     PictureWidget(
                       heroTag: AppImages.unsplashPersons[0],
@@ -51,7 +53,13 @@ class AdminSettingScreen extends StatelessWidget {
                       onTap: () {},
                       leading: Icon(Icons.lock),
                     ),
-
+                    AppCustomListTile(
+                      label: 'Spaces',
+                      onTap: () {
+                        Get.to(() => SpacesScreen());
+                      },
+                      leading: Icon(Icons.group_work),
+                    ),
                     AppCustomListTile(
                       label: 'Notfications',
                       onTap: () {},

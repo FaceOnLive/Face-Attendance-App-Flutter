@@ -35,11 +35,15 @@ class MembersScreen extends StatelessWidget {
             Positioned(
               bottom: 20,
               right: Get.width * 0.07,
-              child: FloatingActionButton(
+              child: FloatingActionButton.extended(
                 onPressed: () {
                   Get.to(() => MemberAddScreen());
                 },
-                child: Icon(Icons.add),
+                icon: Icon(
+                  Icons.person_add_rounded,
+                ),
+                label: Text('Add'),
+                backgroundColor: AppColors.PRIMARY_COLOR,
               ),
             ),
           ],

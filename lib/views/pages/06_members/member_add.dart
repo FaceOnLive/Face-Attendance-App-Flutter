@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:face_attendance/constants/app_sizes.dart';
 import 'package:face_attendance/views/dialogs/camera_or_gallery.dart';
 import 'package:face_attendance/views/widgets/app_button.dart';
@@ -37,6 +39,10 @@ class _MemberAddScreenState extends State<MemberAddScreen> {
   // Other
   RxBool _addingMember = false.obs;
 
+  // Image
+  File? _userImage;
+  RxBool _userPickedImage = false.obs;
+
   @override
   void initState() {
     super.initState();
@@ -47,6 +53,7 @@ class _MemberAddScreenState extends State<MemberAddScreen> {
   void dispose() {
     _disposeTextController();
     _addingMember.close();
+    _userPickedImage.close();
     super.dispose();
   }
 
@@ -65,10 +72,20 @@ class _MemberAddScreenState extends State<MemberAddScreen> {
             width: Get.width,
             child: Column(
               children: [
-                PictureWidget(
-                  onTap: () {
-                    Get.dialog(CameraGallerySelectDialog());
-                  },
+                Obx(
+                  () => PictureWidget(
+                    onTap: () async {
+                      _userImage =
+                          await Get.dialog(CameraGallerySelectDialog());
+                      // If the user has picked an image then we will show
+                      // the file user has picked
+                      if (_userImage != null) {
+                        _userPickedImage.trigger(true);
+                      }
+                    },
+                    isLocal: _userPickedImage.value,
+                    localImage: _userImage,
+                  ),
                 ),
                 /* <---- Form INFO ----> */
                 Container(
