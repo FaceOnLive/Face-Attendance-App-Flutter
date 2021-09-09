@@ -36,6 +36,8 @@ dependencies:
   image_picker: ^0.8.4
   image_cropper: ^1.4.1
   table_calendar: ^3.0.2
+  hive: ^2.0.4
+  hive_flutter: ^1.1.0
 
 dev_dependencies:
   flutter_test:

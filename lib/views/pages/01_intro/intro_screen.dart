@@ -1,11 +1,12 @@
 import 'package:face_attendance/constants/app_colors.dart';
 import 'package:face_attendance/constants/app_defaults.dart';
 import 'package:face_attendance/constants/app_sizes.dart';
+import 'package:face_attendance/controllers/navigation/nav_controller.dart';
 import 'package:face_attendance/models/intro.dart';
-import 'package:face_attendance/views/pages/02_auth/login_screen_face.dart';
+import 'package:face_attendance/views/pages/02_auth/login_screen.dart';
 import 'package:face_attendance/views/themes/text.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get_rx/src/rx_types/rx_types.dart';
+import 'package:get/get.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:get/route_manager.dart';
 
@@ -47,9 +48,20 @@ class _IntroScreenState extends State<IntroScreen> {
 
   // Tracks currently active page
   RxInt _currentPage = 0.obs;
+  late PageController _pageController;
+
+  // Navigation
+  NavigationController _controller = Get.find();
+
+  @override
+  void initState() {
+    super.initState();
+    _pageController = PageController();
+  }
 
   @override
   void dispose() {
+    _pageController.dispose();
     _currentPage.close();
     super.dispose();
   }
@@ -66,6 +78,7 @@ class _IntroScreenState extends State<IntroScreen> {
               /* <---- Images And Title ----> */
               Expanded(
                 child: PageView.builder(
+                    controller: _pageController,
                     itemCount: _allIntros.length,
                     onPageChanged: (value) {
                       _currentPage.value = value;
@@ -117,13 +130,23 @@ class _IntroScreenState extends State<IntroScreen> {
                   children: [
                     TextButton(
                       onPressed: () {
-                        Get.to(() => LoginScreen());
+                        _controller.introScreenDone();
+                        Get.to(() => LoginScreenAlt());
                       },
                       child: Text('SKIP'),
                     ),
                     InkWell(
                       onTap: () {
-                        Get.to(() => LoginScreen());
+                        if (_currentPage.value == _allIntros.length - 1) {
+                          _controller.introScreenDone();
+                          Get.to(() => LoginScreenAlt());
+                        } else {
+                          _pageController.animateToPage(
+                            _currentPage.value + 1,
+                            duration: AppDefaults.defaultDuration,
+                            curve: Curves.bounceInOut,
+                          );
+                        }
                       },
                       child: Container(
                         margin: EdgeInsets.only(right: 20),
