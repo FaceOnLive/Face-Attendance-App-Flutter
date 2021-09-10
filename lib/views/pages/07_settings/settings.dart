@@ -54,6 +54,11 @@ class AdminSettingScreen extends StatelessWidget {
                       leading: Icon(Icons.lock),
                     ),
                     AppCustomListTile(
+                      label: 'Change Holiday',
+                      onTap: () {},
+                      leading: Icon(Icons.emoji_food_beverage),
+                    ),
+                    AppCustomListTile(
                       label: 'Spaces',
                       onTap: () {
                         Get.to(() => SpacesScreen());

@@ -38,6 +38,11 @@ dependencies:
   table_calendar: ^3.0.2
   hive: ^2.0.4
   hive_flutter: ^1.1.0
+  url_launcher: ^6.0.10
+  # Firebase
+  firebase_core: ^1.6.0
+  firebase_auth: ^3.1.1
+  cloud_firestore: ^2.5.2
 
 dev_dependencies:
   flutter_test:
@@ -59,7 +64,7 @@ flutter:
     - assets/images/logos/
     - assets/images/illustration/
     - assets/lottie/
-    - assets/fonts/
+    # - assets/fonts/
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
   # For details regarding adding assets from package dependencies, see

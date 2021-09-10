@@ -2,12 +2,12 @@ import 'package:face_attendance/constants/app_colors.dart';
 import 'package:face_attendance/constants/app_defaults.dart';
 import 'package:face_attendance/constants/app_sizes.dart';
 import 'package:face_attendance/controllers/camera/camera_controller.dart';
-import 'package:face_attendance/views/pages/05_verifier/static_verifier_password.dart';
 import 'package:face_attendance/views/themes/text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:camera/camera.dart';
+import 'static_verifier_unlock.dart';
 
 class VerifierScreen extends StatelessWidget {
   const VerifierScreen({Key? key}) : super(key: key);
@@ -83,10 +83,15 @@ class _UseAsAVerifierButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
+        // Get.bottomSheet(
+        //   StaticVerifierPasswordSet(),
+        //   isScrollControlled: true,
+        // );
         Get.bottomSheet(
-          StaticVerifierPasswordSet(),
-          isScrollControlled: true,
-        );
+            StaticVerifierLockUnlock(
+              isLock: true,
+            ),
+            isScrollControlled: true);
       },
       child: Container(
         width: Get.width,
@@ -102,6 +107,7 @@ class _UseAsAVerifierButton extends StatelessWidget {
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
               'Use as a static verifier',
@@ -110,15 +116,10 @@ class _UseAsAVerifierButton extends StatelessWidget {
                 color: Colors.white,
               ),
             ),
-            Switch(
-              value: false,
-              onChanged: (val) {
-                Get.bottomSheet(
-                  StaticVerifierPasswordSet(),
-                  isScrollControlled: true,
-                );
-              },
-            )
+            Icon(
+              Icons.arrow_forward_ios_rounded,
+              color: Colors.white,
+            ),
           ],
         ),
       ),

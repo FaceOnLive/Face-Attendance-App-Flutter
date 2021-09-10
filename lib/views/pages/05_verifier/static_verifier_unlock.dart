@@ -9,14 +9,17 @@ import 'package:get/get.dart';
 
 /* <---- This is a bottom sheet ----> */
 
-class StaticVerifierUnlock extends StatefulWidget {
-  const StaticVerifierUnlock({Key? key}) : super(key: key);
+class StaticVerifierLockUnlock extends StatefulWidget {
+  const StaticVerifierLockUnlock({Key? key, this.isLock =false}) : super(key: key);
+
+  final bool isLock;
 
   @override
-  _StaticVerifierUnlockState createState() => _StaticVerifierUnlockState();
+  _StaticVerifierLockUnlockState createState() =>
+      _StaticVerifierLockUnlockState();
 }
 
-class _StaticVerifierUnlockState extends State<StaticVerifierUnlock> {
+class _StaticVerifierLockUnlockState extends State<StaticVerifierLockUnlock> {
   /* <---- Text Editing Controllers ----> */
   late TextEditingController passController;
 
@@ -97,7 +100,7 @@ class _StaticVerifierUnlockState extends State<StaticVerifierUnlock> {
           /* <---- Submit Button ----> */
           AppButton(
             width: Get.width * 0.6,
-            label: 'Unlock',
+            label: widget.isLock ? 'Lock' : 'Unlock',
             onTap: () {
               Get.back();
               Get.to(() => StaticVerifierScreen());

@@ -2,6 +2,7 @@ import 'package:face_attendance/constants/app_colors.dart';
 import 'package:face_attendance/constants/dummy_data.dart';
 import 'package:face_attendance/models/space.dart';
 import 'package:face_attendance/views/pages/08_spaces/space_add.dart';
+import 'package:face_attendance/views/pages/08_spaces/space_info.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -30,6 +31,9 @@ class SpacesScreen extends StatelessWidget {
                 itemBuilder: (context, index) {
                   Space _currentSpace = DummyData.officeData[index];
                   return ListTile(
+                    onTap: () {
+                      Get.to(() => SpaceInfoScreen(space: _currentSpace));
+                    },
                     leading: Icon(
                       _currentSpace.icon,
                       color: AppColors.PRIMARY_COLOR,

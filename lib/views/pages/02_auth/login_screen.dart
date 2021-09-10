@@ -1,6 +1,7 @@
 import 'package:face_attendance/constants/app_colors.dart';
 import 'package:face_attendance/constants/app_images.dart';
 import 'package:face_attendance/constants/app_sizes.dart';
+import 'package:face_attendance/utils/ui_helper.dart';
 import 'package:face_attendance/views/pages/02_auth/signup_screen.dart';
 import 'package:face_attendance/views/pages/03_main/main_screen.dart';
 import 'package:face_attendance/views/themes/text.dart';
@@ -85,8 +86,7 @@ class _LoginScreenAltState extends State<LoginScreenAlt> {
                             hintText: 'you@email.com',
                           ),
                           controller: emailController,
-                          autofocus: true,
-                        ),
+                      ),
                         AppSizes.hGap20,
                         // Password Field
                         Obx(
@@ -115,6 +115,7 @@ class _LoginScreenAltState extends State<LoginScreenAlt> {
                           margin: EdgeInsets.symmetric(vertical: 30),
                           label: 'Login',
                           onTap: () {
+                            AppUiHelper.dismissKeyboard(context: context);
                             Get.to(() => MainScreenUI());
                           },
                         ),

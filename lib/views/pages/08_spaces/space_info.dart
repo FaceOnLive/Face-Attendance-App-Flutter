@@ -2,6 +2,7 @@ import 'package:face_attendance/constants/app_colors.dart';
 import 'package:face_attendance/constants/app_defaults.dart';
 import 'package:face_attendance/constants/app_sizes.dart';
 import 'package:face_attendance/models/space.dart';
+import 'package:face_attendance/views/pages/08_spaces/space_edit.dart';
 import 'package:face_attendance/views/themes/text.dart';
 import 'package:face_attendance/views/widgets/app_button.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +18,16 @@ class SpaceInfoScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Space Info'),
+        actions: [
+          IconButton(
+            onPressed: () {
+              Get.to(() => SpaceEditScreen(
+                    space: space,
+                  ));
+            },
+            icon: Icon(Icons.edit_rounded),
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         child: Container(

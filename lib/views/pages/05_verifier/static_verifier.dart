@@ -1,30 +1,27 @@
 import 'package:face_attendance/constants/app_colors.dart';
 import 'package:face_attendance/constants/app_defaults.dart';
-import 'package:face_attendance/constants/app_sizes.dart';
+import 'package:face_attendance/constants/app_images.dart';
 import 'package:face_attendance/controllers/camera/camera_controller.dart';
 import 'package:face_attendance/views/pages/05_verifier/static_verifier_unlock.dart';
 import 'package:face_attendance/views/themes/text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:camera/camera.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class StaticVerifierScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Verifier'),
-        leading: BackButton(
-          onPressed: () {
-            Get.bottomSheet(StaticVerifierUnlock(), isScrollControlled: true);
-          },
-        ),
-      ),
       body: Container(
-        child: Column(
-          children: [
-            _CameraSection(),
-          ],
+        height: Get.height,
+        width: Get.width,
+        child: SafeArea(
+          child: Column(
+            children: [
+              _CameraSection(),
+            ],
+          ),
         ),
       ),
     );
@@ -44,16 +41,24 @@ class _CameraSection extends StatelessWidget {
           ? Expanded(child: Center(child: CircularProgressIndicator()))
           : Expanded(
               child: Stack(
+                alignment: Alignment.center,
                 children: [
-                  CameraPreview(controller.controller),
+                  // CameraPreview(controller.controller),
+                  Container(
+                    width: double.infinity,
+                    height: double.infinity,
+                    child: CameraPreview(controller.controller),
+                  ),
+
                   /* <---- Verifier Button ----> */
                   Positioned(
-                    bottom: 0,
+                    width: Get.width * 0.9,
+                    bottom: Get.height * 0.04,
                     child: _UnlockButton(),
                   ),
                   /* <---- Camear Switch Button ----> */
                   Positioned(
-                    bottom: Get.height * 0.12,
+                    bottom: Get.height * 0.14,
                     right: 10,
                     child: FloatingActionButton(
                       onPressed: controller.toggleCameraLens,
@@ -75,35 +80,46 @@ class _UnlockButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        Get.bottomSheet(StaticVerifierUnlock(), isScrollControlled: true);
-      },
-      child: Container(
-        height: Get.height * 0.1,
-        width: Get.width,
-        padding: EdgeInsets.all(AppSizes.DEFAULT_PADDING),
-        margin: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
-        decoration: BoxDecoration(
-          color: AppColors.PRIMARY_COLOR,
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(AppSizes.DEFAULT_RADIUS),
-            topRight: Radius.circular(AppSizes.DEFAULT_RADIUS),
-          ),
-          boxShadow: AppDefaults.defaultBoxShadow,
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Text(
-              'UNLOCK',
-              style: AppText.h6.copyWith(
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: AppDefaults.defaulBorderRadius,
+        boxShadow: AppDefaults.defaultBoxShadow,
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          InkWell(
+            onTap: () async {
+              String _url = 'https://turingtech.vip';
+              // Launch Website
+              await canLaunch(_url)
+                  ? await launch(_url)
+                  : throw 'Could not launch $_url';
+            },
+            child: CircleAvatar(
+              backgroundColor: Colors.transparent,
+              backgroundImage: AssetImage(
+                AppImages.MAIN_LOGO,
               ),
             ),
-          ],
-        ),
+          ),
+          Text(
+            'Verifier',
+            style: AppText.h6.copyWith(
+              fontWeight: FontWeight.bold,
+              color: AppColors.PRIMARY_COLOR,
+            ),
+          ),
+          IconButton(
+            onPressed: () {
+              Get.bottomSheet(StaticVerifierLockUnlock(),
+                  isScrollControlled: true);
+            },
+            icon: Icon(Icons.lock),
+          ),
+        ],
       ),
     );
   }
