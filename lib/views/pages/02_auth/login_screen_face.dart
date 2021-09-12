@@ -1,10 +1,10 @@
-import 'package:face_attendance/constants/app_colors.dart';
-import 'package:face_attendance/constants/app_images.dart';
-import 'package:face_attendance/constants/app_sizes.dart';
-import 'package:face_attendance/views/pages/02_auth/login_screen.dart';
-import 'package:face_attendance/views/pages/02_auth/signup_screen.dart';
-import 'package:face_attendance/views/pages/03_main/main_screen.dart';
-import 'package:face_attendance/views/themes/text.dart';
+import '../../../constants/app_colors.dart';
+import '../../../constants/app_images.dart';
+import '../../../constants/app_sizes.dart';
+import 'login_screen.dart';
+import 'signup_screen.dart';
+import '../03_main/main_screen.dart';
+import '../../themes/text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';

@@ -1,8 +1,8 @@
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:face_attendance/constants/app_colors.dart';
-import 'package:face_attendance/constants/app_images.dart';
+import '../../constants/app_colors.dart';
+import '../../constants/app_images.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

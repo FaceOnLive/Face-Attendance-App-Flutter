@@ -1,11 +1,11 @@
-import 'package:face_attendance/models/space.dart';
-import 'package:face_attendance/views/themes/text.dart';
-import 'package:face_attendance/views/widgets/app_button.dart';
+import '../../../models/space.dart';
+import '../../themes/text.dart';
+import '../../widgets/app_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:face_attendance/constants/app_colors.dart';
-import 'package:face_attendance/constants/app_defaults.dart';
-import 'package:face_attendance/constants/app_sizes.dart';
+import '../../../constants/app_colors.dart';
+import '../../../constants/app_defaults.dart';
+import '../../../constants/app_sizes.dart';
 
 class SpaceEditScreen extends StatefulWidget {
   const SpaceEditScreen({Key? key, required this.space}) : super(key: key);

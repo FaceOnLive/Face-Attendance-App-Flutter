@@ -1,9 +1,9 @@
-import 'package:face_attendance/constants/app_colors.dart';
-import 'package:face_attendance/constants/app_defaults.dart';
-import 'package:face_attendance/constants/app_images.dart';
-import 'package:face_attendance/controllers/camera/camera_controller.dart';
-import 'package:face_attendance/views/pages/05_verifier/static_verifier_unlock.dart';
-import 'package:face_attendance/views/themes/text.dart';
+import '../../../constants/app_colors.dart';
+import '../../../constants/app_defaults.dart';
+import '../../../constants/app_images.dart';
+import '../../../controllers/camera/camera_controller.dart';
+import 'static_verifier_unlock.dart';
+import '../../themes/text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:camera/camera.dart';

@@ -1,14 +1,14 @@
-import 'package:face_attendance/views/pages/08_spaces/spaces.dart';
-import 'package:face_attendance/views/widgets/app_button.dart';
-import 'package:face_attendance/views/widgets/picture_display.dart';
+import '../08_spaces/spaces.dart';
+import '../../widgets/app_button.dart';
+import '../../widgets/picture_display.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:face_attendance/constants/app_colors.dart';
-import 'package:face_attendance/constants/app_defaults.dart';
-import 'package:face_attendance/constants/app_images.dart';
-import 'package:face_attendance/constants/app_sizes.dart';
-import 'package:face_attendance/views/themes/text.dart';
+import '../../../constants/app_colors.dart';
+import '../../../constants/app_defaults.dart';
+import '../../../constants/app_images.dart';
+import '../../../constants/app_sizes.dart';
+import '../../themes/text.dart';
 
 class AdminSettingScreen extends StatelessWidget {
   const AdminSettingScreen({Key? key}) : super(key: key);

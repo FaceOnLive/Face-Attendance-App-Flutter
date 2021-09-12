@@ -1,8 +1,8 @@
-import 'package:face_attendance/constants/app_colors.dart';
-import 'package:face_attendance/constants/dummy_data.dart';
-import 'package:face_attendance/models/space.dart';
-import 'package:face_attendance/views/pages/08_spaces/space_add.dart';
-import 'package:face_attendance/views/pages/08_spaces/space_info.dart';
+import '../../../constants/app_colors.dart';
+import '../../../constants/dummy_data.dart';
+import '../../../models/space.dart';
+import 'space_add.dart';
+import 'space_info.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

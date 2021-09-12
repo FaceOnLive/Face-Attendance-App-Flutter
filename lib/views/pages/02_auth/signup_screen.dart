@@ -1,7 +1,9 @@
-import 'package:face_attendance/constants/app_images.dart';
-import 'package:face_attendance/constants/app_sizes.dart';
-import 'package:face_attendance/views/dialogs/email_sent.dart';
-import 'package:face_attendance/views/widgets/app_button.dart';
+import 'package:face_attendance/services/form_verify.dart';
+
+import '../../../constants/app_images.dart';
+import '../../../constants/app_sizes.dart';
+import '../../dialogs/email_sent.dart';
+import '../../widgets/app_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -38,6 +40,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
     _showPass.value = !_showPass.value;
   }
 
+  bool _isPasswordMatching() {
+    return passController.text == confirmPassController.text;
+  }
+
+  // Key
+  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
   /* <---- State ----> */
   @override
   void initState() {
@@ -67,78 +76,100 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 /* <---- Header ----> */
                 Image.asset(AppImages.ILLUSTRATION_WELCOME),
                 /* <---- Form ----> */
-                Container(
-                  margin: EdgeInsets.all(AppSizes.DEFAULT_MARGIN),
-                  padding: EdgeInsets.all(AppSizes.DEFAULT_MARGIN),
-                  child: Column(
-                    children: [
-                      // Full Name
-                      TextField(
-                        decoration: InputDecoration(
-                          labelText: 'Full Name',
-                          prefixIcon: Icon(Icons.person_rounded),
-                          hintText: 'John Doe',
+                Form(
+                  key: _formKey,
+                  child: Container(
+                    margin: EdgeInsets.all(AppSizes.DEFAULT_MARGIN),
+                    padding: EdgeInsets.all(AppSizes.DEFAULT_MARGIN),
+                    child: Column(
+                      children: [
+                        // Full Name
+                        TextFormField(
+                          decoration: InputDecoration(
+                            labelText: 'Full Name',
+                            prefixIcon: Icon(Icons.person_rounded),
+                            hintText: 'John Doe',
+                          ),
+                          controller: nameController,
+                          validator: (value) {
+                            return AppFormVerify.name(fullName: value);
+                          },
                         ),
-                        controller: nameController,
-                      ),
-                      AppSizes.hGap20,
-                      // Email
-                      TextField(
-                        decoration: InputDecoration(
-                          labelText: 'Email',
-                          prefixIcon: Icon(Icons.email_rounded),
-                          hintText: 'you@email.com',
+                        AppSizes.hGap20,
+                        // Email
+                        TextFormField(
+                          decoration: InputDecoration(
+                            labelText: 'Email',
+                            prefixIcon: Icon(Icons.email_rounded),
+                            hintText: 'you@email.com',
+                          ),
+                          controller: emailController,
+                          validator: (value) {
+                            return AppFormVerify.email(email: value);
+                          },
                         ),
-                        controller: emailController,
-                      ),
-                      AppSizes.hGap20,
-                      // Password Fields
-                      Obx(
-                        () => Column(
-                          children: [
-                            TextField(
-                              decoration: InputDecoration(
-                                labelText: 'Password',
-                                prefixIcon: Icon(Icons.vpn_key_rounded),
-                                hintText: '***********',
-                                suffixIcon: GestureDetector(
-                                  onTap: () {
-                                    _onEyeClick();
-                                  },
-                                  child: Icon(
-                                    _showPass.isFalse
-                                        ? Icons.visibility_off_rounded
-                                        : Icons.visibility_rounded,
+                        AppSizes.hGap20,
+                        // Password Fields
+                        Obx(
+                          () => Column(
+                            children: [
+                              TextFormField(
+                                decoration: InputDecoration(
+                                  labelText: 'Password',
+                                  prefixIcon: Icon(Icons.vpn_key_rounded),
+                                  hintText: '***********',
+                                  suffixIcon: GestureDetector(
+                                    onTap: () {
+                                      _onEyeClick();
+                                    },
+                                    child: Icon(
+                                      _showPass.isFalse
+                                          ? Icons.visibility_off_rounded
+                                          : Icons.visibility_rounded,
+                                    ),
                                   ),
                                 ),
+                                controller: passController,
+                                obscureText: !_showPass.value,
+                                validator: (value) {
+                                  return AppFormVerify.password(
+                                      password: value);
+                                },
                               ),
-                              controller: passController,
-                              obscureText: !_showPass.value,
-                            ),
-                            AppSizes.hGap20,
-                            // Confirm Password
-                            TextField(
-                              decoration: InputDecoration(
-                                labelText: 'Confirm Password',
-                                prefixIcon: Icon(Icons.vpn_key_rounded),
-                                hintText: '***********',
+                              AppSizes.hGap20,
+                              // Confirm Password
+                              TextFormField(
+                                decoration: InputDecoration(
+                                  labelText: 'Confirm Password',
+                                  prefixIcon: Icon(Icons.vpn_key_rounded),
+                                  hintText: '***********',
+                                ),
+                                controller: confirmPassController,
+                                obscureText: !_showPass.value,
+                                validator: (value) {
+                                  return AppFormVerify.password(
+                                      password: value);
+                                },
                               ),
-                              controller: confirmPassController,
-                              obscureText: !_showPass.value,
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ),
-                      /* <---- Submit Button ----> */
-                      AppSizes.hGap30,
-                      AppButton(
-                        label: 'Submit',
-                        onTap: () async {
-                          await Get.dialog(EmailSentSuccessfullDialog());
-                          Get.back();
-                        },
-                      ),
-                    ],
+                        /* <---- Submit Button ----> */
+                        AppSizes.hGap30,
+                        AppButton(
+                          label: 'Submit',
+                          onTap: () async {
+                            bool _isFormOkay =
+                                _formKey.currentState!.validate() &&
+                                    _isPasswordMatching();
+                            if (_isFormOkay) {
+                              await Get.dialog(EmailSentSuccessfullDialog());
+                              Get.back();
+                            }
+                          },
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ],

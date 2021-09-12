@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:face_attendance/constants/app_colors.dart';
+import '../constants/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:face_attendance/utils/ui_helper.dart';
-import 'package:face_attendance/views/root.dart';
-import 'package:face_attendance/views/themes/themes.dart';
+import 'utils/ui_helper.dart';
+import 'views/root.dart';
+import 'views/themes/themes.dart';
 
 void main() async {
   runApp(MyApp());

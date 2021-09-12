@@ -1,4 +1,4 @@
-import 'package:face_attendance/models/space.dart';
+import '../models/space.dart';
 import 'package:flutter/material.dart';
 
 class DummyData {

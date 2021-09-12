@@ -1,13 +1,14 @@
-import 'package:face_attendance/constants/app_colors.dart';
-import 'package:face_attendance/constants/app_images.dart';
-import 'package:face_attendance/constants/app_sizes.dart';
-import 'package:face_attendance/utils/ui_helper.dart';
-import 'package:face_attendance/views/pages/02_auth/signup_screen.dart';
-import 'package:face_attendance/views/pages/03_main/main_screen.dart';
-import 'package:face_attendance/views/themes/text.dart';
-import 'package:face_attendance/views/widgets/app_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../../constants/app_colors.dart';
+import '../../../constants/app_images.dart';
+import '../../../constants/app_sizes.dart';
+import '../../../services/form_verify.dart';
+import '../../../utils/ui_helper.dart';
+import '../../themes/text.dart';
+import '../../widgets/app_button.dart';
+import '../03_main/main_screen.dart';
+import 'signup_screen.dart';
 
 class LoginScreenAlt extends StatefulWidget {
   const LoginScreenAlt({Key? key}) : super(key: key);
@@ -35,6 +36,8 @@ class _LoginScreenAltState extends State<LoginScreenAlt> {
   _onEyeClick() {
     _showPass.value = !_showPass.value;
   }
+
+  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   /* <---- State ----> */
   @override
@@ -73,53 +76,66 @@ class _LoginScreenAltState extends State<LoginScreenAlt> {
                     ),
                   ),
                   /* <---- Input ----> */
-                  Container(
-                    margin: EdgeInsets.all(AppSizes.DEFAULT_MARGIN),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        TextField(
-                          decoration: InputDecoration(
-                            labelText: 'Email',
-                            prefixIcon: Icon(Icons.email_rounded),
-                            hintText: 'you@email.com',
-                          ),
-                          controller: emailController,
-                      ),
-                        AppSizes.hGap20,
-                        // Password Field
-                        Obx(
-                          () => TextField(
+                  Form(
+                    key: _formKey,
+                    child: Container(
+                      margin: EdgeInsets.all(AppSizes.DEFAULT_MARGIN),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          TextFormField(
                             decoration: InputDecoration(
-                              labelText: 'Password',
-                              prefixIcon: Icon(Icons.vpn_key_rounded),
-                              hintText: '***********',
-                              suffixIcon: GestureDetector(
-                                onTap: () {
-                                  _onEyeClick();
-                                },
-                                child: Icon(
-                                  _showPass.isFalse
-                                      ? Icons.visibility_off_rounded
-                                      : Icons.visibility_rounded,
+                              labelText: 'Email',
+                              prefixIcon: Icon(Icons.email_rounded),
+                              hintText: 'you@email.com',
+                            ),
+                            controller: emailController,
+                            validator: (value) {
+                              return AppFormVerify.email(email: value);
+                            },
+                          ),
+                          AppSizes.hGap20,
+                          // Password Field
+                          Obx(
+                            () => TextFormField(
+                              decoration: InputDecoration(
+                                labelText: 'Password',
+                                prefixIcon: Icon(Icons.vpn_key_rounded),
+                                hintText: '***********',
+                                suffixIcon: GestureDetector(
+                                  onTap: () {
+                                    _onEyeClick();
+                                  },
+                                  child: Icon(
+                                    _showPass.isFalse
+                                        ? Icons.visibility_off_rounded
+                                        : Icons.visibility_rounded,
+                                  ),
                                 ),
                               ),
+                              controller: passController,
+                              obscureText: !_showPass.value,
+                              validator: (value) {
+                                return AppFormVerify.password(password: value);
+                              },
                             ),
-                            controller: passController,
-                            obscureText: !_showPass.value,
                           ),
-                        ),
-                        /* <---- Login Button ----> */
-                        AppButton(
-                          margin: EdgeInsets.symmetric(vertical: 30),
-                          label: 'Login',
-                          onTap: () {
-                            AppUiHelper.dismissKeyboard(context: context);
-                            Get.to(() => MainScreenUI());
-                          },
-                        ),
-                      ],
+                          /* <---- Login Button ----> */
+                          AppButton(
+                            margin: EdgeInsets.symmetric(vertical: 30),
+                            label: 'Login',
+                            onTap: () {
+                              bool _isFormOkay =
+                                  _formKey.currentState!.validate();
+                              if (_isFormOkay) {
+                                AppUiHelper.dismissKeyboard(context: context);
+                                Get.to(() => MainScreenUI());
+                              }
+                            },
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                   /* <---- Sign UP BUTTON ----> */
