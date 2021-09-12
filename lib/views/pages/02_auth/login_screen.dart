@@ -1,171 +1,41 @@
-import 'package:flutter/material.dart';
+import 'package:face_attendance/constants/app_colors.dart';
+import 'package:face_attendance/views/dialogs/error_dialog.dart';
+import 'package:face_attendance/views/pages/03_main/main_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
-import '../../../constants/app_colors.dart';
-import '../../../constants/app_images.dart';
-import '../../../constants/app_sizes.dart';
-import '../../../services/form_verify.dart';
-import '../../../utils/ui_helper.dart';
-import '../../themes/text.dart';
-import '../../widgets/app_button.dart';
-import '../03_main/main_screen.dart';
-import 'signup_screen.dart';
 
-class LoginScreenAlt extends StatefulWidget {
-  const LoginScreenAlt({Key? key}) : super(key: key);
+class LoginController extends GetxController {
+  FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  Rxn<User> _firebaseUser = Rxn<User>();
+  User? get user => _firebaseUser.value;
 
-  @override
-  _LoginScreenAltState createState() => _LoginScreenAltState();
-}
-
-class _LoginScreenAltState extends State<LoginScreenAlt> {
-  /* <---- Text Editing Controllers ----> */
-  late TextEditingController emailController;
-  late TextEditingController passController;
-  _initializeControllers() {
-    emailController = TextEditingController();
-    passController = TextEditingController();
+  /// Login User With Email
+  Future<void> loginWithEmail(
+      {required String email, required String password}) async {
+    try {
+      UserCredential _userCredintial = await _firebaseAuth
+          .signInWithEmailAndPassword(email: email, password: password);
+      _firebaseUser.value = _userCredintial.user;
+      Get.offAll(() => MainScreenUI());
+      Get.rawSnackbar(
+        title: 'Successful',
+        message: 'The login is sucessfull, enjoy.',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: AppColors.APP_GREEN,
+      );
+    } on FirebaseException catch (e) {
+      Get.dialog(ErrorDialog(message: e.message ?? 'Something Error Happened'));
+    }
   }
 
-  _disposeControllers() {
-    emailController.dispose();
-    passController.dispose();
-  }
-
-  /* <---- Show Password ----> */
-  RxBool _showPass = false.obs;
-  _onEyeClick() {
-    _showPass.value = !_showPass.value;
-  }
-
-  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
-  /* <---- State ----> */
-  @override
-  void initState() {
-    super.initState();
-    _initializeControllers();
+  /// Log out
+  Future<void> logOut() async{
+    await _firebaseAuth.signOut();
   }
 
   @override
-  void dispose() {
-    _disposeControllers();
-    _showPass.close();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        child: Center(
-          child: SingleChildScrollView(
-            child: Container(
-              padding: EdgeInsets.all(AppSizes.DEFAULT_PADDING),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  /* <---- Header Logo ----> */
-                  Container(
-                    width: Get.width * 0.5,
-                    margin: EdgeInsets.symmetric(vertical: 30),
-                    child: Hero(
-                      tag: AppImages.MAIN_LOGO,
-                      child: Image.asset(
-                        AppImages.MAIN_LOGO,
-                      ),
-                    ),
-                  ),
-                  /* <---- Input ----> */
-                  Form(
-                    key: _formKey,
-                    child: Container(
-                      margin: EdgeInsets.all(AppSizes.DEFAULT_MARGIN),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          TextFormField(
-                            decoration: InputDecoration(
-                              labelText: 'Email',
-                              prefixIcon: Icon(Icons.email_rounded),
-                              hintText: 'you@email.com',
-                            ),
-                            controller: emailController,
-                            validator: (value) {
-                              return AppFormVerify.email(email: value);
-                            },
-                          ),
-                          AppSizes.hGap20,
-                          // Password Field
-                          Obx(
-                            () => TextFormField(
-                              decoration: InputDecoration(
-                                labelText: 'Password',
-                                prefixIcon: Icon(Icons.vpn_key_rounded),
-                                hintText: '***********',
-                                suffixIcon: GestureDetector(
-                                  onTap: () {
-                                    _onEyeClick();
-                                  },
-                                  child: Icon(
-                                    _showPass.isFalse
-                                        ? Icons.visibility_off_rounded
-                                        : Icons.visibility_rounded,
-                                  ),
-                                ),
-                              ),
-                              controller: passController,
-                              obscureText: !_showPass.value,
-                              validator: (value) {
-                                return AppFormVerify.password(password: value);
-                              },
-                            ),
-                          ),
-                          /* <---- Login Button ----> */
-                          AppButton(
-                            margin: EdgeInsets.symmetric(vertical: 30),
-                            label: 'Login',
-                            onTap: () {
-                              bool _isFormOkay =
-                                  _formKey.currentState!.validate();
-                              if (_isFormOkay) {
-                                AppUiHelper.dismissKeyboard(context: context);
-                                Get.to(() => MainScreenUI());
-                              }
-                            },
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  /* <---- Sign UP BUTTON ----> */
-                  Container(
-                    margin: EdgeInsets.symmetric(vertical: 20),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text('Don\'t have an account?'),
-                        TextButton(
-                          onPressed: () {
-                            Get.to(() => SignUpScreen());
-                          },
-                          child: Text(
-                            'Sign up',
-                            style: AppText.b1.copyWith(
-                              fontWeight: FontWeight.bold,
-                              color: AppColors.PRIMARY_COLOR,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  )
-                ],
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
+  void onInit() {
+    super.onInit();
+    _firebaseUser.bindStream(_firebaseAuth.userChanges());
   }
 }

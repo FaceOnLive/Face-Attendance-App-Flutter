@@ -1,3 +1,6 @@
+import 'package:face_attendance/controllers/auth/login_controller.dart';
+import 'package:face_attendance/views/pages/02_auth/login_screen.dart';
+
 import '../08_spaces/spaces.dart';
 import '../../widgets/app_button.dart';
 import '../../widgets/picture_display.dart';
@@ -99,7 +102,10 @@ class AdminSettingScreen extends StatelessWidget {
               ),
               child: AppButton(
                 label: 'Logout',
-                onTap: () {},
+                onTap: () {
+                  Get.offAll(() => LoginScreenAlt());
+                  Get.find<LoginController>().logOut();
+                },
                 width: Get.width * 0.5,
                 color: AppColors.APP_RED,
                 suffixIcon: Icon(

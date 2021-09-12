@@ -31,6 +31,8 @@ class AppFormVerify {
   static String? name({required String? fullName}) {
     if (fullName == null) {
       return 'Please enter a name';
+    } else if (fullName.isEmpty) {
+      return 'Please enter a name';
     } else {
       return null;
     }
