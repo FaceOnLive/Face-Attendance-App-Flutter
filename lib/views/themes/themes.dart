@@ -1,8 +1,8 @@
-import 'package:face_attendance/constants/app_colors.dart';
-import 'package:face_attendance/constants/app_defaults.dart';
-import 'package:face_attendance/constants/app_sizes.dart';
-import 'package:face_attendance/utils/ui_helper.dart';
-import 'package:face_attendance/views/themes/text.dart';
+import '../../constants/app_colors.dart';
+import '../../constants/app_defaults.dart';
+import '../../constants/app_sizes.dart';
+import '../../utils/ui_helper.dart';
+import 'text.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 

@@ -1,6 +1,6 @@
-import 'package:face_attendance/constants/app_colors.dart';
-import 'package:face_attendance/constants/app_defaults.dart';
-import 'package:face_attendance/views/themes/text.dart';
+import '../../constants/app_colors.dart';
+import '../../constants/app_defaults.dart';
+import '../themes/text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

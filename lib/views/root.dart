@@ -1,7 +1,5 @@
-import 'package:face_attendance/constants/app_images.dart';
-import 'package:face_attendance/controllers/navigation/nav_controller.dart';
-import 'package:face_attendance/utils/ui_helper.dart';
-
+import '../constants/app_images.dart';
+import '../controllers/navigation/nav_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -13,20 +11,9 @@ class AppRoot extends StatelessWidget {
     return GetBuilder<NavigationController>(
       init: NavigationController(),
       builder: (controller) {
-        return FutureBuilder<bool>(
-            future: controller.onAppStart(),
-            builder: (context, snapshot) {
-              if (snapshot.data != null) {
-                return GestureDetector(
-                  onTap: () {
-                    AppUiHelper.dismissKeyboard(context: context);
-                  },
-                  child: controller.appRootNavigation(),
-                );
-              } else {
-                return _LoadingApp();
-              }
-            });
+        return controller.everyThingLoadedUp
+            ? controller.appRootNavigation()
+            : _LoadingApp();
       },
     );
   }

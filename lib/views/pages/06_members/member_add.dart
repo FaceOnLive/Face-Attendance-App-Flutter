@@ -1,9 +1,9 @@
 import 'dart:io';
 
-import 'package:face_attendance/constants/app_sizes.dart';
-import 'package:face_attendance/views/dialogs/camera_or_gallery.dart';
-import 'package:face_attendance/views/widgets/app_button.dart';
-import 'package:face_attendance/views/widgets/picture_display.dart';
+import '../../../constants/app_sizes.dart';
+import '../../dialogs/camera_or_gallery.dart';
+import '../../widgets/app_button.dart';
+import '../../widgets/picture_display.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
