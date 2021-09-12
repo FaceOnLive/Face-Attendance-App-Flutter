@@ -1,9 +1,13 @@
+import 'package:face_attendance/constants/app_colors.dart';
+import 'package:face_attendance/views/dialogs/error_dialog.dart';
+import 'package:face_attendance/views/pages/03_main/main_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 
 class LoginController extends GetxController {
   FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   Rxn<User> _firebaseUser = Rxn<User>();
+  User? get user => _firebaseUser.value;
 
   /// Login User With Email
   Future<void> loginWithEmail(
@@ -12,8 +16,26 @@ class LoginController extends GetxController {
       UserCredential _userCredintial = await _firebaseAuth
           .signInWithEmailAndPassword(email: email, password: password);
       _firebaseUser.value = _userCredintial.user;
-    } on FirebaseAuthException catch (e) {
-      print(e.message);
+      Get.offAll(() => MainScreenUI());
+      Get.rawSnackbar(
+        title: 'Successful',
+        message: 'The login is sucessfull, enjoy.',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: AppColors.APP_GREEN,
+      );
+    } on FirebaseException catch (e) {
+      Get.dialog(ErrorDialog(message: e.message ?? 'Something Error Happened'));
     }
+  }
+
+  /// Log out
+  Future<void> logOut() async{
+    await _firebaseAuth.signOut();
+  }
+
+  @override
+  void onInit() {
+    super.onInit();
+    _firebaseUser.bindStream(_firebaseAuth.userChanges());
   }
 }

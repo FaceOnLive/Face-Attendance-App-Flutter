@@ -48,14 +48,16 @@ class AppButton extends StatelessWidget {
         ),
         width: width,
         child: isLoading
-            ? AspectRatio(
-                aspectRatio: 1 / 1,
+            ? Container(
                 child: CircularProgressIndicator(
                   color: Colors.white,
+                  strokeWidth: 3,
                 ),
               )
             : Row(
-                mainAxisAlignment: mainAxisAlignment ?? MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment:
+                    mainAxisAlignment ?? MainAxisAlignment.center,
                 children: [
                   prefixIcon != null
                       ? Container(

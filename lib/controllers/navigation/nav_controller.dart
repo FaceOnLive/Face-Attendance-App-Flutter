@@ -1,6 +1,6 @@
-import '../../views/pages/01_intro/intro_screen.dart';
-import '../../views/pages/02_auth/login_screen.dart';
-import '../../views/pages/03_main/main_screen.dart';
+import 'package:face_attendance/controllers/auth/login_controller.dart';
+import 'package:face_attendance/views/pages/01_intro/intro_screen.dart';
+import 'package:face_attendance/views/pages/02_auth/login_screen.dart';
 import '../../views/pages/04_attendance/attendance.dart';
 import '../../views/pages/05_verifier/verifier.dart';
 import '../../views/pages/06_members/members.dart';
@@ -20,6 +20,7 @@ class NavigationController extends GetxController {
       await Hive.initFlutter();
       // This is for reducing the time on start app
       await Hive.openBox(_APPS_BOOL_BOX);
+      Get.put(LoginController());
       everyThingLoadedUp = true;
       update();
     } catch (e) {
@@ -28,17 +29,18 @@ class NavigationController extends GetxController {
   }
 
   /* <---- Main App Navigation ----> */
-  Widget appRootNavigation() {
+  Widget introOrLogin() {
     // Temporary Value
-    bool userloggedIn = false;
-
     if (isIntroDone() == false) {
       return IntroScreen();
-    } else if (userloggedIn == true) {
-      return MainScreenUI();
     } else {
       return LoginScreenAlt();
     }
+  }
+
+  bool isUserLoggedIn() {
+    LoginController _controller = Get.find();
+    return _controller.user != null ? true : false;
   }
 
   /* <---- Home Navigation ----> */

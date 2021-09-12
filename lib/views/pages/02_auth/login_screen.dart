@@ -1,3 +1,4 @@
+import 'package:face_attendance/controllers/auth/login_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../constants/app_colors.dart';
@@ -7,7 +8,6 @@ import '../../../services/form_verify.dart';
 import '../../../utils/ui_helper.dart';
 import '../../themes/text.dart';
 import '../../widgets/app_button.dart';
-import '../03_main/main_screen.dart';
 import 'signup_screen.dart';
 
 class LoginScreenAlt extends StatefulWidget {
@@ -18,6 +18,9 @@ class LoginScreenAlt extends StatefulWidget {
 }
 
 class _LoginScreenAltState extends State<LoginScreenAlt> {
+  /* <---- Login Dependecny ----> */
+  LoginController _controller = Get.find();
+
   /* <---- Text Editing Controllers ----> */
   late TextEditingController emailController;
   late TextEditingController passController;
@@ -37,7 +40,26 @@ class _LoginScreenAltState extends State<LoginScreenAlt> {
     _showPass.value = !_showPass.value;
   }
 
+  // Form Key
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  /* <---- Login Click Button ----> */
+  RxBool _loginProgress = false.obs;
+  _onLoginButtonPressed() async {
+    bool _isFormOkay = _formKey.currentState!.validate();
+    if (_isFormOkay) {
+      // Dismiss Keyboard
+      AppUiHelper.dismissKeyboard(context: context);
+      // Start Progress Loading
+      _loginProgress.trigger(true);
+      await _controller.loginWithEmail(
+        email: emailController.text,
+        password: passController.text,
+      );
+      // Disable Progress Loading
+      _loginProgress.trigger(false);
+    }
+  }
 
   /* <---- State ----> */
   @override
@@ -50,6 +72,7 @@ class _LoginScreenAltState extends State<LoginScreenAlt> {
   void dispose() {
     _disposeControllers();
     _showPass.close();
+    _loginProgress.close();
     super.dispose();
   }
 
@@ -79,7 +102,7 @@ class _LoginScreenAltState extends State<LoginScreenAlt> {
                   Form(
                     key: _formKey,
                     child: Container(
-                      margin: EdgeInsets.all(AppSizes.DEFAULT_MARGIN),
+                      width: Get.width * 0.75,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         mainAxisSize: MainAxisSize.min,
@@ -122,17 +145,13 @@ class _LoginScreenAltState extends State<LoginScreenAlt> {
                             ),
                           ),
                           /* <---- Login Button ----> */
-                          AppButton(
-                            margin: EdgeInsets.symmetric(vertical: 30),
-                            label: 'Login',
-                            onTap: () {
-                              bool _isFormOkay =
-                                  _formKey.currentState!.validate();
-                              if (_isFormOkay) {
-                                AppUiHelper.dismissKeyboard(context: context);
-                                Get.to(() => MainScreenUI());
-                              }
-                            },
+                          Obx(
+                            () => AppButton(
+                              margin: EdgeInsets.symmetric(vertical: 30),
+                              label: 'Login',
+                              isLoading: _loginProgress.value,
+                              onTap: _onLoginButtonPressed,
+                            ),
                           ),
                         ],
                       ),
