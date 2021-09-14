@@ -1,5 +1,5 @@
-import 'package:face_attendance/controllers/auth/login_controller.dart';
-import 'package:face_attendance/views/pages/03_main/main_screen.dart';
+import '../controllers/auth/login_controller.dart';
+import 'pages/03_main/main_screen.dart';
 import '../constants/app_images.dart';
 import '../controllers/navigation/nav_controller.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +12,7 @@ class AppRoot extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetBuilder<NavigationController>(
       init: NavigationController(),
+      autoRemove: false,
       builder: (controller) {
         if (controller.everyThingLoadedUp) {
           return _MainUI();
@@ -33,9 +34,7 @@ class _MainUI extends GetView<NavigationController> {
     LoginController _login = Get.find();
     return Obx(
       () {
-        return _login.user == null
-            ? controller.introOrLogin()
-            : MainScreenUI();
+        return _login.user == null ? controller.introOrLogin() : MainScreenUI();
       },
     );
   }

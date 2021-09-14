@@ -70,102 +70,101 @@ class _IntroScreenState extends State<IntroScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Container(
-          padding: EdgeInsets.all(AppSizes.DEFAULT_PADDING),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              /* <---- Images And Title ----> */
-              Expanded(
-                child: PageView.builder(
-                    controller: _pageController,
-                    itemCount: _allIntros.length,
-                    onPageChanged: (value) {
-                      _currentPage.value = value;
-                    },
-                    itemBuilder: (context, index) {
-                      return Container(
-                        padding: EdgeInsets.all(10),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Image.asset(
-                              _allIntros[index].imageLocation,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            /* <---- Images And Title ----> */
+            Expanded(
+              child: PageView.builder(
+                  controller: _pageController,
+                  itemCount: _allIntros.length,
+                  onPageChanged: (value) {
+                    _currentPage.value = value;
+                  },
+                  itemBuilder: (context, index) {
+                    return Container(
+                      padding: EdgeInsets.all(10),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.asset(
+                            _allIntros[index].imageLocation,
+                          ),
+                          Text(
+                            _allIntros[index].title,
+                            style: AppText.h6.copyWith(
+                              fontWeight: FontWeight.bold,
                             ),
-                            Text(
-                              _allIntros[index].title,
-                              style: AppText.h6.copyWith(
-                                fontWeight: FontWeight.bold,
-                              ),
-                              textAlign: TextAlign.center,
-                            ),
-                            AppSizes.hGap10,
-                            Text(
-                              _allIntros[index].subtitle,
-                              style: AppText.caption,
-                              textAlign: TextAlign.center,
-                            ),
-                          ],
-                        ),
-                      );
-                    }),
-              ),
+                            textAlign: TextAlign.center,
+                          ),
+                          AppSizes.hGap10,
+                          Text(
+                            _allIntros[index].subtitle,
+                            style: AppText.caption,
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
+                      ),
+                    );
+                  }),
+            ),
 
-              /* <---- Intro Dots ----> */
-              Obx(
-                () => Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: List.generate(
-                    _allIntros.length,
-                    (index) => _IntroDots(
-                      active: _currentPage.value == index,
-                    ),
+            /* <---- Intro Dots ----> */
+            Obx(
+              () => Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: List.generate(
+                  _allIntros.length,
+                  (index) => _IntroDots(
+                    active: _currentPage.value == index,
                   ),
                 ),
               ),
-              Container(
-                margin: EdgeInsets.symmetric(vertical: 20),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    TextButton(
-                      onPressed: () {
+            ),
+            Container(
+              margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  TextButton(
+                    onPressed: () {
+                      _controller.introScreenDone();
+                      Get.to(() => LoginScreenAlt());
+                    },
+                    child: Text('SKIP'),
+                  ),
+                  InkWell(
+                    borderRadius: AppDefaults.defaulBorderRadius,
+                    onTap: () {
+                      if (_currentPage.value == _allIntros.length - 1) {
                         _controller.introScreenDone();
                         Get.to(() => LoginScreenAlt());
-                      },
-                      child: Text('SKIP'),
-                    ),
-                    InkWell(
-                      onTap: () {
-                        if (_currentPage.value == _allIntros.length - 1) {
-                          _controller.introScreenDone();
-                          Get.to(() => LoginScreenAlt());
-                        } else {
-                          _pageController.animateToPage(
-                            _currentPage.value + 1,
-                            duration: AppDefaults.defaultDuration,
-                            curve: Curves.bounceInOut,
-                          );
-                        }
-                      },
-                      child: Container(
-                        margin: EdgeInsets.only(right: 20),
-                        padding: EdgeInsets.all(20),
-                        decoration: BoxDecoration(
-                          color: AppColors.PRIMARY_COLOR,
-                          shape: BoxShape.circle,
-                        ),
-                        child: Icon(
-                          Icons.arrow_forward_ios_rounded,
-                          color: Colors.white,
-                        ),
+                      } else {
+                        _pageController.animateToPage(
+                          _currentPage.value + 1,
+                          duration: AppDefaults.defaultDuration,
+                          curve: Curves.bounceInOut,
+                        );
+                      }
+                    },
+                    child: Container(
+                      margin: EdgeInsets.all(20),
+                      padding: EdgeInsets.all(20),
+                      decoration: BoxDecoration(
+                        color: AppColors.PRIMARY_COLOR,
+                        shape: BoxShape.circle,
+                      ),
+                      child: Icon(
+                        Icons.arrow_forward_ios_rounded,
+                        color: Colors.white,
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

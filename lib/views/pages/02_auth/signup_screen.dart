@@ -1,8 +1,7 @@
-import 'package:face_attendance/services/form_verify.dart';
-
+import '../../../controllers/auth/signup_controller.dart';
+import '../../../services/form_verify.dart';
 import '../../../constants/app_images.dart';
 import '../../../constants/app_sizes.dart';
-import '../../dialogs/email_sent.dart';
 import '../../widgets/app_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -46,6 +45,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   // Key
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  SignUpController _controller = Get.put(SignUpController());
 
   /* <---- State ----> */
   @override
@@ -163,8 +164,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 _formKey.currentState!.validate() &&
                                     _isPasswordMatching();
                             if (_isFormOkay) {
-                              await Get.dialog(EmailSentSuccessfullDialog());
-                              Get.back();
+                              await _controller.registerUsers(
+                                userName: nameController.text,
+                                email: emailController.text,
+                                password: passController.text,
+                              );
                             }
                           },
                         ),

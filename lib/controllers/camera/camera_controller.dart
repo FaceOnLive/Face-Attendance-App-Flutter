@@ -5,17 +5,17 @@ class AppCameraController extends GetxController {
   List<CameraDescription> cameras = [];
   bool activatingCamera = true;
 
-  late CameraController controller;
+  late CameraController cameraController;
 
   _initializeCameraDescription() async {
     cameras = await availableCameras();
-    controller = CameraController(
+    cameraController = CameraController(
       // If there is secondary [Front_Camera] then we will use that one
       cameras[cameras.length > 0 ? 1 : 0],
       ResolutionPreset.max,
       enableAudio: false,
     );
-    controller.initialize().then((_) {
+    cameraController.initialize().then((_) {
       update();
     });
     activatingCamera = false;
@@ -23,11 +23,11 @@ class AppCameraController extends GetxController {
 
   // init camera
   Future<void> _initCamera(CameraDescription description) async {
-    controller =
+    cameraController =
         CameraController(description, ResolutionPreset.max, enableAudio: true);
 
     try {
-      await controller.initialize();
+      await cameraController.initialize();
       // to notify the widgets that camera has been initialized and now camera preview can be done
       update();
     } catch (e) {
@@ -38,7 +38,7 @@ class AppCameraController extends GetxController {
   // Toggle The Camera Lense
   void toggleCameraLens() {
     // get current lens direction (front / rear)
-    final lensDirection = controller.description.lensDirection;
+    final lensDirection = cameraController.description.lensDirection;
     CameraDescription newDescription;
     if (lensDirection == CameraLensDirection.front) {
       newDescription = cameras.firstWhere((description) =>
@@ -59,6 +59,6 @@ class AppCameraController extends GetxController {
   @override
   void onClose() {
     super.onClose();
-    controller.dispose();
+    cameraController.dispose();
   }
 }

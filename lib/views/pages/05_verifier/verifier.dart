@@ -7,7 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:camera/camera.dart';
-import 'static_verifier_unlock.dart';
+import 'static_verifier_LockUnlock.dart';
 
 class VerifierScreen extends StatelessWidget {
   const VerifierScreen({Key? key}) : super(key: key);
@@ -46,12 +46,17 @@ class _CameraSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetBuilder<AppCameraController>(
       init: AppCameraController(),
+      // autoRemove: false,
       builder: (controller) => controller.activatingCamera == true
           ? Expanded(child: Center(child: CircularProgressIndicator()))
           : Expanded(
               child: Stack(
                 children: [
-                  CameraPreview(controller.controller),
+                  Container(
+                    width: double.infinity,
+                    height: double.infinity,
+                    child: CameraPreview(controller.cameraController),
+                  ),
                   /* <---- Verifier Button ----> */
                   Positioned(
                     bottom: 0,
@@ -89,7 +94,7 @@ class _UseAsAVerifierButton extends StatelessWidget {
         // );
         Get.bottomSheet(
             StaticVerifierLockUnlock(
-              isLock: true,
+              isLockMode: true,
             ),
             isScrollControlled: true);
       },

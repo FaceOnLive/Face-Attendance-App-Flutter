@@ -5,7 +5,9 @@
 
 import 'package:animations/animations.dart';
 import 'package:face_attendance/constants/app_colors.dart';
+import 'package:face_attendance/controllers/members/member_controller.dart';
 import 'package:face_attendance/controllers/navigation/nav_controller.dart';
+import 'package:face_attendance/controllers/user/user_controller.dart';
 import 'package:face_attendance/views/themes/text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -22,6 +24,10 @@ class MainScreenUI extends StatelessWidget {
           /* <---- Main Part ----> */
           Expanded(
             child: GetBuilder<NavigationController>(
+              initState: (val) {
+                Get.put(AppUserController());
+                Get.put(MembersController());
+              },
               builder: (controller) => PageTransitionSwitcher(
                 duration: Duration(milliseconds: 500),
                 transitionBuilder: (child, animation, secondAnimation) {
