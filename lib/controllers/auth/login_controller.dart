@@ -1,5 +1,5 @@
-import 'package:face_attendance/controllers/members/member_controller.dart';
-import 'package:face_attendance/controllers/user/user_controller.dart';
+import '../members/member_controller.dart';
+import '../user/user_controller.dart';
 import '../../constants/app_colors.dart';
 import '../../views/dialogs/error_dialog.dart';
 import '../../views/pages/03_main/main_screen.dart';

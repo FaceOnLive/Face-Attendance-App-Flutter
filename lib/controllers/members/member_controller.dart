@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:face_attendance/controllers/auth/login_controller.dart';
-import 'package:face_attendance/models/member.dart';
+import '../auth/login_controller.dart';
+import '../../models/member.dart';
 import 'package:get/get.dart';
 
 class MembersController extends GetxController {
