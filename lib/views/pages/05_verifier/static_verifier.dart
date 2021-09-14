@@ -2,7 +2,7 @@ import '../../../constants/app_colors.dart';
 import '../../../constants/app_defaults.dart';
 import '../../../constants/app_images.dart';
 import '../../../controllers/camera/camera_controller.dart';
-import 'static_verifier_unlock.dart';
+import 'static_verifier_LockUnlock.dart';
 import '../../themes/text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -36,7 +36,9 @@ class _CameraSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<AppCameraController>(
-      init: AppCameraController(),
+      init: Get.find<AppCameraController>().initialized
+          ? null
+          : AppCameraController(),
       builder: (controller) => controller.activatingCamera == true
           ? Expanded(child: Center(child: CircularProgressIndicator()))
           : Expanded(
@@ -47,7 +49,7 @@ class _CameraSection extends StatelessWidget {
                   Container(
                     width: double.infinity,
                     height: double.infinity,
-                    child: CameraPreview(controller.controller),
+                    child: CameraPreview(controller.cameraController),
                   ),
 
                   /* <---- Verifier Button ----> */

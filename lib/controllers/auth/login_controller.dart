@@ -1,6 +1,8 @@
-import 'package:face_attendance/constants/app_colors.dart';
-import 'package:face_attendance/views/dialogs/error_dialog.dart';
-import 'package:face_attendance/views/pages/03_main/main_screen.dart';
+import 'package:face_attendance/controllers/members/member_controller.dart';
+import 'package:face_attendance/controllers/user/user_controller.dart';
+import '../../constants/app_colors.dart';
+import '../../views/dialogs/error_dialog.dart';
+import '../../views/pages/03_main/main_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 
@@ -29,7 +31,9 @@ class LoginController extends GetxController {
   }
 
   /// Log out
-  Future<void> logOut() async{
+  Future<void> logOut() async {
+    Get.delete<AppUserController>(force: true);
+    Get.delete<MembersController>(force: true);
     await _firebaseAuth.signOut();
   }
 

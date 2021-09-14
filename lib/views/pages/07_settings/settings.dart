@@ -1,6 +1,6 @@
-import 'package:face_attendance/controllers/auth/login_controller.dart';
-import 'package:face_attendance/views/pages/02_auth/login_screen.dart';
-
+import '../../../controllers/user/user_controller.dart';
+import '../../../controllers/auth/login_controller.dart';
+import '../02_auth/login_screen.dart';
 import '../08_spaces/spaces.dart';
 import '../../widgets/app_button.dart';
 import '../../widgets/picture_display.dart';
@@ -30,56 +30,62 @@ class AdminSettingScreen extends StatelessWidget {
         child: Column(
           children: [
             /* <---- All Setting ----> */
-            Expanded(
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    AppSizes.hGap10,
-                    // ADMIN PROFILE PICTURE
-                    PictureWidget(
-                      heroTag: AppImages.unsplashPersons[0],
-                      profileLink: AppImages.unsplashPersons[0],
-                      onTap: () {},
+            GetBuilder<AppUserController>(
+              builder: (controller) {
+                return Expanded(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        AppSizes.hGap10,
+                        // ADMIN PROFILE PICTURE
+                        PictureWidget(
+                          heroTag: AppImages.unsplashPersons[0],
+                          profileLink: AppImages.unsplashPersons[0],
+                          onTap: () {},
+                        ),
+                        AppCustomListTile(
+                          label: 'Admin Details',
+                          onTap: () {},
+                          leading: Icon(Icons.person),
+                        ),
+                        AppCustomListTile(
+                          label: 'Update Face Data',
+                          onTap: () {},
+                          leading: Icon(Icons.face_rounded),
+                        ),
+                        AppCustomListTile(
+                          label: 'Change Password',
+                          onTap: () {},
+                          leading: Icon(Icons.lock),
+                        ),
+                        AppCustomListTile(
+                          label: 'Change Holiday',
+                          onTap: () {},
+                          leading: Icon(Icons.emoji_food_beverage),
+                        ),
+                        AppCustomListTile(
+                          label: 'Spaces',
+                          onTap: () {
+                            Get.to(() => SpacesScreen());
+                          },
+                          leading: Icon(Icons.group_work),
+                        ),
+                        AppCustomListTile(
+                          label: 'Notfications',
+                          onTap: () {},
+                          leading: Icon(Icons.notifications_rounded),
+                          trailing: CupertinoSwitch(
+                            onChanged: (val) {
+                              controller.updateNotificationSetting(val);
+                            },
+                            value: controller.currentUser.notification,
+                          ),
+                        ),
+                      ],
                     ),
-                    AppCustomListTile(
-                      label: 'Admin Details',
-                      onTap: () {},
-                      leading: Icon(Icons.person),
-                    ),
-                    AppCustomListTile(
-                      label: 'Update Face Data',
-                      onTap: () {},
-                      leading: Icon(Icons.face_rounded),
-                    ),
-                    AppCustomListTile(
-                      label: 'Change Password',
-                      onTap: () {},
-                      leading: Icon(Icons.lock),
-                    ),
-                    AppCustomListTile(
-                      label: 'Change Holiday',
-                      onTap: () {},
-                      leading: Icon(Icons.emoji_food_beverage),
-                    ),
-                    AppCustomListTile(
-                      label: 'Spaces',
-                      onTap: () {
-                        Get.to(() => SpacesScreen());
-                      },
-                      leading: Icon(Icons.group_work),
-                    ),
-                    AppCustomListTile(
-                      label: 'Notfications',
-                      onTap: () {},
-                      leading: Icon(Icons.notifications_rounded),
-                      trailing: CupertinoSwitch(
-                        onChanged: (val) {},
-                        value: true,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+                  ),
+                );
+              },
             ),
             /* <---- Bottom Logout Button ----> */
             Container(

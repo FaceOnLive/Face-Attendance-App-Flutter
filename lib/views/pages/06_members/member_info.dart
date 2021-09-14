@@ -5,7 +5,7 @@ import '../../themes/text.dart';
 import '../../widgets/picture_display.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:table_calendar/table_calendar.dart';
+import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class MemberInfoScreen extends StatelessWidget {
   const MemberInfoScreen({Key? key}) : super(key: key);
@@ -62,14 +62,28 @@ class MemberInfoScreen extends StatelessWidget {
             // Calendar
             Container(
               margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-              child: TableCalendar(
-                firstDay: DateTime.utc(2020, 10, 16),
-                lastDay: DateTime.utc(2040, 3, 14),
-                focusedDay: DateTime.now(),
-                rangeStartDay: DateTime.utc(2021, 9, 10),
-                rangeEndDay: DateTime.utc(2021, 9, 22),
-                daysOfWeekHeight: Get.height * 0.05,
-                calendarStyle: CalendarStyle(),
+              child: SfCalendar(
+                view: CalendarView.month,
+                backgroundColor: Colors.white,
+                cellBorderColor: Colors.white,
+                headerStyle: CalendarHeaderStyle(
+                  textAlign: TextAlign.center,
+                  textStyle: AppText.b1.copyWith(
+                    fontWeight: FontWeight.w100,
+                  ),
+                ),
+                showNavigationArrow: true,
+                blackoutDates: [
+                  DateTime.now().add(
+                    Duration(days: 2),
+                  ),
+                  DateTime.now().add(
+                    Duration(days: 3),
+                  ),
+                  DateTime.now().add(
+                    Duration(days: 4),
+                  ),
+                ],
               ),
             ),
           ],

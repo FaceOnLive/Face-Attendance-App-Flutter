@@ -1,3 +1,6 @@
+import '../../../controllers/navigation/nav_controller.dart';
+import '../03_main/main_screen.dart';
+
 import '../../../constants/app_colors.dart';
 import '../../../constants/app_defaults.dart';
 import '../../../constants/app_sizes.dart';
@@ -10,9 +13,10 @@ import 'package:get/get.dart';
 /* <---- This is a bottom sheet ----> */
 
 class StaticVerifierLockUnlock extends StatefulWidget {
-  const StaticVerifierLockUnlock({Key? key, this.isLock =false}) : super(key: key);
+  const StaticVerifierLockUnlock({Key? key, this.isLockMode = false})
+      : super(key: key);
 
-  final bool isLock;
+  final bool isLockMode;
 
   @override
   _StaticVerifierLockUnlockState createState() =>
@@ -100,10 +104,17 @@ class _StaticVerifierLockUnlockState extends State<StaticVerifierLockUnlock> {
           /* <---- Submit Button ----> */
           AppButton(
             width: Get.width * 0.6,
-            label: widget.isLock ? 'Lock' : 'Unlock',
+            label: widget.isLockMode ? 'Lock' : 'Unlock',
             onTap: () {
-              Get.back();
-              Get.to(() => StaticVerifierScreen());
+              // LOCK
+              if (widget.isLockMode) {
+                Get.find<NavigationController>().setAppInVerifyMode();
+                Get.offAll(() => StaticVerifierScreen());
+              } else {
+                // UNLOCK
+                Get.find<NavigationController>().setAppInUnverifyMode();
+                Get.offAll(() => MainScreenUI());
+              }
             },
           ),
           TextButton(
