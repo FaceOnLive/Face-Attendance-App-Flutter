@@ -134,7 +134,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 obscureText: !_showPass.value,
                                 validator: (value) {
                                   return AppFormVerify.password(
-                                      password: value);
+                                      password: value,
+                                      confirmPassword:
+                                          confirmPassController.text);
                                 },
                               ),
                               AppSizes.hGap20,
@@ -149,7 +151,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 obscureText: !_showPass.value,
                                 validator: (value) {
                                   return AppFormVerify.password(
-                                      password: value);
+                                    password: value,
+                                    confirmPassword: passController.text,
+                                  );
                                 },
                               ),
                             ],

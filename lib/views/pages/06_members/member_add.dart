@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:face_attendance/controllers/members/member_controller.dart';
+
 import '../../../constants/app_sizes.dart';
 import '../../dialogs/camera_or_gallery.dart';
 import '../../widgets/app_button.dart';
@@ -15,6 +17,9 @@ class MemberAddScreen extends StatefulWidget {
 }
 
 class _MemberAddScreenState extends State<MemberAddScreen> {
+  /* <---- Dependency ----> */
+  MembersController _controller = Get.find();
+
   /* <---- Input Fields ----> */
   late TextEditingController _firstName;
   late TextEditingController _lastName;
@@ -126,16 +131,29 @@ class _MemberAddScreenState extends State<MemberAddScreen> {
                           prefixIcon: Icon(Icons.location_on_rounded),
                           hintText: 'Ocean Centre, Tsim Sha Tsui, Hong Kong',
                         ),
-                        controller: _phoneNumber,
+                        controller: _fullAddress,
                       ),
                     ],
                   ),
                 ),
                 AppSizes.hGap10,
-                AppButton(
-                  width: Get.width * 0.6,
-                  label: 'Add',
-                  onTap: () {},
+                Obx(
+                  () => AppButton(
+                    width: Get.width * 0.6,
+                    label: 'Add',
+                    isLoading: _addingMember.value,
+                    onTap: () async {
+                      _addingMember.value = true;
+                      await _controller.addMember(
+                        name: _firstName.text + ' ' + _lastName.text,
+                        memberPictureFile: _userImage!,
+                        phoneNumber: int.parse(_phoneNumber.text),
+                        fullAddress: _fullAddress.text,
+                      );
+                      _addingMember.value = false;
+                      Get.back();
+                    },
+                  ),
                 ),
               ],
             ),
