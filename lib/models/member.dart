@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+/// A Member data is controlled by the ADMIN/USER
 class Member {
   String memberName;
   String memberPicture;

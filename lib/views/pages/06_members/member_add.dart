@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:face_attendance/controllers/members/member_controller.dart';
+import '../../../controllers/members/member_controller.dart';
 
 import '../../../constants/app_sizes.dart';
 import '../../dialogs/camera_or_gallery.dart';

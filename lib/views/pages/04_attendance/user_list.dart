@@ -1,4 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:face_attendance/controllers/members/member_controller.dart';
+import 'package:face_attendance/models/member.dart';
+import 'package:face_attendance/views/pages/06_members/member_info.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
@@ -19,22 +22,13 @@ class AttendedUserList extends StatefulWidget {
 }
 
 class _AttendedUserListState extends State<AttendedUserList> {
-  // Mockup
-  RxBool _fetchingData = true.obs;
-  void _fetchAttendance() async {
-    await Future.delayed(Duration(seconds: 3))
-        .then((value) => {_fetchingData.value = false});
-  }
-
   @override
   void initState() {
     super.initState();
-    _fetchAttendance();
   }
 
   @override
   void dispose() {
-    _fetchingData.close();
     super.dispose();
   }
 
@@ -59,7 +53,7 @@ class _AttendedUserListState extends State<AttendedUserList> {
                     ),
                     Row(
                       children: [
-                        Checkbox(value: false, onChanged: (value) {}),
+                        Checkbox(value: true, onChanged: (value) {}),
                         Text('Unattended'),
                       ],
                     ),
@@ -82,60 +76,91 @@ class _AttendedUserListState extends State<AttendedUserList> {
             ),
             AppSizes.hGap10,
 
-            Obx(
-              () => _fetchingData.isTrue
+            GetBuilder<MembersController>(
+              builder: (controller) => controller.isFetchingUser
                   ? _LoadingData()
-                  : Expanded(
-                      child: ListView.builder(
-                        itemCount: AppImages.unsplashPersons.length,
-                        itemBuilder: (context, index) {
-                          // if (index == AppImages.unsplashPersons.length) {
-                          //   return Row(
-                          //     children: [
-                          //       Icon(
-                          //         Icons.check_box_outline_blank_rounded,
-                          //         color: Colors.red,
-                          //       ),
-                          //       AppSizes.wGap5,
-                          //       Text('Unattended'),
-                          //     ],
-                          //   );
-                          // }
-                          // // UnAttended Person
-                          // if (index > AppImages.unsplashPersons.length) {
-                          //   return ListTile(
-                          //     leading: CircleAvatar(
-                          //       backgroundImage: CachedNetworkImageProvider(
-                          //         AppImages.unsplashPersons[index],
-                          //       ),
-                          //     ),
-                          //     title: Text('Name'),
-                          //     subtitle: Text('+852 XXXX XXXX'),
-                          //     trailing: Icon(Icons.pending_actions_rounded),
-                          //   );
-                          // }
-
-                          // Attended Person
-                          return ListTile(
-                            leading: CircleAvatar(
-                              backgroundImage: CachedNetworkImageProvider(
-                                AppImages.unsplashPersons[index],
-                              ),
-                            ),
-                            title: Text('Name'),
-                            subtitle: Text('+852 XXXX XXXX'),
-                            trailing: Icon(
-                              Icons.check,
-                              color: AppColors.APP_GREEN,
-                            ),
-                          );
-                        },
-                      ),
-                    ),
+                  : controller.allMember.length > 0
+                      ? Expanded(
+                          child: ListView.builder(
+                            itemCount: controller.allMember.length,
+                            itemBuilder: (context, index) {
+                              return _MemberListTile(
+                                member: controller.allMember[index],
+                                isAttended: index.isEven ? true : false,
+                              );
+                            },
+                          ),
+                        )
+                      : _NoMemberFound(),
             )
           ],
         ),
       ),
+    );
+  }
+}
+
+class _MemberListTile extends StatelessWidget {
+  const _MemberListTile({
+    Key? key,
+    required this.member,
+    this.isAttended = false,
+  }) : super(key: key);
+
+  final Member member;
+  final bool isAttended;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      onTap: () {
+        Get.to(() => MemberInfoScreen(
+              member: member,
+            ));
+      },
+      leading: Hero(
+        tag: member.memberID ?? member.memberPicture,
+        child: CircleAvatar(
+          backgroundImage: CachedNetworkImageProvider(
+            member.memberPicture,
+          ),
+        ),
+      ),
+      title: Text(member.memberName),
+      subtitle: Text(member.memberNumber.toString()),
+      trailing: isAttended
+          ? Icon(
+              Icons.check_circle_rounded,
+              color: AppColors.APP_GREEN,
+            )
+          : Icon(
+              Icons.close_rounded,
+              color: AppColors.APP_RED,
+            ),
+    );
+  }
+}
+
+class _NoMemberFound extends StatelessWidget {
+  const _NoMemberFound({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Container(
+          width: Get.width * 0.7,
+          child: Image.asset(
+            AppImages.ILLUSTRATION_MEMBER_EMPTY,
+          ),
+        ),
+        AppSizes.hGap20,
+        Text('No Member Found'),
+      ],
     );
   }
 }

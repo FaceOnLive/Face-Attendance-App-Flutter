@@ -12,10 +12,13 @@ class UploadPicture {
 
     // uploadingProfilePicture.value = true;
     /* <---- Delete Exisiting profile picture ----> */
-    Reference _existingImage = _firebaseStorage.ref('members/$memberID');
-
-    if (_existingImage.fullPath != '') {
-      _existingImage.delete();
+    try {
+      Reference _existingImage = _firebaseStorage.ref('members/$memberID');
+      if (_existingImage.fullPath != '') {
+        _existingImage.delete();
+      }
+    } on Exception {
+      print("There is no old picture found of this user");
     }
 
     /* <---- Download Url ----> */

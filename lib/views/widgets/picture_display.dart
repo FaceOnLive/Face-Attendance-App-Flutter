@@ -57,7 +57,7 @@ class PictureWidget extends StatelessWidget {
                           )
                         : CircleAvatar(
                             backgroundImage: CachedNetworkImageProvider(
-                              AppImages.unsplashPersons[0],
+                              profileLink!,
                             ),
                             radius: Get.width * 0.2,
                           ),

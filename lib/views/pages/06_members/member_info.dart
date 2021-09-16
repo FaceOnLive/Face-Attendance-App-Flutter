@@ -1,14 +1,17 @@
+import 'package:face_attendance/models/member.dart';
 import '../../../constants/app_colors.dart';
-import '../../../constants/app_images.dart';
 import '../../../constants/app_sizes.dart';
 import '../../themes/text.dart';
 import '../../widgets/picture_display.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
+import 'member_edit.dart';
 
 class MemberInfoScreen extends StatelessWidget {
-  const MemberInfoScreen({Key? key}) : super(key: key);
+  const MemberInfoScreen({Key? key, required this.member}) : super(key: key);
+
+  final Member member;
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +20,13 @@ class MemberInfoScreen extends StatelessWidget {
         title: Text('Info'),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Get.to(
+                () => MemberEditScreen(
+                  member: member,
+                ),
+              );
+            },
             icon: Icon(Icons.edit_rounded),
           ),
         ],
@@ -29,20 +38,20 @@ class MemberInfoScreen extends StatelessWidget {
             /* <---- User Info ----> */
             PictureWidget(
               disableTap: true,
-              profileLink: AppImages.unsplashPersons[0],
-              heroTag: AppImages.unsplashPersons[0],
+              profileLink: member.memberPicture,
+              heroTag: member.memberID,
             ),
             Column(
               children: [
                 AppSizes.hGap10,
                 Text(
-                  'Member Name',
+                  member.memberName,
                   style: AppText.h6.copyWith(
                       fontWeight: FontWeight.bold,
                       color: AppColors.PRIMARY_COLOR),
                 ),
-                Text('+852 XXXX XXXX'),
-                Text('Luen Cheong Can Centre, Hong Kong'),
+                Text(member.memberNumber.toString()),
+                Text(member.memberFullAdress),
               ],
             ),
             // Divider

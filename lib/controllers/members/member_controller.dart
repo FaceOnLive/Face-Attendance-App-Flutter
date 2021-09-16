@@ -1,7 +1,7 @@
 import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:face_attendance/services/uploadPicture.dart';
+import 'package:face_attendance/services/deletePicture.dart';
+import '../../services/uploadPicture.dart';
 import '../auth/login_controller.dart';
 import '../../models/member.dart';
 import 'package:get/get.dart';
@@ -19,11 +19,28 @@ class MembersController extends GetxController {
     _currentUserID = Get.find<LoginController>().user!.uid;
   }
 
+  /* <---- Members ----> */
+  /// List Of Members
+  List<Member> allMember = [];
+  bool isFetchingUser = false;
+
   /// Fetch All Members
   _fetchMembers() async {
-    await _collectionReference.get().then((value) {
-      print('Total Member Fetched:${value.docs.length}');
-    });
+    isFetchingUser = true;
+    // We are going to fetch multiple times, this is to avoid duplication
+    allMember = [];
+    try {
+      await _collectionReference.get().then((value) {
+        value.docs.forEach((element) {
+          Member _currenMember = Member.fromDocumentSnap(element);
+          allMember.add(_currenMember);
+        });
+      });
+    } on Exception catch (e) {
+      print(e);
+    }
+    isFetchingUser = false;
+    update();
   }
 
   /// Add Member to Database
@@ -54,6 +71,7 @@ class MembersController extends GetxController {
       });
 
       print("Member Added ${_newlyAddedMember.id}");
+      _fetchMembers();
     } on FirebaseException catch (e) {
       print(e.message);
     }
@@ -62,29 +80,42 @@ class MembersController extends GetxController {
   /// Edit or Update Member Data
   Future<void> updateMember({
     required String name,
-    required String memberPicture,
+    required File memberPicture,
     required int phoneNumber,
     required String fullAddress,
     required String memberID,
   }) async {
-    await _collectionReference.doc(memberID).get().then(
-      (value) {
-        value.reference.update(
-          Member(
-                  memberName: name,
-                  memberPicture: memberPicture,
-                  memberNumber: phoneNumber,
-                  memberFullAdress: fullAddress)
-              .toMap(),
-        );
-      },
-    );
+    try {
+      String? _downloadUrl = await UploadPicture.ofMember(
+        memberID: memberID,
+        imageFile: memberPicture,
+      );
+
+      await _collectionReference.doc(memberID).get().then(
+        (value) {
+          value.reference.update(
+            Member(
+                    memberName: name,
+                    memberPicture: _downloadUrl!,
+                    memberNumber: phoneNumber,
+                    memberFullAdress: fullAddress)
+                .toMap(),
+          );
+        },
+      );
+    } on Exception catch (e) {
+      print(e);
+    }
+    _fetchMembers();
+    Get.back();
   }
 
   /// Remove or Delete A Member
   Future<void> removeMember({required String memberID}) async {
     /// NEED TO DELETE THE USER PICTURE AS WELL WHEN REMOVING USER
     await _collectionReference.doc(memberID).delete();
+    await DeletePicture.ofMember(memberID: memberID);
+    _fetchMembers();
   }
 
   @override

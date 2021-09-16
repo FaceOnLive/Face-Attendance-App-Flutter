@@ -1,0 +1,174 @@
+import 'dart:io';
+import 'package:face_attendance/models/member.dart';
+import 'package:face_attendance/views/dialogs/delete_user.dart';
+
+import '../../../controllers/members/member_controller.dart';
+import '../../../constants/app_sizes.dart';
+import '../../dialogs/camera_or_gallery.dart';
+import '../../widgets/app_button.dart';
+import '../../widgets/picture_display.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+class MemberEditScreen extends StatefulWidget {
+  const MemberEditScreen({Key? key, required this.member}) : super(key: key);
+
+  final Member member;
+
+  @override
+  _MemberEditScreenState createState() => _MemberEditScreenState();
+}
+
+class _MemberEditScreenState extends State<MemberEditScreen> {
+  /* <---- Dependency ----> */
+  MembersController _controller = Get.find();
+  _addDataToFields() {
+    _name.text = widget.member.memberName;
+    _phoneNumber.text = widget.member.memberNumber.toString();
+    _fullAddress.text = widget.member.memberFullAdress;
+  }
+
+  /* <---- Input Fields ----> */
+  late TextEditingController _name;
+  late TextEditingController _phoneNumber;
+  late TextEditingController _fullAddress;
+  // Initailize
+  void _initializeTextController() {
+    _name = TextEditingController();
+    _phoneNumber = TextEditingController();
+    _fullAddress = TextEditingController();
+  }
+
+  // Dispose
+  void _disposeTextController() {
+    _name.dispose();
+    _phoneNumber.dispose();
+    _fullAddress.dispose();
+  }
+
+  // Other
+  RxBool _updatingMember = false.obs;
+
+  // Image
+  File? _userImage;
+  RxBool _userPickedImage = false.obs;
+
+  @override
+  void initState() {
+    super.initState();
+    _initializeTextController();
+    _addDataToFields();
+  }
+
+  @override
+  void dispose() {
+    _disposeTextController();
+    _updatingMember.close();
+    _userPickedImage.close();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          'Update Member',
+        ),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.delete),
+            onPressed: () {
+              Get.dialog(DeleteUserDialog(
+                memberID: widget.member.memberID!,
+              ));
+            },
+          ),
+        ],
+      ),
+      body: Center(
+        child: SingleChildScrollView(
+          child: Container(
+            padding: EdgeInsets.symmetric(horizontal: AppSizes.DEFAULT_PADDING),
+            width: Get.width,
+            child: Column(
+              children: [
+                Obx(
+                  () => PictureWidget(
+                    onTap: () async {
+                      _userImage =
+                          await Get.dialog(CameraGallerySelectDialog());
+                      // If the user has picked an image then we will show
+                      // the file user has picked
+                      if (_userImage != null) {
+                        _userPickedImage.trigger(true);
+                      }
+                    },
+                    isLocal: _userPickedImage.value,
+                    profileLink: widget.member.memberPicture,
+                    localImage: _userImage,
+                  ),
+                ),
+                /* <---- Form INFO ----> */
+                Container(
+                  margin: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+                  child: Column(
+                    children: [
+                      TextField(
+                        decoration: InputDecoration(
+                          labelText: 'Full Name',
+                          prefixIcon: Icon(Icons.person_rounded),
+                          hintText: 'John Doe',
+                        ),
+                        controller: _name,
+                        autofocus: true,
+                      ),
+                      AppSizes.hGap20,
+                      TextField(
+                        decoration: InputDecoration(
+                          labelText: 'Phone',
+                          prefixIcon: Icon(Icons.phone_rounded),
+                          hintText: '+852 XXX-XXX',
+                        ),
+                        controller: _phoneNumber,
+                      ),
+                      AppSizes.hGap20,
+                      TextField(
+                        decoration: InputDecoration(
+                          labelText: 'Full Address',
+                          prefixIcon: Icon(Icons.location_on_rounded),
+                          hintText: 'Ocean Centre, Tsim Sha Tsui, Hong Kong',
+                        ),
+                        controller: _fullAddress,
+                      ),
+                    ],
+                  ),
+                ),
+                AppSizes.hGap10,
+                Obx(
+                  () => AppButton(
+                    width: Get.width * 0.6,
+                    label: 'Update',
+                    isLoading: _updatingMember.value,
+                    onTap: () async {
+                      _updatingMember.value = true;
+                      await _controller.updateMember(
+                        name: _name.text,
+                        memberPicture: _userImage!,
+                        phoneNumber: int.parse(_phoneNumber.text),
+                        fullAddress: _fullAddress.text,
+                        memberID: widget.member.memberID!,
+                      );
+                      _updatingMember.value = false;
+                      Get.back();
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
