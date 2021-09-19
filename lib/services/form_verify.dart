@@ -15,7 +15,8 @@ class AppFormVerify {
   }
 
   /// [Password] Returns Error Message based on inputs
-  static String? password({required String? password}) {
+  static String? password(
+      {required String? password, String? confirmPassword}) {
     if (password == null) {
       return 'Please enter a passsword';
     } else if (password.isNotEmpty && password.length > 5) {
@@ -24,6 +25,8 @@ class AppFormVerify {
       return 'Please enter a passsword';
     } else if (password.length <= 5) {
       return 'Please enter a password with 5 characters';
+    } else if (confirmPassword != null && password != confirmPassword) {
+      return 'Password does\'nt match';
     }
   }
 
@@ -33,6 +36,19 @@ class AppFormVerify {
       return 'Please enter a name';
     } else if (fullName.isEmpty) {
       return 'Please enter a name';
+    } else {
+      return null;
+    }
+  }
+
+  /// [Space] Returns error message on inputs
+  static String? spaceName({required String? spaceName}) {
+    if (spaceName == null) {
+      return 'Please enter a space name';
+    } else if (spaceName.isEmpty) {
+      return 'Please enter a space name';
+    } else if (spaceName.length < 2) {
+      return 'Please enter a longer name';
     } else {
       return null;
     }

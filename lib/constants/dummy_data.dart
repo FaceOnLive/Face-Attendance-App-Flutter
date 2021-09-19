@@ -8,11 +8,13 @@ class DummyData {
       name: 'Office',
       icon: Icons.business_rounded,
       spaceID: '2442',
+      memberList: []
     ),
     Space(
       name: 'Home',
       icon: Icons.home,
       spaceID: '2442',
+      memberList: []
     ),
   ];
 }

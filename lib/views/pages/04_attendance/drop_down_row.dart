@@ -1,3 +1,5 @@
+import 'package:face_attendance/controllers/spaces/space_controller.dart';
+
 import '../../../constants/app_colors.dart';
 import '../../../constants/app_defaults.dart';
 import '../../../constants/app_sizes.dart';
@@ -10,7 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
-class DropDownRow extends StatelessWidget {
+class DropDownRow extends GetView<SpaceController> {
   const DropDownRow({
     Key? key,
   }) : super(key: key);
@@ -32,38 +34,46 @@ class DropDownRow extends StatelessWidget {
                 ),
                 borderRadius: AppDefaults.defaulBorderRadius,
               ),
-              child: DropdownButton<String>(
-                isExpanded: true,
-                underline: SizedBox(),
-                dropdownColor: Colors.white,
-                items: List.generate(
-                  DummyData.officeData.length + 1,
-                  (index) {
-                    if (index == DummyData.officeData.length) {
-                      return DropdownMenuItem(
-                        child: _CreateNewSpaceButton(),
-                        value: 'create',
+              child: GetBuilder<SpaceController>(builder: (controller) {
+                return controller.isFetchingSpaces
+                    ? Container(
+                        height: 50,
+                        child: LinearProgressIndicator(),
+                      )
+                    : DropdownButton<String>(
+                        isExpanded: true,
+                        underline: SizedBox(),
+                        dropdownColor: Colors.white,
+                        items: List.generate(
+                          controller.allSpaces.length + 1,
+                          (index) {
+                            if (index == controller.allSpaces.length) {
+                              return DropdownMenuItem(
+                                child: _CreateNewSpaceButton(),
+                                value: 'create',
+                              );
+                            }
+
+                            Space _currentSpace = controller.allSpaces[index];
+
+                            return DropdownMenuItem(
+                              child: _DropDownSpaceItem(
+                                active: true,
+                                iconData: _currentSpace.icon,
+                                label: _currentSpace.name,
+                                onTap: () {
+                                  Get.to(() =>
+                                      SpaceInfoScreen(space: _currentSpace));
+                                },
+                              ),
+                              value: _currentSpace.name.toLowerCase(),
+                            );
+                          },
+                        ),
+                        value: 'office',
+                        onChanged: (value) {},
                       );
-                    }
-
-                    Space _currentSpace = DummyData.officeData[index];
-
-                    return DropdownMenuItem(
-                      child: _DropDownSpaceItem(
-                        active: true,
-                        iconData: _currentSpace.icon,
-                        label: _currentSpace.name,
-                        onTap: () {
-                          Get.to(() => SpaceInfoScreen(space: _currentSpace));
-                        },
-                      ),
-                      value: _currentSpace.name.toLowerCase(),
-                    );
-                  },
-                ),
-                value: 'office',
-                onChanged: (value) {},
-              ),
+              }),
             ),
           ),
           AppSizes.wGap10,

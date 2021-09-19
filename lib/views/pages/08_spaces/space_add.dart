@@ -1,11 +1,15 @@
-import '../../themes/text.dart';
-import '../../widgets/app_button.dart';
+import 'package:face_attendance/views/pages/08_spaces/spaces.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
+import '../../../controllers/spaces/space_controller.dart';
+import '../../../models/space.dart';
+import '../../../services/form_verify.dart';
 import '../../../constants/app_colors.dart';
 import '../../../constants/app_defaults.dart';
 import '../../../constants/app_sizes.dart';
+import '../../themes/text.dart';
+import '../../widgets/app_button.dart';
 
 class SpaceCreateScreen extends StatefulWidget {
   const SpaceCreateScreen({Key? key}) : super(key: key);
@@ -15,14 +19,55 @@ class SpaceCreateScreen extends StatefulWidget {
 }
 
 class _SpaceCreateScreenState extends State<SpaceCreateScreen> {
+  /* <---- Dependecny -----> */
+  SpaceController _controller = Get.find();
+
   /* <---- Icon ----> */
-  List<IconData> _icons = [
-    Icons.home_rounded,
-    Icons.business_rounded,
-    Icons.food_bank_rounded,
-    Icons.tour,
-  ];
+  late List<IconData> _icons;
   Rxn<IconData> _selectedIcon = Rxn<IconData>();
+
+  // Text Controller
+  late TextEditingController _nameController;
+  String? errorMessage;
+
+  RxBool _isAdding = false.obs;
+
+  /// When user Clicks Create Button
+  _onSubmitButtonClicked() async {
+    try {
+      _isAdding.trigger(true);
+      await _controller.addSpace(
+        space: Space(
+          name: _nameController.text,
+          icon: _selectedIcon.value!,
+          memberList: [],
+          spaceID: '',
+        ),
+      );
+      Get.back();
+      Get.to(() => SpacesScreen());
+      _isAdding.trigger(false);
+    } on FirebaseException catch (e) {
+      _isAdding.trigger(false);
+      print(e);
+    }
+  }
+
+  /* <---- STATE OF THE PAGE -----> */
+  @override
+  void initState() {
+    super.initState();
+    _nameController = TextEditingController();
+    _icons = _controller.allIcons;
+    _selectedIcon.value = _icons[0];
+  }
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _selectedIcon.close();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,20 +75,35 @@ class _SpaceCreateScreenState extends State<SpaceCreateScreen> {
       appBar: AppBar(
         title: Text('New Space'),
       ),
-      bottomNavigationBar: _CustomBottomActionButton(),
+      bottomNavigationBar: Obx(
+        () => _CustomBottomActionButton(
+          onTap: _onSubmitButtonClicked,
+          isLoading: _isAdding.value,
+        ),
+      ),
       body: Container(
         child: Column(
           children: [
             /* <---- Field ----> */
-            Container(
-              margin: EdgeInsets.all(AppSizes.DEFAULT_MARGIN),
-              child: TextField(
-                decoration: InputDecoration(
-                  prefixIcon: Icon(Icons.assignment),
-                  labelText: 'Space Name',
-                  hintText: 'Home',
-                ),
-              ),
+            GetBuilder<SpaceController>(
+              builder: (_) {
+                return Container(
+                  margin: EdgeInsets.all(AppSizes.DEFAULT_MARGIN),
+                  child: TextField(
+                    decoration: InputDecoration(
+                      prefixIcon: Icon(Icons.assignment),
+                      labelText: 'Space Name',
+                      hintText: 'Home',
+                      errorText: errorMessage,
+                    ),
+                    controller: _nameController,
+                    onSubmitted: (value) {
+                      errorMessage = AppFormVerify.spaceName(spaceName: value);
+                      _controller.update();
+                    },
+                  ),
+                );
+              },
             ),
             /* <---- Icon Selector ----> */
             Container(
@@ -113,12 +173,18 @@ class _SpaceCreateScreenState extends State<SpaceCreateScreen> {
 class _CustomBottomActionButton extends StatelessWidget {
   const _CustomBottomActionButton({
     Key? key,
+    required this.onTap,
+    required this.isLoading,
   }) : super(key: key);
+
+  final void Function() onTap;
+  final bool isLoading;
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {},
+      // Becuase we dont user to double click
+      onTap: isLoading ? null : onTap,
       child: Container(
         alignment: Alignment.center,
         decoration: BoxDecoration(
@@ -126,13 +192,17 @@ class _CustomBottomActionButton extends StatelessWidget {
           borderRadius: AppDefaults.defaultBottomSheetRadius,
         ),
         height: Get.height * 0.1,
-        child: Text(
-          'Create Space',
-          style: AppText.h6.copyWith(
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
-          ),
-        ),
+        child: isLoading
+            ? CircularProgressIndicator(
+                color: Colors.white,
+              )
+            : Text(
+                'Create Space',
+                style: AppText.h6.copyWith(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
       ),
     );
   }
