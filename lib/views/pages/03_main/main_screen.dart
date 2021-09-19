@@ -7,6 +7,7 @@ import 'package:animations/animations.dart';
 import 'package:face_attendance/constants/app_colors.dart';
 import 'package:face_attendance/controllers/members/member_controller.dart';
 import 'package:face_attendance/controllers/navigation/nav_controller.dart';
+import 'package:face_attendance/controllers/spaces/space_controller.dart';
 import 'package:face_attendance/controllers/user/user_controller.dart';
 import 'package:face_attendance/views/themes/text.dart';
 import 'package:flutter/material.dart';
@@ -27,6 +28,7 @@ class MainScreenUI extends StatelessWidget {
               initState: (val) {
                 Get.put(AppUserController());
                 Get.put(MembersController());
+                Get.put(SpaceController());
               },
               builder: (controller) => PageTransitionSwitcher(
                 duration: Duration(milliseconds: 500),

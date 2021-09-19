@@ -1,6 +1,6 @@
 import 'dart:io';
-import 'package:face_attendance/models/member.dart';
-import 'package:face_attendance/views/dialogs/delete_user.dart';
+import '../../../models/member.dart';
+import '../../dialogs/delete_user.dart';
 
 import '../../../controllers/members/member_controller.dart';
 import '../../../constants/app_sizes.dart';

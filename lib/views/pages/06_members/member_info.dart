@@ -1,4 +1,4 @@
-import 'package:face_attendance/models/member.dart';
+import '../../../models/member.dart';
 import '../../../constants/app_colors.dart';
 import '../../../constants/app_sizes.dart';
 import '../../themes/text.dart';

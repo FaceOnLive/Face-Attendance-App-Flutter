@@ -40,4 +40,17 @@ class AppFormVerify {
       return null;
     }
   }
+
+  /// [Space] Returns error message on inputs
+  static String? spaceName({required String? spaceName}) {
+    if (spaceName == null) {
+      return 'Please enter a space name';
+    } else if (spaceName.isEmpty) {
+      return 'Please enter a space name';
+    } else if (spaceName.length < 2) {
+      return 'Please enter a longer name';
+    } else {
+      return null;
+    }
+  }
 }

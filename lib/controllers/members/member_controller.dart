@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:face_attendance/services/deletePicture.dart';
+import '../../services/deletePicture.dart';
 import '../../services/uploadPicture.dart';
 import '../auth/login_controller.dart';
 import '../../models/member.dart';

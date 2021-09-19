@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:face_attendance/controllers/members/member_controller.dart';
-import 'package:face_attendance/models/member.dart';
-import 'package:face_attendance/views/pages/06_members/member_info.dart';
+import '../../../controllers/members/member_controller.dart';
+import '../../../models/member.dart';
+import '../06_members/member_info.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
