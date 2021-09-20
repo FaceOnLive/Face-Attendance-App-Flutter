@@ -1,5 +1,5 @@
+import 'package:face_attendance/controllers/spaces/space_controller.dart';
 import '../../../constants/app_colors.dart';
-import '../../../constants/dummy_data.dart';
 import '../../../models/space.dart';
 import 'space_add.dart';
 import 'space_info.dart';
@@ -26,21 +26,27 @@ class SpacesScreen extends StatelessWidget {
         child: Column(
           children: [
             Expanded(
-              child: ListView.builder(
-                itemCount: DummyData.officeData.length,
-                itemBuilder: (context, index) {
-                  Space _currentSpace = DummyData.officeData[index];
-                  return ListTile(
-                    onTap: () {
-                      Get.to(() => SpaceInfoScreen(space: _currentSpace));
+              child: GetBuilder<SpaceController>(
+                builder: (controller) {
+                  return ListView.builder(
+                    itemCount: controller.allSpaces.length,
+                    itemBuilder: (context, index) {
+                      Space _currentSpace = controller.allSpaces[index];
+                      return ListTile(
+                        onTap: () {
+                          Get.to(() => SpaceInfoScreen(space: _currentSpace));
+                        },
+                        leading: Icon(
+                          _currentSpace.icon,
+                          color: AppColors.PRIMARY_COLOR,
+                        ),
+                        title: Text(_currentSpace.name),
+                        subtitle: Text(
+                          'Total Member: ${_currentSpace.memberList.length}',
+                        ),
+                        trailing: Icon(Icons.arrow_forward_ios_rounded),
+                      );
                     },
-                    leading: Icon(
-                      _currentSpace.icon,
-                      color: AppColors.PRIMARY_COLOR,
-                    ),
-                    title: Text(_currentSpace.name),
-                    subtitle: Text('Total Member: 16'),
-                    trailing: Icon(Icons.arrow_forward_ios_rounded),
                   );
                 },
               ),

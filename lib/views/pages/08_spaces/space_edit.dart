@@ -1,11 +1,12 @@
-import '../../../models/space.dart';
-import '../../themes/text.dart';
-import '../../widgets/app_button.dart';
+import 'package:face_attendance/views/dialogs/delete_space.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:face_attendance/controllers/spaces/space_controller.dart';
 import '../../../constants/app_colors.dart';
 import '../../../constants/app_defaults.dart';
 import '../../../constants/app_sizes.dart';
+import '../../../models/space.dart';
+import '../../themes/text.dart';
 
 class SpaceEditScreen extends StatefulWidget {
   const SpaceEditScreen({Key? key, required this.space}) : super(key: key);
@@ -17,6 +18,10 @@ class SpaceEditScreen extends StatefulWidget {
 }
 
 class _SpaceEditScreenState extends State<SpaceEditScreen> {
+  /* <---- Dependency -----> */
+  SpaceController _controller = Get.find();
+
+  // TExt
   late TextEditingController _spaceName;
 
   /* <---- Icon ----> */
@@ -27,6 +32,23 @@ class _SpaceEditScreenState extends State<SpaceEditScreen> {
     Icons.tour,
   ];
   Rxn<IconData> _selectedIcon = Rxn<IconData>();
+
+  /// Is in updating state
+  RxBool _isUpdating = false.obs;
+
+  /// On Update Button Clicked
+  Future<void> _onUpdateButtonClicked() async {
+    _isUpdating.trigger(true);
+    await _controller.editSpace(
+      space: Space(
+        icon: _selectedIcon.value!,
+        name: _spaceName.text,
+        spaceID: widget.space.spaceID,
+        memberList: [],
+      ),
+    );
+    _isUpdating.trigger(false);
+  }
 
   @override
   void initState() {
@@ -49,12 +71,21 @@ class _SpaceEditScreenState extends State<SpaceEditScreen> {
         title: Text('Edit Space'),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Get.dialog(
+                DeleteSpaceDialog(spaceID: widget.space.spaceID!),
+              );
+            },
             icon: Icon(Icons.delete_rounded),
           ),
         ],
       ),
-      bottomNavigationBar: _CustomBottomActionButton(),
+      bottomNavigationBar: Obx(
+        () => _CustomBottomActionButton(
+          isLoading: _isUpdating.value,
+          onTap: _onUpdateButtonClicked,
+        ),
+      ),
       body: Container(
         child: Column(
           children: [
@@ -101,33 +132,6 @@ class _SpaceEditScreenState extends State<SpaceEditScreen> {
               ),
             ),
             /* <---- Action Button ----> */
-            Container(
-              margin: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-              child: Column(
-                children: [
-                  AppButton(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    padding: EdgeInsets.all(AppSizes.DEFAULT_PADDING),
-                    prefixIcon: Icon(
-                      Icons.person_add_alt_1_rounded,
-                      color: Colors.white,
-                    ),
-                    label: 'Add Members',
-                    onTap: () {},
-                  ),
-                  AppButton(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    padding: EdgeInsets.all(AppSizes.DEFAULT_PADDING),
-                    prefixIcon: Icon(
-                      Icons.edit_location_alt_rounded,
-                      color: Colors.white,
-                    ),
-                    label: 'Edit Office Range',
-                    onTap: () {},
-                  ),
-                ],
-              ),
-            )
           ],
         ),
       ),
@@ -138,12 +142,17 @@ class _SpaceEditScreenState extends State<SpaceEditScreen> {
 class _CustomBottomActionButton extends StatelessWidget {
   const _CustomBottomActionButton({
     Key? key,
+    required this.isLoading,
+    required this.onTap,
   }) : super(key: key);
+
+  final bool isLoading;
+  final void Function() onTap;
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {},
+      onTap: isLoading ? null : onTap,
       child: Container(
         alignment: Alignment.center,
         decoration: BoxDecoration(
@@ -151,13 +160,17 @@ class _CustomBottomActionButton extends StatelessWidget {
           borderRadius: AppDefaults.defaultBottomSheetRadius,
         ),
         height: Get.height * 0.1,
-        child: Text(
-          'Update Space',
-          style: AppText.h6.copyWith(
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
-          ),
-        ),
+        child: isLoading
+            ? CircularProgressIndicator(
+                color: Colors.white,
+              )
+            : Text(
+                'Update Space',
+                style: AppText.h6.copyWith(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
       ),
     );
   }

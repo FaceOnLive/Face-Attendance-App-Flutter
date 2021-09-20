@@ -1,9 +1,7 @@
 import 'package:face_attendance/controllers/spaces/space_controller.dart';
-
 import '../../../constants/app_colors.dart';
 import '../../../constants/app_defaults.dart';
 import '../../../constants/app_sizes.dart';
-import '../../../constants/dummy_data.dart';
 import '../../../models/space.dart';
 import '../08_spaces/space_add.dart';
 import '../08_spaces/space_info.dart';
@@ -70,8 +68,8 @@ class DropDownRow extends GetView<SpaceController> {
                             );
                           },
                         ),
-                        value: 'office',
-                        onChanged: (value) {},
+                        value: controller.currentSpace!.name.toLowerCase(),
+                        onChanged: controller.onSpaceChange,
                       );
               }),
             ),
