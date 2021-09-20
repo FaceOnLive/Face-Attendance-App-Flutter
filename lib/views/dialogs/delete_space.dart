@@ -1,4 +1,4 @@
-import 'package:face_attendance/controllers/spaces/space_controller.dart';
+import '../../controllers/spaces/space_controller.dart';
 import '../pages/03_main/main_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

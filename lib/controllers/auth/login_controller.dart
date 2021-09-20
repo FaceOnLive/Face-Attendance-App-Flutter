@@ -1,3 +1,6 @@
+import '../spaces/space_controller.dart';
+import '../verifier/verify_controller.dart';
+
 import '../members/member_controller.dart';
 import '../user/user_controller.dart';
 import '../../constants/app_colors.dart';
@@ -34,6 +37,8 @@ class LoginController extends GetxController {
   Future<void> logOut() async {
     Get.delete<AppUserController>(force: true);
     Get.delete<MembersController>(force: true);
+    Get.delete<SpaceController>(force: true);
+    Get.delete<VerifyController>(force: true);
     await _firebaseAuth.signOut();
   }
 

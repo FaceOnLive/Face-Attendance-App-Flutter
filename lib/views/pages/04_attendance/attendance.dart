@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:face_attendance/controllers/spaces/space_controller.dart';
-import 'package:face_attendance/views/pages/08_spaces/space_add.dart';
-import 'package:face_attendance/views/widgets/app_button.dart';
+import '../../../controllers/spaces/space_controller.dart';
+import '../08_spaces/space_add.dart';
+import '../../widgets/app_button.dart';
 import 'user_list.dart';
 import '../07_settings/settings.dart';
 import 'package:flutter/material.dart';

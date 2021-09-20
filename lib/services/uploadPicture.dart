@@ -7,13 +7,15 @@ class UploadPicture {
   static Future<String?> ofMember({
     required String memberID,
     required File imageFile,
+    required String userID,
   }) async {
     FirebaseStorage _firebaseStorage = FirebaseStorage.instance;
 
     // uploadingProfilePicture.value = true;
     /* <---- Delete Exisiting profile picture ----> */
     try {
-      Reference _existingImage = _firebaseStorage.ref('members/$memberID');
+      Reference _existingImage =
+          _firebaseStorage.ref('members/$userID/$memberID');
       if (_existingImage.fullPath != '') {
         _existingImage.delete();
       }
@@ -24,7 +26,8 @@ class UploadPicture {
     /* <---- Download Url ----> */
     String? _downloadUrl;
 
-    Reference _storageReference = _firebaseStorage.ref('members/$memberID');
+    Reference _storageReference =
+        _firebaseStorage.ref('members/$userID/$memberID');
 
     UploadTask _uploadImage = _storageReference.putFile(imageFile);
 

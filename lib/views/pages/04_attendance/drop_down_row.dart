@@ -1,4 +1,4 @@
-import 'package:face_attendance/controllers/spaces/space_controller.dart';
+import '../../../controllers/spaces/space_controller.dart';
 import '../../../constants/app_colors.dart';
 import '../../../constants/app_defaults.dart';
 import '../../../constants/app_sizes.dart';

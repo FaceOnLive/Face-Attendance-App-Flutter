@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:face_attendance/constants/app_colors.dart';
-import 'package:face_attendance/models/member.dart';
+import '../../constants/app_colors.dart';
+import '../../models/member.dart';
 import '../auth/login_controller.dart';
 import '../../models/space.dart';
 import 'package:firebase_core/firebase_core.dart';

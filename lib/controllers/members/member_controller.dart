@@ -64,6 +64,7 @@ class MembersController extends GetxController {
       String? _downloadUrl = await UploadPicture.ofMember(
         memberID: _newlyAddedMember.id,
         imageFile: memberPictureFile,
+        userID: _currentUserID,
       );
 
       await _newlyAddedMember.update({
@@ -89,6 +90,7 @@ class MembersController extends GetxController {
       String? _downloadUrl = await UploadPicture.ofMember(
         memberID: memberID,
         imageFile: memberPicture,
+        userID: _currentUserID,
       );
 
       await _collectionReference.doc(memberID).get().then(

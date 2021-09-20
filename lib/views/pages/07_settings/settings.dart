@@ -1,17 +1,18 @@
-import '../../../controllers/user/user_controller.dart';
-import '../../../controllers/auth/login_controller.dart';
-import '../02_auth/login_screen.dart';
-import '../08_spaces/spaces.dart';
-import '../../widgets/app_button.dart';
-import '../../widgets/picture_display.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
 import '../../../constants/app_colors.dart';
 import '../../../constants/app_defaults.dart';
 import '../../../constants/app_images.dart';
 import '../../../constants/app_sizes.dart';
+import '../../../controllers/auth/login_controller.dart';
+import '../../../controllers/user/user_controller.dart';
 import '../../themes/text.dart';
+import '../../widgets/app_button.dart';
+import '../../widgets/picture_display.dart';
+import '../02_auth/login_screen.dart';
+import '../08_spaces/spaces.dart';
 
 class AdminSettingScreen extends StatelessWidget {
   const AdminSettingScreen({Key? key}) : super(key: key);
