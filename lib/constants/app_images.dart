@@ -21,6 +21,11 @@ class AppImages {
   static const String ILLUSTRATION_SPACE_EMPTY =
       'assets/images/illustration/empty-space.png';
 
+
+    static const String ILLUSTRATION_MEMBER_EMPTY =
+      'assets/images/illustration/member_empty.png';
+
+
   static const String DEFAULT_USER =
       'assets/images/illustration/default_user.png';
 
