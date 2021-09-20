@@ -1,3 +1,5 @@
+import 'package:face_attendance/views/pages/08_spaces/space_member_add.dart';
+
 import '../../../constants/app_colors.dart';
 import '../../../constants/app_defaults.dart';
 import '../../../constants/app_sizes.dart';
@@ -74,7 +76,15 @@ class SpaceInfoScreen extends StatelessWidget {
                         color: Colors.white,
                       ),
                       label: 'Add Members',
-                      onTap: () {},
+                      onTap: () {
+                        Get.bottomSheet(
+                          SpaceMemberAddSheet(
+                            spaceID: space.spaceID!,
+                          ),
+                          isScrollControlled: true,
+                          ignoreSafeArea: false,
+                        );
+                      },
                     ),
                     AppButton(
                       prefixIcon: Icon(
@@ -82,7 +92,11 @@ class SpaceInfoScreen extends StatelessWidget {
                         color: Colors.white,
                       ),
                       label: 'Edit Space Info',
-                      onTap: () {},
+                      onTap: () {
+                        Get.to(() => SpaceEditScreen(
+                              space: space,
+                            ));
+                      },
                     ),
                     AppButton(
                       prefixIcon: Icon(

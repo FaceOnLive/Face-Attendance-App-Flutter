@@ -19,7 +19,6 @@ class Space {
     return {
       'name': name,
       'icon': icon.codePoint,
-      'memberList': memberList,
     };
   }
 

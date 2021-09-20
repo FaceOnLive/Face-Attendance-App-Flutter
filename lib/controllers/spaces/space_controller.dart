@@ -1,4 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:face_attendance/constants/app_colors.dart';
+import 'package:face_attendance/models/member.dart';
 import '../auth/login_controller.dart';
 import '../../models/space.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -20,6 +22,7 @@ class SpaceController extends GetxController {
 
   /// Space Options
   /// [Important] At least one Icon is required for this to work correctly
+  /// These icons are used for Adding, Modifying, Removing space screen.
   List<IconData> allIcons = [
     Icons.home_rounded,
     Icons.business_rounded,
@@ -31,7 +34,24 @@ class SpaceController extends GetxController {
   List<Space> allSpaces = [];
 
   /// Currently Selected Space
-  // Space currentSpace;
+  Space? currentSpace;
+
+  /// Select A Space at startup
+  ///
+  /// [ We can save this in local database later ]
+  // _spaceSelectionInitially() {
+  //   currentSpace = allSpaces[0];
+  // }
+
+  /// When user tap on a space in dropdown
+  onSpaceChange(String? value) {
+    if (value != null) {
+      Space? _space = allSpaces
+          .singleWhere((element) => element.name.toLowerCase() == value);
+      currentSpace = _space;
+      update();
+    }
+  }
 
   /// To show progress indicator
   bool isFetchingSpaces = false;
@@ -46,7 +66,11 @@ class SpaceController extends GetxController {
         allSpaces.add(_currentSpace);
       });
       print('Total Space fetched: ${value.docs.length}');
+      if (currentSpace == null && value.docs.length > 0) {
+        currentSpace = allSpaces[0];
+      }
     });
+
     isFetchingSpaces = false;
     update();
   }
@@ -66,6 +90,13 @@ class SpaceController extends GetxController {
     try {
       await _collectionReference.doc(space.spaceID).update(space.toMap());
       _fetchAllSpaces();
+      Get.back();
+      Get.rawSnackbar(
+        title: 'Update Successfull',
+        message: 'Space Info Updated Successfully',
+        backgroundColor: AppColors.APP_GREEN,
+        snackStyle: SnackStyle.GROUNDED,
+      );
     } on FirebaseException catch (e) {
       print(e);
     }
@@ -76,6 +107,42 @@ class SpaceController extends GetxController {
     try {
       await _collectionReference.doc(spaceID).delete();
       _fetchAllSpaces();
+    } on FirebaseException catch (e) {
+      print(e);
+    }
+  }
+
+  /// Add Members To A Certain Space
+  Future<void> addMembersToSpace({
+    required String spaceID,
+    required List<Member> members,
+  }) async {
+    List<String> membersIDs = [];
+    await Future.forEach<Member>(members, (element) {
+      membersIDs.add(element.memberID!);
+    });
+    try {
+      await _collectionReference.doc(spaceID).get().then((value) {
+        value.reference.update({
+          'memberList': FieldValue.arrayUnion(membersIDs),
+        });
+      });
+    } on FirebaseException catch (e) {
+      print(e);
+    }
+  }
+
+  /// Remove Members From A Space
+  Future<void> removeMembersFromSpace({
+    required String spaceID,
+    required List<String> userIDs,
+  }) async {
+    try {
+      await _collectionReference.doc(spaceID).get().then((value) {
+        value.reference.update({
+          'memberList': FieldValue.arrayRemove(userIDs),
+        });
+      });
     } on FirebaseException catch (e) {
       print(e);
     }

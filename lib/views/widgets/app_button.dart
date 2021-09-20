@@ -18,6 +18,7 @@ class AppButton extends StatelessWidget {
     this.prefixIcon,
     this.color,
     this.mainAxisAlignment,
+    this.disableBorderRadius = false,
   }) : super(key: key);
 
   final String label;
@@ -31,6 +32,7 @@ class AppButton extends StatelessWidget {
   final Icon? suffixIcon;
   final Icon? prefixIcon;
   final MainAxisAlignment? mainAxisAlignment;
+  final bool disableBorderRadius;
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +46,8 @@ class AppButton extends StatelessWidget {
         padding: padding ?? EdgeInsets.symmetric(horizontal: 14, vertical: 14),
         decoration: BoxDecoration(
           color: color ?? AppColors.PRIMARY_COLOR,
-          borderRadius: AppDefaults.defaulBorderRadius,
+          borderRadius:
+              disableBorderRadius ? null : AppDefaults.defaulBorderRadius,
         ),
         width: width,
         child: isLoading

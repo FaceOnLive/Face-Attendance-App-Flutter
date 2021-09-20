@@ -78,7 +78,7 @@ class _AttendedUserListState extends State<AttendedUserList> {
 
             GetBuilder<MembersController>(
               builder: (controller) => controller.isFetchingUser
-                  ? _LoadingData()
+                  ? LoadingMembers()
                   : controller.allMember.length > 0
                       ? Expanded(
                           child: ListView.builder(
@@ -91,7 +91,7 @@ class _AttendedUserListState extends State<AttendedUserList> {
                             },
                           ),
                         )
-                      : _NoMemberFound(),
+                      : NoMemberFound(),
             )
           ],
         ),
@@ -141,8 +141,12 @@ class _MemberListTile extends StatelessWidget {
   }
 }
 
-class _NoMemberFound extends StatelessWidget {
-  const _NoMemberFound({
+/// When No Members are found on List
+/// This widgets are used on other parts of the UI where there is a user List
+/// For Example in Member Adding or Removing,
+/// Reusing widgets makes our app efficient
+class NoMemberFound extends StatelessWidget {
+  const NoMemberFound({
     Key? key,
   }) : super(key: key);
 
@@ -165,9 +169,12 @@ class _NoMemberFound extends StatelessWidget {
   }
 }
 
-// To Add A Loading List Effect
-class _LoadingData extends StatelessWidget {
-  const _LoadingData({
+/// To Add A Loading List Effect
+/// This widgets are used on other parts of the UI where there is a user List
+/// For Example in Member Adding or Removing
+/// Reusing widgets makes our app efficient
+class LoadingMembers extends StatelessWidget {
+  const LoadingMembers({
     Key? key,
   }) : super(key: key);
 

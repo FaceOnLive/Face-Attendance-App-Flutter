@@ -1,4 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:face_attendance/controllers/spaces/space_controller.dart';
+import 'package:face_attendance/views/pages/08_spaces/space_add.dart';
+import 'package:face_attendance/views/widgets/app_button.dart';
 import 'user_list.dart';
 import '../07_settings/settings.dart';
 import 'package:flutter/material.dart';
@@ -79,11 +82,28 @@ class AttendanceScreen extends StatelessWidget {
                 ],
               ),
             ),
-            /* <---- DropDown and Date----> */
-            DropDownRow(),
+            GetBuilder<SpaceController>(
+              builder: (controller) {
+                if (controller.isFetchingSpaces) {
+                  return Expanded(
+                      child: Center(child: CircularProgressIndicator()));
+                } else if (controller.allSpaces.length <= 0) {
+                  return _NoSpaceFound();
+                } else {
+                  return Expanded(
+                    child: Column(
+                      children: [
+                        /* <---- DropDown and Date----> */
+                        DropDownRow(),
 
-            /* <---- User List ----> */
-            AttendedUserList()
+                        /* <---- User List ----> */
+                        AttendedUserList()
+                      ],
+                    ),
+                  );
+                }
+              },
+            ),
           ],
         ),
       ),
@@ -91,4 +111,41 @@ class AttendanceScreen extends StatelessWidget {
   }
 }
 
+class _NoSpaceFound extends StatelessWidget {
+  const _NoSpaceFound({
+    Key? key,
+  }) : super(key: key);
 
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: Center(
+        child: Container(
+          padding: EdgeInsets.all(AppSizes.DEFAULT_PADDING),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                width: Get.width * 0.5,
+                child: Image.asset(AppImages.ILLUSTRATION_SPACE_EMPTY),
+              ),
+              AppSizes.hGap20,
+              Text('No space found..'),
+              AppButton(
+                width: Get.width * 0.5,
+                prefixIcon: Icon(
+                  Icons.add,
+                  color: Colors.white,
+                ),
+                label: 'Create Space',
+                onTap: () {
+                  Get.to(() => SpaceCreateScreen());
+                },
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
