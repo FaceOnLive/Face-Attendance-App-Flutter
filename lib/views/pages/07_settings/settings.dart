@@ -1,7 +1,9 @@
+import 'dart:io';
+
+import 'package:face_attendance/views/dialogs/camera_or_gallery.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import '../../../constants/app_colors.dart';
 import '../../../constants/app_defaults.dart';
 import '../../../constants/app_images.dart';
@@ -39,11 +41,7 @@ class AdminSettingScreen extends StatelessWidget {
                       children: [
                         AppSizes.hGap10,
                         // ADMIN PROFILE PICTURE
-                        PictureWidget(
-                          heroTag: AppImages.unsplashPersons[0],
-                          profileLink: AppImages.unsplashPersons[0],
-                          onTap: () {},
-                        ),
+                        _UserInfo(),
                         AppCustomListTile(
                           label: 'Admin Details',
                           onTap: () {},
@@ -124,6 +122,44 @@ class AdminSettingScreen extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+class _UserInfo extends GetView<AppUserController> {
+  const _UserInfo({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        GetBuilder<AppUserController>(
+          builder: (_) {
+            return PictureWidget(
+              heroTag: controller.currentUser.userID,
+              profileLink: controller.currentUser.userProfilePicture,
+              isUpdating: controller.isUpdatingPicture,
+              onTap: () async {
+                File? _userImage =
+                    await Get.dialog(CameraGallerySelectDialog());
+                if (_userImage != null) {
+                  await controller.updateUserProfilePicture(_userImage);
+                }
+              },
+            );
+          },
+        ),
+        AppSizes.hGap10,
+        Text(
+          controller.currentUser.name,
+          style: AppText.h6.copyWith(
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        Text(controller.currentUser.email),
+      ],
     );
   }
 }

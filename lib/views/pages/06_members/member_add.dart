@@ -120,7 +120,7 @@ class _MemberAddScreenState extends State<MemberAddScreen> {
                         decoration: InputDecoration(
                           labelText: 'Phone',
                           prefixIcon: Icon(Icons.phone_rounded),
-                          hintText: 'John Doe',
+                          hintText: '+854 000 0000',
                         ),
                         controller: _phoneNumber,
                       ),

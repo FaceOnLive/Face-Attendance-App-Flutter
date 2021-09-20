@@ -1,4 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:face_attendance/constants/app_colors.dart';
+import 'package:face_attendance/controllers/user/user_controller.dart';
+import 'package:shimmer/shimmer.dart';
 import '../../../controllers/spaces/space_controller.dart';
 import '../08_spaces/space_add.dart';
 import '../../widgets/app_button.dart';
@@ -65,23 +68,11 @@ class AttendanceScreen extends StatelessWidget {
                   ),
                   /* <---- Right Side ----> */
                   // ADMIN PROFILE PICTURE
-                  InkWell(
-                    onTap: () {
-                      Get.to(() => AdminSettingScreen());
-                    },
-                    child: Hero(
-                      tag: AppImages.unsplashPersons[0],
-                      child: CircleAvatar(
-                        backgroundImage: CachedNetworkImageProvider(
-                          AppImages.unsplashPersons[0],
-                        ),
-                        radius: Get.width * 0.07,
-                      ),
-                    ),
-                  ),
+                  _UserProfilePicture(),
                 ],
               ),
             ),
+            /* <---- Attendance List -----> */
             GetBuilder<SpaceController>(
               builder: (controller) {
                 if (controller.isFetchingSpaces) {
@@ -107,6 +98,52 @@ class AttendanceScreen extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+class _UserProfilePicture extends StatelessWidget {
+  const _UserProfilePicture({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return GetBuilder<AppUserController>(
+      builder: (controller) {
+        if (controller.isUserInitialized == false) {
+          return Shimmer.fromColors(
+            baseColor: AppColors.shimmerBaseColor,
+            highlightColor: AppColors.shimmerHighlightColor,
+            child: CircleAvatar(
+                backgroundImage: AssetImage(
+                  AppImages.DEFAULT_USER,
+                ),
+                radius: Get.width * 0.07),
+          );
+        } else if (controller.isUserInitialized == true) {
+          return InkWell(
+            onTap: () {
+              Get.to(() => AdminSettingScreen());
+            },
+            child: Hero(
+              tag: controller.currentUser.userID!,
+              child: controller.currentUser.userProfilePicture != null
+                  ? CircleAvatar(
+                      backgroundImage: CachedNetworkImageProvider(
+                        controller.currentUser.userProfilePicture!,
+                      ),
+                      radius: Get.width * 0.07,
+                    )
+                  : CircleAvatar(
+                      backgroundImage: AssetImage(AppImages.DEFAULT_USER),
+                      radius: Get.width * 0.07),
+            ),
+          );
+        } else {
+          return SizedBox();
+        }
+      },
     );
   }
 }
