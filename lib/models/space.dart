@@ -27,7 +27,7 @@ class Space {
     return Space(
       name: map['name'],
       icon: IconData(map['icon'], fontFamily: 'MaterialIcons'),
-      memberList: List<String>.from(map['memberList']),
+      memberList: List<String>.from(map['memberList'] ?? []),
       spaceID: documentSnap.id,
     );
   }
