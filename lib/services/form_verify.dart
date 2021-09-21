@@ -53,4 +53,32 @@ class AppFormVerify {
       return null;
     }
   }
+
+  /// [Address] Returns error message on inputs
+  static String? address({required String? address}) {
+    if (address == null) {
+      return 'Please enter a address name';
+    } else if (address.isEmpty) {
+      return 'Please enter a address name';
+    } else if (address.length < 2) {
+      return 'Please enter a longer name';
+    } else {
+      return null;
+    }
+  }
+
+  /// [Phone] Returns error message on inputs
+  static String? phoneNumber({required String? phone}) {
+    if (phone == null) {
+      return 'Please enter a phone number';
+    } else if (phone.isEmpty) {
+      return 'Please enter aphone number';
+    } else if (phone.length > 12) {
+      return 'Please enter a correct number';
+    } else if (!phone.isNum) {
+      return 'Please enter only number';
+    } else {
+      return null;
+    }
+  }
 }

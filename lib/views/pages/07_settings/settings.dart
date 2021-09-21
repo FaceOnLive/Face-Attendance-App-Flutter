@@ -1,17 +1,20 @@
-import '../../../controllers/user/user_controller.dart';
-import '../../../controllers/auth/login_controller.dart';
-import '../02_auth/login_screen.dart';
-import '../08_spaces/spaces.dart';
-import '../../widgets/app_button.dart';
-import '../../widgets/picture_display.dart';
+import 'dart:io';
+import 'package:face_attendance/services/app_photo.dart';
+
+import '../../dialogs/camera_or_gallery.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../constants/app_colors.dart';
 import '../../../constants/app_defaults.dart';
-import '../../../constants/app_images.dart';
 import '../../../constants/app_sizes.dart';
+import '../../../controllers/auth/login_controller.dart';
+import '../../../controllers/user/user_controller.dart';
 import '../../themes/text.dart';
+import '../../widgets/app_button.dart';
+import '../../widgets/picture_display.dart';
+import '../02_auth/login_screen.dart';
+import '../08_spaces/spaces.dart';
 
 class AdminSettingScreen extends StatelessWidget {
   const AdminSettingScreen({Key? key}) : super(key: key);
@@ -38,11 +41,8 @@ class AdminSettingScreen extends StatelessWidget {
                       children: [
                         AppSizes.hGap10,
                         // ADMIN PROFILE PICTURE
-                        PictureWidget(
-                          heroTag: AppImages.unsplashPersons[0],
-                          profileLink: AppImages.unsplashPersons[0],
-                          onTap: () {},
-                        ),
+                        _UserInfo(),
+                        /* <---- Settings -----> */
                         AppCustomListTile(
                           label: 'Admin Details',
                           onTap: () {},
@@ -50,8 +50,16 @@ class AdminSettingScreen extends StatelessWidget {
                         ),
                         AppCustomListTile(
                           label: 'Update Face Data',
-                          onTap: () {},
+                          onTap: () async {
+                            File? _image =
+                                await AppPhotoService.getImageFromCamera();
+                            if (_image != null) {
+                              controller.updateUserFaceID(imageFile: _image);
+                            }
+                          },
                           leading: Icon(Icons.face_rounded),
+                          isUpdating: controller.isUpdatingFaceID,
+                          updateMessage: 'Updating Face Data...',
                         ),
                         AppCustomListTile(
                           label: 'Change Password',
@@ -80,6 +88,7 @@ class AdminSettingScreen extends StatelessWidget {
                             },
                             value: controller.currentUser.notification,
                           ),
+                          isUpdating: controller.isNotificationUpdating,
                         ),
                       ],
                     ),
@@ -113,7 +122,7 @@ class AdminSettingScreen extends StatelessWidget {
                   Get.find<LoginController>().logOut();
                 },
                 width: Get.width * 0.5,
-                color: AppColors.APP_RED,
+                backgroundColor: AppColors.APP_RED,
                 suffixIcon: Icon(
                   Icons.logout_rounded,
                   color: Colors.white,
@@ -127,6 +136,45 @@ class AdminSettingScreen extends StatelessWidget {
   }
 }
 
+class _UserInfo extends GetView<AppUserController> {
+  const _UserInfo({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        GetBuilder<AppUserController>(
+          builder: (_) {
+            return PictureWidget(
+              heroTag: controller.currentUser.userID,
+              profileLink: controller.currentUser.userProfilePicture,
+              isUpdating: controller.isUpdatingPicture,
+              onTap: () async {
+                File? _userImage =
+                    await Get.dialog(CameraGallerySelectDialog());
+                if (_userImage != null) {
+                  await controller.updateUserProfilePicture(_userImage);
+                }
+              },
+            );
+          },
+        ),
+        AppSizes.hGap10,
+        Text(
+          controller.currentUser.name,
+          style: AppText.h6.copyWith(
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        Text(controller.currentUser.email),
+        AppSizes.hGap10,
+      ],
+    );
+  }
+}
+
 class AppCustomListTile extends StatelessWidget {
   const AppCustomListTile({
     Key? key,
@@ -134,12 +182,16 @@ class AppCustomListTile extends StatelessWidget {
     this.label,
     this.leading,
     this.trailing,
+    this.isUpdating = false,
+    this.updateMessage,
   }) : super(key: key);
 
   final void Function() onTap;
   final String? label;
   final Icon? leading;
   final Widget? trailing;
+  final bool isUpdating;
+  final String? updateMessage;
 
   @override
   Widget build(BuildContext context) {
@@ -166,6 +218,12 @@ class AppCustomListTile extends StatelessWidget {
               label ?? 'Add Text Here',
               style: AppText.b1,
             ),
+            subtitle: isUpdating
+                ? Text(
+                    updateMessage ?? 'Updating...',
+                    style: AppText.caption,
+                  )
+                : null,
             trailing: trailing ?? Icon(Icons.arrow_forward_ios_rounded),
           ),
         ),

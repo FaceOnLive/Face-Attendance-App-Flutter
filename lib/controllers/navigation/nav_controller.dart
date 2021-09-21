@@ -1,3 +1,5 @@
+import '../../services/space_services.dart';
+
 import '../auth/login_controller.dart';
 import '../../views/pages/01_intro/intro_screen.dart';
 import '../../views/pages/02_auth/login_screen.dart';
@@ -20,6 +22,7 @@ class NavigationController extends GetxController {
       await Hive.initFlutter();
       // This is for reducing the time on start app
       await Hive.openBox(_APPS_BOOL_BOX);
+      await Hive.openBox(SpaceServices.SPACE_BOX_NAME);
       Get.put(LoginController(), permanent: true);
       everyThingLoadedUp = true;
       update();

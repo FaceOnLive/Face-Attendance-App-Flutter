@@ -1,7 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:face_attendance/controllers/spaces/space_controller.dart';
-import 'package:face_attendance/views/pages/08_spaces/space_add.dart';
-import 'package:face_attendance/views/widgets/app_button.dart';
+import '../../../constants/app_colors.dart';
+import '../../../controllers/user/user_controller.dart';
+import 'package:shimmer/shimmer.dart';
+import '../../../controllers/spaces/space_controller.dart';
+import '../08_spaces/space_add.dart';
+import '../../widgets/app_button.dart';
 import 'user_list.dart';
 import '../07_settings/settings.dart';
 import 'package:flutter/material.dart';
@@ -65,28 +68,15 @@ class AttendanceScreen extends StatelessWidget {
                   ),
                   /* <---- Right Side ----> */
                   // ADMIN PROFILE PICTURE
-                  InkWell(
-                    onTap: () {
-                      Get.to(() => AdminSettingScreen());
-                    },
-                    child: Hero(
-                      tag: AppImages.unsplashPersons[0],
-                      child: CircleAvatar(
-                        backgroundImage: CachedNetworkImageProvider(
-                          AppImages.unsplashPersons[0],
-                        ),
-                        radius: Get.width * 0.07,
-                      ),
-                    ),
-                  ),
+                  _UserProfilePicture(),
                 ],
               ),
             ),
+            /* <---- Attendance List -----> */
             GetBuilder<SpaceController>(
               builder: (controller) {
                 if (controller.isFetchingSpaces) {
-                  return Expanded(
-                      child: Center(child: CircularProgressIndicator()));
+                  return LoadingMembers();
                 } else if (controller.allSpaces.length <= 0) {
                   return _NoSpaceFound();
                 } else {
@@ -111,6 +101,52 @@ class AttendanceScreen extends StatelessWidget {
   }
 }
 
+class _UserProfilePicture extends StatelessWidget {
+  const _UserProfilePicture({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return GetBuilder<AppUserController>(
+      builder: (controller) {
+        if (controller.isUserInitialized == false) {
+          return Shimmer.fromColors(
+            baseColor: AppColors.shimmerBaseColor,
+            highlightColor: AppColors.shimmerHighlightColor,
+            child: CircleAvatar(
+                backgroundImage: AssetImage(
+                  AppImages.DEFAULT_USER,
+                ),
+                radius: Get.width * 0.07),
+          );
+        } else if (controller.isUserInitialized == true) {
+          return InkWell(
+            onTap: () {
+              Get.to(() => AdminSettingScreen());
+            },
+            child: Hero(
+              tag: controller.currentUser.userID!,
+              child: controller.currentUser.userProfilePicture != null
+                  ? CircleAvatar(
+                      backgroundImage: CachedNetworkImageProvider(
+                        controller.currentUser.userProfilePicture!,
+                      ),
+                      radius: Get.width * 0.07,
+                    )
+                  : CircleAvatar(
+                      backgroundImage: AssetImage(AppImages.DEFAULT_USER),
+                      radius: Get.width * 0.07),
+            ),
+          );
+        } else {
+          return SizedBox();
+        }
+      },
+    );
+  }
+}
+
 class _NoSpaceFound extends StatelessWidget {
   const _NoSpaceFound({
     Key? key,
@@ -119,31 +155,30 @@ class _NoSpaceFound extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: Center(
-        child: Container(
-          padding: EdgeInsets.all(AppSizes.DEFAULT_PADDING),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                width: Get.width * 0.5,
-                child: Image.asset(AppImages.ILLUSTRATION_SPACE_EMPTY),
+      child: Container(
+        padding: EdgeInsets.all(AppSizes.DEFAULT_PADDING),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              width: Get.width * 0.5,
+              child: Image.asset(AppImages.ILLUSTRATION_SPACE_EMPTY),
+            ),
+            AppSizes.hGap20,
+            Text('No space found..'),
+            AppButton(
+              width: Get.width * 0.5,
+              prefixIcon: Icon(
+                Icons.add,
+                color: Colors.white,
               ),
-              AppSizes.hGap20,
-              Text('No space found..'),
-              AppButton(
-                width: Get.width * 0.5,
-                prefixIcon: Icon(
-                  Icons.add,
-                  color: Colors.white,
-                ),
-                label: 'Create Space',
-                onTap: () {
-                  Get.to(() => SpaceCreateScreen());
-                },
-              ),
-            ],
-          ),
+              label: 'Create Space',
+              onTap: () {
+                Get.to(() => SpaceCreateScreen());
+              },
+            ),
+          ],
         ),
       ),
     );

@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import '../../../controllers/auth/login_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -45,6 +46,9 @@ class _LoginScreenAltState extends State<LoginScreenAlt> {
 
   /* <---- Login Click Button ----> */
   RxBool _loginProgress = false.obs;
+
+  Rxn<String> errorMessage = Rxn<String>();
+
   _onLoginButtonPressed() async {
     bool _isFormOkay = _formKey.currentState!.validate();
     if (_isFormOkay) {
@@ -52,12 +56,16 @@ class _LoginScreenAltState extends State<LoginScreenAlt> {
       AppUiHelper.dismissKeyboard(context: context);
       // Start Progress Loading
       _loginProgress.trigger(true);
-      await _controller.loginWithEmail(
-        email: emailController.text,
-        password: passController.text,
-      );
-      // Disable Progress Loading
-      _loginProgress.trigger(false);
+      try {
+        await _controller.loginWithEmail(
+          email: emailController.text,
+          password: passController.text,
+        );
+        _loginProgress.trigger(false);
+      } on FirebaseException catch (e) {
+        errorMessage.value = e.message;
+        _loginProgress.trigger(false);
+      }
     }
   }
 
@@ -73,6 +81,7 @@ class _LoginScreenAltState extends State<LoginScreenAlt> {
     _disposeControllers();
     _showPass.close();
     _loginProgress.close();
+    errorMessage.close();
     super.dispose();
   }
 
@@ -126,6 +135,7 @@ class _LoginScreenAltState extends State<LoginScreenAlt> {
                                 labelText: 'Password',
                                 prefixIcon: Icon(Icons.vpn_key_rounded),
                                 hintText: '***********',
+                                errorText: errorMessage.value,
                                 suffixIcon: GestureDetector(
                                   onTap: () {
                                     _onEyeClick();
@@ -140,7 +150,9 @@ class _LoginScreenAltState extends State<LoginScreenAlt> {
                               controller: passController,
                               obscureText: !_showPass.value,
                               validator: (value) {
-                                return AppFormVerify.password(password: value);
+                                errorMessage.value =
+                                    AppFormVerify.password(password: value);
+                                return errorMessage.value;
                               },
                             ),
                           ),

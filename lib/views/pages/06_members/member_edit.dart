@@ -1,4 +1,6 @@
 import 'dart:io';
+import '../../../services/form_verify.dart';
+
 import '../../../models/member.dart';
 import '../../dialogs/delete_user.dart';
 
@@ -52,6 +54,26 @@ class _MemberEditScreenState extends State<MemberEditScreen> {
   // Image
   File? _userImage;
   RxBool _userPickedImage = false.obs;
+
+  // Form Key
+  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  /// When user clicks update button
+  Future<void> _onUserUpdate() async {
+    bool _isFormOkay = _formKey.currentState!.validate();
+    if (_isFormOkay) {
+      _updatingMember.value = true;
+      await _controller.updateMember(
+        name: _name.text,
+        memberPicture: _userImage,
+        phoneNumber: int.parse(_phoneNumber.text),
+        fullAddress: _fullAddress.text,
+        member: widget.member,
+      );
+      _updatingMember.value = false;
+      Get.back();
+    }
+  }
 
   @override
   void initState() {
@@ -112,36 +134,47 @@ class _MemberEditScreenState extends State<MemberEditScreen> {
                 /* <---- Form INFO ----> */
                 Container(
                   margin: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-                  child: Column(
-                    children: [
-                      TextField(
-                        decoration: InputDecoration(
-                          labelText: 'Full Name',
-                          prefixIcon: Icon(Icons.person_rounded),
-                          hintText: 'John Doe',
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      children: [
+                        TextFormField(
+                          decoration: InputDecoration(
+                            labelText: 'Full Name',
+                            prefixIcon: Icon(Icons.person_rounded),
+                            hintText: 'John Doe',
+                          ),
+                          controller: _name,
+                          autofocus: true,
+                          validator: (fullName) {
+                            return AppFormVerify.name(fullName: fullName);
+                          },
                         ),
-                        controller: _name,
-                        autofocus: true,
-                      ),
-                      AppSizes.hGap20,
-                      TextField(
-                        decoration: InputDecoration(
-                          labelText: 'Phone',
-                          prefixIcon: Icon(Icons.phone_rounded),
-                          hintText: '+852 XXX-XXX',
+                        AppSizes.hGap20,
+                        TextFormField(
+                            decoration: InputDecoration(
+                              labelText: 'Phone',
+                              prefixIcon: Icon(Icons.phone_rounded),
+                              hintText: '+852 XXX-XXX',
+                            ),
+                            controller: _phoneNumber,
+                            validator: (phone) {
+                              return AppFormVerify.phoneNumber(phone: phone);
+                            }),
+                        AppSizes.hGap20,
+                        TextFormField(
+                          decoration: InputDecoration(
+                            labelText: 'Full Address',
+                            prefixIcon: Icon(Icons.location_on_rounded),
+                            hintText: 'Ocean Centre, Tsim Sha Tsui, Hong Kong',
+                          ),
+                          controller: _fullAddress,
+                          validator: (address) {
+                            return AppFormVerify.address(address: address);
+                          },
                         ),
-                        controller: _phoneNumber,
-                      ),
-                      AppSizes.hGap20,
-                      TextField(
-                        decoration: InputDecoration(
-                          labelText: 'Full Address',
-                          prefixIcon: Icon(Icons.location_on_rounded),
-                          hintText: 'Ocean Centre, Tsim Sha Tsui, Hong Kong',
-                        ),
-                        controller: _fullAddress,
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
                 AppSizes.hGap10,
@@ -150,18 +183,7 @@ class _MemberEditScreenState extends State<MemberEditScreen> {
                     width: Get.width * 0.6,
                     label: 'Update',
                     isLoading: _updatingMember.value,
-                    onTap: () async {
-                      _updatingMember.value = true;
-                      await _controller.updateMember(
-                        name: _name.text,
-                        memberPicture: _userImage!,
-                        phoneNumber: int.parse(_phoneNumber.text),
-                        fullAddress: _fullAddress.text,
-                        memberID: widget.member.memberID!,
-                      );
-                      _updatingMember.value = false;
-                      Get.back();
-                    },
+                    onTap: _onUserUpdate,
                   ),
                 ),
               ],

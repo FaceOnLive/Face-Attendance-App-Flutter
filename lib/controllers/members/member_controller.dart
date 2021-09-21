@@ -25,7 +25,7 @@ class MembersController extends GetxController {
   bool isFetchingUser = false;
 
   /// Fetch All Members
-  _fetchMembers() async {
+  Future<void> fetchMembersList() async {
     isFetchingUser = true;
     // We are going to fetch multiple times, this is to avoid duplication
     allMember = [];
@@ -64,6 +64,7 @@ class MembersController extends GetxController {
       String? _downloadUrl = await UploadPicture.ofMember(
         memberID: _newlyAddedMember.id,
         imageFile: memberPictureFile,
+        userID: _currentUserID,
       );
 
       await _newlyAddedMember.update({
@@ -71,7 +72,7 @@ class MembersController extends GetxController {
       });
 
       print("Member Added ${_newlyAddedMember.id}");
-      _fetchMembers();
+      fetchMembersList();
     } on FirebaseException catch (e) {
       print(e.message);
     }
@@ -80,18 +81,25 @@ class MembersController extends GetxController {
   /// Edit or Update Member Data
   Future<void> updateMember({
     required String name,
-    required File memberPicture,
+    required File? memberPicture,
     required int phoneNumber,
     required String fullAddress,
-    required String memberID,
+    required Member member,
   }) async {
     try {
-      String? _downloadUrl = await UploadPicture.ofMember(
-        memberID: memberID,
-        imageFile: memberPicture,
-      );
+      String? _downloadUrl;
+      // If user has picked an image
+      if (memberPicture != null) {
+        _downloadUrl = await UploadPicture.ofMember(
+          memberID: member.memberID!,
+          imageFile: memberPicture,
+          userID: _currentUserID,
+        );
+      } else {
+        _downloadUrl = member.memberPicture;
+      }
 
-      await _collectionReference.doc(memberID).get().then(
+      await _collectionReference.doc(member.memberID!).get().then(
         (value) {
           value.reference.update(
             Member(
@@ -106,7 +114,7 @@ class MembersController extends GetxController {
     } on Exception catch (e) {
       print(e);
     }
-    _fetchMembers();
+    fetchMembersList();
     Get.back();
   }
 
@@ -115,13 +123,13 @@ class MembersController extends GetxController {
     /// NEED TO DELETE THE USER PICTURE AS WELL WHEN REMOVING USER
     await _collectionReference.doc(memberID).delete();
     await DeletePicture.ofMember(memberID: memberID);
-    _fetchMembers();
+    fetchMembersList();
   }
 
   @override
   void onInit() {
     super.onInit();
     _getCurrentUserID();
-    _fetchMembers();
+    fetchMembersList();
   }
 }

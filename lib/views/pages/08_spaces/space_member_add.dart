@@ -1,21 +1,22 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:face_attendance/constants/app_colors.dart';
-import 'package:face_attendance/constants/app_sizes.dart';
-import 'package:face_attendance/controllers/members/member_controller.dart';
-import 'package:face_attendance/controllers/spaces/space_controller.dart';
-import 'package:face_attendance/models/member.dart';
-import 'package:face_attendance/views/pages/04_attendance/user_list.dart';
-import 'package:face_attendance/views/themes/text.dart';
-import 'package:face_attendance/views/widgets/app_button.dart';
+import '../../../constants/app_images.dart';
+import '../../../models/space.dart';
+import '../../../constants/app_colors.dart';
+import '../../../constants/app_sizes.dart';
+import '../../../controllers/members/member_controller.dart';
+import '../../../controllers/spaces/space_controller.dart';
+import '../../../models/member.dart';
+import '../04_attendance/user_list.dart';
+import '../../themes/text.dart';
+import '../../widgets/app_button.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class SpaceMemberAddSheet extends StatefulWidget {
-  const SpaceMemberAddSheet({Key? key, required this.spaceID})
-      : super(key: key);
+  const SpaceMemberAddSheet({Key? key, required this.space}) : super(key: key);
 
-  final String spaceID;
+  final Space space;
 
   @override
   _SpaceMemberAddSheetState createState() => _SpaceMemberAddSheetState();
@@ -27,6 +28,7 @@ class _SpaceMemberAddSheetState extends State<SpaceMemberAddSheet> {
   SpaceController _spaceController = Get.find();
 
   /* <---- Selection -----> */
+  List<Member> _availableMember = [];
   List<Member> _selectedMember = [];
 
   void _onMemberSelect(Member member) {
@@ -38,11 +40,31 @@ class _SpaceMemberAddSheetState extends State<SpaceMemberAddSheet> {
     _membersController.update();
   }
 
+  /// Progress BOOL
   RxBool _isAddingMember = false.obs;
+
+  /// Remove Member From Available List
+  void _filterOutAddedMember() {
+    List<Member> _allMember = Get.find<MembersController>().allMember;
+    List<String> _idsAllMember = [];
+    _allMember.forEach((element) {
+      _idsAllMember.add(element.memberID!);
+    });
+
+    _allMember.forEach((element) {
+      if (widget.space.memberList.contains(element.memberID)) {
+        // That means the member is already in ther list
+      } else {
+        _availableMember.add(element);
+      }
+    });
+    _membersController.update();
+  }
 
   @override
   void initState() {
     super.initState();
+    _filterOutAddedMember();
   }
 
   @override
@@ -61,39 +83,42 @@ class _SpaceMemberAddSheetState extends State<SpaceMemberAddSheet> {
         child: Column(
           children: [
             /* <---- Header -----> */
+            AppSizes.hGap10,
             Container(
-              padding: EdgeInsets.all(AppSizes.DEFAULT_PADDING),
-              child: Text(
-                'Add Members',
-                style: AppText.h6.copyWith(
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.PRIMARY_COLOR),
+              padding: EdgeInsets.symmetric(horizontal: 15),
+              child: AppBar(
+                title: Text(
+                  'Add Members',
+                  style: AppText.h6.copyWith(
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.PRIMARY_COLOR),
+                  textAlign: TextAlign.center,
+                ),
               ),
             ),
-            Divider(),
+
             /* <---- List -----> */
             GetBuilder<MembersController>(
               builder: (controller) => controller.isFetchingUser
                   ? LoadingMembers()
-                  : controller.allMember.length > 0
+                  : _availableMember.length > 0
                       ? Expanded(
                           child: ListView.builder(
-                            itemCount: controller.allMember.length,
+                            itemCount: _availableMember.length,
                             itemBuilder: (context, index) {
-                              Member _currentMember =
-                                  controller.allMember[index];
+                              Member _currentMember = _availableMember[index];
                               return _MemberListTile(
                                 member: _currentMember,
                                 isSelected:
                                     _selectedMember.contains(_currentMember),
                                 onTap: () {
-                                  _onMemberSelect(controller.allMember[index]);
+                                  _onMemberSelect(_currentMember);
                                 },
                               );
                             },
                           ),
                         )
-                      : NoMemberFound(),
+                      : _EmptyMemberList(),
             ),
             /* <---- Add Button -----> */
             Obx(
@@ -107,9 +132,10 @@ class _SpaceMemberAddSheetState extends State<SpaceMemberAddSheet> {
                   try {
                     _isAddingMember.trigger(true);
                     await _spaceController.addMembersToSpace(
-                      spaceID: widget.spaceID,
+                      spaceID: widget.space.spaceID!,
                       members: _selectedMember,
                     );
+                    Get.back();
                     Get.back();
                     Get.rawSnackbar(
                       title: 'Member Added Successfully',
@@ -128,6 +154,29 @@ class _SpaceMemberAddSheetState extends State<SpaceMemberAddSheet> {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class _EmptyMemberList extends StatelessWidget {
+  const _EmptyMemberList({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            width: Get.width * 0.6,
+            child: Image.asset(AppImages.ILLUSTRATION_MEMBER_EMPTY),
+          ),
+          AppSizes.hGap20,
+          Text('There is no one to add'),
+        ],
       ),
     );
   }

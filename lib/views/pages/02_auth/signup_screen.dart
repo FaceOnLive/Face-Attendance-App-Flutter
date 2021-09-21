@@ -14,6 +14,9 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
+  /* <---- Dependency -----> */
+  SignUpController _controller = Get.put(SignUpController());
+
   /* <---- Text Editing Controllers ----> */
   late TextEditingController nameController;
   late TextEditingController emailController;
@@ -46,7 +49,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   // Key
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  SignUpController _controller = Get.put(SignUpController());
+  RxBool _isAddingUser = false.obs;
 
   /* <---- State ----> */
   @override
@@ -59,6 +62,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   void dispose() {
     _disposeControllers();
     _showPass.close();
+    _isAddingUser.close();
     super.dispose();
   }
 
@@ -161,20 +165,30 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         ),
                         /* <---- Submit Button ----> */
                         AppSizes.hGap30,
-                        AppButton(
-                          label: 'Submit',
-                          onTap: () async {
-                            bool _isFormOkay =
-                                _formKey.currentState!.validate() &&
-                                    _isPasswordMatching();
-                            if (_isFormOkay) {
-                              await _controller.registerUsers(
-                                userName: nameController.text,
-                                email: emailController.text,
-                                password: passController.text,
-                              );
-                            }
-                          },
+                        Obx(
+                          () => AppButton(
+                            label: 'Submit',
+                            isLoading: _isAddingUser.value,
+                            onTap: () async {
+                              bool _isFormOkay =
+                                  _formKey.currentState!.validate() &&
+                                      _isPasswordMatching();
+                              if (_isFormOkay) {
+                                _isAddingUser.trigger(true);
+                                try {
+                                  await _controller.registerUsers(
+                                    userName: nameController.text,
+                                    email: emailController.text,
+                                    password: passController.text,
+                                  );
+                                  _isAddingUser.trigger(false);
+                                } on Exception catch (e) {
+                                  print(e);
+                                  _isAddingUser.trigger(false);
+                                }
+                              }
+                            },
+                          ),
                         ),
                       ],
                     ),

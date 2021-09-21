@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import '../../../services/form_verify.dart';
+
 import '../../../controllers/members/member_controller.dart';
 
 import '../../../constants/app_sizes.dart';
@@ -48,6 +50,25 @@ class _MemberAddScreenState extends State<MemberAddScreen> {
   File? _userImage;
   RxBool _userPickedImage = false.obs;
 
+  // Form Key
+  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  /// When user clicks the add button
+  Future<void> _onCreateUserButton() async {
+    _addingMember.value = true;
+    bool _isFormOkay = _formKey.currentState!.validate();
+    if (_isFormOkay) {
+      await _controller.addMember(
+        name: _firstName.text + ' ' + _lastName.text,
+        memberPictureFile: _userImage!,
+        phoneNumber: int.parse(_phoneNumber.text),
+        fullAddress: _fullAddress.text,
+      );
+      Get.back();
+    }
+    _addingMember.value = false;
+  }
+
   @override
   void initState() {
     super.initState();
@@ -95,45 +116,60 @@ class _MemberAddScreenState extends State<MemberAddScreen> {
                 /* <---- Form INFO ----> */
                 Container(
                   margin: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-                  child: Column(
-                    children: [
-                      TextField(
-                        decoration: InputDecoration(
-                          labelText: 'First Name',
-                          prefixIcon: Icon(Icons.person_rounded),
-                          hintText: 'John',
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      children: [
+                        TextFormField(
+                          decoration: InputDecoration(
+                            labelText: 'First Name',
+                            prefixIcon: Icon(Icons.person_rounded),
+                            hintText: 'John',
+                          ),
+                          controller: _firstName,
+                          autofocus: true,
+                          validator: (value) {
+                            return AppFormVerify.name(fullName: value);
+                          },
                         ),
-                        controller: _firstName,
-                        autofocus: true,
-                      ),
-                      AppSizes.hGap20,
-                      TextField(
-                        decoration: InputDecoration(
-                          labelText: 'Last Name',
-                          prefixIcon: Icon(Icons.person_rounded),
-                          hintText: 'Doe',
+                        AppSizes.hGap20,
+                        TextFormField(
+                          decoration: InputDecoration(
+                            labelText: 'Last Name',
+                            prefixIcon: Icon(Icons.person_rounded),
+                            hintText: 'Doe',
+                          ),
+                          controller: _lastName,
+                          validator: (value) {
+                            return AppFormVerify.name(fullName: value);
+                          },
                         ),
-                        controller: _lastName,
-                      ),
-                      AppSizes.hGap20,
-                      TextField(
-                        decoration: InputDecoration(
-                          labelText: 'Phone',
-                          prefixIcon: Icon(Icons.phone_rounded),
-                          hintText: 'John Doe',
+                        AppSizes.hGap20,
+                        TextFormField(
+                          decoration: InputDecoration(
+                            labelText: 'Phone',
+                            prefixIcon: Icon(Icons.phone_rounded),
+                            hintText: '+854 000 0000',
+                          ),
+                          controller: _phoneNumber,
+                          validator: (value) {
+                            return AppFormVerify.phoneNumber(phone: value);
+                          },
                         ),
-                        controller: _phoneNumber,
-                      ),
-                      AppSizes.hGap20,
-                      TextField(
-                        decoration: InputDecoration(
-                          labelText: 'Full Address',
-                          prefixIcon: Icon(Icons.location_on_rounded),
-                          hintText: 'Ocean Centre, Tsim Sha Tsui, Hong Kong',
+                        AppSizes.hGap20,
+                        TextFormField(
+                          decoration: InputDecoration(
+                            labelText: 'Full Address',
+                            prefixIcon: Icon(Icons.location_on_rounded),
+                            hintText: 'Ocean Centre, Tsim Sha Tsui, Hong Kong',
+                          ),
+                          controller: _fullAddress,
+                          validator: (value) {
+                            return AppFormVerify.address(address: value);
+                          },
                         ),
-                        controller: _fullAddress,
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
                 AppSizes.hGap10,
@@ -142,17 +178,7 @@ class _MemberAddScreenState extends State<MemberAddScreen> {
                     width: Get.width * 0.6,
                     label: 'Add',
                     isLoading: _addingMember.value,
-                    onTap: () async {
-                      _addingMember.value = true;
-                      await _controller.addMember(
-                        name: _firstName.text + ' ' + _lastName.text,
-                        memberPictureFile: _userImage!,
-                        phoneNumber: int.parse(_phoneNumber.text),
-                        fullAddress: _fullAddress.text,
-                      );
-                      _addingMember.value = false;
-                      Get.back();
-                    },
+                    onTap: _onCreateUserButton,
                   ),
                 ),
               ],

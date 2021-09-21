@@ -1,5 +1,4 @@
-import 'package:face_attendance/views/pages/08_spaces/space_member_add.dart';
-
+import 'space_member_add.dart';
 import '../../../constants/app_colors.dart';
 import '../../../constants/app_defaults.dart';
 import '../../../constants/app_sizes.dart';
@@ -9,6 +8,8 @@ import '../../themes/text.dart';
 import '../../widgets/app_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+import 'space_member_remove.dart';
 
 class SpaceInfoScreen extends StatelessWidget {
   const SpaceInfoScreen({Key? key, required this.space}) : super(key: key);
@@ -63,7 +64,7 @@ class SpaceInfoScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              Text('Total Members: 16'),
+              Text('Total Members: ${space.memberList.length}'),
               AppSizes.hGap20,
               /* <---- Actions Button ----> */
               SizedBox(
@@ -79,7 +80,23 @@ class SpaceInfoScreen extends StatelessWidget {
                       onTap: () {
                         Get.bottomSheet(
                           SpaceMemberAddSheet(
-                            spaceID: space.spaceID!,
+                            space: space,
+                          ),
+                          isScrollControlled: true,
+                          ignoreSafeArea: false,
+                        );
+                      },
+                    ),
+                    AppButton(
+                      prefixIcon: Icon(
+                        Icons.person_remove_alt_1_rounded,
+                        color: Colors.white,
+                      ),
+                      label: 'Remove Members',
+                      onTap: () {
+                        Get.bottomSheet(
+                          SpaceMemberRemoveSheet(
+                            space: space,
                           ),
                           isScrollControlled: true,
                           ignoreSafeArea: false,

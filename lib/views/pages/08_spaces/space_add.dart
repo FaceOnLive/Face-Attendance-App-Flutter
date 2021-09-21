@@ -1,4 +1,4 @@
-import 'package:face_attendance/views/pages/08_spaces/spaces.dart';
+import 'spaces.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -9,7 +9,6 @@ import '../../../constants/app_colors.dart';
 import '../../../constants/app_defaults.dart';
 import '../../../constants/app_sizes.dart';
 import '../../themes/text.dart';
-import '../../widgets/app_button.dart';
 
 class SpaceCreateScreen extends StatefulWidget {
   const SpaceCreateScreen({Key? key}) : super(key: key);
@@ -58,7 +57,7 @@ class _SpaceCreateScreenState extends State<SpaceCreateScreen> {
   void initState() {
     super.initState();
     _nameController = TextEditingController();
-    _icons = _controller.allIcons;
+    _icons = _controller.allIconsOptions;
     _selectedIcon.value = _icons[0];
   }
 
@@ -136,33 +135,33 @@ class _SpaceCreateScreenState extends State<SpaceCreateScreen> {
               ),
             ),
             /* <---- Action Button ----> */
-            Container(
-              margin: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-              child: Column(
-                children: [
-                  AppButton(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    padding: EdgeInsets.all(AppSizes.DEFAULT_PADDING),
-                    prefixIcon: Icon(
-                      Icons.person_add_alt_1_rounded,
-                      color: Colors.white,
-                    ),
-                    label: 'Add Members',
-                    onTap: () {},
-                  ),
-                  AppButton(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    padding: EdgeInsets.all(AppSizes.DEFAULT_PADDING),
-                    prefixIcon: Icon(
-                      Icons.edit_location_alt_rounded,
-                      color: Colors.white,
-                    ),
-                    label: 'Edit Office Range',
-                    onTap: () {},
-                  ),
-                ],
-              ),
-            )
+            // Container(
+            //   margin: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+            //   child: Column(
+            //     children: [
+            //       AppButton(
+            //         mainAxisAlignment: MainAxisAlignment.start,
+            //         padding: EdgeInsets.all(AppSizes.DEFAULT_PADDING),
+            //         prefixIcon: Icon(
+            //           Icons.person_add_alt_1_rounded,
+            //           color: Colors.white,
+            //         ),
+            //         label: 'Add Members',
+            //         onTap: () {},
+            //       ),
+            //       AppButton(
+            //         mainAxisAlignment: MainAxisAlignment.start,
+            //         padding: EdgeInsets.all(AppSizes.DEFAULT_PADDING),
+            //         prefixIcon: Icon(
+            //           Icons.edit_location_alt_rounded,
+            //           color: Colors.white,
+            //         ),
+            //         label: 'Edit Office Range',
+            //         onTap: () {},
+            //       ),
+            //     ],
+            //   ),
+            // )
           ],
         ),
       ),

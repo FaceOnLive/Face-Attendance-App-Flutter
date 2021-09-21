@@ -9,7 +9,12 @@ import 'package:get/get.dart';
 import 'package:camera/camera.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class StaticVerifierScreen extends StatelessWidget {
+class StaticVerifierScreen extends StatefulWidget {
+  @override
+  State<StaticVerifierScreen> createState() => _StaticVerifierScreenState();
+}
+
+class _StaticVerifierScreenState extends State<StaticVerifierScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,58 +24,46 @@ class StaticVerifierScreen extends StatelessWidget {
         child: SafeArea(
           child: Column(
             children: [
-              _CameraSection(),
+              GetBuilder<AppCameraController>(
+                init: AppCameraController(),
+                builder: (controller) => controller.activatingCamera == true
+                    ? Expanded(
+                        child: Center(child: CircularProgressIndicator()))
+                    : Expanded(
+                        child: Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            // CameraPreview(controller.controller),
+                            Container(
+                              width: double.infinity,
+                              height: double.infinity,
+                              child: CameraPreview(controller.cameraController),
+                            ),
+
+                            /* <---- Verifier Button ----> */
+                            Positioned(
+                              width: Get.width * 0.9,
+                              bottom: Get.height * 0.04,
+                              child: _UnlockButton(),
+                            ),
+                            /* <---- Camear Switch Button ----> */
+                            Positioned(
+                              bottom: Get.height * 0.14,
+                              right: 10,
+                              child: FloatingActionButton(
+                                onPressed: controller.toggleCameraLens,
+                                child: Icon(Icons.switch_camera_rounded),
+                                backgroundColor: AppColors.PRIMARY_COLOR,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+              ),
             ],
           ),
         ),
       ),
-    );
-  }
-}
-
-class _CameraSection extends StatelessWidget {
-  const _CameraSection({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return GetBuilder<AppCameraController>(
-      init: Get.find<AppCameraController>().initialized
-          ? null
-          : AppCameraController(),
-      builder: (controller) => controller.activatingCamera == true
-          ? Expanded(child: Center(child: CircularProgressIndicator()))
-          : Expanded(
-              child: Stack(
-                alignment: Alignment.center,
-                children: [
-                  // CameraPreview(controller.controller),
-                  Container(
-                    width: double.infinity,
-                    height: double.infinity,
-                    child: CameraPreview(controller.cameraController),
-                  ),
-
-                  /* <---- Verifier Button ----> */
-                  Positioned(
-                    width: Get.width * 0.9,
-                    bottom: Get.height * 0.04,
-                    child: _UnlockButton(),
-                  ),
-                  /* <---- Camear Switch Button ----> */
-                  Positioned(
-                    bottom: Get.height * 0.14,
-                    right: 10,
-                    child: FloatingActionButton(
-                      onPressed: controller.toggleCameraLens,
-                      child: Icon(Icons.switch_camera_rounded),
-                      backgroundColor: AppColors.PRIMARY_COLOR,
-                    ),
-                  ),
-                ],
-              ),
-            ),
     );
   }
 }
