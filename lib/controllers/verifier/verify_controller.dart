@@ -49,7 +49,7 @@ class VerifyController extends GetxController {
   List<File> allMemberImagesFile = [];
 
   /// Convert All The URLs To File by Downloading it and
-  /// storing it to the ram
+  /// storing it to the memory
   Future<void> _getAllMemberImagesToFile() async {
     // You can delay this a little bit to get performance
     await Future.forEach<String>(allMemberImagesURL, (element) async {

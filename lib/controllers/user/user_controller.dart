@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:face_attendance/services/uploadPicture.dart';
+import '../../services/uploadPicture.dart';
 import '../auth/login_controller.dart';
 import '../../models/user.dart';
 import 'package:get/get.dart';
@@ -31,8 +31,13 @@ class AppUserController extends GetxController {
     } catch (e) {}
   }
 
+  /* <---- Notification -----> */
+  /// For Progress
+  bool isNotificationUpdating = false;
+
   /// Updates The Notification Setting of the user
   updateNotificationSetting(bool newValue) async {
+    isNotificationUpdating = true;
     // This will make thing look faster
     currentUser.notification = newValue;
     update();
@@ -40,6 +45,7 @@ class AppUserController extends GetxController {
     await _collectionReference.doc(_currentUserID).update({
       'notification': newValue,
     });
+    isNotificationUpdating = false;
     _fetchUserData();
   }
 
@@ -65,6 +71,32 @@ class AppUserController extends GetxController {
     } on FirebaseException catch (e) {
       print(e);
       isUpdatingPicture = false;
+      update();
+    }
+  }
+
+  /* <---- Face Data -----> */
+  /// Progress
+  bool isUpdatingFaceID = false;
+
+  /// This is used for face verification on Unlock
+  Future<void> updateUserFaceID({required File imageFile}) async {
+    try {
+      isUpdatingFaceID = true;
+      update();
+      String? _downloadURL = await UploadPicture.ofUserFaceID(
+        userID: currentUser.userID!,
+        imageFile: imageFile,
+      );
+      await _collectionReference.doc(_currentUserID).update({
+        'userFace': _downloadURL,
+      });
+      await _fetchUserData();
+      isUpdatingFaceID = false;
+      update();
+    } on FirebaseException catch (e) {
+      print(e);
+      isUpdatingFaceID = false;
       update();
     }
   }

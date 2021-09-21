@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import '../../../controllers/members/member_controller.dart';
-import '../../../models/member.dart';
-import '../06_members/member_info.dart';
+import '../../../models/space.dart';
+import '../08_spaces/space_member_add.dart';
+import '../../widgets/app_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
@@ -10,7 +10,10 @@ import '../../../constants/app_colors.dart';
 import '../../../constants/app_defaults.dart';
 import '../../../constants/app_images.dart';
 import '../../../constants/app_sizes.dart';
+import '../../../controllers/spaces/space_controller.dart';
+import '../../../models/member.dart';
 import '../../themes/text.dart';
+import '../06_members/member_info.dart';
 
 class AttendedUserList extends StatefulWidget {
   const AttendedUserList({
@@ -22,6 +25,8 @@ class AttendedUserList extends StatefulWidget {
 }
 
 class _AttendedUserListState extends State<AttendedUserList> {
+  SpaceController _spaceController = Get.find();
+
   @override
   void initState() {
     super.initState();
@@ -76,22 +81,28 @@ class _AttendedUserListState extends State<AttendedUserList> {
             ),
             AppSizes.hGap10,
 
-            GetBuilder<MembersController>(
-              builder: (controller) => controller.isFetchingUser
+            GetBuilder<SpaceController>(
+              builder: (controller) => !controller.isEverythingFetched
                   ? LoadingMembers()
-                  : controller.allMember.length > 0
+                  : _spaceController.currentSpaceMembers.length > 0
                       ? Expanded(
                           child: ListView.builder(
-                            itemCount: controller.allMember.length,
+                            itemCount:
+                                _spaceController.currentSpaceMembers.length,
                             itemBuilder: (context, index) {
                               return _MemberListTile(
-                                member: controller.allMember[index],
+                                member:
+                                    _spaceController.currentSpaceMembers[index],
                                 isAttended: index.isEven ? true : false,
                               );
                             },
                           ),
                         )
-                      : NoMemberFound(),
+                      : Expanded(
+                          child: NoMemberFound(
+                            currentSpace: _spaceController.currentSpace!,
+                          ),
+                        ),
             )
           ],
         ),
@@ -148,7 +159,10 @@ class _MemberListTile extends StatelessWidget {
 class NoMemberFound extends StatelessWidget {
   const NoMemberFound({
     Key? key,
+    required this.currentSpace,
   }) : super(key: key);
+
+  final Space currentSpace;
 
   @override
   Widget build(BuildContext context) {
@@ -157,23 +171,41 @@ class NoMemberFound extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         Container(
-          width: Get.width * 0.7,
+          width: Get.width * 0.5,
           child: Image.asset(
             AppImages.ILLUSTRATION_MEMBER_EMPTY,
           ),
         ),
         AppSizes.hGap20,
         Text('No Member Found'),
+        AppSizes.hGap10,
+        AppButton(
+          width: Get.width * 0.8,
+          prefixIcon: Icon(
+            Icons.person_add_alt_1_rounded,
+            color: Colors.white,
+          ),
+          label: 'Add Member to ${currentSpace.name}',
+          onTap: () {
+            Get.bottomSheet(
+              SpaceMemberAddSheet(
+                space: currentSpace,
+              ),
+              isScrollControlled: true,
+              ignoreSafeArea: false,
+            );
+          },
+        ),
       ],
     );
   }
 }
 
-/// To Add A Loading List Effect
-/// This widgets are used on other parts of the UI where there is a user List
-/// For Example in Member Adding or Removing
-/// Reusing widgets makes our app efficient
 class LoadingMembers extends StatelessWidget {
+  /// To Add A Loading List Effect
+  /// This widgets are used on other parts of the UI where there is a user List
+  /// For Example in Member Adding or Removing
+  /// Reusing widgets makes our app efficient
   const LoadingMembers({
     Key? key,
   }) : super(key: key);

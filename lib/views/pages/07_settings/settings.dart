@@ -1,12 +1,12 @@
 import 'dart:io';
+import 'package:face_attendance/services/app_photo.dart';
 
-import 'package:face_attendance/views/dialogs/camera_or_gallery.dart';
+import '../../dialogs/camera_or_gallery.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../constants/app_colors.dart';
 import '../../../constants/app_defaults.dart';
-import '../../../constants/app_images.dart';
 import '../../../constants/app_sizes.dart';
 import '../../../controllers/auth/login_controller.dart';
 import '../../../controllers/user/user_controller.dart';
@@ -42,6 +42,7 @@ class AdminSettingScreen extends StatelessWidget {
                         AppSizes.hGap10,
                         // ADMIN PROFILE PICTURE
                         _UserInfo(),
+                        /* <---- Settings -----> */
                         AppCustomListTile(
                           label: 'Admin Details',
                           onTap: () {},
@@ -49,8 +50,16 @@ class AdminSettingScreen extends StatelessWidget {
                         ),
                         AppCustomListTile(
                           label: 'Update Face Data',
-                          onTap: () {},
+                          onTap: () async {
+                            File? _image =
+                                await AppPhotoService.getImageFromCamera();
+                            if (_image != null) {
+                              controller.updateUserFaceID(imageFile: _image);
+                            }
+                          },
                           leading: Icon(Icons.face_rounded),
+                          isUpdating: controller.isUpdatingFaceID,
+                          updateMessage: 'Updating Face Data...',
                         ),
                         AppCustomListTile(
                           label: 'Change Password',
@@ -79,6 +88,7 @@ class AdminSettingScreen extends StatelessWidget {
                             },
                             value: controller.currentUser.notification,
                           ),
+                          isUpdating: controller.isNotificationUpdating,
                         ),
                       ],
                     ),
@@ -112,7 +122,7 @@ class AdminSettingScreen extends StatelessWidget {
                   Get.find<LoginController>().logOut();
                 },
                 width: Get.width * 0.5,
-                color: AppColors.APP_RED,
+                backgroundColor: AppColors.APP_RED,
                 suffixIcon: Icon(
                   Icons.logout_rounded,
                   color: Colors.white,
@@ -159,6 +169,7 @@ class _UserInfo extends GetView<AppUserController> {
           ),
         ),
         Text(controller.currentUser.email),
+        AppSizes.hGap10,
       ],
     );
   }
@@ -171,12 +182,16 @@ class AppCustomListTile extends StatelessWidget {
     this.label,
     this.leading,
     this.trailing,
+    this.isUpdating = false,
+    this.updateMessage,
   }) : super(key: key);
 
   final void Function() onTap;
   final String? label;
   final Icon? leading;
   final Widget? trailing;
+  final bool isUpdating;
+  final String? updateMessage;
 
   @override
   Widget build(BuildContext context) {
@@ -203,6 +218,12 @@ class AppCustomListTile extends StatelessWidget {
               label ?? 'Add Text Here',
               style: AppText.b1,
             ),
+            subtitle: isUpdating
+                ? Text(
+                    updateMessage ?? 'Updating...',
+                    style: AppText.caption,
+                  )
+                : null,
             trailing: trailing ?? Icon(Icons.arrow_forward_ios_rounded),
           ),
         ),

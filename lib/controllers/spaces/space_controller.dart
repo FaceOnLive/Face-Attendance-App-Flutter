@@ -1,4 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import '../members/member_controller.dart';
+import '../../services/space_services.dart';
+import '../../views/pages/03_main/main_screen.dart';
 import '../../constants/app_colors.dart';
 import '../../models/member.dart';
 import '../auth/login_controller.dart';
@@ -23,12 +26,15 @@ class SpaceController extends GetxController {
   /// Space Options
   /// [Important] At least one Icon is required for this to work correctly
   /// These icons are used for Adding, Modifying, Removing space screen.
-  List<IconData> allIcons = [
+  List<IconData> allIconsOptions = [
     Icons.home_rounded,
     Icons.business_rounded,
     Icons.food_bank_rounded,
     Icons.tour,
   ];
+
+  /// IS Everything Ready for UI
+  bool isEverythingFetched = false;
 
   /// Space List
   List<Space> allSpaces = [];
@@ -44,20 +50,38 @@ class SpaceController extends GetxController {
   // }
 
   /// When user tap on a space in dropdown
-  onSpaceChange(String? value) {
+  onSpaceChangeDropDown(String? value) {
     if (value != null) {
       Space? _space = allSpaces
           .singleWhere((element) => element.name.toLowerCase() == value);
       currentSpace = _space;
+      _addCurrentSpaceMembers();
+      SpaceServices.saveSpaceID(space: _space, userID: _currentUserID);
       update();
     }
+  }
+
+  /// Current Spaces Members
+  List<Member> currentSpaceMembers = [];
+
+  /// Add Current Space Members To List
+  void _addCurrentSpaceMembers() {
+    currentSpaceMembers = [];
+    List<Member> _allMembers = Get.find<MembersController>().allMember;
+    _allMembers.forEach((element) {
+      if (currentSpace!.memberList.contains(element.memberID)) {
+        currentSpaceMembers.add(element);
+      } else {
+        // print('Member does not belong to ${currentSpace!.name}');
+      }
+    });
   }
 
   /// To show progress indicator
   bool isFetchingSpaces = false;
 
   /// Fetch All Spaces of This User ID
-  _fetchAllSpaces() async {
+  Future<void> _fetchAllSpaces() async {
     isFetchingSpaces = true;
     allSpaces.clear();
     await _collectionReference.get().then((value) {
@@ -67,7 +91,7 @@ class SpaceController extends GetxController {
       });
       print('Total Space fetched: ${value.docs.length}');
       if (currentSpace == null && value.docs.length > 0) {
-        currentSpace = allSpaces[0];
+        _setSpaceID(allSpaces);
       }
     });
 
@@ -79,7 +103,7 @@ class SpaceController extends GetxController {
   Future<void> addSpace({required Space space}) async {
     try {
       await _collectionReference.add(space.toMap());
-      _fetchAllSpaces();
+      await _fetchAllSpaces();
     } on FirebaseException catch (e) {
       print(e);
     }
@@ -89,7 +113,7 @@ class SpaceController extends GetxController {
   Future<void> editSpace({required Space space}) async {
     try {
       await _collectionReference.doc(space.spaceID).update(space.toMap());
-      _fetchAllSpaces();
+      await _fetchAllSpaces();
       Get.back();
       Get.rawSnackbar(
         title: 'Update Successfull',
@@ -106,7 +130,8 @@ class SpaceController extends GetxController {
   Future<void> removeSpace({required String spaceID}) async {
     try {
       await _collectionReference.doc(spaceID).delete();
-      _fetchAllSpaces();
+      await _fetchAllSpaces();
+      Get.offAll(() => MainScreenUI());
     } on FirebaseException catch (e) {
       print(e);
     }
@@ -127,6 +152,10 @@ class SpaceController extends GetxController {
           'memberList': FieldValue.arrayUnion(membersIDs),
         });
       });
+      await _fetchAllSpaces();
+      await _fetchCurrentActiveSpace();
+      _addCurrentSpaceMembers();
+      update();
     } on FirebaseException catch (e) {
       print(e);
     }
@@ -135,23 +164,55 @@ class SpaceController extends GetxController {
   /// Remove Members From A Space
   Future<void> removeMembersFromSpace({
     required String spaceID,
-    required List<String> userIDs,
+    required List<Member> members,
   }) async {
+    List<String> membersIDs = [];
+    await Future.forEach<Member>(members, (element) {
+      membersIDs.add(element.memberID!);
+    });
     try {
       await _collectionReference.doc(spaceID).get().then((value) {
         value.reference.update({
-          'memberList': FieldValue.arrayRemove(userIDs),
+          'memberList': FieldValue.arrayRemove(membersIDs),
         });
       });
+      await _fetchAllSpaces();
+      await _fetchCurrentActiveSpace();
+      _addCurrentSpaceMembers();
+      update();
     } on FirebaseException catch (e) {
       print(e);
     }
   }
 
+  /// Fetch Current Active SPACE
+  Future<void> _fetchCurrentActiveSpace() async {
+    await _collectionReference.doc(currentSpace!.spaceID).get().then((value) {
+      currentSpace = Space.fromDocumentSnap(value);
+    });
+  }
+
+  /// Set Space ID to a Default Value or The one the user setted earlier
+  void _setSpaceID(List<Space> fetchedSpaces) {
+    String? savedSpaceID =
+        SpaceServices.getCurrentSavedSpaceID(userID: _currentUserID);
+    if (savedSpaceID != null) {
+      Space _space = fetchedSpaces.singleWhere(
+        (element) => element.spaceID == savedSpaceID,
+      );
+      currentSpace = _space;
+    } else {
+      currentSpace = fetchedSpaces[0];
+    }
+  }
+
   @override
-  void onInit() {
+  void onInit() async {
     super.onInit();
     _getCurrentUserID();
-    _fetchAllSpaces();
+    await _fetchAllSpaces();
+    _addCurrentSpaceMembers();
+    isEverythingFetched = true;
+    update();
   }
 }
