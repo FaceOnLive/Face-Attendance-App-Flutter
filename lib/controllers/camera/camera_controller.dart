@@ -7,7 +7,7 @@ class AppCameraController extends GetxController {
 
   late CameraController cameraController;
 
-  _initializeCameraDescription() async {
+  Future<void> _initializeCameraDescription() async {
     cameras = await availableCameras();
     cameraController = CameraController(
       // If there is secondary [Front_Camera] then we will use that one
@@ -19,6 +19,7 @@ class AppCameraController extends GetxController {
       update();
     });
     activatingCamera = false;
+    update();
   }
 
   // init camera
@@ -51,14 +52,14 @@ class AppCameraController extends GetxController {
   }
 
   @override
-  void onInit() {
+  void onInit() async {
     super.onInit();
-    _initializeCameraDescription();
+    await _initializeCameraDescription();
   }
 
   @override
   void onClose() {
-    super.onClose();
     cameraController.dispose();
+    super.onClose();
   }
 }

@@ -1,15 +1,13 @@
 import 'dart:io';
-
+import 'package:face_attendance/utils/ui_helper.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import '../../../services/form_verify.dart';
-
 import '../../../controllers/members/member_controller.dart';
-
 import '../../../constants/app_sizes.dart';
 import '../../dialogs/camera_or_gallery.dart';
 import '../../widgets/app_button.dart';
 import '../../widgets/picture_display.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 class MemberAddScreen extends StatefulWidget {
   const MemberAddScreen({Key? key}) : super(key: key);
@@ -23,22 +21,22 @@ class _MemberAddScreenState extends State<MemberAddScreen> {
   MembersController _controller = Get.find();
 
   /* <---- Input Fields ----> */
-  late TextEditingController _firstName;
-  late TextEditingController _lastName;
+  late TextEditingController _name;
+
   late TextEditingController _phoneNumber;
   late TextEditingController _fullAddress;
   // Initailize
   void _initializeTextController() {
-    _firstName = TextEditingController();
-    _lastName = TextEditingController();
+    _name = TextEditingController();
+
     _phoneNumber = TextEditingController();
     _fullAddress = TextEditingController();
   }
 
   // Dispose
   void _disposeTextController() {
-    _firstName.dispose();
-    _lastName.dispose();
+    _name.dispose();
+
     _phoneNumber.dispose();
     _fullAddress.dispose();
   }
@@ -58,8 +56,9 @@ class _MemberAddScreenState extends State<MemberAddScreen> {
     _addingMember.value = true;
     bool _isFormOkay = _formKey.currentState!.validate();
     if (_isFormOkay) {
+      AppUiHelper.dismissKeyboard(context: Get.context!);
       await _controller.addMember(
-        name: _firstName.text + ' ' + _lastName.text,
+        name: _name.text,
         memberPictureFile: _userImage!,
         phoneNumber: int.parse(_phoneNumber.text),
         fullAddress: _fullAddress.text,
@@ -122,24 +121,12 @@ class _MemberAddScreenState extends State<MemberAddScreen> {
                       children: [
                         TextFormField(
                           decoration: InputDecoration(
-                            labelText: 'First Name',
+                            labelText: 'Full Name',
                             prefixIcon: Icon(Icons.person_rounded),
-                            hintText: 'John',
+                            hintText: 'Your Name',
                           ),
-                          controller: _firstName,
+                          controller: _name,
                           autofocus: true,
-                          validator: (value) {
-                            return AppFormVerify.name(fullName: value);
-                          },
-                        ),
-                        AppSizes.hGap20,
-                        TextFormField(
-                          decoration: InputDecoration(
-                            labelText: 'Last Name',
-                            prefixIcon: Icon(Icons.person_rounded),
-                            hintText: 'Doe',
-                          ),
-                          controller: _lastName,
                           validator: (value) {
                             return AppFormVerify.name(fullName: value);
                           },

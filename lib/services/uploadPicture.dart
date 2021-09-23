@@ -17,9 +17,9 @@ class UploadPicture {
       Reference _existingImage =
           _firebaseStorage.ref('members/$userID/$memberID');
       if (_existingImage.fullPath != '') {
-        _existingImage.delete();
+        await _existingImage.delete();
       }
-    } on Exception {
+    } catch (e) {
       print("There is no old picture found of this user");
     }
 
@@ -61,8 +61,12 @@ class UploadPicture {
     /* <---- Delete Exisiting profile picture ----> */
     Reference _existingImage = _firebaseStorage.ref('users/$userID');
 
-    if (_existingImage.fullPath != '') {
-      _existingImage.delete();
+    try {
+      if (_existingImage.fullPath != '') {
+        await _existingImage.delete();
+      }
+    } catch (e) {
+      print(e);
     }
 
     /* <---- Download Url ----> */

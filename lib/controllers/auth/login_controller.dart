@@ -1,3 +1,5 @@
+import 'package:face_attendance/controllers/camera/camera_controller.dart';
+
 import '../spaces/space_controller.dart';
 import '../verifier/verify_controller.dart';
 import '../members/member_controller.dart';
@@ -33,7 +35,13 @@ class LoginController extends GetxController {
     Get.delete<MembersController>(force: true);
     Get.delete<SpaceController>(force: true);
     Get.delete<VerifyController>(force: true);
+    Get.delete<AppCameraController>(force: true);
     await _firebaseAuth.signOut();
+  }
+
+  /// Gives Currently Logged In User
+  String getCurrentUserID() {
+    return _firebaseUser.value!.uid;
   }
 
   @override

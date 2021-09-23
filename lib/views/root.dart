@@ -1,3 +1,4 @@
+import 'package:face_attendance/views/pages/05_verifier/static_verifier.dart';
 import '../controllers/auth/login_controller.dart';
 import 'pages/03_main/main_screen.dart';
 import '../constants/app_images.dart';
@@ -32,11 +33,13 @@ class _MainUI extends GetView<NavigationController> {
   @override
   Widget build(BuildContext context) {
     LoginController _login = Get.find();
-    return Obx(
-      () {
+    if (controller.isInVerifierMode()) {
+      return StaticVerifierScreen();
+    } else {
+      return Obx(() {
         return _login.user == null ? controller.introOrLogin() : MainScreenUI();
-      },
-    );
+      });
+    }
   }
 }
 

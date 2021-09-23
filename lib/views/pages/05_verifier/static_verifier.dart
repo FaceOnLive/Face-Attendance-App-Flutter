@@ -16,6 +16,17 @@ class StaticVerifierScreen extends StatefulWidget {
 
 class _StaticVerifierScreenState extends State<StaticVerifierScreen> {
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    Get.delete<AppCameraController>(force: true);
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(

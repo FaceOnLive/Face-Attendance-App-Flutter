@@ -1,3 +1,5 @@
+import 'package:face_attendance/utils/ui_helper.dart';
+
 import '../../../controllers/auth/signup_controller.dart';
 import '../../../services/form_verify.dart';
 import '../../../constants/app_images.dart';
@@ -174,6 +176,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   _formKey.currentState!.validate() &&
                                       _isPasswordMatching();
                               if (_isFormOkay) {
+                                AppUiHelper.dismissKeyboard(context: context);
                                 _isAddingUser.trigger(true);
                                 try {
                                   await _controller.registerUsers(

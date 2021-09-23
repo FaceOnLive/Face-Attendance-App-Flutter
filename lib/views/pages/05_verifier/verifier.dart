@@ -46,7 +46,7 @@ class _CameraSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetBuilder<AppCameraController>(
       init: AppCameraController(),
-      // autoRemove: false,
+      autoRemove: false,
       builder: (controller) => controller.activatingCamera == true
           ? Expanded(child: Center(child: CircularProgressIndicator()))
           : Expanded(

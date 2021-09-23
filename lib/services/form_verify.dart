@@ -19,13 +19,16 @@ class AppFormVerify {
       {required String? password, String? confirmPassword}) {
     if (password == null) {
       return 'Please enter a passsword';
-    } else if (password.isNotEmpty && password.length > 5) {
+    } else if (password.isNotEmpty &&
+        password.length > 5 &&
+        confirmPassword == null) {
       return null;
     } else if (password.isEmpty) {
       return 'Please enter a passsword';
     } else if (password.length <= 5) {
       return 'Please enter a password with 5 characters';
-    } else if (confirmPassword != null && password != confirmPassword) {
+    } else if (confirmPassword != null &&
+        (password != confirmPassword || confirmPassword != password)) {
       return 'Password does\'nt match';
     }
   }
