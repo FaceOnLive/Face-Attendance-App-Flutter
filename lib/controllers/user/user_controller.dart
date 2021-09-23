@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import '../../services/uploadPicture.dart';
 import '../auth/login_controller.dart';
 import '../../models/user.dart';
@@ -98,6 +99,51 @@ class AppUserController extends GetxController {
       print(e);
       isUpdatingFaceID = false;
       update();
+    }
+  }
+
+  /// Change Password
+  Future<void> changePassword({
+    required String oldPassword,
+    required String newPassword,
+  }) async {
+    String email = currentUser.email;
+    // Need to authenticate the user again to refresh token
+    AuthCredential _credential = EmailAuthProvider.credential(
+      email: email,
+      password: oldPassword,
+    );
+    await FirebaseAuth.instance.currentUser!
+        .reauthenticateWithCredential(_credential);
+    await FirebaseAuth.instance.currentUser!.updatePassword(newPassword);
+  }
+
+  /* <---- Holiday -----> */
+  /// List of days to show in option
+  List<String> allWeekDays = [
+    'Monday',
+    'Tuesday',
+    'Wednesday',
+    'Thursday',
+    'Friday',
+    'Saturday',
+    'Sunday'
+  ];
+
+  /// Update Holiday
+  Future<void> updateHoliday({required int selectedDay}) async {
+    if (selectedDay >= 1 && selectedDay <= 7) {
+      try {
+        currentUser.holiday = selectedDay;
+        update();
+        await _collectionReference.doc(currentUser.userID!).update({
+          'holiday': selectedDay,
+        });
+      } on FirebaseException catch (e) {
+        print(e);
+      }
+    } else {
+      print('Date is out of range');
     }
   }
 

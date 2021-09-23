@@ -126,6 +126,7 @@ class _LoginScreenAltState extends State<LoginScreenAlt> {
                             validator: (value) {
                               return AppFormVerify.email(email: value);
                             },
+                            textInputAction: TextInputAction.next,
                           ),
                           AppSizes.hGap20,
                           // Password Field
@@ -154,6 +155,10 @@ class _LoginScreenAltState extends State<LoginScreenAlt> {
                                     AppFormVerify.password(password: value);
                                 return errorMessage.value;
                               },
+                              onFieldSubmitted: (v) {
+                                _onLoginButtonPressed();
+                              },
+                              textInputAction: TextInputAction.done,
                             ),
                           ),
                           /* <---- Login Button ----> */

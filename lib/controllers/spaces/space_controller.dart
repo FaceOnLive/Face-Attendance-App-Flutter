@@ -19,8 +19,8 @@ class SpaceController extends GetxController {
 
   /// User ID of Current Logged In user
   late String _currentUserID;
-  _getCurrentUserID() {
-    _currentUserID = Get.find<LoginController>().user!.uid;
+  void _getCurrentUserID() {
+    _currentUserID = Get.find<LoginController>().getCurrentUserID();
   }
 
   /// Space Options
@@ -56,7 +56,7 @@ class SpaceController extends GetxController {
           .singleWhere((element) => element.name.toLowerCase() == value);
       currentSpace = _space;
       _addCurrentSpaceMembers();
-      SpaceServices.saveSpaceID(space: _space, userID: _currentUserID);
+      SpaceServices.saveSpaceToDevice(space: _space, userID: _currentUserID);
       update();
     }
   }
@@ -68,13 +68,15 @@ class SpaceController extends GetxController {
   void _addCurrentSpaceMembers() {
     currentSpaceMembers = [];
     List<Member> _allMembers = Get.find<MembersController>().allMember;
+    Space _currentSpace = currentSpace!;
     _allMembers.forEach((element) {
-      if (currentSpace!.memberList.contains(element.memberID)) {
+      if (_currentSpace.memberList.contains(element.memberID)) {
         currentSpaceMembers.add(element);
       } else {
         // print('Member does not belong to ${currentSpace!.name}');
       }
     });
+    update();
   }
 
   /// To show progress indicator
@@ -86,8 +88,8 @@ class SpaceController extends GetxController {
     allSpaces.clear();
     await _collectionReference.get().then((value) {
       value.docs.forEach((element) {
-        Space _currentSpace = Space.fromDocumentSnap(element);
-        allSpaces.add(_currentSpace);
+        Space _fetchedSpace = Space.fromDocumentSnap(element);
+        allSpaces.add(_fetchedSpace);
       });
       print('Total Space fetched: ${value.docs.length}');
       if (currentSpace == null && value.docs.length > 0) {
@@ -185,6 +187,27 @@ class SpaceController extends GetxController {
     }
   }
 
+  /// Remove A Member from All Space
+  /// This is useful if you are deleting a user
+  Future<void> removeAmemberFromAllSpace({required String userID}) async {
+    await _collectionReference
+        .where('memberList', arrayContains: userID)
+        .get()
+        .then((value) async {
+      await Future.forEach<DocumentSnapshot>(value.docs, (element) async {
+        await element.reference.update({
+          'memberList': FieldValue.arrayRemove([userID])
+        });
+      });
+    });
+
+    /// Remove locally
+    currentSpaceMembers.removeWhere((element) => element.memberID == userID);
+
+    await _fetchAllSpaces();
+    await _fetchCurrentActiveSpace();
+  }
+
   /// Fetch Current Active SPACE
   Future<void> _fetchCurrentActiveSpace() async {
     await _collectionReference.doc(currentSpace!.spaceID).get().then((value) {
@@ -209,8 +232,10 @@ class SpaceController extends GetxController {
   @override
   void onInit() async {
     super.onInit();
+    isEverythingFetched = false;
     _getCurrentUserID();
     await _fetchAllSpaces();
+    await _fetchCurrentActiveSpace();
     _addCurrentSpaceMembers();
     isEverythingFetched = true;
     update();

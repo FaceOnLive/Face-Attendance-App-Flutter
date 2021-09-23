@@ -1,6 +1,8 @@
 import 'dart:io';
-import 'package:face_attendance/services/app_photo.dart';
+import 'package:face_attendance/views/pages/07_settings/change_holiday.dart';
+import 'package:face_attendance/views/pages/07_settings/change_password.dart';
 
+import '../../../services/app_photo.dart';
 import '../../dialogs/camera_or_gallery.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -63,12 +65,22 @@ class AdminSettingScreen extends StatelessWidget {
                         ),
                         AppCustomListTile(
                           label: 'Change Password',
-                          onTap: () {},
+                          onTap: () {
+                            Get.bottomSheet(
+                              ChangePasswordSheet(),
+                              isScrollControlled: true,
+                            );
+                          },
                           leading: Icon(Icons.lock),
                         ),
                         AppCustomListTile(
                           label: 'Change Holiday',
-                          onTap: () {},
+                          onTap: () {
+                            Get.bottomSheet(
+                              ChangeHolidaySheet(),
+                              isScrollControlled: true,
+                            );
+                          },
                           leading: Icon(Icons.emoji_food_beverage),
                         ),
                         AppCustomListTile(

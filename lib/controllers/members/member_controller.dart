@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import '../spaces/space_controller.dart';
 import '../../services/deletePicture.dart';
 import '../../services/uploadPicture.dart';
 import '../auth/login_controller.dart';
@@ -122,8 +123,11 @@ class MembersController extends GetxController {
   Future<void> removeMember({required String memberID}) async {
     /// NEED TO DELETE THE USER PICTURE AS WELL WHEN REMOVING USER
     await _collectionReference.doc(memberID).delete();
-    await DeletePicture.ofMember(memberID: memberID);
-    fetchMembersList();
+    await Get.find<SpaceController>()
+        .removeAmemberFromAllSpace(userID: memberID);
+    await DeletePicture.ofMember(userID: _currentUserID, memberID: memberID);
+    await fetchMembersList();
+    update();
   }
 
   @override

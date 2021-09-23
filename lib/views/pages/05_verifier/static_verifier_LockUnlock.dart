@@ -1,6 +1,6 @@
+import 'package:face_attendance/controllers/camera/camera_controller.dart';
 import '../../../controllers/navigation/nav_controller.dart';
 import '../03_main/main_screen.dart';
-
 import '../../../constants/app_colors.dart';
 import '../../../constants/app_defaults.dart';
 import '../../../constants/app_sizes.dart';
@@ -31,6 +31,21 @@ class _StaticVerifierLockUnlockState extends State<StaticVerifierLockUnlock> {
   RxBool _showPass = false.obs;
   _onEyeClick() {
     _showPass.value = !_showPass.value;
+  }
+
+  /// On Lock
+  Future<void> _onLock() async {
+    bool _isDisposed = await Get.delete<AppCameraController>(force: true);
+    if (_isDisposed) {
+      Get.find<NavigationController>().setAppInVerifyMode();
+      Get.offAll(() => StaticVerifierScreen());
+    }
+  }
+
+  /// On Unlock
+  Future<void> _onUnlock() async {
+    Get.find<NavigationController>().setAppInUnverifyMode();
+    Get.offAll(() => MainScreenUI());
   }
 
   @override
@@ -108,12 +123,10 @@ class _StaticVerifierLockUnlockState extends State<StaticVerifierLockUnlock> {
             onTap: () {
               // LOCK
               if (widget.isLockMode) {
-                Get.find<NavigationController>().setAppInVerifyMode();
-                Get.offAll(() => StaticVerifierScreen());
+                _onLock();
               } else {
                 // UNLOCK
-                Get.find<NavigationController>().setAppInUnverifyMode();
-                Get.offAll(() => MainScreenUI());
+                _onUnlock();
               }
             },
           ),

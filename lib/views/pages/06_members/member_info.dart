@@ -94,6 +94,7 @@ class MemberInfoScreen extends StatelessWidget {
                       Duration(days: 4),
                     ),
                   ],
+                  firstDayOfWeek: 1,
                 ),
               ),
             ],

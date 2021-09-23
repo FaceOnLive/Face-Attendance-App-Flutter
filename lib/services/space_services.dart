@@ -6,7 +6,8 @@ class SpaceServices {
   static const String CURRENT_SPACE = 'current_space';
 
   /// Save Space on Device
-  static void saveSpaceID({required Space space, required String userID}) {
+  static void saveSpaceToDevice(
+      {required Space space, required String userID}) {
     Box box = Hive.box(SPACE_BOX_NAME);
     box.put(CURRENT_SPACE + userID, space.spaceID);
   }
