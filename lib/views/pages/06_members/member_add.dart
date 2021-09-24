@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:face_attendance/utils/ui_helper.dart';
+import '../../../utils/ui_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../services/form_verify.dart';

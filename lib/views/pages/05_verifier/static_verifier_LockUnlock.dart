@@ -1,12 +1,8 @@
-import 'package:face_attendance/controllers/camera/camera_controller.dart';
-import 'package:face_attendance/controllers/verifier/verify_controller.dart';
-import 'package:face_attendance/services/form_verify.dart';
-import '../../../controllers/navigation/nav_controller.dart';
-import '../03_main/main_screen.dart';
+import '../../../controllers/verifier/verify_controller.dart';
+import '../../../services/form_verify.dart';
 import '../../../constants/app_colors.dart';
 import '../../../constants/app_defaults.dart';
 import '../../../constants/app_sizes.dart';
-import 'static_verifier.dart';
 import '../../themes/text.dart';
 import '../../widgets/app_button.dart';
 import 'package:flutter/material.dart';

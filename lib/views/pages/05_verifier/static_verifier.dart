@@ -1,5 +1,5 @@
-import 'package:face_attendance/controllers/members/member_controller.dart';
-import 'package:face_attendance/controllers/verifier/verify_controller.dart';
+import '../../../controllers/members/member_controller.dart';
+import '../../../controllers/verifier/verify_controller.dart';
 
 import '../../../constants/app_colors.dart';
 import '../../../constants/app_defaults.dart';

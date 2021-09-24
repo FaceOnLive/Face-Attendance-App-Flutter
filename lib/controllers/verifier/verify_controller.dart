@@ -1,9 +1,9 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:face_attendance/controllers/navigation/nav_controller.dart';
-import 'package:face_attendance/controllers/user/user_controller.dart';
-import 'package:face_attendance/views/pages/03_main/main_screen.dart';
-import 'package:face_attendance/views/pages/05_verifier/static_verifier.dart';
+import '../navigation/nav_controller.dart';
+import '../user/user_controller.dart';
+import '../../views/pages/03_main/main_screen.dart';
+import '../../views/pages/05_verifier/static_verifier.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../auth/login_controller.dart';
 import '../members/member_controller.dart';

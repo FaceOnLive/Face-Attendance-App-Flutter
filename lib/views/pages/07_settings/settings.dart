@@ -1,6 +1,6 @@
 import 'dart:io';
-import 'package:face_attendance/views/pages/07_settings/change_holiday.dart';
-import 'package:face_attendance/views/pages/07_settings/change_password.dart';
+import 'change_holiday.dart';
+import 'change_password.dart';
 
 import '../../../services/app_photo.dart';
 import '../../dialogs/camera_or_gallery.dart';

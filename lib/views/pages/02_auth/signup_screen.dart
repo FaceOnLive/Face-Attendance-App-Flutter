@@ -1,4 +1,4 @@
-import 'package:face_attendance/utils/ui_helper.dart';
+import '../../../utils/ui_helper.dart';
 
 import '../../../controllers/auth/signup_controller.dart';
 import '../../../services/form_verify.dart';

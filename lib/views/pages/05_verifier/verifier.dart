@@ -1,4 +1,3 @@
-import 'package:face_attendance/controllers/verifier/verify_controller.dart';
 import '../../../constants/app_colors.dart';
 import '../../../constants/app_defaults.dart';
 import '../../../constants/app_sizes.dart';
