@@ -1,3 +1,5 @@
+import 'package:face_attendance/controllers/camera/camera_controller.dart';
+
 import '../../services/space_services.dart';
 import '../auth/login_controller.dart';
 import '../../views/pages/01_intro/intro_screen.dart';

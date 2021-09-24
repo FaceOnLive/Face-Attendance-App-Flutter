@@ -1,3 +1,6 @@
+import 'package:face_attendance/controllers/members/member_controller.dart';
+import 'package:face_attendance/controllers/verifier/verify_controller.dart';
+
 import '../../../constants/app_colors.dart';
 import '../../../constants/app_defaults.dart';
 import '../../../constants/app_images.dart';
@@ -15,9 +18,28 @@ class StaticVerifierScreen extends StatefulWidget {
 }
 
 class _StaticVerifierScreenState extends State<StaticVerifierScreen> {
+  /* <---- We should wait a little bit to finish the build,
+  because on lower end device it takes time to start the device,
+  so the controller doesn't start immedietly.Then we see some white screen, that's why we should wait a little bit.
+   -----> */
+
+  RxBool _isScreenReady = false.obs;
+
+  Future<void> _waitABit() async {
+    await Future.delayed(
+      Duration(seconds: 1),
+    ).then((value) {
+      Get.put(AppCameraController());
+      Get.put(MembersController());
+      Get.put(VerifyController());
+    });
+    _isScreenReady.trigger(true);
+  }
+
   @override
   void initState() {
     super.initState();
+    _waitABit();
   }
 
   @override
@@ -35,46 +57,87 @@ class _StaticVerifierScreenState extends State<StaticVerifierScreen> {
         child: SafeArea(
           child: Column(
             children: [
-              GetBuilder<AppCameraController>(
-                init: AppCameraController(),
-                builder: (controller) => controller.activatingCamera == true
-                    ? Expanded(
-                        child: Center(child: CircularProgressIndicator()))
-                    : Expanded(
-                        child: Stack(
-                          alignment: Alignment.center,
-                          children: [
-                            // CameraPreview(controller.controller),
-                            Container(
-                              width: double.infinity,
-                              height: double.infinity,
-                              child: CameraPreview(controller.cameraController),
-                            ),
-
-                            /* <---- Verifier Button ----> */
-                            Positioned(
-                              width: Get.width * 0.9,
-                              bottom: Get.height * 0.04,
-                              child: _UnlockButton(),
-                            ),
-                            /* <---- Camear Switch Button ----> */
-                            Positioned(
-                              bottom: Get.height * 0.14,
-                              right: 10,
-                              child: FloatingActionButton(
-                                onPressed: controller.toggleCameraLens,
-                                child: Icon(Icons.switch_camera_rounded),
-                                backgroundColor: AppColors.PRIMARY_COLOR,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
+              Obx(
+                () => _isScreenReady.isFalse
+                    ? _LoadingCamera()
+                    : _CameraSection(),
               ),
             ],
           ),
         ),
       ),
+    );
+  }
+}
+
+class _LoadingCamera extends StatelessWidget {
+  const _LoadingCamera({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: Container(
+        width: Get.width,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              width: Get.width * 0.5,
+              child: Hero(
+                  tag: AppImages.MAIN_LOGO,
+                  child: Image.asset(AppImages.MAIN_LOGO)),
+            ),
+            CircularProgressIndicator(),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _CameraSection extends StatelessWidget {
+  const _CameraSection({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return GetBuilder<AppCameraController>(
+      init: AppCameraController(),
+      builder: (controller) => controller.activatingCamera == true
+          ? Expanded(child: Center(child: CircularProgressIndicator()))
+          : Expanded(
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  // CameraPreview(controller.controller),
+                  Container(
+                    width: double.infinity,
+                    height: double.infinity,
+                    child: CameraPreview(controller.cameraController),
+                  ),
+
+                  /* <---- Verifier Button ----> */
+                  Positioned(
+                    width: Get.width * 0.9,
+                    bottom: Get.height * 0.04,
+                    child: _UnlockButton(),
+                  ),
+                  /* <---- Camear Switch Button ----> */
+                  Positioned(
+                    bottom: Get.height * 0.14,
+                    right: 10,
+                    child: FloatingActionButton(
+                      onPressed: controller.toggleCameraLens,
+                      child: Icon(Icons.switch_camera_rounded),
+                      backgroundColor: AppColors.PRIMARY_COLOR,
+                    ),
+                  ),
+                ],
+              ),
+            ),
     );
   }
 }
