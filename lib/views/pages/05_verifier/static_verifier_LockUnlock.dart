@@ -1,10 +1,8 @@
-import 'package:face_attendance/controllers/camera/camera_controller.dart';
-import '../../../controllers/navigation/nav_controller.dart';
-import '../03_main/main_screen.dart';
+import '../../../controllers/verifier/verify_controller.dart';
+import '../../../services/form_verify.dart';
 import '../../../constants/app_colors.dart';
 import '../../../constants/app_defaults.dart';
 import '../../../constants/app_sizes.dart';
-import 'static_verifier.dart';
 import '../../themes/text.dart';
 import '../../widgets/app_button.dart';
 import 'package:flutter/material.dart';
@@ -26,6 +24,9 @@ class StaticVerifierLockUnlock extends StatefulWidget {
 class _StaticVerifierLockUnlockState extends State<StaticVerifierLockUnlock> {
   /* <---- Text Editing Controllers ----> */
   late TextEditingController passController;
+  RxnString _errorMessage = RxnString();
+  // Form Key
+  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   /* <---- Show Password ----> */
   RxBool _showPass = false.obs;
@@ -33,19 +34,48 @@ class _StaticVerifierLockUnlockState extends State<StaticVerifierLockUnlock> {
     _showPass.value = !_showPass.value;
   }
 
+  /// Progress
+  RxBool _isInProgress = false.obs;
+
+  /* <---- Dependency -----> */
+  VerifyController _verifyController = Get.find();
+
   /// On Lock
   Future<void> _onLock() async {
-    bool _isDisposed = await Get.delete<AppCameraController>(force: true);
-    if (_isDisposed) {
-      Get.find<NavigationController>().setAppInVerifyMode();
-      Get.offAll(() => StaticVerifierScreen());
+    bool _isFormOkay = _formKey.currentState!.validate();
+    if (_isFormOkay) {
+      _isInProgress.trigger(true);
+      String? _error = await _verifyController.startStaticVerifyMode(
+        userPass: passController.text,
+      );
+
+      if (_error != null && _error == 'wrong-password') {
+        _errorMessage.value = 'The password is wrong';
+      } else {
+        _errorMessage.value = _error;
+      }
+
+      _isInProgress.trigger(false);
     }
   }
 
   /// On Unlock
   Future<void> _onUnlock() async {
-    Get.find<NavigationController>().setAppInUnverifyMode();
-    Get.offAll(() => MainScreenUI());
+    bool _isFormOkay = _formKey.currentState!.validate();
+    if (_isFormOkay) {
+      _isInProgress.trigger(true);
+      String? _error = await _verifyController.stopStaticVerifyMode(
+        userPass: passController.text,
+      );
+
+      if (_error != null && _error == 'wrong-password') {
+        _errorMessage.value = 'The password is wrong';
+      } else {
+        _errorMessage.value = _error;
+      }
+
+      _isInProgress.trigger(false);
+    }
   }
 
   @override
@@ -56,6 +86,9 @@ class _StaticVerifierLockUnlockState extends State<StaticVerifierLockUnlock> {
 
   @override
   void dispose() {
+    _isInProgress.close();
+    _errorMessage.close();
+    _showPass.close();
     passController.dispose();
     super.dispose();
   }
@@ -94,41 +127,51 @@ class _StaticVerifierLockUnlockState extends State<StaticVerifierLockUnlock> {
           Container(
             margin: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
             child: Obx(
-              () => TextField(
-                decoration: InputDecoration(
-                  labelText: 'Password',
-                  prefixIcon: Icon(Icons.vpn_key_rounded),
-                  hintText: '***********',
-                  suffixIcon: GestureDetector(
-                    onTap: () {
-                      _onEyeClick();
-                    },
-                    child: Icon(
-                      _showPass.isFalse
-                          ? Icons.visibility_off_rounded
-                          : Icons.visibility_rounded,
+              () => Form(
+                key: _formKey,
+                child: TextFormField(
+                    decoration: InputDecoration(
+                      labelText: 'Password',
+                      prefixIcon: Icon(Icons.vpn_key_rounded),
+                      hintText: '***********',
+                      errorText: _errorMessage.value,
+                      suffixIcon: GestureDetector(
+                        onTap: () {
+                          _onEyeClick();
+                        },
+                        child: Icon(
+                          _showPass.isFalse
+                              ? Icons.visibility_off_rounded
+                              : Icons.visibility_rounded,
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-                controller: passController,
-                obscureText: !_showPass.value,
+                    controller: passController,
+                    obscureText: !_showPass.value,
+                    validator: (value) {
+                      return _errorMessage.value =
+                          AppFormVerify.password(password: value);
+                    }),
               ),
             ),
           ),
 
           /* <---- Submit Button ----> */
-          AppButton(
-            width: Get.width * 0.6,
-            label: widget.isLockMode ? 'Lock' : 'Unlock',
-            onTap: () {
-              // LOCK
-              if (widget.isLockMode) {
-                _onLock();
-              } else {
-                // UNLOCK
-                _onUnlock();
-              }
-            },
+          Obx(
+            () => AppButton(
+              width: Get.width * 0.6,
+              isLoading: _isInProgress.value,
+              label: widget.isLockMode ? 'Lock' : 'Unlock',
+              onTap: () {
+                // LOCK
+                if (widget.isLockMode) {
+                  _onLock();
+                } else {
+                  // UNLOCK
+                  _onUnlock();
+                }
+              },
+            ),
           ),
           TextButton(
             onPressed: () {},

@@ -9,8 +9,41 @@ import 'package:get/get.dart';
 import 'package:camera/camera.dart';
 import 'static_verifier_LockUnlock.dart';
 
-class VerifierScreen extends StatelessWidget {
+class VerifierScreen extends StatefulWidget {
   const VerifierScreen({Key? key}) : super(key: key);
+
+  @override
+  State<VerifierScreen> createState() => _VerifierScreenState();
+}
+
+class _VerifierScreenState extends State<VerifierScreen> {
+  /* <---- We should wait a little bit to finish the build,
+  because on lower end device it takes time to start the device,
+  so the controller doesn't start immedietly.Then we see some white screen, that's why we should wait a little bit.
+   -----> */
+  RxBool _isScreenReady = false.obs;
+
+  Future<void> _waitABit() async {
+    await Future.delayed(
+      Duration(seconds: 1),
+    ).then((value) {
+      Get.put(AppCameraController());
+    });
+    _isScreenReady.trigger(true);
+  }
+
+  /// State
+  @override
+  void initState() {
+    super.initState();
+    _waitABit();
+  }
+
+  @override
+  void dispose() {
+    Get.delete<AppCameraController>(force: true);
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +62,13 @@ class VerifierScreen extends StatelessWidget {
                 ),
               ),
             ),
-            _CameraSection(),
+            Obx(() => _isScreenReady.isFalse
+                ? Expanded(
+                    child: Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  )
+                : _CameraSection()),
           ],
         ),
       ),
@@ -45,8 +84,6 @@ class _CameraSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<AppCameraController>(
-      init: AppCameraController(),
-      autoRemove: false,
       builder: (controller) => controller.activatingCamera == true
           ? Expanded(child: Center(child: CircularProgressIndicator()))
           : Expanded(

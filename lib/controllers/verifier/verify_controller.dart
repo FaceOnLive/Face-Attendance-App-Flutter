@@ -1,5 +1,10 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import '../navigation/nav_controller.dart';
+import '../user/user_controller.dart';
+import '../../views/pages/03_main/main_screen.dart';
+import '../../views/pages/05_verifier/static_verifier.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import '../auth/login_controller.dart';
 import '../members/member_controller.dart';
 import '../../models/member.dart';
@@ -69,6 +74,60 @@ class VerifyController extends GetxController {
       // _channel.invokeMethod('verifyperson');
     });
     return true;
+  }
+
+  /// Go In Static Verify Mode
+  Future<String?> startStaticVerifyMode({required String userPass}) async {
+    try {
+      String email = Get.find<AppUserController>().currentUser.email;
+      // Need to authenticate the user again to refresh token
+      AuthCredential _credential = EmailAuthProvider.credential(
+        email: email,
+        password: userPass,
+      );
+      await FirebaseAuth.instance.currentUser!
+          .reauthenticateWithCredential(_credential);
+
+      print('Authenticated_successfully');
+
+      Get.find<NavigationController>().setAppInVerifyMode();
+      Get.offAll(() => StaticVerifierScreen());
+
+      return null;
+    } on FirebaseException catch (e) {
+      if (e.code == 'wrong-password') {
+        return 'wrong-password';
+      } else {
+        return e.message;
+      }
+    }
+  }
+
+  /// Disable Static Verify Mode
+  Future<String?> stopStaticVerifyMode({required String userPass}) async {
+    try {
+      String? email = FirebaseAuth.instance.currentUser!.email;
+      // Need to authenticate the user again to refresh token
+      AuthCredential _credential = EmailAuthProvider.credential(
+        email: email!,
+        password: userPass,
+      );
+      await FirebaseAuth.instance.currentUser!
+          .reauthenticateWithCredential(_credential);
+
+      print('Authenticated_successfully');
+
+      Get.find<NavigationController>().setAppInUnverifyMode();
+      Get.offAll(() => MainScreenUI());
+
+      return null;
+    } on FirebaseException catch (e) {
+      if (e.code == 'wrong-password') {
+        return 'wrong-password';
+      } else {
+        return e.message;
+      }
+    }
   }
 
   @override

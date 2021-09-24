@@ -1,4 +1,4 @@
-import 'package:face_attendance/controllers/camera/camera_controller.dart';
+import '../camera/camera_controller.dart';
 
 import '../spaces/space_controller.dart';
 import '../verifier/verify_controller.dart';
