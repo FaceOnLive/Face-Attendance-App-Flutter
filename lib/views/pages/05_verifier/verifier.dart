@@ -1,3 +1,8 @@
+import 'dart:io';
+import 'dart:typed_data';
+import '../../../controllers/user/user_controller.dart';
+import '../../../controllers/verifier/verify_controller.dart';
+import '../../../services/app_photo.dart';
 import '../../../constants/app_colors.dart';
 import '../../../constants/app_defaults.dart';
 import '../../../constants/app_sizes.dart';
@@ -42,6 +47,7 @@ class _VerifierScreenState extends State<VerifierScreen> {
   @override
   void dispose() {
     Get.delete<AppCameraController>(force: true);
+    _isScreenReady.close();
     super.dispose();
   }
 
@@ -109,9 +115,105 @@ class _CameraSection extends StatelessWidget {
                       backgroundColor: AppColors.PRIMARY_COLOR,
                     ),
                   ),
+
+                  /// TEMPORARY
+                  _TemporaryFunctionToCheckMethod(),
                 ],
               ),
             ),
+    );
+  }
+}
+
+class _TemporaryFunctionToCheckMethod extends GetView<AppCameraController> {
+  const _TemporaryFunctionToCheckMethod({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Positioned(
+      bottom: Get.height * 0.12,
+      child: Column(
+        children: [
+          FloatingActionButton.extended(
+            onPressed: () async {
+              XFile _image = await controller.cameraController.takePicture();
+              Uint8List _file = await _image.readAsBytes();
+
+              bool _isPersonPresent = await Get.find<VerifyController>()
+                  .isPersonDetected(capturedImage: _file);
+
+              if (_isPersonPresent) {
+                Get.snackbar(
+                  'A Face is detected',
+                  'A Person Face is detected',
+                  colorText: Colors.white,
+                  backgroundColor: Colors.green,
+                );
+              }
+            },
+            label: Text('Detect Person'),
+            icon: Icon(Icons.camera),
+            backgroundColor: AppColors.PRIMARY_COLOR,
+          ),
+          AppSizes.hGap20,
+          /* <----  -----> */
+          FloatingActionButton.extended(
+            onPressed: () async {
+              XFile _image = await controller.cameraController.takePicture();
+              Uint8List _uin8file = await _image.readAsBytes();
+              // File _file = File.fromRawPath(_uin8file);
+
+              String? user = await Get.find<VerifyController>()
+                  .verifyPersonList(memberToBeVerified: _uin8file);
+
+              if (user != null) {
+                Get.snackbar(
+                  'Person Verified: $user',
+                  'Verified Member',
+                  colorText: Colors.white,
+                  backgroundColor: Colors.green,
+                );
+              }
+            },
+            label: Text('Verify From All'),
+            icon: Icon(Icons.people_alt_rounded),
+            backgroundColor: AppColors.PRIMARY_COLOR,
+          ),
+          AppSizes.hGap20,
+          /* <----  -----> */
+          FloatingActionButton.extended(
+            onPressed: () async {
+              XFile _image = await controller.cameraController.takePicture();
+              Uint8List _file = await _image.readAsBytes();
+
+              String _currentUserImageUrl =
+                  Get.find<AppUserController>().currentUser.userProfilePicture!;
+              File _currentUserImage =
+                  await AppPhotoService.fileFromImageUrl(_currentUserImageUrl);
+
+              bool _isVerified =
+                  await Get.find<VerifyController>().verfiyPersonSingle(
+                capturedImage: _file,
+                personImage: _currentUserImage,
+              );
+
+              if (_isVerified) {
+                Get.snackbar(
+                  'Person Verified Successfull',
+                  'Verified Member',
+                  colorText: Colors.white,
+                  backgroundColor: Colors.green,
+                );
+              }
+            },
+            label: Text('Verify Single'),
+            icon: Icon(Icons.person),
+            backgroundColor: AppColors.PRIMARY_COLOR,
+          ),
+        ],
+      ),
     );
   }
 }

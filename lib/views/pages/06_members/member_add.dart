@@ -22,13 +22,11 @@ class _MemberAddScreenState extends State<MemberAddScreen> {
 
   /* <---- Input Fields ----> */
   late TextEditingController _name;
-
   late TextEditingController _phoneNumber;
   late TextEditingController _fullAddress;
   // Initailize
   void _initializeTextController() {
     _name = TextEditingController();
-
     _phoneNumber = TextEditingController();
     _fullAddress = TextEditingController();
   }
@@ -36,7 +34,6 @@ class _MemberAddScreenState extends State<MemberAddScreen> {
   // Dispose
   void _disposeTextController() {
     _name.dispose();
-
     _phoneNumber.dispose();
     _fullAddress.dispose();
   }
@@ -123,7 +120,7 @@ class _MemberAddScreenState extends State<MemberAddScreen> {
                           decoration: InputDecoration(
                             labelText: 'Full Name',
                             prefixIcon: Icon(Icons.person_rounded),
-                            hintText: 'Your Name',
+                            hintText: 'Person Name',
                           ),
                           controller: _name,
                           autofocus: true,

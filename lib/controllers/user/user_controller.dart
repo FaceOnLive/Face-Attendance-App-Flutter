@@ -147,6 +147,12 @@ class AppUserController extends GetxController {
     }
   }
 
+  /// Get current holiday
+  String getCurrentHoliday() {
+    int currentDayInt = currentUser.holiday;
+    return allWeekDays[currentDayInt - 1];
+  }
+
   @override
   void onInit() {
     super.onInit();

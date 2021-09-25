@@ -1,16 +1,14 @@
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'dart:io';
 import '../../../services/form_verify.dart';
-
 import '../../../models/member.dart';
 import '../../dialogs/delete_user.dart';
-
 import '../../../controllers/members/member_controller.dart';
 import '../../../constants/app_sizes.dart';
 import '../../dialogs/camera_or_gallery.dart';
 import '../../widgets/app_button.dart';
 import '../../widgets/picture_display.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 class MemberEditScreen extends StatefulWidget {
   const MemberEditScreen({Key? key, required this.member}) : super(key: key);

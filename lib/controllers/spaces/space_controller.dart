@@ -55,7 +55,7 @@ class SpaceController extends GetxController {
       Space? _space = allSpaces
           .singleWhere((element) => element.name.toLowerCase() == value);
       currentSpace = _space;
-      _addCurrentSpaceMembers();
+      _addCurrentSpaceMemberToList();
       SpaceServices.saveSpaceToDevice(space: _space, userID: _currentUserID);
       update();
     }
@@ -65,7 +65,7 @@ class SpaceController extends GetxController {
   List<Member> currentSpaceMembers = [];
 
   /// Add Current Space Members To List
-  void _addCurrentSpaceMembers() {
+  void _addCurrentSpaceMemberToList() {
     currentSpaceMembers = [];
     List<Member> _allMembers = Get.find<MembersController>().allMember;
     Space _currentSpace = currentSpace!;
@@ -156,7 +156,7 @@ class SpaceController extends GetxController {
       });
       await _fetchAllSpaces();
       await _fetchCurrentActiveSpace();
-      _addCurrentSpaceMembers();
+      _addCurrentSpaceMemberToList();
       update();
     } on FirebaseException catch (e) {
       print(e);
@@ -180,7 +180,7 @@ class SpaceController extends GetxController {
       });
       await _fetchAllSpaces();
       await _fetchCurrentActiveSpace();
-      _addCurrentSpaceMembers();
+      _addCurrentSpaceMemberToList();
       update();
     } on FirebaseException catch (e) {
       print(e);
@@ -236,7 +236,7 @@ class SpaceController extends GetxController {
     _getCurrentUserID();
     await _fetchAllSpaces();
     await _fetchCurrentActiveSpace();
-    _addCurrentSpaceMembers();
+    _addCurrentSpaceMemberToList();
     isEverythingFetched = true;
     update();
   }
