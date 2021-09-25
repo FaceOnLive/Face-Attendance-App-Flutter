@@ -46,7 +46,7 @@ class _ChangePasswordSheetState extends State<ChangePasswordSheet> {
   }
 
   /* <---- Form Related -----> */
-  RxnString errorMessage = RxnString();
+  RxnString _errorMessage = RxnString();
   // Form Key
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -68,7 +68,7 @@ class _ChangePasswordSheetState extends State<ChangePasswordSheet> {
       } on FirebaseException catch (e) {
         print(e);
         _isChanginPass.trigger(false);
-        errorMessage.value = 'Your old password is invalid';
+        _errorMessage.value = 'Your old password is invalid';
       }
     }
   }
@@ -83,7 +83,7 @@ class _ChangePasswordSheetState extends State<ChangePasswordSheet> {
   void dispose() {
     _disposeTextController();
     _isChanginPass.close();
-    errorMessage.close();
+    _errorMessage.close();
     _showPass.close();
     super.dispose();
   }
@@ -118,7 +118,7 @@ class _ChangePasswordSheetState extends State<ChangePasswordSheet> {
                         labelText: 'Old Password',
                         prefixIcon: Icon(Icons.vpn_key_rounded),
                         hintText: '***********',
-                        errorText: errorMessage.value,
+                        errorText: _errorMessage.value,
                         suffixIcon: GestureDetector(
                           onTap: () {
                             _onEyeClick();

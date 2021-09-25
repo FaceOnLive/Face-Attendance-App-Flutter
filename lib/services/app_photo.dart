@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart';
 import '../constants/app_colors.dart';
@@ -56,15 +57,40 @@ class AppPhotoService {
     return croppedFile!;
   }
 
+  /// Gives a File From an url
+  /// If the file is in cache it will priotize that
   static Future<File> fileFromImageUrl(String imageUrl) async {
-    final response = await http.get(Uri.parse(imageUrl));
+    // IF the file is available in cache
+    File? _imageFromCache = await getImageFromCache(imageUrl);
 
-    final documentDirectory = await getApplicationDocumentsDirectory();
+    File? _gotImage;
 
-    final file = File(join(documentDirectory.path, 'imagetest.png'));
+    if (_imageFromCache != null) {
+      _gotImage = _imageFromCache;
+    } else {
+      final response = await http.get(Uri.parse(imageUrl));
 
-    file.writeAsBytesSync(response.bodyBytes);
+      final documentDirectory = await getApplicationDocumentsDirectory();
 
-    return file;
+      final _file = File(join(documentDirectory.path, 'imagetest.png'));
+
+      _file.writeAsBytesSync(response.bodyBytes);
+
+      _gotImage = _file;
+    }
+
+    return _gotImage;
+  }
+
+  /// Get Image From Cache
+  static Future<File?> getImageFromCache(String imageUrl) async {
+    File? _dartFile;
+    FileInfo? file = await DefaultCacheManager().getFileFromCache(imageUrl);
+    if (file != null) {
+      _dartFile = file.file;
+    } else {
+      _dartFile = null;
+    }
+    return _dartFile;
   }
 }

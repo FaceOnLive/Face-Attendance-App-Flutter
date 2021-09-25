@@ -51,19 +51,6 @@ class AdminSettingScreen extends StatelessWidget {
                           leading: Icon(Icons.person),
                         ),
                         AppCustomListTile(
-                          label: 'Update Face Data',
-                          onTap: () async {
-                            File? _image =
-                                await AppPhotoService.getImageFromCamera();
-                            if (_image != null) {
-                              controller.updateUserFaceID(imageFile: _image);
-                            }
-                          },
-                          leading: Icon(Icons.face_rounded),
-                          isUpdating: controller.isUpdatingFaceID,
-                          updateMessage: 'Updating Face Data...',
-                        ),
-                        AppCustomListTile(
                           label: 'Change Password',
                           onTap: () {
                             Get.bottomSheet(
@@ -72,16 +59,6 @@ class AdminSettingScreen extends StatelessWidget {
                             );
                           },
                           leading: Icon(Icons.lock),
-                        ),
-                        AppCustomListTile(
-                          label: 'Change Holiday',
-                          onTap: () {
-                            Get.bottomSheet(
-                              ChangeHolidaySheet(),
-                              isScrollControlled: true,
-                            );
-                          },
-                          leading: Icon(Icons.emoji_food_beverage),
                         ),
                         AppCustomListTile(
                           label: 'Spaces',
@@ -101,6 +78,34 @@ class AdminSettingScreen extends StatelessWidget {
                             value: controller.currentUser.notification,
                           ),
                           isUpdating: controller.isNotificationUpdating,
+                        ),
+
+                        AppCustomListTile(
+                            label: 'Update Face Data',
+                            onTap: () async {
+                              File? _image =
+                                  await AppPhotoService.getImageFromCamera();
+                              if (_image != null) {
+                                controller.updateUserFaceID(imageFile: _image);
+                              }
+                            },
+                            leading: Icon(Icons.face_rounded),
+                            isUpdating: controller.isUpdatingFaceID,
+                            updateMessage: 'Adding new face...',
+                            subtitle: controller.currentUser.userFace != null
+                                ? 'Face is enrolled'
+                                : 'No Face Found'),
+
+                        AppCustomListTile(
+                          label: 'Change Holiday',
+                          onTap: () {
+                            Get.bottomSheet(
+                              ChangeHolidaySheet(),
+                              isScrollControlled: true,
+                            );
+                          },
+                          leading: Icon(Icons.emoji_food_beverage),
+                          subtitle: controller.getCurrentHoliday(),
                         ),
                       ],
                     ),
@@ -196,6 +201,7 @@ class AppCustomListTile extends StatelessWidget {
     this.trailing,
     this.isUpdating = false,
     this.updateMessage,
+    this.subtitle,
   }) : super(key: key);
 
   final void Function() onTap;
@@ -204,6 +210,7 @@ class AppCustomListTile extends StatelessWidget {
   final Widget? trailing;
   final bool isUpdating;
   final String? updateMessage;
+  final String? subtitle;
 
   @override
   Widget build(BuildContext context) {
@@ -235,7 +242,9 @@ class AppCustomListTile extends StatelessWidget {
                     updateMessage ?? 'Updating...',
                     style: AppText.caption,
                   )
-                : null,
+                : subtitle == null
+                    ? null
+                    : Text(subtitle!, style: AppText.caption),
             trailing: trailing ?? Icon(Icons.arrow_forward_ios_rounded),
           ),
         ),

@@ -1,5 +1,7 @@
 import 'dart:io';
+import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/services.dart';
 import '../navigation/nav_controller.dart';
 import '../user/user_controller.dart';
 import '../../views/pages/03_main/main_screen.dart';
@@ -21,7 +23,7 @@ class VerifyController extends GetxController {
 
   /// User ID of Current Logged In user
   late String _currentUserID;
-  _getCurrentUserID() {
+  void _getCurrentUserID() {
     _currentUserID = Get.find<LoginController>().user!.uid;
   }
 
@@ -41,11 +43,13 @@ class VerifyController extends GetxController {
   //   });
   // }
   /// Local Way of Getting Images URL
-  _getAllMembersImagesURL() {
+  Future<void> _getAllMembersImagesURL() async {
     List<Member> _allMember = Get.find<MembersController>().allMember;
-    _allMember.forEach((element) {
+    await Future.forEach<Member>(_allMember, (element) {
       allMemberImagesURL.add(element.memberPicture);
     });
+    print("Total Image URL fetched: ${allMemberImagesURL.length}");
+    update();
   }
 
   /// All Files are stored in Ram, These can be a quick way to verify
@@ -61,19 +65,7 @@ class VerifyController extends GetxController {
       File _file = await AppPhotoService.fileFromImageUrl(element);
       allMemberImagesFile.add(_file);
     });
-  }
-
-  /* <---- Method Channel -----> */
-  // static const MethodChannel _channel = MethodChannel('verifier');
-
-  /// Verify Person
-  /// You can invoke method channel with this function
-  Future<bool> verifyPerson() async {
-    allMemberImagesURL.forEach((personImage) {
-      /// Each person Image can be verified here
-      // _channel.invokeMethod('verifyperson');
-    });
-    return true;
+    update();
   }
 
   /// Go In Static Verify Mode
@@ -130,11 +122,71 @@ class VerifyController extends GetxController {
     }
   }
 
+  /* <---- Method Channel -----> */
+  static const MethodChannel _channel = MethodChannel('turingtech');
+
+  /// Verify Person
+  /// You can invoke method channel with this function
+  Future<String?> verifyPersonList(
+      {required Uint8List memberToBeVerified}) async {
+    allMemberImagesURL.forEach((personImage) async {
+      /// Each person Image can be verified here
+    });
+    Map<dynamic, dynamic> _userImages = {};
+
+    print('Total Images got: ${allMemberImagesFile.length}');
+
+    await Future.forEach<File>(allMemberImagesFile, (element) {
+      Uint8List bytes = element.readAsBytesSync();
+      _userImages.addAll({'userID': bytes});
+    });
+
+    // Uint8List _userToBeVerified = memberToBeVerified.readAsBytesSync();
+
+    print("Total Map Length: ${_userImages.length}");
+
+    String? _verfiedUserID = await _channel.invokeMethod("verify", {
+      'membersList': _userImages,
+      'memberToBeVerified': memberToBeVerified,
+    });
+
+    print('Got the verifer: $_verfiedUserID');
+
+    return _verfiedUserID;
+  }
+
+  /// Verify Single Person
+  Future<bool> verfiyPersonSingle(
+      {required Uint8List capturedImage, required File personImage}) async {
+    Uint8List _personImageConverted = personImage.readAsBytesSync();
+
+    bool? _isThisIsThePerson =
+        await _channel.invokeMethod('verifySinglePerson', {
+      'personImage': _personImageConverted,
+      'capturedImage': capturedImage,
+    });
+
+    return _isThisIsThePerson ?? false;
+  }
+
+  /// Detect if a person exist in a photo
+  Future<bool> isPersonDetected({required Uint8List capturedImage}) async {
+    // Uint8List _pictureToBeVerified = capturedImage.readAsBytesSync();
+    bool? _isPersonDetected = await _channel
+        .invokeMethod('isFaceDeteced', {'capturedImage': capturedImage});
+
+    print('A PERSON IS DETECTED : $_isPersonDetected');
+
+    return _isPersonDetected ?? false;
+  }
+
+  /* <---- When The Controller Starts -----> */
   @override
-  void onInit() {
+  void onInit() async {
     super.onInit();
     _getCurrentUserID();
-    _getAllMembersImagesURL();
-    _getAllMemberImagesToFile();
+    await Future.delayed(Duration(seconds: 10));
+    await _getAllMembersImagesURL();
+    await _getAllMemberImagesToFile();
   }
 }

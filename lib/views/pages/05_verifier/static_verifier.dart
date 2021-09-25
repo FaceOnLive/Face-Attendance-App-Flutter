@@ -45,17 +45,7 @@ class _StaticVerifierScreenState extends State<StaticVerifierScreen> {
   @override
   void dispose() {
     Get.delete<AppCameraController>(force: true);
-    super.dispose();
-  }
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    Get.delete<AppCameraController>(force: true);
+    _isScreenReady.close();
     super.dispose();
   }
 

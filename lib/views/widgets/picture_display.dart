@@ -57,7 +57,7 @@ class PictureWidget extends StatelessWidget {
                         shape: BoxShape.circle,
                         border: Border.all(
                           color: AppColors.PRIMARY_COLOR,
-                          width: 5,
+                          width: 2,
                         ),
                       ),
                       child: isLocal
