@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl/intl.dart';
 import '../spaces/space_controller.dart';
 import '../../services/deletePicture.dart';
 import '../../services/uploadPicture.dart';
@@ -130,10 +131,79 @@ class MembersController extends GetxController {
     update();
   }
 
+  /// Get Member by ID
+  Member? getMemberByID({required String memberID}) {
+    // Check If Member EXISTS
+    List<String> _allMemberID = [];
+    allMember.forEach((element) {
+      _allMemberID.add(element.memberID!);
+    });
+
+    Member? member;
+    // if the member exist
+    if (_allMemberID.contains(memberID)) {
+      member = allMember.singleWhere((element) => element.memberID == memberID);
+    } else {
+      member = null;
+    }
+    return member;
+  }
+
+  /* <---- Attendance Related -----> */
+
+  Future<List<DateTime>> fetchThisYearAttendnce({
+    required String memberID,
+    required String spaceID,
+    required int year,
+  }) async {
+    String thisYear = year.toString();
+    List<DateTime> _unatttendedDate = [];
+    await _collectionReference
+        .doc(memberID)
+        .collection('attendance')
+        .doc(spaceID)
+        .collection('data')
+        .doc(thisYear)
+        .get()
+        .then((value) {
+      Map<String, dynamic>? _allDateMonth = value.data();
+      print(_allDateMonth ?? 'No Record Found');
+      if (_allDateMonth != null) {
+        _allDateMonth.values.forEach((element) {
+          DateTime _date = element.toDate();
+          _unatttendedDate.add(_date);
+        });
+      }
+    });
+    // _unatttendedDate.forEach((element) {
+    //   print("Unattended Dates are: [${DateFormat.MMMMd().format(element)}]");
+    // });
+    return _unatttendedDate;
+  }
+
+  /// Temporary Function To Add Attendance to all member
+  // _addAttendance(String spaceID) async {
+  //   _collectionReference.get().then((value) async {
+  //     await Future.forEach<QueryDocumentSnapshot>(value.docs, (element) async {
+  //       await element.reference
+  //           .collection('attendance')
+  //           .doc(spaceID)
+  //           .collection('data')
+  //           .doc('2021')
+  //           .set({
+  //         '1': Timestamp.fromDate(DateTime.now()),
+  //         '2': Timestamp.fromDate(DateTime.now().add(Duration(days: -3))),
+  //       });
+  //       print('Added Attendance to ${element.id}');
+  //     });
+  //   });
+  // }
+
   @override
   void onInit() {
     super.onInit();
     _getCurrentUserID();
     fetchMembersList();
+    // _addAttendance('rocr2jt6q7YCKQswFrQ3');
   }
 }

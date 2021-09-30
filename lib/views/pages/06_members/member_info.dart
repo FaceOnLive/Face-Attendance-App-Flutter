@@ -1,3 +1,6 @@
+import 'package:face_attendance/controllers/members/member_controller.dart';
+import 'package:face_attendance/controllers/user/user_controller.dart';
+import 'package:face_attendance/views/widgets/app_button.dart';
 import '../../../models/member.dart';
 import '../../../constants/app_colors.dart';
 import '../../../constants/app_sizes.dart';
@@ -9,9 +12,14 @@ import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'member_edit.dart';
 
 class MemberInfoScreen extends StatelessWidget {
-  const MemberInfoScreen({Key? key, required this.member}) : super(key: key);
+  const MemberInfoScreen({
+    Key? key,
+    required this.member,
+    this.spaceID,
+  }) : super(key: key);
 
   final Member member;
+  final String? spaceID;
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +55,7 @@ class MemberInfoScreen extends StatelessWidget {
                   AppSizes.hGap10,
                   Text(
                     member.memberName,
-                    style: AppText.h6.copyWith(
+                    style: AppText.h5.copyWith(
                         fontWeight: FontWeight.bold,
                         color: AppColors.PRIMARY_COLOR),
                   ),
@@ -65,42 +73,135 @@ class MemberInfoScreen extends StatelessWidget {
               ),
 
               /* <---- Attendance ----> */
-              Text(
-                'Attendance Report',
-                style: AppText.bBOLD.copyWith(color: AppColors.PRIMARY_COLOR),
-              ),
-              // Calendar
-              Container(
-                margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                child: SfCalendar(
-                  view: CalendarView.month,
-                  backgroundColor: Colors.white,
-                  cellBorderColor: Colors.white,
-                  headerStyle: CalendarHeaderStyle(
-                    textAlign: TextAlign.center,
-                    textStyle: AppText.b1.copyWith(
-                      fontWeight: FontWeight.w100,
+              spaceID == null
+                  ? SizedBox()
+                  :
+                  // Calendar
+                  _MemberAttendance(
+                      spaceID: spaceID!,
+                      memberID: member.memberID!,
                     ),
-                  ),
-                  showNavigationArrow: true,
-                  blackoutDates: [
-                    DateTime.now().add(
-                      Duration(days: 2),
-                    ),
-                    DateTime.now().add(
-                      Duration(days: 3),
-                    ),
-                    DateTime.now().add(
-                      Duration(days: 4),
-                    ),
-                  ],
-                  firstDayOfWeek: 1,
-                ),
-              ),
             ],
           ),
         ),
       ),
+    );
+  }
+}
+
+class _MemberAttendance extends StatefulWidget {
+  const _MemberAttendance({
+    Key? key,
+    required this.spaceID,
+    required this.memberID,
+  }) : super(key: key);
+
+  final String spaceID;
+  final String memberID;
+
+  @override
+  State<_MemberAttendance> createState() => _MemberAttendanceState();
+}
+
+class _MemberAttendanceState extends State<_MemberAttendance> {
+  // Progress
+  RxBool _isFetchinUserData = false.obs;
+
+  // UnAttended Date
+  List<DateTime> _unAttendedDate = [];
+
+  Future<void> _fetchThisMemberAttendance() async {
+    _isFetchinUserData.trigger(true);
+    _unAttendedDate =
+        await Get.find<MembersController>().fetchThisYearAttendnce(
+      memberID: widget.memberID,
+      spaceID: widget.spaceID,
+      year: DateTime.now().year,
+    );
+    isAttendedToday();
+    _isFetchinUserData.trigger(false);
+  }
+
+  /// Is Attended Today
+  RxBool _isAttendedToday = false.obs;
+
+  void isAttendedToday() {
+    if (_unAttendedDate.contains(DateTime.now().day)) {
+      _isAttendedToday.trigger(false);
+    } else {
+      _isAttendedToday.trigger(true);
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchThisMemberAttendance();
+  }
+
+  @override
+  void dispose() {
+    _isFetchinUserData.close();
+    _isAttendedToday.close();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Text(
+          'Attendance Report',
+          style: AppText.bBOLD.copyWith(color: AppColors.PRIMARY_COLOR),
+        ),
+        AppSizes.hGap10,
+        Obx(
+          () => _isFetchinUserData.isTrue
+              ? Center(child: CircularProgressIndicator())
+              : Container(
+                  margin: EdgeInsets.symmetric(horizontal: 20),
+                  child: Column(
+                    children: [
+                      SfCalendar(
+                        view: CalendarView.month,
+                        backgroundColor: Colors.white,
+                        cellBorderColor: Colors.white,
+                        headerStyle: CalendarHeaderStyle(
+                          textAlign: TextAlign.center,
+                          textStyle: AppText.b1.copyWith(
+                            fontWeight: FontWeight.w100,
+                          ),
+                        ),
+                        showNavigationArrow: true,
+                        blackoutDatesTextStyle: TextStyle(
+                          color: Colors.red,
+                          decoration: TextDecoration.lineThrough,
+                        ),
+                        blackoutDates: _unAttendedDate,
+                        firstDayOfWeek:
+                            Get.find<AppUserController>().currentUser.holiday,
+                      ),
+                      _isAttendedToday.isTrue
+                          ? AppButton(
+                              width: Get.width * 0.8,
+                              label: "Mark as unattended",
+                              suffixIcon:
+                                  Icon(Icons.check, color: Colors.white),
+                              backgroundColor: AppColors.APP_RED,
+                              onTap: () {},
+                            )
+                          : AppButton(
+                              width: Get.width * 0.8,
+                              label: "Mark as attended",
+                              suffixIcon:
+                                  Icon(Icons.check, color: Colors.white),
+                              onTap: () {},
+                            ),
+                    ],
+                  ),
+                ),
+        ),
+      ],
     );
   }
 }

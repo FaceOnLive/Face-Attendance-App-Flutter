@@ -29,7 +29,7 @@ class _SpaceMemberAddSheetState extends State<SpaceMemberAddSheet> {
 
   /* <---- Selection -----> */
   List<Member> _availableMember = [];
-  List<Member> _selectedMember = [];
+  RxList<Member> _selectedMember = RxList<Member>();
 
   void _onMemberSelect(Member member) {
     if (_selectedMember.contains(member)) {
@@ -70,6 +70,7 @@ class _SpaceMemberAddSheetState extends State<SpaceMemberAddSheet> {
   @override
   void dispose() {
     _isAddingMember.close();
+    _selectedMember.close();
     super.dispose();
   }
 
@@ -122,35 +123,37 @@ class _SpaceMemberAddSheetState extends State<SpaceMemberAddSheet> {
             ),
             /* <---- Add Button -----> */
             Obx(
-              () => AppButton(
-                disableBorderRadius: true,
-                margin: EdgeInsets.all(0),
-                padding: EdgeInsets.all(AppSizes.DEFAULT_PADDING),
-                label: 'Add',
-                isLoading: _isAddingMember.value,
-                onTap: () async {
-                  try {
-                    _isAddingMember.trigger(true);
-                    await _spaceController.addMembersToSpace(
-                      spaceID: widget.space.spaceID!,
-                      members: _selectedMember,
-                    );
-                    Get.back();
-                    Get.back();
-                    Get.rawSnackbar(
-                      title: 'Member Added Successfully',
-                      message:
-                          'Total ${_selectedMember.length} Members has been added',
-                      backgroundColor: AppColors.APP_GREEN,
-                      snackStyle: SnackStyle.GROUNDED,
-                    );
-                    _isAddingMember.trigger(false);
-                  } on FirebaseException catch (e) {
-                    print(e);
-                    _isAddingMember.trigger(false);
-                  }
-                },
-              ),
+              () => _selectedMember.length > 0
+                  ? AppButton(
+                      disableBorderRadius: true,
+                      margin: EdgeInsets.all(0),
+                      padding: EdgeInsets.all(AppSizes.DEFAULT_PADDING),
+                      label: 'Add',
+                      isLoading: _isAddingMember.value,
+                      onTap: () async {
+                        try {
+                          _isAddingMember.trigger(true);
+                          await _spaceController.addMembersToSpace(
+                            spaceID: widget.space.spaceID!,
+                            members: _selectedMember,
+                          );
+                          Get.back();
+                          Get.back();
+                          Get.rawSnackbar(
+                            title: 'Member Added Successfully',
+                            message:
+                                'Total ${_selectedMember.length} Members has been added',
+                            backgroundColor: AppColors.APP_GREEN,
+                            snackStyle: SnackStyle.GROUNDED,
+                          );
+                          _isAddingMember.trigger(false);
+                        } on FirebaseException catch (e) {
+                          print(e);
+                          _isAddingMember.trigger(false);
+                        }
+                      },
+                    )
+                  : SizedBox(),
             ),
           ],
         ),
@@ -158,6 +161,8 @@ class _SpaceMemberAddSheetState extends State<SpaceMemberAddSheet> {
     );
   }
 }
+
+/* <---- Other Helpful Widgets -----> */
 
 class _EmptyMemberList extends StatelessWidget {
   const _EmptyMemberList({

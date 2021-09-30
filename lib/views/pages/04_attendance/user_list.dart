@@ -94,6 +94,8 @@ class _AttendedUserListState extends State<AttendedUserList> {
                                 member:
                                     _spaceController.currentSpaceMembers[index],
                                 isAttended: index.isEven ? true : false,
+                                currentSpaceID:
+                                    _spaceController.currentSpace!.spaceID!,
                               );
                             },
                           ),
@@ -116,18 +118,23 @@ class _MemberListTile extends StatelessWidget {
     Key? key,
     required this.member,
     this.isAttended = false,
+    required this.currentSpaceID,
   }) : super(key: key);
 
   final Member member;
   final bool isAttended;
+  final String currentSpaceID;
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
       onTap: () {
-        Get.to(() => MemberInfoScreen(
-              member: member,
-            ));
+        Get.to(
+          () => MemberInfoScreen(
+            member: member,
+            spaceID: currentSpaceID,
+          ),
+        );
       },
       leading: Hero(
         tag: member.memberID ?? member.memberPicture,
