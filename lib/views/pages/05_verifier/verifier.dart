@@ -1,5 +1,13 @@
 import 'dart:io';
 import 'dart:typed_data';
+import 'package:cached_network_image/cached_network_image.dart';
+import '../../../controllers/members/member_controller.dart';
+import '../../../models/member.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:camera/camera.dart';
+import 'static_verifier_LockUnlock.dart';
 import '../../../controllers/user/user_controller.dart';
 import '../../../controllers/verifier/verify_controller.dart';
 import '../../../services/app_photo.dart';
@@ -8,11 +16,6 @@ import '../../../constants/app_defaults.dart';
 import '../../../constants/app_sizes.dart';
 import '../../../controllers/camera/camera_controller.dart';
 import '../../themes/text.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:camera/camera.dart';
-import 'static_verifier_LockUnlock.dart';
 
 class VerifierScreen extends StatefulWidget {
   const VerifierScreen({Key? key}) : super(key: key);
@@ -103,16 +106,31 @@ class _CameraSection extends StatelessWidget {
                   /* <---- Verifier Button ----> */
                   Positioned(
                     bottom: 0,
-                    child: _UseAsAVerifierButton(),
+                    child: Column(
+                      children: [
+                        _UseAsAVerifierButton(),
+                      ],
+                    ),
                   ),
                   /* <---- Camear Switch Button ----> */
                   Positioned(
-                    bottom: Get.height * 0.12,
+                    top: 15,
                     right: 10,
                     child: FloatingActionButton(
                       onPressed: controller.toggleCameraLens,
                       child: Icon(Icons.switch_camera_rounded),
                       backgroundColor: AppColors.PRIMARY_COLOR,
+                    ),
+                  ),
+
+                  /// MESSAGE SHOWING
+                  Positioned(
+                    bottom: Get.height * 0.10,
+                    left: 0,
+                    right: 0,
+                    child: _ShowMessage(
+                      verifiedMember:
+                          Get.find<MembersController>().allMember[0],
                     ),
                   ),
 
@@ -125,6 +143,76 @@ class _CameraSection extends StatelessWidget {
   }
 }
 
+class _ShowMessage extends StatelessWidget {
+  /// This will show up when verification started
+  const _ShowMessage({
+    Key? key,
+    required this.verifiedMember,
+  }) : super(key: key);
+
+  final Member verifiedMember;
+
+  @override
+  Widget build(BuildContext context) {
+    return GetBuilder<VerifyController>(
+      builder: (controller) {
+        return Center(
+          child: AnimatedOpacity(
+            // IF We Should show the card
+            opacity: controller.showProgressIndicator ? 1.0 : 0.0,
+            duration: AppDefaults.defaultDuration,
+            child: AnimatedContainer(
+              duration: AppDefaults.defaultDuration,
+              margin: EdgeInsets.all(AppSizes.DEFAULT_MARGIN),
+              padding: EdgeInsets.all(10),
+              width: Get.width,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: AppDefaults.defaulBorderRadius,
+                boxShadow: AppDefaults.defaultBoxShadow,
+              ),
+              child: controller.isVerifyingNow
+                  ? Container(
+                      padding: EdgeInsets.all(10),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          CircularProgressIndicator(),
+                          AppSizes.wGap10,
+                          Text('Verifying'),
+                        ],
+                      ),
+                    )
+                  : controller.verifiedMember == null
+                      ? ListTile(
+                          title: Text('No Member Found'),
+                          trailing: Icon(
+                            Icons.close,
+                            color: Colors.red,
+                          ),
+                        )
+                      : ListTile(
+                          leading: CircleAvatar(
+                            backgroundImage: CachedNetworkImageProvider(
+                                controller.verifiedMember!.memberPicture),
+                          ),
+                          title: Text(controller.verifiedMember!.memberName),
+                          subtitle: Text(controller.verifiedMember!.memberNumber
+                              .toString()),
+                          trailing: Icon(
+                            Icons.check_box_rounded,
+                            color: AppColors.APP_GREEN,
+                          ),
+                        ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+}
+
 class _TemporaryFunctionToCheckMethod extends GetView<AppCameraController> {
   const _TemporaryFunctionToCheckMethod({
     Key? key,
@@ -133,7 +221,7 @@ class _TemporaryFunctionToCheckMethod extends GetView<AppCameraController> {
   @override
   Widget build(BuildContext context) {
     return Positioned(
-      bottom: Get.height * 0.12,
+      top: Get.height * 0.12,
       child: Column(
         children: [
           FloatingActionButton.extended(
@@ -147,7 +235,7 @@ class _TemporaryFunctionToCheckMethod extends GetView<AppCameraController> {
               if (_isPersonPresent) {
                 Get.snackbar(
                   'A Face is detected',
-                  'A Person Face is detected',
+                  'This is a dummy function, you should return the real value',
                   colorText: Colors.white,
                   backgroundColor: Colors.green,
                 );

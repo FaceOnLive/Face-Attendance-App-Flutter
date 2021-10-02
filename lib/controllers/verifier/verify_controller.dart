@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -124,14 +125,19 @@ class VerifyController extends GetxController {
 
   /* <---- Method Channel -----> */
   static const MethodChannel _channel = MethodChannel('turingtech');
+  bool isVerifyingNow = false;
+  bool showProgressIndicator = false;
+  Member? verifiedMember;
 
   /// Verify Person
   /// You can invoke method channel with this function
   Future<String?> verifyPersonList(
       {required Uint8List memberToBeVerified}) async {
-    allMemberImagesURL.forEach((personImage) async {
-      /// Each person Image can be verified here
-    });
+    // Show progress bar
+    isVerifyingNow = true;
+    showProgressIndicator = true;
+    update();
+
     Map<dynamic, dynamic> _userImages = {};
 
     print('Total Images got: ${allMemberImagesFile.length}');
@@ -152,12 +158,34 @@ class VerifyController extends GetxController {
 
     print('Got the verifer: $_verfiedUserID');
 
+    if (_verfiedUserID != null) {
+      Member? _fetchMember = Get.find<MembersController>()
+          .getMemberByID(memberID: 'hBKuNPs1bJOzmTlJhsm3');
+      if (_fetchMember != null) {
+        verifiedMember = _fetchMember;
+        print(_fetchMember.memberName);
+      }
+    } else {
+      verifiedMember = null;
+    }
+
+    isVerifyingNow = false;
+    update();
+    _disableCardAfterSomeTime();
+
     return _verfiedUserID;
   }
 
   /// Verify Single Person
-  Future<bool> verfiyPersonSingle(
-      {required Uint8List capturedImage, required File personImage}) async {
+  Future<bool> verfiyPersonSingle({
+    required Uint8List capturedImage,
+    required File personImage,
+  }) async {
+    // Show progress
+    isVerifyingNow = true;
+    showProgressIndicator = true;
+    update();
+
     Uint8List _personImageConverted = personImage.readAsBytesSync();
 
     bool? _isThisIsThePerson =
@@ -166,18 +194,57 @@ class VerifyController extends GetxController {
       'capturedImage': capturedImage,
     });
 
+    // Show progress
+    isVerifyingNow = false;
+    update();
+    _disableCardAfterSomeTime();
     return _isThisIsThePerson ?? false;
   }
 
   /// Detect if a person exist in a photo
   Future<bool> isPersonDetected({required Uint8List capturedImage}) async {
+    // Show progress
+    isVerifyingNow = true;
+    showProgressIndicator = true;
+    update();
+
     // Uint8List _pictureToBeVerified = capturedImage.readAsBytesSync();
     bool? _isPersonDetected = await _channel
         .invokeMethod('isFaceDeteced', {'capturedImage': capturedImage});
 
     print('A PERSON IS DETECTED : $_isPersonDetected');
 
+    // Show progress
+    isVerifyingNow = false;
+    update();
+    _disableCardAfterSomeTime();
+
     return _isPersonDetected ?? false;
+  }
+
+  /* <---- HELPER METHOD FOR VERIFYER -----> */
+  bool _isCloseFunctionAlreadyTriggerd = false;
+  int _durationOfCardShowing = 10;
+  int _maxDurationTime = 40;
+
+  /// This function is used to close the card, MAX TIME 40 Seconds
+  Future<void> _disableCardAfterSomeTime() async {
+    if (_isCloseFunctionAlreadyTriggerd &&
+        _durationOfCardShowing < _maxDurationTime) {
+      int _newDuration = _durationOfCardShowing + 10;
+      await Future.delayed(Duration(seconds: _newDuration)).then((value) {
+        showProgressIndicator = false;
+        _isCloseFunctionAlreadyTriggerd = false;
+        update();
+      });
+    } else {
+      _isCloseFunctionAlreadyTriggerd = true;
+      await Future.delayed(Duration(seconds: 10)).then((value) {
+        showProgressIndicator = false;
+        _isCloseFunctionAlreadyTriggerd = false;
+        update();
+      });
+    }
   }
 
   /* <---- When The Controller Starts -----> */

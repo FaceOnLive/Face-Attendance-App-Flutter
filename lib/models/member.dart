@@ -34,4 +34,25 @@ class Member {
       memberID: documentSnapshot.id,
     );
   }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is Member &&
+        other.memberName == memberName &&
+        other.memberPicture == memberPicture &&
+        other.memberNumber == memberNumber &&
+        other.memberFullAdress == memberFullAdress &&
+        other.memberID == memberID;
+  }
+
+  @override
+  int get hashCode {
+    return memberName.hashCode ^
+        memberPicture.hashCode ^
+        memberNumber.hashCode ^
+        memberFullAdress.hashCode ^
+        memberID.hashCode;
+  }
 }

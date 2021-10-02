@@ -229,6 +229,21 @@ class SpaceController extends GetxController {
     }
   }
 
+  /// Get Space Details by ID
+  Space? getSpaceById({required String spaceID}) {
+    Space? _space;
+    List<String> allSpacesId = [];
+    allSpaces.forEach((element) {
+      allSpacesId.add(element.spaceID!);
+    });
+    if (allSpacesId.contains(spaceID)) {
+      _space = allSpaces.singleWhere((element) => element.spaceID == spaceID);
+    } else {
+      _space = null;
+    }
+    return _space;
+  }
+
   @override
   void onInit() async {
     super.onInit();

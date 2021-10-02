@@ -30,7 +30,7 @@ class _SpaceMemberRemoveSheetState extends State<SpaceMemberRemoveSheet> {
 
   /* <---- Selection -----> */
   List<Member> _availableMemberInSpace = [];
-  List<Member> _selectedMember = [];
+  RxList<Member> _selectedMember = RxList<Member>();
 
   void _onMemberSelect(Member member) {
     if (_selectedMember.contains(member)) {
@@ -71,6 +71,7 @@ class _SpaceMemberRemoveSheetState extends State<SpaceMemberRemoveSheet> {
   @override
   void dispose() {
     _isRemovingMember.close();
+    _selectedMember.close();
     super.dispose();
   }
 
@@ -124,36 +125,38 @@ class _SpaceMemberRemoveSheetState extends State<SpaceMemberRemoveSheet> {
             ),
             /* <---- Add Button -----> */
             Obx(
-              () => AppButton(
-                disableBorderRadius: true,
-                margin: EdgeInsets.all(0),
-                padding: EdgeInsets.all(AppSizes.DEFAULT_PADDING),
-                label: 'Remove',
-                isLoading: _isRemovingMember.value,
-                backgroundColor: AppColors.APP_RED,
-                onTap: () async {
-                  try {
-                    _isRemovingMember.trigger(true);
-                    await _spaceController.removeMembersFromSpace(
-                      spaceID: widget.space.spaceID!,
-                      members: _selectedMember,
-                    );
-                    Get.back();
-                    Get.back(closeOverlays: false);
-                    Get.rawSnackbar(
-                      title: 'Member Removed Successfully',
-                      message:
-                          'Total ${_selectedMember.length} Members has been removed',
+              () => _selectedMember.length > 0
+                  ? AppButton(
+                      disableBorderRadius: true,
+                      margin: EdgeInsets.all(0),
+                      padding: EdgeInsets.all(AppSizes.DEFAULT_PADDING),
+                      label: 'Remove',
+                      isLoading: _isRemovingMember.value,
                       backgroundColor: AppColors.APP_RED,
-                      snackStyle: SnackStyle.GROUNDED,
-                    );
-                    _isRemovingMember.trigger(false);
-                  } on FirebaseException catch (e) {
-                    print(e);
-                    _isRemovingMember.trigger(false);
-                  }
-                },
-              ),
+                      onTap: () async {
+                        try {
+                          _isRemovingMember.trigger(true);
+                          await _spaceController.removeMembersFromSpace(
+                            spaceID: widget.space.spaceID!,
+                            members: _selectedMember,
+                          );
+                          Get.back();
+                          Get.back(closeOverlays: false);
+                          Get.rawSnackbar(
+                            title: 'Member Removed Successfully',
+                            message:
+                                'Total ${_selectedMember.length} Members has been removed',
+                            backgroundColor: AppColors.APP_RED,
+                            snackStyle: SnackStyle.GROUNDED,
+                          );
+                          _isRemovingMember.trigger(false);
+                        } on FirebaseException catch (e) {
+                          print(e);
+                          _isRemovingMember.trigger(false);
+                        }
+                      },
+                    )
+                  : SizedBox(),
             ),
           ],
         ),
