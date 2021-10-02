@@ -1,8 +1,8 @@
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:face_attendance/controllers/members/member_controller.dart';
-import 'package:face_attendance/models/member.dart';
+import '../../../controllers/members/member_controller.dart';
+import '../../../models/member.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

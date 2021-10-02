@@ -1,10 +1,9 @@
+import '../../services/app_toast.dart';
 import '../camera/camera_controller.dart';
-
 import '../spaces/space_controller.dart';
 import '../verifier/verify_controller.dart';
 import '../members/member_controller.dart';
 import '../user/user_controller.dart';
-import '../../constants/app_colors.dart';
 import '../../views/pages/03_main/main_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
@@ -21,16 +20,12 @@ class LoginController extends GetxController {
         .signInWithEmailAndPassword(email: email, password: password);
     _firebaseUser.value = _userCredintial.user;
     Get.offAll(() => MainScreenUI());
-    Get.rawSnackbar(
-      title: 'Successful',
-      message: 'The login is sucessfull, enjoy.',
-      snackPosition: SnackPosition.BOTTOM,
-      backgroundColor: AppColors.APP_GREEN,
-    );
+    AppToast.showDefaultToast('Login Successfull');
   }
 
   /// Log out
   Future<void> logOut() async {
+    // These Dependencies require a user.
     Get.delete<AppUserController>(force: true);
     Get.delete<MembersController>(force: true);
     Get.delete<SpaceController>(force: true);

@@ -49,6 +49,7 @@ dependencies:
   path_provider: ^2.0.5
   http: ^0.13.3
   flutter_cache_manager: ^3.1.2
+  fluttertoast: ^8.0.8
 
 dev_dependencies:
   flutter_test:

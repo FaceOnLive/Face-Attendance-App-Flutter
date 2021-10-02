@@ -19,6 +19,7 @@ class AppButton extends StatelessWidget {
     this.backgroundColor,
     this.mainAxisAlignment,
     this.disableBorderRadius = false,
+    this.isButtonDisabled = false,
   }) : super(key: key);
 
   final String label;
@@ -33,11 +34,12 @@ class AppButton extends StatelessWidget {
   final Icon? prefixIcon;
   final MainAxisAlignment? mainAxisAlignment;
   final bool disableBorderRadius;
+  final bool isButtonDisabled;
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: onTap,
+      onTap: isLoading || isButtonDisabled ? null : onTap,
       child: AnimatedContainer(
         height: height,
         duration: AppDefaults.defaultDuration,
@@ -45,7 +47,9 @@ class AppButton extends StatelessWidget {
         alignment: Alignment.center,
         padding: padding ?? EdgeInsets.symmetric(horizontal: 14, vertical: 14),
         decoration: BoxDecoration(
-          color: backgroundColor ?? AppColors.PRIMARY_COLOR,
+          color: isButtonDisabled
+              ? Colors.grey
+              : backgroundColor ?? AppColors.PRIMARY_COLOR,
           borderRadius:
               disableBorderRadius ? null : AppDefaults.defaulBorderRadius,
         ),
