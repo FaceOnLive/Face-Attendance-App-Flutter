@@ -62,16 +62,16 @@ class SpaceController extends GetxController {
   }
 
   /// Current Spaces Members
-  List<Member> currentSpaceMembers = [];
+  List<Member> _currentSpaceMembers = [];
 
   /// Add Current Space Members To List
   void _addCurrentSpaceMemberToList() {
-    currentSpaceMembers = [];
+    _currentSpaceMembers = [];
     List<Member> _allMembers = Get.find<MembersController>().allMember;
     Space _currentSpace = currentSpace!;
     _allMembers.forEach((element) {
       if (_currentSpace.memberList.contains(element.memberID)) {
-        currentSpaceMembers.add(element);
+        _currentSpaceMembers.add(element);
       } else {
         // print('Member does not belong to ${currentSpace!.name}');
       }
@@ -202,7 +202,7 @@ class SpaceController extends GetxController {
     });
 
     /// Remove locally
-    currentSpaceMembers.removeWhere((element) => element.memberID == userID);
+    _currentSpaceMembers.removeWhere((element) => element.memberID == userID);
 
     await _fetchAllSpaces();
     await _fetchCurrentActiveSpace();
@@ -244,6 +244,45 @@ class SpaceController extends GetxController {
     return _space;
   }
 
+  /// Member That Attended Today
+  List<String> memberAttendedToday = [];
+  Future<void> _fetchMemberAttendedToday() async {
+    memberAttendedToday = await Get.find<MembersController>()
+        .fetchMemberAttendedTodayList(spaceID: currentSpace!.spaceID!);
+  }
+
+  /// List to return based on user interation
+  List<Member> spacesMember = [];
+
+  /// When user select attendance button
+  void onAttendedSelection() {
+    spacesMember = [];
+    memberAttendedToday.forEach((member) {
+      spacesMember = _currentSpaceMembers
+          .where((element) => element.memberID == member)
+          .toList();
+    });
+    update();
+  }
+
+  /// When user select unattendance button
+  void onUnattendedSelection() {
+    spacesMember = [];
+    memberAttendedToday.forEach((member) {
+      spacesMember = _currentSpaceMembers
+          .where((element) => element.memberID != member)
+          .toList();
+    });
+    update();
+  }
+
+  /// When Both Are Selected
+  void onBothButtonSelection() {
+    spacesMember = [];
+    spacesMember = _currentSpaceMembers;
+    update();
+  }
+
   @override
   void onInit() async {
     super.onInit();
@@ -252,6 +291,8 @@ class SpaceController extends GetxController {
     await _fetchAllSpaces();
     await _fetchCurrentActiveSpace();
     _addCurrentSpaceMemberToList();
+    await _fetchMemberAttendedToday();
+    spacesMember = _currentSpaceMembers;
     isEverythingFetched = true;
     update();
   }

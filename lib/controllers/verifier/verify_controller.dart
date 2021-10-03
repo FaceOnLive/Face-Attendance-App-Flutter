@@ -158,6 +158,7 @@ class VerifyController extends GetxController {
 
     print('Got the verifer: $_verfiedUserID');
 
+    /// User Should Be Verified Here
     if (_verfiedUserID != null) {
       Member? _fetchMember = Get.find<MembersController>()
           .getMemberByID(memberID: 'hBKuNPs1bJOzmTlJhsm3');

@@ -1,8 +1,6 @@
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:cached_network_image/cached_network_image.dart';
-import '../../../controllers/members/member_controller.dart';
-import '../../../models/member.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -128,10 +126,7 @@ class _CameraSection extends StatelessWidget {
                     bottom: Get.height * 0.10,
                     left: 0,
                     right: 0,
-                    child: _ShowMessage(
-                      verifiedMember:
-                          Get.find<MembersController>().allMember[0],
-                    ),
+                    child: _ShowMessage(),
                   ),
 
                   /// TEMPORARY
@@ -147,10 +142,7 @@ class _ShowMessage extends StatelessWidget {
   /// This will show up when verification started
   const _ShowMessage({
     Key? key,
-    required this.verifiedMember,
   }) : super(key: key);
-
-  final Member verifiedMember;
 
   @override
   Widget build(BuildContext context) {

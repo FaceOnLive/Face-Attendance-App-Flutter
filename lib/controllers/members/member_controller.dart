@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import '../../services/date_helper.dart';
 import 'package:intl/intl.dart';
 import '../spaces/space_controller.dart';
 import '../../services/deletePicture.dart';
@@ -302,6 +303,7 @@ class MembersController extends GetxController {
         });
       });
     });
+    fetchMemberAttendedTodayList(spaceID: spaceID);
   }
 
   /// Remove Multiple Attendance
@@ -328,6 +330,7 @@ class MembersController extends GetxController {
         });
       });
     });
+    fetchMemberAttendedTodayList(spaceID: spaceID);
   }
 
   /// ADD Multiple Attendance
@@ -354,6 +357,43 @@ class MembersController extends GetxController {
         });
       });
     });
+    fetchMemberAttendedTodayList(spaceID: spaceID);
+  }
+
+  /// All Member That Attended Today
+  Future<List<String>> fetchMemberAttendedTodayList(
+      {required String spaceID}) async {
+    List<String> _memberAttendedToday = [];
+    String _currentYear = DateTime.now().year.toString();
+
+    await _collectionReference.get().then((allMembers) async {
+      return await Future.forEach<QueryDocumentSnapshot>(allMembers.docs,
+          (member) async {
+        /// Current Member attendance
+        Map<String, dynamic>? _fetchedData = await member.reference
+            .collection('attendance')
+            .doc(spaceID)
+            .collection('data')
+            .doc(_currentYear)
+            .get()
+            .then((value) => value.data());
+
+        /// Member ID
+        String _memberID = member.id;
+
+        /// Check if the data exist
+        if (_fetchedData != null) {
+          List<dynamic> _unattendedDate = _fetchedData['unattended_date'];
+          if (DateHelper.doesContainThisDateInTimeStamp(
+            date: DateTime.now(),
+            allDates: _unattendedDate,
+          )) {
+            _memberAttendedToday.add(_memberID);
+          }
+        }
+      });
+    });
+    return _memberAttendedToday;
   }
 
   /// Temporary Function To Add Attendance to all member
@@ -379,5 +419,6 @@ class MembersController extends GetxController {
     _getCurrentUserID();
     fetchMembersList();
     // _addAttendance('hHwgUrdKKnXfpdrgJnbR');
+    fetchMemberAttendedTodayList(spaceID: 'hHwgUrdKKnXfpdrgJnbR');
   }
 }
