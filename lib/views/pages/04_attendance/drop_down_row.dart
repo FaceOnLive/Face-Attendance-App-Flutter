@@ -45,6 +45,7 @@ class DropDownRow extends GetView<SpaceController> {
                         items: List.generate(
                           controller.allSpaces.length + 1,
                           (index) {
+                            // Create button
                             if (index == controller.allSpaces.length) {
                               return DropdownMenuItem(
                                 child: _CreateNewSpaceButton(),
@@ -52,16 +53,17 @@ class DropDownRow extends GetView<SpaceController> {
                               );
                             }
 
+                            /// List
                             Space _currentSpace = controller.allSpaces[index];
-
                             return DropdownMenuItem(
                               child: _DropDownSpaceItem(
                                 active: true,
                                 iconData: _currentSpace.icon,
                                 label: _currentSpace.name,
                                 onTap: () {
-                                  Get.to(() =>
-                                      SpaceInfoScreen(space: _currentSpace));
+                                  Get.to(
+                                    () => SpaceInfoScreen(space: _currentSpace),
+                                  );
                                 },
                               ),
                               value: _currentSpace.name.toLowerCase(),
