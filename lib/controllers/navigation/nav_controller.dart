@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 import '../../services/space_services.dart';
 import '../auth/login_controller.dart';
 import '../../views/pages/01_intro/intro_screen.dart';
@@ -109,9 +111,49 @@ class NavigationController extends GetxController {
     print('SETTED APP IN UNLOCK MODE');
   }
 
+  /////////////////////////////
+  /* <---- DARK MODE -----> */
+  static const String _IS_DARK_MODE = 'isInDarkMode';
+
+  /// Change the theme to dark mode
+  void switchTheme(bool? value) {
+    if (value == true) {
+      Get.changeThemeMode(ThemeMode.dark);
+      isAppInDarkMode = true;
+      update();
+      _writeThemeStateToStorage(true);
+    } else {
+      Get.changeThemeMode(ThemeMode.light);
+      isAppInDarkMode = false;
+      update();
+      _writeThemeStateToStorage(false);
+    }
+  }
+
+  /// If the app is in darkmode
+  bool isAppInDarkMode = false;
+
+  /// Storage For Dark Mode
+  bool _isTheAppInDarkMode() {
+    Box box = Hive.box(_APPS_BOOL_BOX);
+    bool _isInVerifyMode = box.get(_IS_DARK_MODE) ?? false;
+    return _isInVerifyMode;
+  }
+
+  /// Write Theme To Storage (For Saving The Theme Setting on Device)
+  void _writeThemeStateToStorage(bool isDark) {
+    Box box = Hive.box(_APPS_BOOL_BOX);
+    if (isDark) {
+      box.put(_IS_DARK_MODE, true);
+    } else {
+      box.put(_IS_DARK_MODE, false);
+    }
+  }
+
   @override
   void onInit() async {
     super.onInit();
     await _onAppStart();
+    _isTheAppInDarkMode();
   }
 }

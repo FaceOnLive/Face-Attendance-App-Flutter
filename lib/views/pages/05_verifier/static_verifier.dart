@@ -1,14 +1,8 @@
-import 'dart:io';
 import 'dart:typed_data';
-
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:face_attendance/constants/app_sizes.dart';
-import 'package:face_attendance/controllers/user/user_controller.dart';
-import 'package:face_attendance/services/app_photo.dart';
-
+import '../../../constants/app_sizes.dart';
 import '../../../controllers/members/member_controller.dart';
 import '../../../controllers/verifier/verify_controller.dart';
-
 import '../../../constants/app_colors.dart';
 import '../../../constants/app_defaults.dart';
 import '../../../constants/app_images.dart';
@@ -134,7 +128,7 @@ class _CameraSection extends StatelessWidget {
                     bottom: Get.height * 0.04,
                     child: _UnlockButton(),
                   ),
-                  /* <---- Camear Switch Button ----> */
+                  /* <---- Camera Switch Button ----> */
                   Positioned(
                     top: Get.height * 0.1,
                     right: 10,

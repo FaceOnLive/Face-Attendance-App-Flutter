@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:face_attendance/views/pages/03_entrypoint/entrypoint.dart';
 import '../members/member_controller.dart';
 import '../../services/space_services.dart';
-import '../../views/pages/03_main/main_screen.dart';
 import '../../constants/app_colors.dart';
 import '../../models/member.dart';
 import '../auth/login_controller.dart';
@@ -79,6 +79,28 @@ class SpaceController extends GetxController {
     update();
   }
 
+  /// Get Member List By Space
+  List<Member> getMembersBySpaceID({required String spaceID}) {
+    List<Member> _allSpaceMembers = [];
+    // Check if the space exist
+    Space? _space = getSpaceById(spaceID: spaceID);
+
+    // if the space exist
+    if (_space != null) {
+      List<Member> _allFetchedMembers = Get.find<MembersController>().allMember;
+      _allFetchedMembers.forEach((element) {
+        if (_space.memberList.contains(element.memberID)) {
+          _allSpaceMembers.add(element);
+        } else {
+          // print('Member does not belong to ${currentSpace!.name}');
+        }
+      });
+    }
+
+    // return list
+    return _allSpaceMembers;
+  }
+
   /// To show progress indicator
   bool isFetchingSpaces = false;
 
@@ -133,7 +155,7 @@ class SpaceController extends GetxController {
     try {
       await _collectionReference.doc(spaceID).delete();
       await _fetchAllSpaces();
-      Get.offAll(() => MainScreenUI());
+      Get.offAll(() => EntryPointUI());
     } on FirebaseException catch (e) {
       print(e);
     }

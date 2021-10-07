@@ -14,9 +14,9 @@ import 'package:face_attendance/views/themes/text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class MainScreenUI extends StatelessWidget {
+class EntryPointUI extends StatelessWidget {
   /// Works as a foundation of all the other screen
-  const MainScreenUI({Key? key}) : super(key: key);
+  const EntryPointUI({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -52,13 +52,13 @@ class MainScreenUI extends StatelessWidget {
             builder: (controller) => BottomNavigationBar(
               onTap: controller.onNavTap,
               currentIndex: controller.currentIndex,
-              backgroundColor: Colors.white,
+              backgroundColor: context.theme.cardColor,
               selectedLabelStyle: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: AppText.b1.fontSize,
               ),
               unselectedIconTheme: IconThemeData(
-                color: AppColors.DARK_COLOR.withOpacity(0.5),
+                color: context.theme.unselectedWidgetColor,
                 size: 25,
               ),
               selectedIconTheme: IconThemeData(

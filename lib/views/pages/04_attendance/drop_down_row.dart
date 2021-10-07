@@ -28,7 +28,7 @@ class DropDownRow extends GetView<SpaceController> {
               ),
               decoration: BoxDecoration(
                 border: Border.all(
-                  color: AppColors.PRIMARY_COLOR,
+                  color: context.theme.primaryColor,
                 ),
                 borderRadius: AppDefaults.defaulBorderRadius,
               ),

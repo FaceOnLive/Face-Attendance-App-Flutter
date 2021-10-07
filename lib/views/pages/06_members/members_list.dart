@@ -25,11 +25,16 @@ class MembersList extends StatelessWidget {
           builder: (controller) => controller.isFetchingUser
               ? _LoadingData()
               : controller.allMember.length > 0
-                  ? ListView.builder(
+                  ? ListView.separated(
                       itemCount: controller.allMember.length,
                       itemBuilder: (context, index) {
                         return _MemberListTile(
                           member: controller.allMember[index],
+                        );
+                      },
+                      separatorBuilder: (context, index) {
+                        return Divider(
+                          height: 7,
                         );
                       },
                     )

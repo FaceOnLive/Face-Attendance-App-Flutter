@@ -1,10 +1,12 @@
+import 'package:face_attendance/views/pages/03_entrypoint/entrypoint.dart';
+
 import '../../services/app_toast.dart';
 import '../camera/camera_controller.dart';
 import '../spaces/space_controller.dart';
 import '../verifier/verify_controller.dart';
 import '../members/member_controller.dart';
 import '../user/user_controller.dart';
-import '../../views/pages/03_main/main_screen.dart';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 
@@ -19,7 +21,7 @@ class LoginController extends GetxController {
     UserCredential _userCredintial = await _firebaseAuth
         .signInWithEmailAndPassword(email: email, password: password);
     _firebaseUser.value = _userCredintial.user;
-    Get.offAll(() => MainScreenUI());
+    Get.offAll(() => EntryPointUI());
     AppToast.showDefaultToast('Login Successfull');
   }
 

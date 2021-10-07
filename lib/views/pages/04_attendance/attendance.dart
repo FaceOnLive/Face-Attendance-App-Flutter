@@ -22,56 +22,12 @@ class AttendanceScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: Get.width,
-      color: Colors.white,
+      color: context.theme.scaffoldBackgroundColor,
       child: SafeArea(
         child: Column(
           children: [
             /* <---- Header ----> */
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 20),
-              height: Get.height * 0.1,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                boxShadow: AppDefaults.defaultBoxShadow,
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  /* <---- Left Side ----> */
-                  Row(
-                    children: [
-                      Hero(
-                        tag: AppImages.MAIN_LOGO,
-                        child: Image.asset(
-                          AppImages.MAIN_LOGO_2,
-                          width: Get.width * 0.13,
-                        ),
-                      ),
-                      AppSizes.wGap5,
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Turing Tech',
-                            style: AppText.b2.copyWith(
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Text(
-                            'Face Attendance App',
-                            style: AppText.caption,
-                          )
-                        ],
-                      ),
-                    ],
-                  ),
-                  /* <---- Right Side ----> */
-                  // ADMIN PROFILE PICTURE
-                  _UserProfilePicture(),
-                ],
-              ),
-            ),
+            _HeaderMainPage(),
             /* <---- Attendance List -----> */
             GetBuilder<SpaceController>(
               builder: (controller) {
@@ -96,6 +52,61 @@ class AttendanceScreen extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class _HeaderMainPage extends StatelessWidget {
+  const _HeaderMainPage({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 20),
+      height: Get.height * 0.1,
+      decoration: BoxDecoration(
+        color: context.theme.scaffoldBackgroundColor,
+        boxShadow: AppDefaults.defaultBoxShadow,
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          /* <---- Left Side ----> */
+          Row(
+            children: [
+              Hero(
+                tag: AppImages.MAIN_LOGO,
+                child: Image.asset(
+                  AppImages.MAIN_LOGO_2,
+                  width: Get.width * 0.13,
+                ),
+              ),
+              AppSizes.wGap5,
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Turing Tech',
+                    style: AppText.b2.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Text(
+                    'Face Attendance App',
+                    style: AppText.caption,
+                  )
+                ],
+              ),
+            ],
+          ),
+          /* <---- Right Side ----> */
+          // ADMIN PROFILE PICTURE
+          _UserProfilePicture(),
+        ],
       ),
     );
   }

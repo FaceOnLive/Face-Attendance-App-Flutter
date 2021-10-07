@@ -7,23 +7,23 @@ import '../../../controllers/members/member_controller.dart';
 import '../../../controllers/spaces/space_controller.dart';
 import '../../../models/member.dart';
 import '../04_attendance/user_list.dart';
-import '../../themes/text.dart';
 import '../../widgets/app_button.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class SpaceMemberRemoveSheet extends StatefulWidget {
-  const SpaceMemberRemoveSheet({Key? key, required this.space})
+class SpaceMemberRemoveScreen extends StatefulWidget {
+  const SpaceMemberRemoveScreen({Key? key, required this.space})
       : super(key: key);
 
   final Space space;
 
   @override
-  _SpaceMemberRemoveSheetState createState() => _SpaceMemberRemoveSheetState();
+  _SpaceMemberRemoveScreenState createState() =>
+      _SpaceMemberRemoveScreenState();
 }
 
-class _SpaceMemberRemoveSheetState extends State<SpaceMemberRemoveSheet> {
+class _SpaceMemberRemoveScreenState extends State<SpaceMemberRemoveScreen> {
   /* <---- Dependency -----> */
   MembersController _membersController = Get.find();
   SpaceController _spaceController = Get.find();
@@ -77,88 +77,76 @@ class _SpaceMemberRemoveSheetState extends State<SpaceMemberRemoveSheet> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Remove Members'),
       ),
-      child: SafeArea(
-        child: Column(
-          children: [
-            /* <---- Header -----> */
-            AppSizes.hGap10,
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 15),
-              child: AppBar(
-                title: Text(
-                  'Remove Members',
-                  style: AppText.h6.copyWith(
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.PRIMARY_COLOR),
-                  textAlign: TextAlign.center,
-                ),
+      body: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+        ),
+        child: SafeArea(
+          child: Column(
+            children: [
+              /* <---- List -----> */
+              GetBuilder<MembersController>(
+                builder: (controller) => controller.isFetchingUser
+                    ? LoadingMembers()
+                    : _availableMemberInSpace.length > 0
+                        ? Expanded(
+                            child: ListView.builder(
+                              itemCount: _availableMemberInSpace.length,
+                              itemBuilder: (context, index) {
+                                Member _currentMember =
+                                    _availableMemberInSpace[index];
+                                return _MemberListTile(
+                                  member: _currentMember,
+                                  isSelected:
+                                      _selectedMember.contains(_currentMember),
+                                  onTap: () {
+                                    _onMemberSelect(_currentMember);
+                                  },
+                                );
+                              },
+                            ),
+                          )
+                        : _EmptyMemberList(),
               ),
-            ),
-
-            /* <---- List -----> */
-            GetBuilder<MembersController>(
-              builder: (controller) => controller.isFetchingUser
-                  ? LoadingMembers()
-                  : _availableMemberInSpace.length > 0
-                      ? Expanded(
-                          child: ListView.builder(
-                            itemCount: _availableMemberInSpace.length,
-                            itemBuilder: (context, index) {
-                              Member _currentMember =
-                                  _availableMemberInSpace[index];
-                              return _MemberListTile(
-                                member: _currentMember,
-                                isSelected:
-                                    _selectedMember.contains(_currentMember),
-                                onTap: () {
-                                  _onMemberSelect(_currentMember);
-                                },
-                              );
-                            },
-                          ),
-                        )
-                      : _EmptyMemberList(),
-            ),
-            /* <---- Add Button -----> */
-            Obx(
-              () => _selectedMember.length > 0
-                  ? AppButton(
-                      disableBorderRadius: true,
-                      margin: EdgeInsets.all(0),
-                      padding: EdgeInsets.all(AppSizes.DEFAULT_PADDING),
-                      label: 'Remove',
-                      isLoading: _isRemovingMember.value,
-                      backgroundColor: AppColors.APP_RED,
-                      onTap: () async {
-                        try {
-                          _isRemovingMember.trigger(true);
-                          await _spaceController.removeMembersFromSpace(
-                            spaceID: widget.space.spaceID!,
-                            members: _selectedMember,
-                          );
-                          Get.back();
-                          Get.back(closeOverlays: false);
-                          Get.rawSnackbar(
-                            title: 'Member Removed Successfully',
-                            message:
-                                'Total ${_selectedMember.length} Members has been removed',
-                            backgroundColor: AppColors.APP_RED,
-                            snackStyle: SnackStyle.GROUNDED,
-                          );
-                          _isRemovingMember.trigger(false);
-                        } on FirebaseException catch (e) {
-                          print(e);
-                          _isRemovingMember.trigger(false);
-                        }
-                      },
-                    )
-                  : SizedBox(),
-            ),
-          ],
+              /* <---- Add Button -----> */
+              Obx(() => AppButton(
+                    disableBorderRadius: true,
+                    margin: EdgeInsets.all(0),
+                    padding: EdgeInsets.all(AppSizes.DEFAULT_PADDING),
+                    label: 'Remove',
+                    isLoading: _isRemovingMember.value,
+                    backgroundColor: AppColors.APP_RED,
+                    isButtonDisabled: _selectedMember.length < 1,
+                    onTap: () async {
+                      try {
+                        _isRemovingMember.trigger(true);
+                        await _spaceController.removeMembersFromSpace(
+                          spaceID: widget.space.spaceID!,
+                          members: _selectedMember,
+                        );
+                        Get.back();
+                        Get.back();
+                        Get.back(closeOverlays: false);
+                        Get.rawSnackbar(
+                          title: 'Member Removed Successfully',
+                          message:
+                              'Total ${_selectedMember.length} Members has been removed',
+                          backgroundColor: AppColors.APP_RED,
+                          snackStyle: SnackStyle.GROUNDED,
+                        );
+                        _isRemovingMember.trigger(false);
+                      } on FirebaseException catch (e) {
+                        print(e);
+                        _isRemovingMember.trigger(false);
+                      }
+                    },
+                  )),
+            ],
+          ),
         ),
       ),
     );

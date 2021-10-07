@@ -110,14 +110,17 @@ class _CameraSection extends StatelessWidget {
                       ],
                     ),
                   ),
-                  /* <---- Camear Switch Button ----> */
+                  /* <---- Camera Switch Button ----> */
                   Positioned(
                     top: 15,
                     right: 10,
-                    child: FloatingActionButton(
-                      onPressed: controller.toggleCameraLens,
-                      child: Icon(Icons.switch_camera_rounded),
-                      backgroundColor: AppColors.PRIMARY_COLOR,
+                    child: Opacity(
+                      opacity: 0.5,
+                      child: FloatingActionButton(
+                        onPressed: controller.toggleCameraLens,
+                        child: Icon(Icons.switch_camera_rounded),
+                        backgroundColor: AppColors.PRIMARY_COLOR,
+                      ),
                     ),
                   ),
 

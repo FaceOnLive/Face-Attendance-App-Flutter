@@ -15,6 +15,7 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       title: 'Turing Tech',
       theme: AppThemes.lightTheme,
+      darkTheme: AppThemes.darkTheme,
       home: AppRoot(),
     );
   }

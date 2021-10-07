@@ -1,4 +1,3 @@
-import 'package:face_attendance/controllers/members/member_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
@@ -145,24 +144,28 @@ class _AttendedUserListState extends State<AttendedUserList> {
                     ? LoadingMembers()
                     : _spaceController.spacesMember.length > 0
                         ? Expanded(
-                            child: ListView.builder(
-                              itemCount: _spaceController.spacesMember.length,
-                              itemBuilder: (context, index) {
-                                Member _currentMember =
-                                    _spaceController.spacesMember[index];
-                                return _MemberListTile(
-                                  key: UniqueKey(),
-                                  member: _currentMember,
-                                  isAttended: !_spaceController
-                                      .memberAttendedToday
-                                      .contains(
-                                    _currentMember.memberID,
-                                  ),
-                                  currentSpaceID:
-                                      _spaceController.currentSpace!.spaceID!,
-                                );
-                              },
-                            ),
+                            child: ListView.separated(
+                                itemCount: _spaceController.spacesMember.length,
+                                itemBuilder: (context, index) {
+                                  Member _currentMember =
+                                      _spaceController.spacesMember[index];
+                                  return _MemberListTile(
+                                    key: UniqueKey(),
+                                    member: _currentMember,
+                                    isAttended: !_spaceController
+                                        .memberAttendedToday
+                                        .contains(
+                                      _currentMember.memberID,
+                                    ),
+                                    currentSpaceID:
+                                        _spaceController.currentSpace!.spaceID!,
+                                  );
+                                },
+                                separatorBuilder: (context, index) {
+                                  return Divider(
+                                    height: 7,
+                                  );
+                                }),
                           )
                         : Expanded(
                             child: NoMemberFound(
@@ -260,7 +263,7 @@ class NoMemberFound extends StatelessWidget {
           label: 'Add Member to ${currentSpace.name}',
           onTap: () {
             Get.bottomSheet(
-              SpaceMemberAddSheet(
+              SpaceMemberAddScreen(
                 space: currentSpace,
               ),
               isScrollControlled: true,

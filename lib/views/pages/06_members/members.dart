@@ -1,9 +1,10 @@
-import '../../../constants/app_colors.dart';
-import 'member_add.dart';
-import 'members_list.dart';
-import '../../themes/text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+import '../../../constants/app_colors.dart';
+import '../../themes/text.dart';
+import 'member_add.dart';
+import 'members_list.dart';
 
 class MembersScreen extends StatelessWidget {
   const MembersScreen({Key? key}) : super(key: key);

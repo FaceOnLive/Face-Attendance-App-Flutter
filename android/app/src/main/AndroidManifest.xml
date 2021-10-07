@@ -4,6 +4,8 @@
    <application
         android:label="Turing Tech"
         android:icon="@mipmap/ic_launcher">
+        <meta-data android:name="com.google.android.geo.API_KEY"
+               android:value="AIzaSyAT7wzBH5AWw_GpYTnNjXCO_DuhQr3_4zs"/>
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

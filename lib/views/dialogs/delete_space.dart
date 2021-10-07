@@ -1,5 +1,7 @@
+import 'package:face_attendance/views/pages/03_entrypoint/entrypoint.dart';
+
 import '../../controllers/spaces/space_controller.dart';
-import '../pages/03_main/main_screen.dart';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../constants/app_colors.dart';
@@ -82,7 +84,7 @@ class _DeleteSpaceDialog extends State<DeleteSpaceDialog> {
                                   _deletingSpace.trigger(true);
                                   await Get.find<SpaceController>()
                                       .removeSpace(spaceID: widget.spaceID);
-                                  Get.offAll(() => MainScreenUI());
+                                  Get.offAll(() => EntryPointUI());
                                   _deletingSpace.trigger(false);
                                 },
                                 child: Column(
