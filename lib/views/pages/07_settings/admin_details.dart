@@ -1,9 +1,9 @@
-import 'package:face_attendance/constants/app_sizes.dart';
-import 'package:face_attendance/controllers/user/user_controller.dart';
-import 'package:face_attendance/services/app_toast.dart';
-import 'package:face_attendance/services/form_verify.dart';
-import 'package:face_attendance/views/themes/text.dart';
-import 'package:face_attendance/views/widgets/app_button.dart';
+import '../../../constants/app_sizes.dart';
+import '../../../controllers/user/user_controller.dart';
+import '../../../services/app_toast.dart';
+import '../../../services/form_verify.dart';
+import '../../themes/text.dart';
+import '../../widgets/app_button.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/route_manager.dart';
@@ -71,7 +71,7 @@ class _AdminDetailsSheetState extends State<AdminDetailsSheet> {
     return Container(
       padding: EdgeInsets.all(AppSizes.DEFAULT_PADDING),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Get.theme.canvasColor,
         borderRadius: AppDefaults.defaultBottomSheetRadius,
       ),
       child: Column(

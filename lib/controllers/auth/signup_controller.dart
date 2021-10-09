@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:face_attendance/views/pages/03_entrypoint/entrypoint.dart';
+import '../../views/pages/03_entrypoint/entrypoint.dart';
 import '../../views/dialogs/email_sent.dart';
 import '../../models/user.dart';
 import 'package:firebase_auth/firebase_auth.dart';

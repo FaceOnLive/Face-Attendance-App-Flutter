@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+
 /// There is already a class called USER in Firebase, That's
 /// Why we are using APPUSER here. So that we can differniate;
 class AppUser {

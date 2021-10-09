@@ -1,4 +1,4 @@
-import 'package:face_attendance/views/pages/03_entrypoint/entrypoint.dart';
+import '../pages/03_entrypoint/entrypoint.dart';
 
 import '../../controllers/spaces/space_controller.dart';
 

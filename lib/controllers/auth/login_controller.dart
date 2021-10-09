@@ -1,4 +1,4 @@
-import 'package:face_attendance/views/pages/03_entrypoint/entrypoint.dart';
+import '../../views/pages/03_entrypoint/entrypoint.dart';
 
 import '../../services/app_toast.dart';
 import '../camera/camera_controller.dart';

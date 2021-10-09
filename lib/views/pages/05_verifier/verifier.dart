@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:camera/camera.dart';
+
 import 'static_verifier_LockUnlock.dart';
 import '../../../controllers/user/user_controller.dart';
 import '../../../controllers/verifier/verify_controller.dart';

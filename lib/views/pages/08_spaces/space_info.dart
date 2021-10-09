@@ -1,4 +1,4 @@
-import 'package:face_attendance/views/pages/08_spaces/space_range.dart';
+import 'space_range.dart';
 
 import 'space_members.dart';
 import '../../../constants/app_colors.dart';

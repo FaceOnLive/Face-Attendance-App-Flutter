@@ -4,7 +4,6 @@
  <-----------------------> */
 
 import 'package:animations/animations.dart';
-import 'package:face_attendance/constants/app_colors.dart';
 import 'package:face_attendance/controllers/members/member_controller.dart';
 import 'package:face_attendance/controllers/navigation/nav_controller.dart';
 import 'package:face_attendance/controllers/spaces/space_controller.dart';
@@ -58,11 +57,11 @@ class EntryPointUI extends StatelessWidget {
                 fontSize: AppText.b1.fontSize,
               ),
               unselectedIconTheme: IconThemeData(
-                color: context.theme.unselectedWidgetColor,
+                color: context.theme.unselectedWidgetColor.withOpacity(0.4),
                 size: 25,
               ),
               selectedIconTheme: IconThemeData(
-                color: AppColors.PRIMARY_COLOR,
+                color: context.theme.primaryColor,
               ),
               iconSize: 32,
               items: [

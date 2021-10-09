@@ -1,4 +1,4 @@
-import 'package:face_attendance/views/pages/03_entrypoint/entrypoint.dart';
+import '../03_entrypoint/entrypoint.dart';
 
 import '../../../constants/app_colors.dart';
 import '../../../constants/app_images.dart';

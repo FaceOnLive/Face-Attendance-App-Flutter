@@ -1,9 +1,10 @@
-import '../../../controllers/members/member_controller.dart';
-import '../../dialogs/date_attend_dialog.dart';
-import '../../widgets/app_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+
+import '../../../controllers/members/member_controller.dart';
+import '../../dialogs/date_attend_dialog.dart';
+import '../../widgets/app_button.dart';
 
 class MemberAttendanceEditScreen extends StatefulWidget {
   const MemberAttendanceEditScreen({

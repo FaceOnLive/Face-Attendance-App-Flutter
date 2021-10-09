@@ -1,11 +1,10 @@
-import 'package:face_attendance/views/pages/03_entrypoint/entrypoint.dart';
-
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'pages/03_entrypoint/entrypoint.dart';
 import 'pages/05_verifier/static_verifier.dart';
 import '../controllers/auth/login_controller.dart';
 import '../constants/app_images.dart';
 import '../controllers/navigation/nav_controller.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 class AppRoot extends StatelessWidget {
   const AppRoot({Key? key}) : super(key: key);
@@ -13,8 +12,6 @@ class AppRoot extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<NavigationController>(
-      init: NavigationController(),
-      autoRemove: false,
       builder: (controller) {
         if (controller.everyThingLoadedUp) {
           return _MainUI();

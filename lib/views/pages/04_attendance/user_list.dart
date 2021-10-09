@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+
 import '../../../models/space.dart';
 import '../08_spaces/space_member_add.dart';
 import '../../widgets/app_button.dart';
@@ -27,52 +28,6 @@ class _AttendedUserListState extends State<AttendedUserList> {
   // Dependency
   SpaceController _spaceController = Get.find();
 
-  /// Switch
-  RxBool _showAttended = true.obs;
-  RxBool _showUnattended = true.obs;
-
-  /// Swith Button
-  _onTapShowAttendButton(bool? value) {
-    if (_showAttended.value == true) {
-      _showAttended.trigger(false);
-      _spaceController.onUnattendedSelection();
-    } else if (_showAttended.value == false && _showUnattended.value == true) {
-      _showAttended.trigger(true);
-      _spaceController.onBothButtonSelection();
-    } else if (_showAttended.value == true && _showUnattended.value == false) {
-      _showAttended.trigger(false);
-      _showUnattended.trigger(true);
-      _spaceController.onUnattendedSelection();
-    } else if (_showAttended.value == false && _showUnattended.value == false) {
-      _showAttended.trigger(true);
-      _spaceController.onAttendedSelection();
-    } else {
-      _showAttended.trigger(true);
-      _spaceController.onBothButtonSelection();
-    }
-  }
-
-  /// Switch Button
-  _onTapShowUnattendButton(bool? value) {
-    if (_showUnattended.value == true) {
-      _showUnattended.trigger(false);
-      _spaceController.onAttendedSelection();
-    } else if (_showUnattended.value == false && _showAttended.value == true) {
-      _showAttended.trigger(true);
-      _spaceController.onBothButtonSelection();
-    } else if (_showUnattended.value == true && _showAttended.value == false) {
-      _showAttended.trigger(true);
-      _showUnattended.trigger(false);
-      _spaceController.onAttendedSelection();
-    } else if (_showUnattended.value == false && _showAttended.value == false) {
-      _showUnattended.trigger(true);
-      _spaceController.onUnattendedSelection();
-    } else {
-      _showUnattended.trigger(true);
-      _spaceController.onBothButtonSelection();
-    }
-  }
-
 /* <---- STATE -----> */
   @override
   void initState() {
@@ -81,8 +36,6 @@ class _AttendedUserListState extends State<AttendedUserList> {
 
   @override
   void dispose() {
-    _showAttended.close();
-    _showUnattended.close();
     super.dispose();
   }
 
@@ -94,26 +47,44 @@ class _AttendedUserListState extends State<AttendedUserList> {
         child: Column(
           children: [
             // Header
-            Obx(
-              () => Row(
+            GetBuilder<SpaceController>(
+              builder: (controller) => Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Row(
                     children: [
                       Row(
                         children: [
-                          Checkbox(
-                            value: _showAttended.value,
-                            onChanged: _onTapShowAttendButton,
+                          Radio<int>(
+                            value: 0,
+                            groupValue: controller.radioOption,
+                            onChanged: (v) {
+                              controller.onRadioSelection(0);
+                            },
+                          ),
+                          Text('All'),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Radio<int>(
+                            value: 1,
+                            groupValue: controller.radioOption,
+                            onChanged: (v) {
+                              controller.onRadioSelection(1);
+                            },
                           ),
                           Text('Attended'),
                         ],
                       ),
                       Row(
                         children: [
-                          Checkbox(
-                            value: _showUnattended.value,
-                            onChanged: _onTapShowUnattendButton,
+                          Radio<int>(
+                            value: 2,
+                            groupValue: controller.radioOption,
+                            onChanged: (v) {
+                              controller.onRadioSelection(2);
+                            },
                           ),
                           Text('Unattended'),
                         ],
@@ -140,38 +111,51 @@ class _AttendedUserListState extends State<AttendedUserList> {
 
             GetBuilder<SpaceController>(
               builder: (controller) {
-                return !controller.isEverythingFetched
-                    ? LoadingMembers()
-                    : _spaceController.spacesMember.length > 0
-                        ? Expanded(
-                            child: ListView.separated(
-                                itemCount: _spaceController.spacesMember.length,
-                                itemBuilder: (context, index) {
-                                  Member _currentMember =
-                                      _spaceController.spacesMember[index];
-                                  return _MemberListTile(
-                                    key: UniqueKey(),
-                                    member: _currentMember,
-                                    isAttended: !_spaceController
-                                        .memberAttendedToday
-                                        .contains(
-                                      _currentMember.memberID,
-                                    ),
-                                    currentSpaceID:
-                                        _spaceController.currentSpace!.spaceID!,
-                                  );
-                                },
-                                separatorBuilder: (context, index) {
-                                  return Divider(
-                                    height: 7,
-                                  );
-                                }),
-                          )
-                        : Expanded(
-                            child: NoMemberFound(
-                              currentSpace: _spaceController.currentSpace!,
-                            ),
-                          );
+                if (!controller.isEverythingFetched) {
+                  // Loading Members
+                  return LoadingMembers();
+                } else {
+                  // There is no member
+                  if (_spaceController.spacesMember.length > 0 &&
+                      _spaceController.allMembersSpace.length > 0) {
+                    return Expanded(
+                      child: ListView.separated(
+                          itemCount: _spaceController.spacesMember.length,
+                          itemBuilder: (context, index) {
+                            Member _currentMember =
+                                _spaceController.spacesMember[index];
+                            return _MemberListTile(
+                              key: UniqueKey(),
+                              member: _currentMember,
+                              isAttended: !_spaceController.memberAttendedToday
+                                  .contains(
+                                _currentMember.memberID,
+                              ),
+                              currentSpaceID:
+                                  _spaceController.currentSpace!.spaceID!,
+                            );
+                          },
+                          separatorBuilder: (context, index) {
+                            return Divider(
+                              height: 7,
+                            );
+                          }),
+                    );
+                  } else if (_spaceController.allMembersSpace.length > 0 &&
+                      _spaceController.spacesMember.length < 1) {
+                    return Expanded(
+                      child: Center(
+                        child: Text('Attendance is clear'),
+                      ),
+                    );
+                  } else {
+                    return Expanded(
+                      child: NoMemberFound(
+                        currentSpace: _spaceController.currentSpace!,
+                      ),
+                    );
+                  }
+                }
               },
             )
           ],

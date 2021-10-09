@@ -1,6 +1,6 @@
 import 'dart:io';
-import 'package:face_attendance/controllers/navigation/nav_controller.dart';
-import 'package:face_attendance/views/pages/07_settings/admin_details.dart';
+import '../../../controllers/navigation/nav_controller.dart';
+import 'admin_details.dart';
 
 import 'change_holiday.dart';
 import 'change_password.dart';

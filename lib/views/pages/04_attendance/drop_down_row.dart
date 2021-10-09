@@ -41,7 +41,7 @@ class DropDownRow extends GetView<SpaceController> {
                     : DropdownButton<String>(
                         isExpanded: true,
                         underline: SizedBox(),
-                        dropdownColor: Colors.white,
+                        dropdownColor: context.theme.canvasColor,
                         items: List.generate(
                           controller.allSpaces.length + 1,
                           (index) {

@@ -83,7 +83,7 @@ class _SpaceMemberRemoveScreenState extends State<SpaceMemberRemoveScreen> {
       ),
       body: Container(
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: context.theme.scaffoldBackgroundColor,
         ),
         child: SafeArea(
           child: Column(

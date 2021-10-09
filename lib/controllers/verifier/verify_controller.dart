@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:face_attendance/views/pages/03_entrypoint/entrypoint.dart';
+import '../../views/pages/03_entrypoint/entrypoint.dart';
 import 'package:flutter/services.dart';
 import '../navigation/nav_controller.dart';
 import '../user/user_controller.dart';

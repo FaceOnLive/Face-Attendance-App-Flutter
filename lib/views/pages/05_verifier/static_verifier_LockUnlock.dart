@@ -1,3 +1,6 @@
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
 import '../../../controllers/verifier/verify_controller.dart';
 import '../../../services/form_verify.dart';
 import '../../../constants/app_colors.dart';
@@ -5,10 +8,8 @@ import '../../../constants/app_defaults.dart';
 import '../../../constants/app_sizes.dart';
 import '../../themes/text.dart';
 import '../../widgets/app_button.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
-/* <---- This is a bottom sheet ----> */
+/* <---- This is a sheet ----> */
 
 class StaticVerifierLockUnlock extends StatefulWidget {
   const StaticVerifierLockUnlock({Key? key, this.isLockMode = false})

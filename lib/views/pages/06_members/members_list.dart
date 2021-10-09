@@ -1,4 +1,8 @@
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+
 import '../../../controllers/members/member_controller.dart';
 import '../../../models/member.dart';
 import '../../../constants/app_colors.dart';
@@ -7,9 +11,6 @@ import '../../../constants/app_images.dart';
 import '../../../constants/app_sizes.dart';
 import 'member_info.dart';
 import '../../themes/text.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:shimmer/shimmer.dart';
 
 class MembersList extends StatelessWidget {
   const MembersList({
