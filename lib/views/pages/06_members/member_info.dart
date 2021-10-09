@@ -164,7 +164,7 @@ class _MemberAttendanceState extends State<_MemberAttendance> {
                     children: [
                       SfCalendar(
                         view: CalendarView.month,
-                        backgroundColor: Colors.white,
+                        backgroundColor: context.theme.canvasColor,
                         cellBorderColor: Colors.white,
                         headerStyle: CalendarHeaderStyle(
                           textAlign: TextAlign.center,

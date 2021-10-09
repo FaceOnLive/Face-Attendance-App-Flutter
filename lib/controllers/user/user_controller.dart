@@ -153,6 +153,17 @@ class AppUserController extends GetxController {
     return allWeekDays[currentDayInt - 1];
   }
 
+  Future<void> changeAdminName({required String newName}) async {
+    await _collectionReference.doc(currentUser.userID).get().then(
+      (value) async {
+        await value.reference.update(
+          {"name": newName},
+        );
+        _fetchUserData();
+      },
+    );
+  }
+
   @override
   void onInit() {
     super.onInit();

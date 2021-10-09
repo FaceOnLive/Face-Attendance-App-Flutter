@@ -1,3 +1,6 @@
+import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
+
 import '../../services/space_services.dart';
 import '../auth/login_controller.dart';
 import '../../views/pages/01_intro/intro_screen.dart';
@@ -109,9 +112,83 @@ class NavigationController extends GetxController {
     print('SETTED APP IN UNLOCK MODE');
   }
 
+  /////////////////////////////
+  /* <---- DARK MODE -----> */
+  // static const String _THEME_MODE_BOX = 'theme_box';
+  static const String _THEME_MODE = 'isInDarkMode';
+
+  /// Change the theme to dark mode
+  void switchTheme(bool? value) {
+    if (value == true) {
+      Get.changeThemeMode(ThemeMode.dark);
+      isAppInDarkMode = true;
+      update();
+      _writeThemeStateToStorage(ThemeMode.dark);
+    } else {
+      Get.changeThemeMode(ThemeMode.light);
+      isAppInDarkMode = false;
+      update();
+      _writeThemeStateToStorage(ThemeMode.light);
+    }
+  }
+
+  /// If the app is in darkmode
+  bool isAppInDarkMode = false;
+
+  /// Storage For Dark Mode, This value is used on main.dart file
+  bool _isTheAppInDarkMode() {
+    final box = GetStorage();
+    bool _isAppInDark = false;
+    String _data = box.read(_THEME_MODE) ?? 'light';
+    ThemeMode _theme = _convertToThemeMode(_data);
+    if (_theme == ThemeMode.dark) {
+      _isAppInDark = true;
+      isAppInDarkMode = true;
+    }
+    return _isAppInDark;
+  }
+
+  /// Write Theme To Storage (For Saving The Theme Setting on Device)
+  void _writeThemeStateToStorage(ThemeMode themeMode) {
+    final box = GetStorage();
+    if (themeMode == ThemeMode.system) {
+      box.write(_THEME_MODE, 'system');
+    } else if (themeMode == ThemeMode.dark) {
+      box.write(_THEME_MODE, 'dark');
+    } else if (themeMode == ThemeMode.light) {
+      box.write(_THEME_MODE, 'light');
+    }
+  }
+
+  /// Gives ThemeMode From String
+  ThemeMode _convertToThemeMode(String label) {
+    if (label == 'light') {
+      return ThemeMode.light;
+    } else if (label == 'dark') {
+      return ThemeMode.dark;
+    } else if (label == 'system') {
+      return ThemeMode.system;
+    } else {
+      return ThemeMode.light;
+    }
+  }
+
+  /// Gives App Theme Mode
+  ThemeMode appThemeMode() {
+    ThemeMode _theme = ThemeMode.light;
+    final box = GetStorage();
+    String _data = box.read(_THEME_MODE) ?? 'light';
+    _theme = _convertToThemeMode(_data);
+    return _theme;
+  }
+
+  /// When this controller initiates
   @override
   void onInit() async {
     super.onInit();
+
+    /// WHEN THE APP STARTS
     await _onAppStart();
+    _isTheAppInDarkMode();
   }
 }

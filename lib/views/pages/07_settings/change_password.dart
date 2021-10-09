@@ -93,7 +93,7 @@ class _ChangePasswordSheetState extends State<ChangePasswordSheet> {
     return Container(
       padding: EdgeInsets.all(AppSizes.DEFAULT_PADDING),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Get.theme.canvasColor,
         borderRadius: AppDefaults.defaultBottomSheetRadius,
       ),
       child: Column(

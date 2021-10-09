@@ -1,14 +1,15 @@
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+
 import '../../../constants/app_colors.dart';
 import '../../../controllers/user/user_controller.dart';
-import 'package:shimmer/shimmer.dart';
 import '../../../controllers/spaces/space_controller.dart';
 import '../08_spaces/space_add.dart';
 import '../../widgets/app_button.dart';
 import 'user_list.dart';
 import '../07_settings/settings.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import '../../../constants/app_defaults.dart';
 import '../../../constants/app_images.dart';
 import '../../../constants/app_sizes.dart';
@@ -22,56 +23,12 @@ class AttendanceScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: Get.width,
-      color: Colors.white,
+      color: context.theme.canvasColor,
       child: SafeArea(
         child: Column(
           children: [
             /* <---- Header ----> */
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 20),
-              height: Get.height * 0.1,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                boxShadow: AppDefaults.defaultBoxShadow,
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  /* <---- Left Side ----> */
-                  Row(
-                    children: [
-                      Hero(
-                        tag: AppImages.MAIN_LOGO,
-                        child: Image.asset(
-                          AppImages.MAIN_LOGO_2,
-                          width: Get.width * 0.13,
-                        ),
-                      ),
-                      AppSizes.wGap5,
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Turing Tech',
-                            style: AppText.b2.copyWith(
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Text(
-                            'Face Attendance App',
-                            style: AppText.caption,
-                          )
-                        ],
-                      ),
-                    ],
-                  ),
-                  /* <---- Right Side ----> */
-                  // ADMIN PROFILE PICTURE
-                  _UserProfilePicture(),
-                ],
-              ),
-            ),
+            _HeaderMainPage(),
             /* <---- Attendance List -----> */
             GetBuilder<SpaceController>(
               builder: (controller) {
@@ -96,6 +53,61 @@ class AttendanceScreen extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class _HeaderMainPage extends StatelessWidget {
+  const _HeaderMainPage({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 20),
+      height: Get.height * 0.1,
+      decoration: BoxDecoration(
+        color: context.theme.scaffoldBackgroundColor,
+        boxShadow: AppDefaults.defaultBoxShadow,
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          /* <---- Left Side ----> */
+          Row(
+            children: [
+              Hero(
+                tag: AppImages.MAIN_LOGO,
+                child: Image.asset(
+                  AppImages.MAIN_LOGO_2,
+                  width: Get.width * 0.13,
+                ),
+              ),
+              AppSizes.wGap5,
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Turing Tech',
+                    style: AppText.b2.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Text(
+                    'Face Attendance App',
+                    style: AppText.caption,
+                  )
+                ],
+              ),
+            ],
+          ),
+          /* <---- Right Side ----> */
+          // ADMIN PROFILE PICTURE
+          _UserProfilePicture(),
+        ],
       ),
     );
   }

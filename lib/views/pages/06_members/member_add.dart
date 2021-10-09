@@ -1,7 +1,8 @@
-import 'dart:io';
-import '../../../utils/ui_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'dart:io';
+
+import '../../../utils/ui_helper.dart';
 import '../../../services/form_verify.dart';
 import '../../../controllers/members/member_controller.dart';
 import '../../../constants/app_sizes.dart';

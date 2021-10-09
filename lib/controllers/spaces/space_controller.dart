@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import '../../views/pages/03_entrypoint/entrypoint.dart';
 import '../members/member_controller.dart';
 import '../../services/space_services.dart';
-import '../../views/pages/03_main/main_screen.dart';
 import '../../constants/app_colors.dart';
 import '../../models/member.dart';
 import '../auth/login_controller.dart';
@@ -56,27 +56,52 @@ class SpaceController extends GetxController {
           .singleWhere((element) => element.name.toLowerCase() == value);
       currentSpace = _space;
       _addCurrentSpaceMemberToList();
+      _onBothButtonSelection();
+      radioOption = 0;
       SpaceServices.saveSpaceToDevice(space: _space, userID: _currentUserID);
       update();
     }
   }
 
-  /// Current Spaces Members
-  List<Member> _currentSpaceMembers = [];
+  /// Contains all the Current Spaces Members
+  List<Member> _allMembersSpace = [];
+  List<Member> get allMembersSpace => _allMembersSpace;
 
   /// Add Current Space Members To List
   void _addCurrentSpaceMemberToList() {
-    _currentSpaceMembers = [];
+    _allMembersSpace = [];
     List<Member> _allMembers = Get.find<MembersController>().allMember;
     Space _currentSpace = currentSpace!;
     _allMembers.forEach((element) {
       if (_currentSpace.memberList.contains(element.memberID)) {
-        _currentSpaceMembers.add(element);
+        _allMembersSpace.add(element);
       } else {
         // print('Member does not belong to ${currentSpace!.name}');
       }
     });
     update();
+  }
+
+  /// Get Member List By Space
+  List<Member> getMembersBySpaceID({required String spaceID}) {
+    List<Member> _allSpaceMembers = [];
+    // Check if the space exist
+    Space? _space = getSpaceById(spaceID: spaceID);
+
+    // if the space exist
+    if (_space != null) {
+      List<Member> _allFetchedMembers = Get.find<MembersController>().allMember;
+      _allFetchedMembers.forEach((element) {
+        if (_space.memberList.contains(element.memberID)) {
+          _allSpaceMembers.add(element);
+        } else {
+          // print('Member does not belong to ${currentSpace!.name}');
+        }
+      });
+    }
+
+    // return list
+    return _allSpaceMembers;
   }
 
   /// To show progress indicator
@@ -133,7 +158,7 @@ class SpaceController extends GetxController {
     try {
       await _collectionReference.doc(spaceID).delete();
       await _fetchAllSpaces();
-      Get.offAll(() => MainScreenUI());
+      Get.offAll(() => EntryPointUI());
     } on FirebaseException catch (e) {
       print(e);
     }
@@ -202,7 +227,7 @@ class SpaceController extends GetxController {
     });
 
     /// Remove locally
-    _currentSpaceMembers.removeWhere((element) => element.memberID == userID);
+    _allMembersSpace.removeWhere((element) => element.memberID == userID);
 
     await _fetchAllSpaces();
     await _fetchCurrentActiveSpace();
@@ -255,32 +280,48 @@ class SpaceController extends GetxController {
   List<Member> spacesMember = [];
 
   /// When user select attendance button
-  void onAttendedSelection() {
+  void _onAttendedSelection() {
     spacesMember = [];
     memberAttendedToday.forEach((member) {
-      spacesMember = _currentSpaceMembers
-          .where((element) => element.memberID == member)
-          .toList();
-    });
-    update();
-  }
-
-  /// When user select unattendance button
-  void onUnattendedSelection() {
-    spacesMember = [];
-    memberAttendedToday.forEach((member) {
-      spacesMember = _currentSpaceMembers
+      spacesMember = _allMembersSpace
           .where((element) => element.memberID != member)
           .toList();
     });
     update();
   }
 
-  /// When Both Are Selected
-  void onBothButtonSelection() {
+  /// When user select unattendance button
+  void _onUnattendedSelection() {
     spacesMember = [];
-    spacesMember = _currentSpaceMembers;
+    memberAttendedToday.forEach((member) {
+      spacesMember = _allMembersSpace
+          .where((element) => element.memberID == member)
+          .toList();
+    });
     update();
+  }
+
+  /// When Both Are Selected
+  void _onBothButtonSelection() {
+    spacesMember = [];
+    spacesMember = _allMembersSpace;
+    update();
+  }
+
+  /// Switch, used in homescreen
+  int radioOption = 0;
+
+  void onRadioSelection(int selected) {
+    if (selected == 0) {
+      radioOption = 0;
+      _onBothButtonSelection();
+    } else if (selected == 1) {
+      radioOption = 1;
+      _onAttendedSelection();
+    } else if (selected == 2) {
+      radioOption = 2;
+      _onUnattendedSelection();
+    }
   }
 
   @override
@@ -292,7 +333,7 @@ class SpaceController extends GetxController {
     await _fetchCurrentActiveSpace();
     _addCurrentSpaceMemberToList();
     await _fetchMemberAttendedToday();
-    spacesMember = _currentSpaceMembers;
+    spacesMember = _allMembersSpace;
     isEverythingFetched = true;
     update();
   }

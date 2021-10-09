@@ -1,4 +1,6 @@
-import 'space_member_add.dart';
+import 'space_range.dart';
+
+import 'space_members.dart';
 import '../../../constants/app_colors.dart';
 import '../../../constants/app_defaults.dart';
 import '../../../constants/app_sizes.dart';
@@ -8,8 +10,6 @@ import '../../themes/text.dart';
 import '../../widgets/app_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import 'space_member_remove.dart';
 
 class SpaceInfoScreen extends StatelessWidget {
   const SpaceInfoScreen({Key? key, required this.space}) : super(key: key);
@@ -76,31 +76,11 @@ class SpaceInfoScreen extends StatelessWidget {
                         Icons.person_add_alt_1_rounded,
                         color: Colors.white,
                       ),
-                      label: 'Add Members',
+                      label: 'Members Management',
                       onTap: () {
-                        Get.bottomSheet(
-                          SpaceMemberAddSheet(
-                            space: space,
-                          ),
-                          isScrollControlled: true,
-                          ignoreSafeArea: false,
-                        );
-                      },
-                    ),
-                    AppButton(
-                      prefixIcon: Icon(
-                        Icons.person_remove_alt_1_rounded,
-                        color: Colors.white,
-                      ),
-                      label: 'Remove Members',
-                      onTap: () {
-                        Get.bottomSheet(
-                          SpaceMemberRemoveSheet(
-                            space: space,
-                          ),
-                          isScrollControlled: true,
-                          ignoreSafeArea: false,
-                        );
+                        Get.to(() => SpaceMembersScreen(
+                              space: space,
+                            ));
                       },
                     ),
                     AppButton(
@@ -117,11 +97,21 @@ class SpaceInfoScreen extends StatelessWidget {
                     ),
                     AppButton(
                       prefixIcon: Icon(
+                        Icons.search_rounded,
+                        color: Colors.white,
+                      ),
+                      label: 'Search Attendance',
+                      onTap: () {},
+                    ),
+                    AppButton(
+                      prefixIcon: Icon(
                         Icons.edit_location_alt_rounded,
                         color: Colors.white,
                       ),
                       label: 'Edit Office Range',
-                      onTap: () {},
+                      onTap: () {
+                        Get.to(() => SpaceRangeScreen());
+                      },
                     ),
                     AppButton(
                       prefixIcon: Icon(

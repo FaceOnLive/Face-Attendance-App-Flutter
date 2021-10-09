@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:camera/camera.dart';
+
 import 'static_verifier_LockUnlock.dart';
 import '../../../controllers/user/user_controller.dart';
 import '../../../controllers/verifier/verify_controller.dart';
@@ -110,14 +111,17 @@ class _CameraSection extends StatelessWidget {
                       ],
                     ),
                   ),
-                  /* <---- Camear Switch Button ----> */
+                  /* <---- Camera Switch Button ----> */
                   Positioned(
                     top: 15,
                     right: 10,
-                    child: FloatingActionButton(
-                      onPressed: controller.toggleCameraLens,
-                      child: Icon(Icons.switch_camera_rounded),
-                      backgroundColor: AppColors.PRIMARY_COLOR,
+                    child: Opacity(
+                      opacity: 0.5,
+                      child: FloatingActionButton(
+                        onPressed: controller.toggleCameraLens,
+                        child: Icon(Icons.switch_camera_rounded),
+                        backgroundColor: AppColors.PRIMARY_COLOR,
+                      ),
                     ),
                   ),
 

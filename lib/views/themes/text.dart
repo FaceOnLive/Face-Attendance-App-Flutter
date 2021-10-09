@@ -3,8 +3,9 @@ import 'package:get/route_manager.dart';
 
 /// To Make a clean look at code. These are all theme specific style
 class AppText {
-  // For easy access on the app
-  static TextStyle get b1 => Get.textTheme.bodyText1!;
+  // For easy access on the code
+
+  static TextStyle get b1 => Get.theme.textTheme.bodyText1!;
   static TextStyle get b2 => Get.textTheme.bodyText2!;
 
   static TextStyle get h1 => Get.textTheme.headline1!;

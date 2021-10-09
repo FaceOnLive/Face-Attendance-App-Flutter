@@ -1,3 +1,5 @@
+import '../../widgets/app_button.dart';
+
 import '../../../controllers/spaces/space_controller.dart';
 import '../../../constants/app_colors.dart';
 import '../../../models/space.dart';
@@ -14,13 +16,6 @@ class SpacesScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Spaces'),
-      ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {
-          Get.to(() => SpaceCreateScreen());
-        },
-        icon: Icon(Icons.add_circle_outline),
-        label: Text('Add New'),
       ),
       body: SafeArea(
         child: Column(
@@ -50,6 +45,19 @@ class SpacesScreen extends StatelessWidget {
                   );
                 },
               ),
+            ),
+            AppButton(
+              label: 'Add Space',
+              prefixIcon: Icon(
+                Icons.add,
+                color: Colors.white,
+              ),
+              onTap: () {
+                Get.to(() => SpaceCreateScreen());
+              },
+              disableBorderRadius: true,
+              margin: EdgeInsets.all(0),
+              padding: EdgeInsets.all(20),
             )
           ],
         ),

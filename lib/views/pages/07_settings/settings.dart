@@ -1,12 +1,14 @@
 import 'dart:io';
+import '../../../controllers/navigation/nav_controller.dart';
+import 'admin_details.dart';
+
 import 'change_holiday.dart';
 import 'change_password.dart';
-
-import '../../../services/app_photo.dart';
-import '../../dialogs/camera_or_gallery.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../../services/app_photo.dart';
+import '../../dialogs/camera_or_gallery.dart';
 import '../../../constants/app_colors.dart';
 import '../../../constants/app_defaults.dart';
 import '../../../constants/app_sizes.dart';
@@ -47,7 +49,14 @@ class AdminSettingScreen extends StatelessWidget {
                         /* <---- Settings -----> */
                         AppCustomListTile(
                           label: 'Admin Details',
-                          onTap: () {},
+                          onTap: () {
+                            Get.bottomSheet(
+                              AdminDetailsSheet(
+                                name: controller.currentUser.name,
+                              ),
+                              isScrollControlled: true,
+                            );
+                          },
                           leading: Icon(Icons.person),
                         ),
                         AppCustomListTile(
@@ -79,7 +88,23 @@ class AdminSettingScreen extends StatelessWidget {
                           ),
                           isUpdating: controller.isNotificationUpdating,
                         ),
-
+                        // Dark Mode
+                        GetBuilder<NavigationController>(
+                          builder: (_controller) {
+                            return AppCustomListTile(
+                              onTap: () {},
+                              label: 'Dark Mode',
+                              leading: Icon(Icons.dark_mode_rounded),
+                              trailing: CupertinoSwitch(
+                                value: _controller.isAppInDarkMode,
+                                onChanged: (v) {
+                                  _controller.switchTheme(v);
+                                },
+                              ),
+                            );
+                          },
+                        ),
+                        // Face ID
                         AppCustomListTile(
                             label: 'Update Face Data',
                             onTap: () async {
@@ -118,7 +143,7 @@ class AdminSettingScreen extends StatelessWidget {
               width: Get.width,
               padding: EdgeInsets.symmetric(vertical: 10, horizontal: 50),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: context.theme.scaffoldBackgroundColor,
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(20),
                   topRight: Radius.circular(20),
@@ -185,7 +210,10 @@ class _UserInfo extends GetView<AppUserController> {
             fontWeight: FontWeight.bold,
           ),
         ),
-        Text(controller.currentUser.email),
+        Text(
+          controller.currentUser.email,
+          style: AppText.b1,
+        ),
         AppSizes.hGap10,
       ],
     );
@@ -226,7 +254,7 @@ class AppCustomListTile extends StatelessWidget {
               vertical: AppSizes.DEFAULT_MARGIN / 2),
           decoration: BoxDecoration(
             boxShadow: AppDefaults.defaultBoxShadow,
-            color: Colors.white,
+            color: context.theme.cardColor,
             borderRadius: AppDefaults.defaulBorderRadius,
           ),
           child: ListTile(
@@ -235,7 +263,7 @@ class AppCustomListTile extends StatelessWidget {
             leading: leading ?? Icon(Icons.person_rounded),
             title: Text(
               label ?? 'Add Text Here',
-              style: AppText.b1,
+              style: context.textTheme.bodyText1,
             ),
             subtitle: isUpdating
                 ? Text(

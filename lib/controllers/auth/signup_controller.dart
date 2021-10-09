@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import '../../views/pages/03_main/main_screen.dart';
+import '../../views/pages/03_entrypoint/entrypoint.dart';
 import '../../views/dialogs/email_sent.dart';
 import '../../models/user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -41,7 +41,7 @@ class SignUpController extends GetxController {
             ).toMap(),
           );
       await Get.dialog(EmailSentSuccessfullDialog());
-      Get.offAll(() => MainScreenUI());
+      Get.offAll(() => EntryPointUI());
     } on FirebaseException catch (e) {
       print(e);
     }

@@ -1,9 +1,11 @@
+import '../03_entrypoint/entrypoint.dart';
+
 import '../../../constants/app_colors.dart';
 import '../../../constants/app_images.dart';
 import '../../../constants/app_sizes.dart';
 import 'login_screen.dart';
 import 'signup_screen.dart';
-import '../03_main/main_screen.dart';
+
 import '../../themes/text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -29,7 +31,7 @@ class _LoginScreenState extends State<LoginScreen>
         ..forward();
       _controller.addStatusListener((status) {
         if (status == AnimationStatus.completed) {
-          Get.offAll(() => MainScreenUI());
+          Get.offAll(() => EntryPointUI());
         }
       });
     });

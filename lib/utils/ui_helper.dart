@@ -13,12 +13,12 @@ class AppUiHelper {
   }
 
   /// Set The Portrait as Default Orientation
-  static void dontAutoRotate() async {
+  static void autoRotateOff() async {
     await SystemChrome.setPreferredOrientations(
         [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   }
 
-  /* <---- Generate Material Color for the whole app ----> */
+  /// Generate Material COLOR for the whole app
   static MaterialColor generateMaterialColor(Color color) {
     return MaterialColor(color.value, {
       50: tintColor(color, 0.9),

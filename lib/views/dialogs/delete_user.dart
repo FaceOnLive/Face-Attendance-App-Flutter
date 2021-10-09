@@ -1,7 +1,7 @@
+import '../pages/03_entrypoint/entrypoint.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../controllers/members/member_controller.dart';
-import '../pages/03_main/main_screen.dart';
 import '../../constants/app_colors.dart';
 import '../../constants/app_defaults.dart';
 import '../../constants/app_sizes.dart';
@@ -82,7 +82,7 @@ class _DeleteUserDialogState extends State<DeleteUserDialog> {
                                   _deletingUser.trigger(true);
                                   await Get.find<MembersController>()
                                       .removeMember(memberID: widget.memberID);
-                                  Get.offAll(() => MainScreenUI());
+                                  Get.offAll(() => EntryPointUI());
                                   _deletingUser.trigger(false);
                                 },
                                 child: Column(

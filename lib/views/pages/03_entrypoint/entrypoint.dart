@@ -4,7 +4,6 @@
  <-----------------------> */
 
 import 'package:animations/animations.dart';
-import 'package:face_attendance/constants/app_colors.dart';
 import 'package:face_attendance/controllers/members/member_controller.dart';
 import 'package:face_attendance/controllers/navigation/nav_controller.dart';
 import 'package:face_attendance/controllers/spaces/space_controller.dart';
@@ -14,9 +13,9 @@ import 'package:face_attendance/views/themes/text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class MainScreenUI extends StatelessWidget {
+class EntryPointUI extends StatelessWidget {
   /// Works as a foundation of all the other screen
-  const MainScreenUI({Key? key}) : super(key: key);
+  const EntryPointUI({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -52,17 +51,17 @@ class MainScreenUI extends StatelessWidget {
             builder: (controller) => BottomNavigationBar(
               onTap: controller.onNavTap,
               currentIndex: controller.currentIndex,
-              backgroundColor: Colors.white,
+              backgroundColor: context.theme.cardColor,
               selectedLabelStyle: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: AppText.b1.fontSize,
               ),
               unselectedIconTheme: IconThemeData(
-                color: AppColors.DARK_COLOR.withOpacity(0.5),
+                color: context.theme.unselectedWidgetColor.withOpacity(0.4),
                 size: 25,
               ),
               selectedIconTheme: IconThemeData(
-                color: AppColors.PRIMARY_COLOR,
+                color: context.theme.primaryColor,
               ),
               iconSize: 32,
               items: [

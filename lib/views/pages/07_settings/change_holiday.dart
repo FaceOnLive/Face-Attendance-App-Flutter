@@ -34,7 +34,7 @@ class _ChangeHolidaySheetState extends State<ChangeHolidaySheet> {
         AppSizes.DEFAULT_PADDING,
       ),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Get.theme.canvasColor,
         borderRadius: AppDefaults.defaultBottomSheetRadius,
       ),
       child: Column(

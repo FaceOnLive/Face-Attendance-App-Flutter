@@ -71,7 +71,11 @@ class AppThemes {
     scaffoldBackgroundColor: AppColors.DARK_COLOR,
     brightness: Brightness.dark,
     cardColor: AppColors.DARK_COLOR.withOpacity(0.7),
-    textTheme: GoogleFonts.poppinsTextTheme(),
+    textTheme: GoogleFonts.poppinsTextTheme().apply(
+      bodyColor: Colors.white,
+      displayColor: Colors.white38,
+    ),
+
     appBarTheme: AppBarTheme(
       actionsIconTheme: IconThemeData(
         color: AppColors.PRIMARY_COLOR,
@@ -87,19 +91,19 @@ class AppThemes {
       elevation: 0,
     ),
     inputDecorationTheme: InputDecorationTheme(
-        // enabledBorder: OutlineInputBorder(
-        //   borderRadius: AppDefault.defaulBorderRadius,
-        //   borderSide: BorderSide(
-        //     color: AppColors.PLACEHOLDER_COLOR,
-        //   ),
-        // ),
-        // focusedBorder: OutlineInputBorder(
-        //   borderRadius: AppDefault.defaulBorderRadius,
-        //   borderSide: BorderSide(
-        //     color: AppColors.ACCENT_COLOR,
-        //   ),
-        // ),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: AppDefaults.defaulBorderRadius,
+        borderSide: BorderSide(
+          color: AppColors.PLACEHOLDER_COLOR,
         ),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: AppDefaults.defaulBorderRadius,
+        borderSide: BorderSide(
+          color: AppColors.ACCENT_COLOR,
+        ),
+      ),
+    ),
     iconTheme: IconThemeData(
       color: AppColors.PRIMARY_COLOR,
     ),
@@ -116,9 +120,12 @@ class AppThemes {
         ),
       ),
     ),
-    colorScheme: ColorScheme.fromSwatch(
-            primarySwatch:
-                AppUiHelper.generateMaterialColor(AppColors.PRIMARY_COLOR))
-        .copyWith(secondary: AppColors.ACCENT_COLOR),
+    // colorScheme: ColorScheme.fromSwatch(
+    //   primaryColorDark: AppColors.DARK_COLOR,
+    // )
+    // colorScheme: ColorScheme.fromSwatch(
+    //         primarySwatch:
+    //             AppUiHelper.generateMaterialColor(AppColors.PRIMARY_COLOR))
+    //     .copyWith(secondary: AppColors.ACCENT_COLOR),
   );
 }
