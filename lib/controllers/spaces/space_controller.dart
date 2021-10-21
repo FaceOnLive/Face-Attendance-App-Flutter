@@ -179,10 +179,7 @@ class SpaceController extends GetxController {
           'memberList': FieldValue.arrayUnion(membersIDs),
         });
       });
-      await _fetchAllSpaces();
-      await _fetchCurrentActiveSpace();
-      _addCurrentSpaceMemberToList();
-      update();
+      await refreshAll();
     } on FirebaseException catch (e) {
       print(e);
     }
@@ -203,10 +200,7 @@ class SpaceController extends GetxController {
           'memberList': FieldValue.arrayRemove(membersIDs),
         });
       });
-      await _fetchAllSpaces();
-      await _fetchCurrentActiveSpace();
-      _addCurrentSpaceMemberToList();
-      update();
+      await refreshAll();
     } on FirebaseException catch (e) {
       print(e);
     }
@@ -254,7 +248,7 @@ class SpaceController extends GetxController {
     }
   }
 
-  /// Get Space Details by ID
+  /// Get Space by ID
   Space? getSpaceById({required String spaceID}) {
     Space? _space;
     List<String> allSpacesId = [];
@@ -282,9 +276,9 @@ class SpaceController extends GetxController {
   /// When user select attendance button
   void _onAttendedSelection() {
     spacesMember = [];
-    memberAttendedToday.forEach((member) {
+    todayAttended.keys.forEach((member) {
       spacesMember = _allMembersSpace
-          .where((element) => element.memberID != member)
+          .where((element) => element.memberID == member)
           .toList();
     });
     update();
@@ -293,9 +287,9 @@ class SpaceController extends GetxController {
   /// When user select unattendance button
   void _onUnattendedSelection() {
     spacesMember = [];
-    memberAttendedToday.forEach((member) {
+    todayAttended.keys.forEach((member) {
       spacesMember = _allMembersSpace
-          .where((element) => element.memberID == member)
+          .where((element) => element.memberID != member)
           .toList();
     });
     update();
@@ -324,9 +318,61 @@ class SpaceController extends GetxController {
     }
   }
 
-  @override
-  void onInit() async {
-    super.onInit();
+  /* <---- LOG -----> */
+  /// Temporary Function
+  // Future<void> _addTodaysLogToSpace(
+  //     {required String spaceID,
+  //     required String userID,
+  //     required DateTime time}) async {
+  //   await _collectionReference
+  //       .doc(spaceID)
+  //       .collection('today_log')
+  //       .doc(userID)
+  //       .set({'attended_at': Timestamp.fromDate(time)});
+  //   print('LOG HAS BEEN ADDED');
+  // }
+
+  /// Todays Log of Current space
+  Map<String, DateTime> todayAttended = {};
+  bool fetchingTodaysLog = true;
+
+  /// Todays Log of Current Space
+  Future<void> _fetchTodaysLogCurrentSpace() async {
+    if (currentSpace != null) {
+      fetchingTodaysLog = true;
+      todayAttended = {};
+      update();
+      await _collectionReference
+          .doc(currentSpace!.spaceID)
+          .collection('today_log')
+          .get()
+          .then((value) {
+        value.docs.forEach((element) {
+          // Individual doc contains a timestamp
+          Timestamp _timeInStamp = element.data()['attended_at'];
+          DateTime _timeInDate = _timeInStamp.toDate();
+          todayAttended.addAll(
+            {element.id: _timeInDate},
+          );
+        });
+        // print(todayAttended.toString());
+      });
+      fetchingTodaysLog = false;
+      update();
+    }
+  }
+
+  /// Is this member Attended Today
+  DateTime? isMemberAttendedToday({required String memberID}) {
+    if (todayAttended.containsKey(memberID)) {
+      return todayAttended[memberID];
+    } else {
+      return null;
+    }
+  }
+
+  /// Refreshes Everything from Start
+  Future<void> refreshAll() async {
     isEverythingFetched = false;
     _getCurrentUserID();
     await _fetchAllSpaces();
@@ -336,5 +382,12 @@ class SpaceController extends GetxController {
     spacesMember = _allMembersSpace;
     isEverythingFetched = true;
     update();
+    await _fetchTodaysLogCurrentSpace();
+  }
+
+  @override
+  void onInit() async {
+    super.onInit();
+    await refreshAll();
   }
 }

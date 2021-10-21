@@ -49,7 +49,7 @@ class AppButton extends StatelessWidget {
         decoration: BoxDecoration(
           color: isButtonDisabled
               ? Colors.grey
-              : backgroundColor ?? AppColors.PRIMARY_COLOR,
+              : backgroundColor ?? context.theme.primaryColor,
           borderRadius:
               disableBorderRadius ? null : AppDefaults.defaulBorderRadius,
         ),
@@ -128,8 +128,8 @@ class AppButtonOutline extends StatelessWidget {
             color: Get.theme.canvasColor,
             borderRadius: AppDefaults.defaulBorderRadius,
             border: Border.all(
-              color: color ?? AppColors.PRIMARY_COLOR,
-            )),
+              color: color ?? context.theme.primaryColor,
+            ),),
         width: width,
         child: isLoading
             ? AspectRatio(

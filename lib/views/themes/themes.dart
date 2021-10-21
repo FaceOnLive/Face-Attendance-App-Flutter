@@ -68,6 +68,7 @@ class AppThemes {
 
   static ThemeData darkTheme = ThemeData(
     primaryColor: AppColors.PRIMARY_COLOR,
+    primaryColorDark: AppColors.ACCENT_COLOR,
     scaffoldBackgroundColor: AppColors.DARK_COLOR,
     brightness: Brightness.dark,
     cardColor: AppColors.DARK_COLOR.withOpacity(0.7),
@@ -75,7 +76,6 @@ class AppThemes {
       bodyColor: Colors.white,
       displayColor: Colors.white38,
     ),
-
     appBarTheme: AppBarTheme(
       actionsIconTheme: IconThemeData(
         color: AppColors.PRIMARY_COLOR,
@@ -120,12 +120,11 @@ class AppThemes {
         ),
       ),
     ),
-    // colorScheme: ColorScheme.fromSwatch(
-    //   primaryColorDark: AppColors.DARK_COLOR,
-    // )
-    // colorScheme: ColorScheme.fromSwatch(
-    //         primarySwatch:
-    //             AppUiHelper.generateMaterialColor(AppColors.PRIMARY_COLOR))
-    //     .copyWith(secondary: AppColors.ACCENT_COLOR),
+    colorScheme: ColorScheme.fromSwatch(
+      primaryColorDark: AppColors.PRIMARY_COLOR,
+      primarySwatch: AppUiHelper.generateMaterialColor(AppColors.PRIMARY_COLOR),
+      accentColor: AppColors.ACCENT_COLOR,
+      brightness: Brightness.dark,
+    ),
   );
 }

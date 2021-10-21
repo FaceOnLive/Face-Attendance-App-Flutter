@@ -19,7 +19,7 @@ class MembersController extends GetxController {
 
   /// User ID of Current Logged In user
   late String _currentUserID;
-  _getCurrentUserID() {
+  void _getCurrentUserID() {
     _currentUserID = Get.find<LoginController>().user!.uid;
   }
 
@@ -297,9 +297,18 @@ class MembersController extends GetxController {
             .doc(date.year.toString())
             .get()
             .then((value) {
-          value.reference.update({
-            'unattended_date': FieldValue.arrayUnion([Timestamp.fromDate(date)])
-          });
+          //IF there is already a attendance doc
+          if (value.data() != null) {
+            value.reference.update({
+              'unattended_date':
+                  FieldValue.arrayUnion([Timestamp.fromDate(date)])
+            });
+          } else {
+            value.reference.set({
+              'unattended_date':
+                  FieldValue.arrayUnion([Timestamp.fromDate(date)])
+            });
+          }
         });
       });
     });
@@ -419,6 +428,6 @@ class MembersController extends GetxController {
     _getCurrentUserID();
     fetchMembersList();
     // _addAttendance('hHwgUrdKKnXfpdrgJnbR');
-    fetchMemberAttendedTodayList(spaceID: 'hHwgUrdKKnXfpdrgJnbR');
+    // fetchMemberAttendedTodayList(spaceID: 'hHwgUrdKKnXfpdrgJnbR');
   }
 }

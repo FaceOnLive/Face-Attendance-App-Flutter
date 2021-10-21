@@ -1,3 +1,4 @@
+import 'package:face_attendance/controllers/spaces/space_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
@@ -108,9 +109,10 @@ class _MemberAttendance extends StatefulWidget {
 class _MemberAttendanceState extends State<_MemberAttendance> {
   /* <---- Dependency -----> */
   MembersController _membersController = Get.find();
+  SpaceController _spaceController = Get.find();
 
   // Progress
-  RxBool _isFetchinUserData = false.obs;
+  RxBool _isFetchingUserData = false.obs;
 
   // UnAttended Date
   List<DateTime> _unAttendedDate = [];
@@ -120,16 +122,23 @@ class _MemberAttendanceState extends State<_MemberAttendance> {
 
   Future<void> _fetchThisMemberAttendance() async {
     _unAttendedDate = [];
-    _isFetchinUserData.trigger(true);
+    _isFetchingUserData.trigger(true);
     _unAttendedDate = await _membersController.fetchThisYearAttendnce(
       memberID: widget.memberID,
       spaceID: widget.spaceID,
       year: DateTime.now().year,
     );
-    _isAttendedToday.value = _membersController.isMemberAttendedToday(
-      unattendedDate: _unAttendedDate,
-    );
-    _isFetchinUserData.trigger(false);
+    // _isAttendedToday.value = _membersController.isMemberAttendedToday(
+    //   unattendedDate: _unAttendedDate,
+    // );
+
+    _isAttendedToday.value =
+        _spaceController.isMemberAttendedToday(memberID: widget.memberID) ==
+                null
+            ? false
+            : true;
+
+    _isFetchingUserData.trigger(false);
   }
 
   @override
@@ -140,7 +149,7 @@ class _MemberAttendanceState extends State<_MemberAttendance> {
 
   @override
   void dispose() {
-    _isFetchinUserData.close();
+    _isFetchingUserData.close();
     _isAttendedToday.close();
     super.dispose();
   }
@@ -153,10 +162,14 @@ class _MemberAttendanceState extends State<_MemberAttendance> {
           'Attendance Report',
           style: AppText.bBOLD.copyWith(color: AppColors.PRIMARY_COLOR),
         ),
-        _IsAttendedTodayRow(isAttendedToday: _isAttendedToday),
+        // is attended Today
+        Obx(() => _IsAttendedTodayRow(isAttendedToday: _isAttendedToday.value)),
+
         AppSizes.hGap10,
+
+        /// Calender
         Obx(
-          () => _isFetchinUserData.isTrue
+          () => _isFetchingUserData.isTrue
               ? Center(child: CircularProgressIndicator())
               : Container(
                   margin: EdgeInsets.symmetric(horizontal: 20),
@@ -164,7 +177,7 @@ class _MemberAttendanceState extends State<_MemberAttendance> {
                     children: [
                       SfCalendar(
                         view: CalendarView.month,
-                        backgroundColor: context.theme.canvasColor,
+                        backgroundColor: context.theme.scaffoldBackgroundColor,
                         cellBorderColor: Colors.white,
                         headerStyle: CalendarHeaderStyle(
                           textAlign: TextAlign.center,
@@ -216,35 +229,32 @@ class _MemberAttendanceState extends State<_MemberAttendance> {
 }
 
 class _IsAttendedTodayRow extends StatelessWidget {
+  final bool isAttendedToday;
   const _IsAttendedTodayRow({
-    Key? key,
-    required RxBool isAttendedToday,
-  })  : _isAttendedToday = isAttendedToday,
-        super(key: key);
-
-  final RxBool _isAttendedToday;
+    required this.isAttendedToday,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() => Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            _isAttendedToday.isTrue
-                ? Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text('Attended Today', style: AppText.caption),
-                      Icon(Icons.check, color: AppColors.APP_GREEN, size: 15),
-                    ],
-                  )
-                : Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text('Not Attended', style: AppText.caption),
-                      Icon(Icons.close, color: AppColors.APP_RED, size: 15),
-                    ],
-                  ),
-          ],
-        ));
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        isAttendedToday == true
+            ? Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text('Attended Today', style: AppText.caption),
+                  Icon(Icons.check, color: AppColors.APP_GREEN, size: 15),
+                ],
+              )
+            : Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text('No Attendence Today', style: AppText.caption),
+                  Icon(Icons.close, color: AppColors.APP_RED, size: 15),
+                ],
+              ),
+      ],
+    );
   }
 }
