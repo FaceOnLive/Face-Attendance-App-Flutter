@@ -68,6 +68,7 @@ class _MemberEditScreenState extends State<MemberEditScreen> {
         phoneNumber: int.parse(_phoneNumber.text),
         fullAddress: _fullAddress.text,
         member: widget.member,
+        isCustom: true,
       );
       _updatingMember.value = false;
       Get.back();

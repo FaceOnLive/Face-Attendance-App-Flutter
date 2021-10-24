@@ -7,12 +7,14 @@ class Member {
   int memberNumber;
   String memberFullAdress;
   String? memberID;
+  bool isCustom = false;
   Member({
     required this.memberName,
     required this.memberPicture,
     required this.memberNumber,
     required this.memberFullAdress,
     this.memberID,
+    required this.isCustom,
   });
 
   Map<String, dynamic> toMap() {
@@ -31,6 +33,7 @@ class Member {
       memberPicture: map['memberPicture'],
       memberNumber: map['memberNumber'],
       memberFullAdress: map['memberFullAdress'],
+      isCustom: map['isCustom'] ?? true,
       memberID: documentSnapshot.id,
     );
   }

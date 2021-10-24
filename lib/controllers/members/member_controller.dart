@@ -58,11 +58,12 @@ class MembersController extends GetxController {
       // We should add the member first so that we can get a user Id
       DocumentReference _newlyAddedMember = await _collectionReference.add(
         Member(
-                memberName: name,
-                memberPicture: '',
-                memberNumber: phoneNumber,
-                memberFullAdress: fullAddress)
-            .toMap(),
+          memberName: name,
+          memberPicture: '',
+          memberNumber: phoneNumber,
+          memberFullAdress: fullAddress,
+          isCustom: true,
+        ).toMap(),
       );
 
       String? _downloadUrl = await UploadPicture.ofMember(
@@ -89,6 +90,7 @@ class MembersController extends GetxController {
     required int phoneNumber,
     required String fullAddress,
     required Member member,
+    required bool isCustom,
   }) async {
     try {
       String? _downloadUrl;
@@ -107,11 +109,12 @@ class MembersController extends GetxController {
         (value) {
           value.reference.update(
             Member(
-                    memberName: name,
-                    memberPicture: _downloadUrl!,
-                    memberNumber: phoneNumber,
-                    memberFullAdress: fullAddress)
-                .toMap(),
+              memberName: name,
+              memberPicture: _downloadUrl!,
+              memberNumber: phoneNumber,
+              memberFullAdress: fullAddress,
+              isCustom: isCustom,
+            ).toMap(),
           );
         },
       );
@@ -438,6 +441,26 @@ class MembersController extends GetxController {
   //         'unattended_date': [],
   //       });
   //       print('Added Attendance to ${element.id}');
+  //     });
+  //   });
+  // }
+
+  // addCustomProperty() async {
+  //   await FirebaseFirestore.instance
+  //       .collection('members')
+  //       .get()
+  //       .then((value) async {
+  //     value.docs.forEach((element) {
+  //       element.reference
+  //           .collection('members_collection')
+  //           .get()
+  //           .then((value) async {
+  //         value.docs.forEach((member) {
+  //           member.reference.update({
+  //             'isCustom': true,
+  //           });
+  //         });
+  //       });
   //     });
   //   });
   // }

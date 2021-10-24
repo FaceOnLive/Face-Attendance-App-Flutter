@@ -1,3 +1,4 @@
+import 'member_details.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -14,7 +15,6 @@ import '../../../constants/app_sizes.dart';
 import '../../../controllers/spaces/space_controller.dart';
 import '../../../models/member.dart';
 import '../../themes/text.dart';
-import '../06_members/member_info.dart';
 
 class AttendedUserList extends StatelessWidget {
   const AttendedUserList({
@@ -174,7 +174,7 @@ class _MemberListTile extends StatelessWidget {
     return ListTile(
       onTap: () {
         Get.to(
-          () => MemberInfoScreen(
+          () => MemberAttendanceDetails(
             member: member,
             spaceID: currentSpaceID,
           ),

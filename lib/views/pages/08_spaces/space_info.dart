@@ -1,6 +1,6 @@
-import 'package:face_attendance/views/dialogs/generated_qr.dart';
-import 'package:face_attendance/views/pages/08_spaces/space_add_qr.dart';
-import 'package:face_attendance/views/pages/08_spaces/space_search.dart';
+import '../../dialogs/generated_qr.dart';
+import 'space_add_qr.dart';
+import 'space_search.dart';
 
 import 'space_range.dart';
 
