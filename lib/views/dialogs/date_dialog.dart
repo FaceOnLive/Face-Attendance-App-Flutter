@@ -1,6 +1,8 @@
+import '../../services/date_helper.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import '../../controllers/members/member_controller.dart';
 import '../widgets/app_button.dart';
 import '../../constants/app_colors.dart';
@@ -79,6 +81,9 @@ class __UpdateAttendaneState extends State<_UpdateAttendane> {
   // SWITCH
   RxBool _attended = true.obs;
 
+  // is Today
+  bool _isToday = false;
+
   // When the switch is false
   Future<void> _onAttendance() async {
     try {
@@ -113,6 +118,16 @@ class __UpdateAttendaneState extends State<_UpdateAttendane> {
     }
   }
 
+  /* <---- State -----> */
+  @override
+  void initState() {
+    super.initState();
+    _isToday = DateHelper.compareDays(
+      date1: DateTime.now(),
+      date2: widget.date,
+    );
+  }
+
   @override
   void dispose() {
     _attended.close();
@@ -128,6 +143,10 @@ class __UpdateAttendaneState extends State<_UpdateAttendane> {
       ),
       child: Column(
         children: [
+          Text(
+            DateFormat.yMMMEd().format(widget.date),
+            style: AppText.caption,
+          ),
           Obx(
             () => SwitchListTile(
               value: _attended.value,
@@ -135,14 +154,18 @@ class __UpdateAttendaneState extends State<_UpdateAttendane> {
                 _attended.value = !_attended.value;
               },
               title: Text(
-                _attended.isTrue ? 'Attended' : 'Unattended',
+                _attended.isTrue
+                    ? _isToday == false
+                        ? 'Attended'
+                        : 'Today'
+                    : 'Unattended',
               ),
             ),
           ),
           AppSizes.hGap20,
           Obx(
             () => AppButton(
-              label: 'Update',
+              label: _isToday ? 'Update Today' : 'Update',
               isLoading: _isUpdatingAttendance.value,
               onTap: () {
                 if (_attended.isTrue) {

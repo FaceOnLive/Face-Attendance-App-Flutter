@@ -1,12 +1,11 @@
 import 'dart:io';
-import '../../../controllers/navigation/nav_controller.dart';
 import 'admin_details.dart';
-
 import 'change_holiday.dart';
 import 'change_password.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../../controllers/navigation/nav_controller.dart';
 import '../../../services/app_photo.dart';
 import '../../dialogs/camera_or_gallery.dart';
 import '../../../constants/app_colors.dart';

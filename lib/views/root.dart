@@ -1,3 +1,4 @@
+import 'themes/themes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'pages/03_entrypoint/entrypoint.dart';
@@ -6,6 +7,24 @@ import '../controllers/auth/login_controller.dart';
 import '../constants/app_images.dart';
 import '../controllers/navigation/nav_controller.dart';
 
+//// APP
+class TuringTechApp extends StatelessWidget {
+  // Needed for themes
+  final navigation = Get.put(NavigationController());
+
+  @override
+  Widget build(BuildContext context) {
+    return GetMaterialApp(
+      title: 'Turing Tech',
+      theme: AppThemes.lightTheme,
+      darkTheme: AppThemes.darkTheme,
+      themeMode: navigation.appThemeMode(),
+      home: AppRoot(),
+    );
+  }
+}
+
+/// Loading Builder
 class AppRoot extends StatelessWidget {
   const AppRoot({Key? key}) : super(key: key);
 

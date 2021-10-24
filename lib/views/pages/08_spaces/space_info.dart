@@ -1,3 +1,7 @@
+import '../../dialogs/generated_qr.dart';
+import 'space_add_qr.dart';
+import 'space_search.dart';
+
 import 'space_range.dart';
 
 import 'space_members.dart';
@@ -90,9 +94,7 @@ class SpaceInfoScreen extends StatelessWidget {
                       ),
                       label: 'Edit Space Info',
                       onTap: () {
-                        Get.to(() => SpaceEditScreen(
-                              space: space,
-                            ));
+                        Get.to(() => SpaceEditScreen(space: space));
                       },
                     ),
                     AppButton(
@@ -101,7 +103,13 @@ class SpaceInfoScreen extends StatelessWidget {
                         color: Colors.white,
                       ),
                       label: 'Search Attendance',
-                      onTap: () {},
+                      onTap: () {
+                        Get.to(
+                          () => SpaceSearchScreen(
+                            space: space,
+                          ),
+                        );
+                      },
                     ),
                     AppButton(
                       prefixIcon: Icon(
@@ -119,7 +127,9 @@ class SpaceInfoScreen extends StatelessWidget {
                         color: Colors.white,
                       ),
                       label: 'Add Person From QR',
-                      onTap: () {},
+                      onTap: () {
+                        Get.to(() => SpaceAddQrPersonScreen());
+                      },
                     ),
                   ],
                 ),
@@ -131,7 +141,14 @@ class SpaceInfoScreen extends StatelessWidget {
                   Icons.qr_code_2_rounded,
                 ),
                 label: 'Share Space',
-                onTap: () {},
+                onTap: () {
+                  Get.dialog(
+                    GenerateQRDialog(
+                      data: 'Space: ${space.spaceID}',
+                      title: 'Share Space',
+                    ),
+                  );
+                },
               ),
             ],
           ),

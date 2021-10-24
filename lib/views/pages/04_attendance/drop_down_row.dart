@@ -1,3 +1,4 @@
+import 'log_screen.dart';
 import '../../../controllers/spaces/space_controller.dart';
 import '../../../constants/app_colors.dart';
 import '../../../constants/app_defaults.dart';
@@ -8,7 +9,6 @@ import '../08_spaces/space_info.dart';
 import '../../themes/text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 
 class DropDownRow extends GetView<SpaceController> {
   const DropDownRow({
@@ -77,17 +77,27 @@ class DropDownRow extends GetView<SpaceController> {
             ),
           ),
           AppSizes.wGap10,
-          Column(
-            children: [
-              Text(
-                DateFormat.EEEE().format(DateTime.now()),
-                style: AppText.caption,
-              ),
-              Text(
-                DateFormat.yMMMMd().format(DateTime.now()),
-                style: AppText.caption,
-              ),
-            ],
+          // DATE COLUMN
+          // Column(
+          //   children: [
+          //     Text(
+          //       DateFormat.EEEE().format(DateTime.now()),
+          //       style: AppText.caption,
+          //     ),
+          //     Text(
+          //       DateFormat.yMMMMd().format(DateTime.now()),
+          //       style: AppText.caption,
+          //     ),
+          //   ],
+          // ),
+          // Space Log Button
+          IconButton(
+            onPressed: () {
+              Get.to(
+                () => SpaceLogScreen(),
+              );
+            },
+            icon: Icon(Icons.assignment_outlined),
           ),
         ],
       ),

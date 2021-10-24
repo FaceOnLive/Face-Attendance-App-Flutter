@@ -1,5 +1,7 @@
+import 'member_details.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
@@ -13,31 +15,11 @@ import '../../../constants/app_sizes.dart';
 import '../../../controllers/spaces/space_controller.dart';
 import '../../../models/member.dart';
 import '../../themes/text.dart';
-import '../06_members/member_info.dart';
 
-class AttendedUserList extends StatefulWidget {
+class AttendedUserList extends StatelessWidget {
   const AttendedUserList({
     Key? key,
   }) : super(key: key);
-
-  @override
-  _AttendedUserListState createState() => _AttendedUserListState();
-}
-
-class _AttendedUserListState extends State<AttendedUserList> {
-  // Dependency
-  SpaceController _spaceController = Get.find();
-
-/* <---- STATE -----> */
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,6 +28,10 @@ class _AttendedUserListState extends State<AttendedUserList> {
         margin: EdgeInsets.symmetric(horizontal: 20),
         child: Column(
           children: [
+            Text(
+              DateFormat.yMMMEd().format(DateTime.now()),
+              style: AppText.caption,
+            ),
             // Header
             GetBuilder<SpaceController>(
               builder: (controller) => Row(
@@ -108,7 +94,7 @@ class _AttendedUserListState extends State<AttendedUserList> {
               ),
             ),
             AppSizes.hGap10,
-
+            /* <---- USER LIST -----> */
             GetBuilder<SpaceController>(
               builder: (controller) {
                 if (!controller.isEverythingFetched) {
@@ -116,33 +102,37 @@ class _AttendedUserListState extends State<AttendedUserList> {
                   return LoadingMembers();
                 } else {
                   // There is no member
-                  if (_spaceController.spacesMember.length > 0 &&
-                      _spaceController.allMembersSpace.length > 0) {
+                  if (controller.spacesMember.length > 0 &&
+                      controller.allMembersSpace.length > 0) {
                     return Expanded(
-                      child: ListView.separated(
-                          itemCount: _spaceController.spacesMember.length,
-                          itemBuilder: (context, index) {
-                            Member _currentMember =
-                                _spaceController.spacesMember[index];
-                            return _MemberListTile(
-                              key: UniqueKey(),
-                              member: _currentMember,
-                              isAttended: !_spaceController.memberAttendedToday
-                                  .contains(
-                                _currentMember.memberID,
-                              ),
-                              currentSpaceID:
-                                  _spaceController.currentSpace!.spaceID!,
-                            );
-                          },
-                          separatorBuilder: (context, index) {
-                            return Divider(
-                              height: 7,
-                            );
-                          }),
+                      child: RefreshIndicator(
+                        onRefresh: () async {
+                          return await controller.refreshAll();
+                        },
+                        child: ListView.separated(
+                            itemCount: controller.spacesMember.length,
+                            itemBuilder: (context, index) {
+                              Member _currentMember =
+                                  controller.spacesMember[index];
+                              return _MemberListTile(
+                                member: _currentMember,
+                                currentSpaceID:
+                                    controller.currentSpace!.spaceID!,
+                                attendedTime: controller.isMemberAttendedToday(
+                                  memberID: _currentMember.memberID!,
+                                ),
+                                fetchingTodaysLog: controller.fetchingTodaysLog,
+                              );
+                            },
+                            separatorBuilder: (context, index) {
+                              return Divider(
+                                height: 7,
+                              );
+                            }),
+                      ),
                     );
-                  } else if (_spaceController.allMembersSpace.length > 0 &&
-                      _spaceController.spacesMember.length < 1) {
+                  } else if (controller.allMembersSpace.length > 0 &&
+                      controller.spacesMember.length < 1) {
                     return Expanded(
                       child: Center(
                         child: Text('Attendance is clear'),
@@ -151,7 +141,7 @@ class _AttendedUserListState extends State<AttendedUserList> {
                   } else {
                     return Expanded(
                       child: NoMemberFound(
-                        currentSpace: _spaceController.currentSpace!,
+                        currentSpace: controller.currentSpace!,
                       ),
                     );
                   }
@@ -169,20 +159,22 @@ class _MemberListTile extends StatelessWidget {
   const _MemberListTile({
     Key? key,
     required this.member,
-    this.isAttended = false,
     required this.currentSpaceID,
+    this.attendedTime,
+    this.fetchingTodaysLog = true,
   }) : super(key: key);
 
   final Member member;
-  final bool isAttended;
   final String currentSpaceID;
+  final DateTime? attendedTime;
+  final bool fetchingTodaysLog;
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
       onTap: () {
         Get.to(
-          () => MemberInfoScreen(
+          () => MemberAttendanceDetails(
             member: member,
             spaceID: currentSpaceID,
           ),
@@ -198,15 +190,31 @@ class _MemberListTile extends StatelessWidget {
       ),
       title: Text(member.memberName),
       subtitle: Text(member.memberNumber.toString()),
-      trailing: isAttended
-          ? Icon(
-              Icons.check_circle_rounded,
-              color: AppColors.APP_GREEN,
+      trailing: fetchingTodaysLog
+          ? Shimmer.fromColors(
+              baseColor: AppColors.shimmerBaseColor,
+              highlightColor: AppColors.shimmerHighlightColor,
+              child: Icon(Icons.info_outline_rounded),
             )
-          : Icon(
-              Icons.close_rounded,
-              color: AppColors.APP_RED,
-            ),
+          : attendedTime != null
+              ? Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      DateFormat.jm().format(attendedTime!),
+                      style: AppText.caption,
+                    ),
+                    AppSizes.wGap5,
+                    Icon(
+                      Icons.check_circle_rounded,
+                      color: AppColors.APP_GREEN,
+                    ),
+                  ],
+                )
+              : Icon(
+                  Icons.close_rounded,
+                  color: AppColors.APP_RED.withOpacity(0.5),
+                ),
     );
   }
 }

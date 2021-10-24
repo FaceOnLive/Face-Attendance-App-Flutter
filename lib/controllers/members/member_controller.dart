@@ -19,7 +19,7 @@ class MembersController extends GetxController {
 
   /// User ID of Current Logged In user
   late String _currentUserID;
-  _getCurrentUserID() {
+  void _getCurrentUserID() {
     _currentUserID = Get.find<LoginController>().user!.uid;
   }
 
@@ -58,11 +58,12 @@ class MembersController extends GetxController {
       // We should add the member first so that we can get a user Id
       DocumentReference _newlyAddedMember = await _collectionReference.add(
         Member(
-                memberName: name,
-                memberPicture: '',
-                memberNumber: phoneNumber,
-                memberFullAdress: fullAddress)
-            .toMap(),
+          memberName: name,
+          memberPicture: '',
+          memberNumber: phoneNumber,
+          memberFullAdress: fullAddress,
+          isCustom: true,
+        ).toMap(),
       );
 
       String? _downloadUrl = await UploadPicture.ofMember(
@@ -89,6 +90,7 @@ class MembersController extends GetxController {
     required int phoneNumber,
     required String fullAddress,
     required Member member,
+    required bool isCustom,
   }) async {
     try {
       String? _downloadUrl;
@@ -107,11 +109,12 @@ class MembersController extends GetxController {
         (value) {
           value.reference.update(
             Member(
-                    memberName: name,
-                    memberPicture: _downloadUrl!,
-                    memberNumber: phoneNumber,
-                    memberFullAdress: fullAddress)
-                .toMap(),
+              memberName: name,
+              memberPicture: _downloadUrl!,
+              memberNumber: phoneNumber,
+              memberFullAdress: fullAddress,
+              isCustom: isCustom,
+            ).toMap(),
           );
         },
       );
@@ -297,13 +300,22 @@ class MembersController extends GetxController {
             .doc(date.year.toString())
             .get()
             .then((value) {
-          value.reference.update({
-            'unattended_date': FieldValue.arrayUnion([Timestamp.fromDate(date)])
-          });
+          //IF there is already a attendance doc
+          if (value.data() != null) {
+            value.reference.update({
+              'unattended_date':
+                  FieldValue.arrayUnion([Timestamp.fromDate(date)])
+            });
+          } else {
+            value.reference.set({
+              'unattended_date':
+                  FieldValue.arrayUnion([Timestamp.fromDate(date)])
+            });
+          }
         });
       });
     });
-    fetchMemberAttendedTodayList(spaceID: spaceID);
+    fetchMembersAttendedTodayList(spaceID: spaceID);
   }
 
   /// Remove Multiple Attendance
@@ -330,7 +342,7 @@ class MembersController extends GetxController {
         });
       });
     });
-    fetchMemberAttendedTodayList(spaceID: spaceID);
+    fetchMembersAttendedTodayList(spaceID: spaceID);
   }
 
   /// ADD Multiple Attendance
@@ -357,11 +369,11 @@ class MembersController extends GetxController {
         });
       });
     });
-    fetchMemberAttendedTodayList(spaceID: spaceID);
+    fetchMembersAttendedTodayList(spaceID: spaceID);
   }
 
   /// All Member That Attended Today
-  Future<List<String>> fetchMemberAttendedTodayList(
+  Future<List<String>> fetchMembersAttendedTodayList(
       {required String spaceID}) async {
     List<String> _memberAttendedToday = [];
     String _currentYear = DateTime.now().year.toString();
@@ -396,6 +408,26 @@ class MembersController extends GetxController {
     return _memberAttendedToday;
   }
 
+  // Search Member Attendence
+  Future<bool> searchMemberAttendance({
+    required String memberID,
+    required String spaceID,
+    required DateTime date,
+  }) async {
+    List<DateTime> _unattendedDate = [];
+    _unattendedDate = await fetchThisYearAttendnce(
+      memberID: memberID,
+      spaceID: spaceID,
+      year: date.year,
+    );
+    bool _isMemberWasAttended = false;
+    _isMemberWasAttended = !DateHelper.doesContainThisDate(
+      date: date,
+      allDates: _unattendedDate,
+    );
+    return _isMemberWasAttended;
+  }
+
   /// Temporary Function To Add Attendance to all member
   // _addAttendance(String spaceID) async {
   //   _collectionReference.get().then((value) async {
@@ -413,12 +445,32 @@ class MembersController extends GetxController {
   //   });
   // }
 
+  // addCustomProperty() async {
+  //   await FirebaseFirestore.instance
+  //       .collection('members')
+  //       .get()
+  //       .then((value) async {
+  //     value.docs.forEach((element) {
+  //       element.reference
+  //           .collection('members_collection')
+  //           .get()
+  //           .then((value) async {
+  //         value.docs.forEach((member) {
+  //           member.reference.update({
+  //             'isCustom': true,
+  //           });
+  //         });
+  //       });
+  //     });
+  //   });
+  // }
+
   @override
   void onInit() {
     super.onInit();
     _getCurrentUserID();
     fetchMembersList();
     // _addAttendance('hHwgUrdKKnXfpdrgJnbR');
-    fetchMemberAttendedTodayList(spaceID: 'hHwgUrdKKnXfpdrgJnbR');
+    // fetchMemberAttendedTodayList(spaceID: 'hHwgUrdKKnXfpdrgJnbR');
   }
 }
