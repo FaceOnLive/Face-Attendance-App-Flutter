@@ -312,7 +312,7 @@ class MembersController extends GetxController {
         });
       });
     });
-    fetchMemberAttendedTodayList(spaceID: spaceID);
+    fetchMembersAttendedTodayList(spaceID: spaceID);
   }
 
   /// Remove Multiple Attendance
@@ -339,7 +339,7 @@ class MembersController extends GetxController {
         });
       });
     });
-    fetchMemberAttendedTodayList(spaceID: spaceID);
+    fetchMembersAttendedTodayList(spaceID: spaceID);
   }
 
   /// ADD Multiple Attendance
@@ -366,11 +366,11 @@ class MembersController extends GetxController {
         });
       });
     });
-    fetchMemberAttendedTodayList(spaceID: spaceID);
+    fetchMembersAttendedTodayList(spaceID: spaceID);
   }
 
   /// All Member That Attended Today
-  Future<List<String>> fetchMemberAttendedTodayList(
+  Future<List<String>> fetchMembersAttendedTodayList(
       {required String spaceID}) async {
     List<String> _memberAttendedToday = [];
     String _currentYear = DateTime.now().year.toString();
@@ -403,6 +403,26 @@ class MembersController extends GetxController {
       });
     });
     return _memberAttendedToday;
+  }
+
+  // Search Member Attendence
+  Future<bool> searchMemberAttendance({
+    required String memberID,
+    required String spaceID,
+    required DateTime date,
+  }) async {
+    List<DateTime> _unattendedDate = [];
+    _unattendedDate = await fetchThisYearAttendnce(
+      memberID: memberID,
+      spaceID: spaceID,
+      year: date.year,
+    );
+    bool _isMemberWasAttended = false;
+    _isMemberWasAttended = !DateHelper.doesContainThisDate(
+      date: date,
+      allDates: _unattendedDate,
+    );
+    return _isMemberWasAttended;
   }
 
   /// Temporary Function To Add Attendance to all member

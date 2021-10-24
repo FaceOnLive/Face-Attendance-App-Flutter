@@ -24,6 +24,12 @@ class AppImages {
   static const String ILLUSTRATION_SUCCESSFULL =
       'assets/images/illustration/operation_success.png';
 
+  static const String ILLUSTRATION_ATTEND_FOUND =
+      'assets/images/illustration/attendence_found.png';
+
+  static const String ILLUSTRATION_NO_ATTEND =
+      'assets/images/illustration/no_attendence.png';
+
   static const String DEFAULT_USER =
       'assets/images/illustration/default_user.png';
 }

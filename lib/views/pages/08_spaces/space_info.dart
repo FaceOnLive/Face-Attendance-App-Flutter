@@ -104,7 +104,11 @@ class SpaceInfoScreen extends StatelessWidget {
                       ),
                       label: 'Search Attendance',
                       onTap: () {
-                        Get.to(() => SpaceSearchScreen());
+                        Get.to(
+                          () => SpaceSearchScreen(
+                            space: space,
+                          ),
+                        );
                       },
                     ),
                     AppButton(

@@ -40,10 +40,11 @@ class AppButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: isLoading || isButtonDisabled ? null : onTap,
+      borderRadius: AppDefaults.defaulBorderRadius,
       child: AnimatedContainer(
         height: height,
         duration: AppDefaults.defaultDuration,
-        margin: margin ?? EdgeInsets.symmetric(vertical: 8),
+        margin: margin ?? EdgeInsets.all(8),
         alignment: Alignment.center,
         padding: padding ?? EdgeInsets.symmetric(horizontal: 14, vertical: 14),
         decoration: BoxDecoration(
@@ -118,18 +119,20 @@ class AppButtonOutline extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onTap,
+      borderRadius: AppDefaults.defaulBorderRadius,
       child: AnimatedContainer(
         height: height,
         duration: AppDefaults.defaultDuration,
-        margin: margin ?? EdgeInsets.symmetric(vertical: 8),
+        margin: margin ?? EdgeInsets.all(8),
         alignment: Alignment.center,
         padding: padding ?? EdgeInsets.symmetric(horizontal: 14, vertical: 14),
         decoration: BoxDecoration(
-            color: Get.theme.canvasColor,
-            borderRadius: AppDefaults.defaulBorderRadius,
-            border: Border.all(
-              color: color ?? context.theme.primaryColor,
-            ),),
+          color: Get.theme.canvasColor,
+          borderRadius: AppDefaults.defaulBorderRadius,
+          border: Border.all(
+            color: color ?? context.theme.primaryColor,
+          ),
+        ),
         width: width,
         child: isLoading
             ? AspectRatio(

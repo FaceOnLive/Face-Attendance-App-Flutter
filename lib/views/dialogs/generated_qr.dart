@@ -48,7 +48,9 @@ class GenerateQRDialog extends StatelessWidget {
             AppButton(
               width: Get.width * 0.6,
               label: 'Close',
-              onTap: () {},
+              onTap: () {
+                Get.back();
+              },
             ),
           ],
         ),
