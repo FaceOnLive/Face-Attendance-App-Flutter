@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:face_attendance/models/logMessage.dart';
 import '../../views/pages/03_entrypoint/entrypoint.dart';
 import '../members/member_controller.dart';
 import '../../services/space_services.dart';
@@ -344,7 +345,7 @@ class SpaceController extends GetxController {
       update();
       await _collectionReference
           .doc(currentSpace!.spaceID)
-          .collection('today_log')
+          .collection('log_data')
           .get()
           .then((value) {
         value.docs.forEach((element) {
@@ -369,6 +370,25 @@ class SpaceController extends GetxController {
     } else {
       return null;
     }
+  }
+
+  /// Fetch Log Messages
+  Future<List<LogMessage>> fetchLogMessages({required String spaceID}) async {
+    List<LogMessage> _logMessages = [];
+
+    await _collectionReference
+        .doc(spaceID)
+        .collection('attendance_log_today')
+        .get()
+        .then((messages) => {
+              messages.docs.forEach((aMessage) {
+                LogMessage _fetchedMessage =
+                    LogMessage.fromDocumentSnap(aMessage);
+                _logMessages.add(_fetchedMessage);
+              })
+            });
+
+    return _logMessages;
   }
 
   /// Refreshes Everything from Start

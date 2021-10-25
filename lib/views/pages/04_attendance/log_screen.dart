@@ -1,3 +1,13 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:face_attendance/constants/app_images.dart';
+import 'package:face_attendance/controllers/spaces/space_controller.dart';
+import 'package:face_attendance/models/logMessage.dart';
+import 'package:face_attendance/services/app_toast.dart';
+import 'package:get/get.dart';
+
+import '../../themes/text.dart';
+import 'package:intl/intl.dart';
+
 import '../../../constants/app_colors.dart';
 import '../../../constants/app_sizes.dart';
 import 'package:flutter/material.dart';
@@ -10,45 +20,131 @@ class SpaceLogScreen extends StatefulWidget {
 }
 
 class _SpaceLogScreenState extends State<SpaceLogScreen> {
+  /* <---- Dependency -----> */
+  SpaceController _controller = Get.find();
+
+  // Progress
+  RxBool _isFetching = false.obs;
+
+  // Fetch Data
+  Future<void> _fetchAllLog() async {
+    if (_controller.currentSpace != null) {
+      _isFetching.trigger(true);
+      try {
+        _allLogSpace = await _controller.fetchLogMessages(
+          spaceID: _controller.currentSpace!.spaceID!,
+        );
+        _isFetching.trigger(false);
+      } on Exception catch (e) {
+        _isFetching.trigger(false);
+        AppToast.showDefaultToast(e.toString());
+      }
+    }
+  }
+
+  List<LogMessage> _allLogSpace = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchAllLog();
+  }
+
+  @override
+  void dispose() {
+    _isFetching.close();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Log'),
         actions: [
-          IconButton(
-            onPressed: () {},
-            icon: Icon(Icons.delete_forever_rounded),
+          Obx(
+            () => _isFetching.isTrue
+                ? SizedBox()
+                : IconButton(
+                    onPressed: () {},
+                    icon: Icon(Icons.delete_forever_rounded),
+                  ),
           ),
         ],
       ),
       body: Container(
+        width: Get.width,
         margin: EdgeInsets.symmetric(
           horizontal: AppSizes.DEFAULT_MARGIN,
         ),
-        child: Column(
-          children: [
-            ListTile(
-              leading: CircleAvatar(),
-              title: Text('Huang Attended on 1.00 PM '),
-              subtitle: Text('22 September 2021'),
-              trailing: Icon(
-                Icons.check,
-                color: Colors.green,
-              ),
-            ),
-            ListTile(
-              leading: CircleAvatar(),
-              title: Text('Lisa, Ting and 3 others Are unattended today'),
-              subtitle: Text('22 September 2021'),
-              trailing: Icon(
-                Icons.info_rounded,
-                color: AppColors.APP_RED,
-              ),
-            ),
-          ],
+        child: Obx(
+          () => _isFetching.isTrue
+              ? Center(child: CircularProgressIndicator())
+              : Column(
+                  children: [
+                    Expanded(
+                      child: _allLogSpace.length > 0
+                          ? ListView.separated(
+                              itemCount: _allLogSpace.length,
+                              itemBuilder: (context, index) {
+                                return _LogMessageTile(
+                                  message: _allLogSpace[index],
+                                );
+                              },
+                              separatorBuilder: (context, index) {
+                                return Divider();
+                              },
+                            )
+                          : Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Image.asset(
+                                  AppImages.ILLUSTRATION_SPACE_EMPTY,
+                                  width: Get.width * 0.6,
+                                ),
+                                AppSizes.hGap20,
+                                Text('Nothing is logged today')
+                              ],
+                            ),
+                    ),
+                  ],
+                ),
         ),
       ),
+    );
+  }
+}
+
+class _LogMessageTile extends StatelessWidget {
+  const _LogMessageTile({
+    Key? key,
+    required this.message,
+  }) : super(key: key);
+
+  final LogMessage message;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      leading: message.thumbnail != null
+          ? CircleAvatar(
+              backgroundImage: CachedNetworkImageProvider(message.thumbnail!),
+            )
+          : null,
+      title: Text(message.message),
+      subtitle: Text(
+        DateFormat.yMMMEd().format(DateTime.now()),
+        style: AppText.caption,
+      ),
+      trailing: message.isAnError
+          ? Icon(
+              Icons.close,
+              color: AppColors.APP_RED,
+            )
+          : Icon(
+              Icons.check,
+              color: Colors.green,
+            ),
     );
   }
 }
