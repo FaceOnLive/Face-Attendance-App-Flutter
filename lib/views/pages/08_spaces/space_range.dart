@@ -1,8 +1,9 @@
+import 'package:face_attendance/constants/app_sizes.dart';
 import 'package:face_attendance/controllers/map/map_controller.dart';
+import 'package:face_attendance/views/widgets/app_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import '../../../constants/app_colors.dart';
 
 class SpaceRangeScreen extends StatelessWidget {
   @override
@@ -11,112 +12,93 @@ class SpaceRangeScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text('Select Range'),
       ),
-      extendBodyBehindAppBar: true,
+      // extendBodyBehindAppBar: true,
       body: Container(
-          child: GetBuilder<AppMapController>(
-        init: AppMapController(),
-        builder: (controller) {
-          return Column(
-            children: [
-              Expanded(
-                child: Stack(
-                  children: [
-                    GoogleMap(
-                      initialCameraPosition: controller.initialCameraPostion,
-                      onMapCreated: (c) {
-                        controller.onMapCreated(c, context);
-                      },
-                      onCameraMove: controller.onCameraMove,
-                      myLocationEnabled: true,
-                      cameraTargetBounds: controller.hkgBounds,
-                      polylines: controller.allPolyLines,
-                      polygons: controller.allPolyGons,
-                      circles: controller.allCircles,
-                      onTap: controller.onTap,
-                    ),
-                    // IgnorePointer(
-                    //   ignoring: true,
-                    //   child: Container(
-                    //     height: Get.height * 0.33,
-                    //     width: Get.width,
-                    //     decoration: BoxDecoration(
-                    //       color: AppColors.PRIMARY_COLOR.withOpacity(0.3),
-                    //     ),
-                    //   ),
-                    // ),
-                    // Positioned(
-                    //   top: Get.height * 0.33,
-                    //   child: IgnorePointer(
-                    //     ignoring: true,
-                    //     child: Container(
-                    //       height: Get.height * 0.33,
-                    //       width: Get.width * 0.1,
-                    //       decoration: BoxDecoration(
-                    //         color: AppColors.PRIMARY_COLOR.withOpacity(0.3),
-                    //       ),
-                    //     ),
-                    //   ),
-                    // ),
-                    // Positioned(
-                    //   top: Get.height * 0.33,
-                    //   right: 0,
-                    //   child: IgnorePointer(
-                    //     ignoring: true,
-                    //     child: Container(
-                    //       height: Get.height * 0.33,
-                    //       width: Get.width * 0.1,
-                    //       decoration: BoxDecoration(
-                    //         color: AppColors.PRIMARY_COLOR.withOpacity(0.3),
-                    //       ),
-                    //     ),
-                    //   ),
-                    // ),
-                    // Positioned(
-                    //   top: Get.height * 0.66,
-                    //   child: IgnorePointer(
-                    //     ignoring: true,
-                    //     child: Container(
-                    //       height: Get.height * 0.33,
-                    //       width: Get.width,
-                    //       decoration: BoxDecoration(
-                    //         color: AppColors.PRIMARY_COLOR.withOpacity(0.3),
-                    //       ),
-                    //     ),
-                    //   ),
-                    // ),
-                    // // Map Marker
-                    Center(
-                      child: IconButton(
-                        onPressed: () {},
-                        icon: Icon(
-                          Icons.location_on_rounded,
-                          size: 60,
-                        ),
+        child: GetBuilder<AppMapController>(
+          init: AppMapController(),
+          builder: (controller) {
+            return Column(
+              children: [
+                Expanded(
+                  child: Stack(
+                    children: [
+                      GoogleMap(
+                        initialCameraPosition: controller.initialCameraPostion,
+                        onMapCreated: (c) {
+                          controller.onMapCreated(c, context);
+                        },
+                        onCameraMove: controller.onCameraMove,
+                        myLocationEnabled: true,
+                        myLocationButtonEnabled: true,
+                        mapType: controller.mapType,
+                        mapToolbarEnabled: true,
+                        cameraTargetBounds: controller.hkgBounds,
+                        markers: controller.allMarker,
+                        circles: controller.allCircles,
+                        onTap: controller.onTap,
                       ),
-                    ),
-                  ],
+                      Positioned(
+                        top: 10,
+                        right: 5,
+                        child: Column(
+                          children: [
+                            CircleIconButton(
+                              icon: Icon(
+                                Icons.satellite_rounded,
+                                color: Colors.white,
+                              ),
+                              onTap: () {
+                                controller.changeMapType(MapType.hybrid);
+                              },
+                            ),
+                            AppSizes.hGap10,
+                            CircleIconButton(
+                              icon: Icon(
+                                Icons.map,
+                                color: Colors.white,
+                              ),
+                              onTap: () {
+                                controller.changeMapType(MapType.terrain);
+                              },
+                            ),
+                            AppSizes.hGap10,
+                            CircleIconButton(
+                              icon: Icon(
+                                Icons.maps_home_work_rounded,
+                                color: Colors.white,
+                              ),
+                              onTap: () {
+                                controller.changeMapType(MapType.normal);
+                              },
+                            ),
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
                 ),
-              ),
-              Container(
-                width: Get.width,
-                color: context.theme.scaffoldBackgroundColor,
-                child: Slider(
-                  onChanged: controller.updateCircleRadius,
-                  value: controller.sliderValue,
-                  min: 0.05,
-                  max: 1.5,
+                Container(
+                  width: Get.width,
+                  color: context.theme.scaffoldBackgroundColor,
+                  child: Slider(
+                    onChanged: controller.updateCircleRadius,
+                    value: controller.sliderValue,
+                    min: 0.05,
+                    max: 1.5,
+                  ),
                 ),
-              ),
-              // Current Lat ln
-              _BottomLatLn(
-                currentLat: controller.currentLat,
-                currentLon: controller.currentLon,
-                onForwardButton: () {},
-              ),
-            ],
-          );
-        },
-      )),
+                Text('${controller.defaultRadius.toInt()} Squre Meter'),
+                // Current Lat ln
+                _BottomLatLn(
+                  currentLat: controller.currentLat,
+                  currentLon: controller.currentLon,
+                  onForwardButton: () {},
+                ),
+              ],
+            );
+          },
+        ),
+      ),
     );
   }
 }
@@ -152,18 +134,9 @@ class _BottomLatLn extends StatelessWidget {
               Text('Longitude: $currentLon'),
             ],
           ),
-          Container(
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: AppColors.PRIMARY_COLOR,
-            ),
-            child: IconButton(
-              icon: Icon(
-                Icons.arrow_forward_ios_rounded,
-                color: Colors.white,
-              ),
-              onPressed: () {},
-            ),
+          CircleIconButton(
+            icon: Icon(Icons.arrow_forward_ios_rounded, color: Colors.white),
+            onTap: onForwardButton,
           )
         ],
       ),

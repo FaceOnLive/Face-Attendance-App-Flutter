@@ -1,3 +1,5 @@
+import 'package:face_attendance/constants/app_sizes.dart';
+
 import '../../constants/app_colors.dart';
 import '../../constants/app_defaults.dart';
 import '../themes/text.dart';
@@ -161,6 +163,34 @@ class AppButtonOutline extends StatelessWidget {
                       : SizedBox(),
                 ],
               ),
+      ),
+    );
+  }
+}
+
+class CircleIconButton extends StatelessWidget {
+  const CircleIconButton({
+    Key? key,
+    required this.icon,
+    required this.onTap,
+    this.backgroundColor = AppColors.PRIMARY_COLOR,
+  }) : super(key: key);
+
+  final void Function() onTap;
+  final Icon icon;
+  final Color backgroundColor;
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        padding: EdgeInsets.all(AppSizes.DEFAULT_PADDING - 8),
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: AppColors.PRIMARY_COLOR,
+        ),
+        child: icon,
       ),
     );
   }

@@ -15,10 +15,12 @@ class AppMapController extends GetxController {
   );
 
   // When map is created
-  onMapCreated(GoogleMapController controller, BuildContext context) {
+  onMapCreated(GoogleMapController controller, BuildContext context) async {
     _googleMapController = controller;
     currentLon = initialCameraPostion.target.longitude;
-    _setMapInDarkMode(controller, context);
+    currentLat = initialCameraPostion.target.latitude;
+    await _setMapInDarkMode(controller, context);
+    updateCircleRadius(0.5);
     update();
   }
 
@@ -53,12 +55,12 @@ class AppMapController extends GetxController {
   );
 
   /// RANGE SET
-  Set<Polyline> allPolyLines = {};
-  Set<Polygon> allPolyGons = {};
   Set<Circle> allCircles = {};
+  Set<Marker> allMarker = {};
 
   /// CIRCLE ID
   String _circleID = '1';
+  String _markerID = 'marker_1';
   double defaultRadius = 100;
   double sliderValue = 0.5;
 
@@ -73,6 +75,12 @@ class AppMapController extends GetxController {
         fillColor: AppColors.PRIMARY_COLOR.withOpacity(0.3),
         strokeColor: AppColors.PRIMARY_COLOR,
         strokeWidth: 1,
+      ),
+    );
+    allMarker.add(
+      Marker(
+        markerId: MarkerId(_markerID),
+        position: latLng,
       ),
     );
     update();
@@ -93,6 +101,20 @@ class AppMapController extends GetxController {
       ),
     );
     update();
+  }
+
+  /// Map Type
+  MapType mapType = MapType.hybrid;
+
+  changeMapType(MapType _value) {
+    mapType = _value;
+    update();
+  }
+
+  /// On Forward Button
+  onForward() {
+    print("Radius: ${allCircles.first.radius}");
+    print("Center: ${allCircles.first.center.toString()}");
   }
 
   @override
