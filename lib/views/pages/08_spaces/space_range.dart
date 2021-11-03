@@ -1,6 +1,6 @@
-import 'package:face_attendance/constants/app_sizes.dart';
-import 'package:face_attendance/controllers/map/map_controller.dart';
-import 'package:face_attendance/views/widgets/app_button.dart';
+import '../../../constants/app_sizes.dart';
+import '../../../controllers/map/map_controller.dart';
+import '../../widgets/app_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';

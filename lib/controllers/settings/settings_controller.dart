@@ -14,7 +14,7 @@ import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
-class NavigationController extends GetxController {
+class SettingsController extends GetxController {
   /// If All The Database And Firebase Loaded, so that we can show user something
   bool everyThingLoadedUp = false;
   Future<void> _onAppStart() async {
@@ -38,7 +38,7 @@ class NavigationController extends GetxController {
     if (isIntroDone() == false) {
       return IntroScreen();
     } else {
-      return LoginScreenAlt();
+      return LoginScreen();
     }
   }
 

@@ -1,16 +1,18 @@
 import 'dart:io';
+import 'package:face_attendance/views/widgets/app_custom_list_tile.dart';
+
+import '../../../controllers/settings/settings_controller.dart';
+
 import 'admin_details.dart';
 import 'change_holiday.dart';
 import 'change_password.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../../controllers/navigation/nav_controller.dart';
+
 import '../../../services/app_photo.dart';
 import '../../dialogs/camera_or_gallery.dart';
-import '../../../constants/app_colors.dart';
-import '../../../constants/app_defaults.dart';
-import '../../../constants/app_sizes.dart';
+import '../../../constants/constants.dart';
 import '../../../controllers/auth/login_controller.dart';
 import '../../../controllers/user/user_controller.dart';
 import '../../themes/text.dart';
@@ -88,7 +90,7 @@ class AdminSettingScreen extends StatelessWidget {
                           isUpdating: controller.isNotificationUpdating,
                         ),
                         // Dark Mode
-                        GetBuilder<NavigationController>(
+                        GetBuilder<SettingsController>(
                           builder: (_controller) {
                             return AppCustomListTile(
                               onTap: () {},
@@ -159,7 +161,7 @@ class AdminSettingScreen extends StatelessWidget {
               child: AppButton(
                 label: 'Logout',
                 onTap: () {
-                  Get.offAll(() => LoginScreenAlt());
+                  Get.offAll(() => LoginScreen());
                   Get.find<LoginController>().logOut();
                 },
                 width: Get.width * 0.5,
@@ -188,7 +190,7 @@ class _UserInfo extends GetView<AppUserController> {
       children: [
         GetBuilder<AppUserController>(
           builder: (_) {
-            return PictureWidget(
+            return ProfilePictureWidget(
               heroTag: controller.currentUser.userID,
               profileLink: controller.currentUser.userProfilePicture,
               isUpdating: controller.isUpdatingPicture,
@@ -215,67 +217,6 @@ class _UserInfo extends GetView<AppUserController> {
         ),
         AppSizes.hGap10,
       ],
-    );
-  }
-}
-
-class AppCustomListTile extends StatelessWidget {
-  const AppCustomListTile({
-    Key? key,
-    required this.onTap,
-    this.label,
-    this.leading,
-    this.trailing,
-    this.isUpdating = false,
-    this.updateMessage,
-    this.subtitle,
-  }) : super(key: key);
-
-  final void Function() onTap;
-  final String? label;
-  final Icon? leading;
-  final Widget? trailing;
-  final bool isUpdating;
-  final String? updateMessage;
-  final String? subtitle;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 10, vertical: 0),
-      child: InkWell(
-        borderRadius: AppDefaults.defaulBorderRadius,
-        splashColor: AppColors.shimmerHighlightColor,
-        onTap: onTap,
-        child: Container(
-          margin: EdgeInsets.symmetric(
-              horizontal: AppSizes.DEFAULT_MARGIN,
-              vertical: AppSizes.DEFAULT_MARGIN / 2),
-          decoration: BoxDecoration(
-            boxShadow: AppDefaults.defaultBoxShadow,
-            color: context.theme.cardColor,
-            borderRadius: AppDefaults.defaulBorderRadius,
-          ),
-          child: ListTile(
-            contentPadding: EdgeInsets.all(AppSizes.DEFAULT_PADDING / 2),
-            enabled: true,
-            leading: leading ?? Icon(Icons.person_rounded),
-            title: Text(
-              label ?? 'Add Text Here',
-              style: context.textTheme.bodyText1,
-            ),
-            subtitle: isUpdating
-                ? Text(
-                    updateMessage ?? 'Updating...',
-                    style: AppText.caption,
-                  )
-                : subtitle == null
-                    ? null
-                    : Text(subtitle!, style: AppText.caption),
-            trailing: trailing ?? Icon(Icons.arrow_forward_ios_rounded),
-          ),
-        ),
-      ),
     );
   }
 }

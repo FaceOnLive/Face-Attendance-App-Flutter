@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:face_attendance/models/logMessage.dart';
+import '../../models/logMessage.dart';
 import '../../views/pages/03_entrypoint/entrypoint.dart';
 import '../members/member_controller.dart';
 import '../../services/space_services.dart';

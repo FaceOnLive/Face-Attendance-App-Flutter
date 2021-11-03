@@ -11,14 +11,14 @@ import '../../themes/text.dart';
 import '../../widgets/app_button.dart';
 import 'signup_screen.dart';
 
-class LoginScreenAlt extends StatefulWidget {
-  const LoginScreenAlt({Key? key}) : super(key: key);
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({Key? key}) : super(key: key);
 
   @override
-  _LoginScreenAltState createState() => _LoginScreenAltState();
+  _LoginScreenState createState() => _LoginScreenState();
 }
 
-class _LoginScreenAltState extends State<LoginScreenAlt> {
+class _LoginScreenState extends State<LoginScreen> {
   /* <---- Login Dependecny ----> */
   LoginController _controller = Get.find();
 

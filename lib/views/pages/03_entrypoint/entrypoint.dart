@@ -5,7 +5,8 @@
 
 import 'package:animations/animations.dart';
 import 'package:face_attendance/controllers/members/member_controller.dart';
-import 'package:face_attendance/controllers/navigation/nav_controller.dart';
+import 'package:face_attendance/controllers/settings/settings_controller.dart';
+
 import 'package:face_attendance/controllers/spaces/space_controller.dart';
 import 'package:face_attendance/controllers/user/user_controller.dart';
 import 'package:face_attendance/controllers/verifier/verify_controller.dart';
@@ -24,7 +25,7 @@ class EntryPointUI extends StatelessWidget {
         children: [
           /* <---- Main Part ----> */
           Expanded(
-            child: GetBuilder<NavigationController>(
+            child: GetBuilder<SettingsController>(
               initState: (val) {
                 Get.put(AppUserController());
                 Get.put(MembersController());
@@ -47,7 +48,7 @@ class EntryPointUI extends StatelessWidget {
           ),
 
           /* <---- Bottom Navigation Bar ----> */
-          GetBuilder<NavigationController>(
+          GetBuilder<SettingsController>(
             builder: (controller) => BottomNavigationBar(
               onTap: controller.onNavTap,
               currentIndex: controller.currentIndex,
