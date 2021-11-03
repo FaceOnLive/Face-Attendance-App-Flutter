@@ -7,8 +7,8 @@ import '../../constants/app_images.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class PictureWidget extends StatelessWidget {
-  const PictureWidget({
+class ProfilePictureWidget extends StatelessWidget {
+  const ProfilePictureWidget({
     Key? key,
     this.profileLink,
     this.heroTag,
@@ -91,7 +91,7 @@ class PictureWidget extends StatelessWidget {
                           shape: BoxShape.circle,
                         ),
                         child: Icon(
-                          Icons.camera_alt_rounded,
+                          Icons.add_a_photo_rounded,
                           color: Colors.white,
                         ),
                       ),

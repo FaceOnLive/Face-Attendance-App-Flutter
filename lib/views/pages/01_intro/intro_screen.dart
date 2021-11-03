@@ -1,7 +1,8 @@
+import '../../../controllers/settings/settings_controller.dart';
+
 import '../../../constants/app_colors.dart';
 import '../../../constants/app_defaults.dart';
 import '../../../constants/app_sizes.dart';
-import '../../../controllers/navigation/nav_controller.dart';
 import '../../../models/intro.dart';
 import '../02_auth/login_screen.dart';
 import '../../themes/text.dart';
@@ -51,7 +52,7 @@ class _IntroScreenState extends State<IntroScreen> {
   late PageController _pageController;
 
   // Navigation
-  NavigationController _controller = Get.find();
+  SettingsController _controller = Get.find();
 
   @override
   void initState() {
@@ -130,7 +131,7 @@ class _IntroScreenState extends State<IntroScreen> {
                   TextButton(
                     onPressed: () {
                       _controller.introScreenDone();
-                      Get.to(() => LoginScreenAlt());
+                      Get.to(() => LoginScreen());
                     },
                     child: Text('SKIP'),
                   ),
@@ -139,7 +140,7 @@ class _IntroScreenState extends State<IntroScreen> {
                     onTap: () {
                       if (_currentPage.value == _allIntros.length - 1) {
                         _controller.introScreenDone();
-                        Get.to(() => LoginScreenAlt());
+                        Get.to(() => LoginScreen());
                       } else {
                         _pageController.animateToPage(
                           _currentPage.value + 1,

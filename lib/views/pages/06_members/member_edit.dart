@@ -116,7 +116,7 @@ class _MemberEditScreenState extends State<MemberEditScreen> {
             child: Column(
               children: [
                 Obx(
-                  () => PictureWidget(
+                  () => ProfilePictureWidget(
                     onTap: () async {
                       _userImage =
                           await Get.dialog(CameraGallerySelectDialog());

@@ -11,14 +11,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+class LoginScreenAlt extends StatefulWidget {
+  const LoginScreenAlt({Key? key}) : super(key: key);
 
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  _LoginScreenAltState createState() => _LoginScreenAltState();
 }
 
-class _LoginScreenState extends State<LoginScreen>
+class _LoginScreenAltState extends State<LoginScreenAlt>
     with TickerProviderStateMixin {
   late final AnimationController _controller;
 
@@ -138,7 +138,7 @@ class _LoginScreenState extends State<LoginScreen>
               /* <---- Sign In With Other Option ----> */
               TextButton(
                 onPressed: () {
-                  Get.to(() => LoginScreenAlt());
+                  Get.to(() => LoginScreen());
                 },
                 child: Text(
                   'Sign in With Other Option',

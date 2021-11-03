@@ -1,4 +1,4 @@
-import 'package:face_attendance/constants/app_sizes.dart';
+import '../../constants/app_sizes.dart';
 
 import '../../constants/app_colors.dart';
 import '../../constants/app_defaults.dart';
@@ -22,6 +22,7 @@ class AppButton extends StatelessWidget {
     this.mainAxisAlignment,
     this.disableBorderRadius = false,
     this.isButtonDisabled = false,
+    this.fontSize,
   }) : super(key: key);
 
   final String label;
@@ -37,6 +38,7 @@ class AppButton extends StatelessWidget {
   final MainAxisAlignment? mainAxisAlignment;
   final bool disableBorderRadius;
   final bool isButtonDisabled;
+  final double? fontSize;
 
   @override
   Widget build(BuildContext context) {
@@ -78,6 +80,7 @@ class AppButton extends StatelessWidget {
                     style: AppText.b1.copyWith(
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
+                      fontSize: fontSize,
                     ),
                   ),
                   suffixIcon != null

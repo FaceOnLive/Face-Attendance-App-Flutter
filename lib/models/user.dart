@@ -10,6 +10,7 @@ class AppUser {
   bool notification;
   String? userProfilePicture;
   String? userID;
+  String? address;
 
   /// This is used for the login verification, profile picture is for showcase
   String? userFace;
@@ -24,6 +25,7 @@ class AppUser {
     this.phone,
     this.deviceIDToken,
     this.userID,
+    this.address,
   });
 
   Map<String, dynamic> toMap() {
@@ -36,6 +38,7 @@ class AppUser {
       'userProfilePicture': userProfilePicture,
       'userFace': userFace,
       'deviceIDToken': deviceIDToken,
+      'address': address,
     };
   }
 
@@ -50,6 +53,7 @@ class AppUser {
       userProfilePicture: map['userProfilePicture'],
       userFace: map['userFace'],
       deviceIDToken: map['deviceIDToken'],
+      address: map['address'],
       userID: documentSnapshot.id,
     );
   }

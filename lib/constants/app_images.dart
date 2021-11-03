@@ -3,7 +3,7 @@ class AppImages {
   static const String MAIN_LOGO_2 =
       'assets/images/logos/logo_without_title.png';
   static const String GOOGLE_LOGO = 'assets/images/logos/google_logo.png';
-  static const String ILLUSTRATION_FACE =
+  static const String ILLUSTRATION_FACE_ID =
       'assets/images/illustration/face_id_logo.png';
 
   static const String ILLUSTRATION_WELCOME =

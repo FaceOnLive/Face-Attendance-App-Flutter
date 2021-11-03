@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import '../../views/pages/03_entrypoint/entrypoint.dart';
+import 'login_controller.dart';
+import '../../views/pages/app_member/01_entrypoint/entrypoint_member.dart';
 import '../../views/dialogs/email_sent.dart';
 import '../../models/user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -41,7 +42,8 @@ class SignUpController extends GetxController {
             ).toMap(),
           );
       await Get.dialog(EmailSentSuccessfullDialog());
-      Get.offAll(() => EntryPointUI());
+      Get.find<LoginController>().isAdmin = false;
+      Get.offAll(() => AppMemberMainUi());
     } on FirebaseException catch (e) {
       print(e);
     }

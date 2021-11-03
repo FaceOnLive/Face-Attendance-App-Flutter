@@ -48,7 +48,7 @@ class MemberAttendanceDetails extends StatelessWidget {
           child: Column(
             children: [
               /* <---- User Info ----> */
-              PictureWidget(
+              ProfilePictureWidget(
                 disableTap: true,
                 profileLink: member.memberPicture,
                 heroTag: member.memberID,

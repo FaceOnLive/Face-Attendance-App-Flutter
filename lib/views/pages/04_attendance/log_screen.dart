@@ -1,8 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:face_attendance/constants/app_images.dart';
-import 'package:face_attendance/controllers/spaces/space_controller.dart';
-import 'package:face_attendance/models/logMessage.dart';
-import 'package:face_attendance/services/app_toast.dart';
+import '../../../constants/app_images.dart';
+import '../../../controllers/spaces/space_controller.dart';
+import '../../../models/logMessage.dart';
+import '../../../services/app_toast.dart';
 import 'package:get/get.dart';
 
 import '../../themes/text.dart';

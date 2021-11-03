@@ -53,6 +53,26 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   RxBool _isAddingUser = false.obs;
 
+  Future<void> _onCreateUser() async {
+    bool _isFormOkay =
+        _formKey.currentState!.validate() && _isPasswordMatching();
+    if (_isFormOkay) {
+      AppUiHelper.dismissKeyboard(context: context);
+      _isAddingUser.trigger(true);
+      try {
+        await _controller.registerUsers(
+          userName: nameController.text,
+          email: emailController.text,
+          password: passController.text,
+        );
+        _isAddingUser.trigger(false);
+      } on Exception catch (e) {
+        print(e);
+        _isAddingUser.trigger(false);
+      }
+    }
+  }
+
   /* <---- State ----> */
   @override
   void initState() {
@@ -171,26 +191,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           () => AppButton(
                             label: 'Submit',
                             isLoading: _isAddingUser.value,
-                            onTap: () async {
-                              bool _isFormOkay =
-                                  _formKey.currentState!.validate() &&
-                                      _isPasswordMatching();
-                              if (_isFormOkay) {
-                                AppUiHelper.dismissKeyboard(context: context);
-                                _isAddingUser.trigger(true);
-                                try {
-                                  await _controller.registerUsers(
-                                    userName: nameController.text,
-                                    email: emailController.text,
-                                    password: passController.text,
-                                  );
-                                  _isAddingUser.trigger(false);
-                                } on Exception catch (e) {
-                                  print(e);
-                                  _isAddingUser.trigger(false);
-                                }
-                              }
-                            },
+                            onTap: _onCreateUser,
                           ),
                         ),
                       ],

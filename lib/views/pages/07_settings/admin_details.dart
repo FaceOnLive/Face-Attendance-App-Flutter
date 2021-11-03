@@ -93,8 +93,8 @@ class _AdminDetailsSheetState extends State<AdminDetailsSheet> {
               ),
               controller: _nameController,
               autofocus: true,
-              validator: (v) {
-                return AppFormVerify.name(fullName: v);
+              validator: (name) {
+                return AppFormVerify.name(fullName: name);
               },
             ),
           ),

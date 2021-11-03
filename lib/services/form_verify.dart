@@ -70,7 +70,7 @@ class AppFormVerify {
     }
   }
 
-  /// [Phone] Returns error message on inputs
+  /// [Phone] Returns error message on inputs, can verify if it is int number
   static String? phoneNumber({required String? phone}) {
     if (phone == null) {
       return 'Please enter a phone number';
