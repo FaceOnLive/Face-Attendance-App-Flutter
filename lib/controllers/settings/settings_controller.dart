@@ -1,7 +1,9 @@
+import '../../utils/check_internet.dart';
+import '../../views/dialogs/no_internet.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 
-import '../../services/space_services.dart';
+import '../../data/services/space_services.dart';
 import '../auth/login_controller.dart';
 import '../../views/pages/01_intro/intro_screen.dart';
 import '../../views/pages/02_auth/login_screen.dart';
@@ -182,6 +184,16 @@ class SettingsController extends GetxController {
     return _theme;
   }
 
+  /// Internet Check
+  Future<void> _checkInternetOnStart() async {
+    bool _isAvailable = await InternetCheck.isAvailable();
+    if (_isAvailable) {
+      // do nothing
+    } else {
+      Get.dialog(NoInternetDialog());
+    }
+  }
+
   /// When this controller initiates
   @override
   void onInit() async {
@@ -190,5 +202,6 @@ class SettingsController extends GetxController {
     /// WHEN THE APP STARTS
     await _onAppStart();
     _isTheAppInDarkMode();
+    _checkInternetOnStart();
   }
 }

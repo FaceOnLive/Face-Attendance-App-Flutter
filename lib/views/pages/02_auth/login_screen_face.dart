@@ -1,5 +1,3 @@
-import '../03_entrypoint/entrypoint.dart';
-
 import '../../../constants/app_colors.dart';
 import '../../../constants/app_images.dart';
 import '../../../constants/app_sizes.dart';
@@ -31,7 +29,7 @@ class _LoginScreenAltState extends State<LoginScreenAlt>
         ..forward();
       _controller.addStatusListener((status) {
         if (status == AnimationStatus.completed) {
-          Get.offAll(() => EntryPointUI());
+          // Get.offAll(() => EntryPointUI());
         }
       });
     });
@@ -51,7 +49,7 @@ class _LoginScreenAltState extends State<LoginScreenAlt>
 
   @override
   void dispose() {
-    _controller.removeListener(() {});
+    _controller.removeListener(_onFaceUnverified);
     _controller.dispose();
     super.dispose();
   }

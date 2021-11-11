@@ -1,8 +1,8 @@
 import 'dart:io';
-import 'package:face_attendance/controllers/settings/settings_controller.dart';
-import 'package:face_attendance/views/pages/app_member/03_profile/change-address.dart';
-import 'package:face_attendance/views/pages/app_member/03_profile/change-name.dart';
-import 'package:face_attendance/views/pages/app_member/03_profile/change-number.dart';
+import '../../../../controllers/settings/settings_controller.dart';
+import 'change-address.dart';
+import 'change-name.dart';
+import 'change-number.dart';
 import 'package:flutter/cupertino.dart';
 
 import '../../../../constants/app_sizes.dart';

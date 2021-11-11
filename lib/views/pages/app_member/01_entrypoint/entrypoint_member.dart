@@ -1,5 +1,5 @@
 import 'package:animations/animations.dart';
-import 'package:face_attendance/controllers/verifier/app_member_verify.dart';
+import '../../../../controllers/verifier/app_member_verify.dart';
 import '../../../../controllers/spaces/app_member_space.dart';
 import '../../../../controllers/settings/app_member_settings.dart';
 import '../../../../controllers/user/app_member_user.dart';

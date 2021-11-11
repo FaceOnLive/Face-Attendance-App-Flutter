@@ -2,7 +2,7 @@ import '../../../constants/app_colors.dart';
 import '../../../constants/app_defaults.dart';
 import '../../../constants/app_sizes.dart';
 import '../../../controllers/user/user_controller.dart';
-import '../../../services/form_verify.dart';
+import '../../../data/providers/form_verify.dart';
 import '../../themes/text.dart';
 import '../../widgets/app_button.dart';
 import 'package:firebase_core/firebase_core.dart';

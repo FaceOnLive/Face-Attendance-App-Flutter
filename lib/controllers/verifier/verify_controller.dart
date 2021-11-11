@@ -12,7 +12,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import '../auth/login_controller.dart';
 import '../members/member_controller.dart';
 import '../../models/member.dart';
-import '../../services/app_photo.dart';
+import '../../data/services/app_photo.dart';
 import 'package:get/get.dart';
 
 class VerifyController extends GetxController {

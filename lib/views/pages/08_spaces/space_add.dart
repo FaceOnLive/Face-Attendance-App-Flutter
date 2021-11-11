@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../controllers/spaces/space_controller.dart';
 import '../../../models/space.dart';
-import '../../../services/form_verify.dart';
+import '../../../data/providers/form_verify.dart';
 import '../../../constants/app_colors.dart';
 import '../../../constants/app_defaults.dart';
 import '../../../constants/app_sizes.dart';

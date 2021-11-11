@@ -1,8 +1,10 @@
-import 'package:face_attendance/constants/app_sizes.dart';
-import 'package:face_attendance/services/app_toast.dart';
-import 'package:face_attendance/services/form_verify.dart';
-import 'package:face_attendance/views/themes/text.dart';
-import 'package:face_attendance/views/widgets/app_button.dart';
+import '../../../../data/providers/form_verify.dart';
+import '../../../../data/services/app_toast.dart';
+
+import '../../../../constants/app_sizes.dart';
+
+import '../../../themes/text.dart';
+import '../../../widgets/app_button.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/services.dart';
 

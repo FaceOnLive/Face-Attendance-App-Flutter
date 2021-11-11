@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import '../../services/uploadPicture.dart';
+import '../../data/services/uploadPicture.dart';
 import '../auth/login_controller.dart';
 import '../../models/user.dart';
 import 'package:get/get.dart';

@@ -1,6 +1,5 @@
+import '../../models/space.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-
-import '../models/space.dart';
 
 class SpaceServices {
   static const String SPACE_BOX_NAME = 'space_box';

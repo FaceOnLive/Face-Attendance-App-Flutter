@@ -1,13 +1,15 @@
 import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
-import '../../services/date_helper.dart';
-import 'package:intl/intl.dart';
-import '../spaces/space_controller.dart';
-import '../../services/deletePicture.dart';
-import '../../services/uploadPicture.dart';
-import '../auth/login_controller.dart';
-import '../../models/member.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
+
+import '../../models/member.dart';
+import '../../data/services/date_helper.dart';
+import '../../data/services/deletePicture.dart';
+import '../../data/services/uploadPicture.dart';
+import '../auth/login_controller.dart';
+import '../spaces/space_controller.dart';
 
 class MembersController extends GetxController {
   /* <---- Dependency ----> */

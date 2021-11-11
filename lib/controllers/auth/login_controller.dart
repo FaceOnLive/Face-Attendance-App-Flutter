@@ -1,13 +1,15 @@
+import '../../data/services/app_toast.dart';
+import '../../data/services/member_services.dart';
+
 import '../settings/app_member_settings.dart';
 import '../user/app_member_user.dart';
-import '../../services/member_services.dart';
+
 import '../../views/pages/02_auth/login_screen.dart';
 import '../../views/pages/03_entrypoint/entrypoint.dart';
 import '../../views/pages/app_member/01_entrypoint/entrypoint_member.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 
-import '../../services/app_toast.dart';
 import '../camera/camera_controller.dart';
 import '../spaces/space_controller.dart';
 import '../verifier/verify_controller.dart';

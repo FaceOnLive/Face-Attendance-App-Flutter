@@ -1,3 +1,5 @@
+import '../../../constants/app_defaults.dart';
+import 'login_screen_face.dart';
 import 'package:firebase_core/firebase_core.dart';
 import '../../../controllers/auth/login_controller.dart';
 import 'package:flutter/material.dart';
@@ -5,7 +7,7 @@ import 'package:get/get.dart';
 import '../../../constants/app_colors.dart';
 import '../../../constants/app_images.dart';
 import '../../../constants/app_sizes.dart';
-import '../../../services/form_verify.dart';
+import '../../../data/providers/form_verify.dart';
 import '../../../utils/ui_helper.dart';
 import '../../themes/text.dart';
 import '../../widgets/app_button.dart';
@@ -88,6 +90,27 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        leading: SizedBox(),
+        actions: [
+          InkWell(
+            onTap: () {
+              Get.to(() => LoginScreenAlt());
+            },
+            borderRadius: AppDefaults.defaulBorderRadius,
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Image.asset(
+                AppImages.ILLUSTRATION_FACE_ID,
+                height: 24,
+                width: 24,
+              ),
+            ),
+          ),
+        ],
+        backgroundColor: Colors.transparent,
+      ),
+      extendBodyBehindAppBar: true,
       body: Container(
         child: Center(
           child: SingleChildScrollView(

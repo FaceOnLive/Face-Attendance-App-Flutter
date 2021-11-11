@@ -1,8 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:face_attendance/views/pages/app_member/02_home/verifier.dart';
+import 'package:intl/intl.dart';
+import 'verifier.dart';
 import '../../../../controllers/settings/app_member_settings.dart';
 import 'drop_down.dart';
-import '../../../widgets/app_button.dart';
 import '../../../../constants/app_colors.dart';
 import '../../../../constants/app_defaults.dart';
 import '../../../../constants/app_images.dart';
@@ -23,11 +23,39 @@ class AppMemberHomeScreen extends StatelessWidget {
       child: Column(
         children: [
           _HeaderMainPage(),
+          _DateRow(),
           // DropDown
           AppMemberDropDown(),
           Expanded(
             child: AppMemberVerifierWidget(),
           )
+        ],
+      ),
+    );
+  }
+}
+
+class _DateRow extends StatelessWidget {
+  const _DateRow({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: 10),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            DateFormat.EEEE().format(DateTime.now()),
+            style: AppText.caption,
+          ),
+          Text(' | '),
+          Text(
+            DateFormat.yMMMMd().format(DateTime.now()),
+            style: AppText.caption,
+          ),
         ],
       ),
     );

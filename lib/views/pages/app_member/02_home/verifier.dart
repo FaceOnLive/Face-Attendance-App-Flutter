@@ -1,7 +1,7 @@
-import 'package:face_attendance/constants/constants.dart';
-import 'package:face_attendance/controllers/verifier/app_member_verify.dart';
-import 'package:face_attendance/views/themes/text.dart';
-import 'package:face_attendance/views/widgets/app_button.dart';
+import '../../../../constants/constants.dart';
+import '../../../../controllers/verifier/app_member_verify.dart';
+import '../../../themes/text.dart';
+import '../../../widgets/app_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';

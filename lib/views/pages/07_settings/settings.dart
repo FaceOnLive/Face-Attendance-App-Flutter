@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:face_attendance/views/widgets/app_custom_list_tile.dart';
+import '../../widgets/app_custom_list_tile.dart';
 
 import '../../../controllers/settings/settings_controller.dart';
 
@@ -10,7 +10,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../services/app_photo.dart';
+import '../../../data/services/app_photo.dart';
 import '../../dialogs/camera_or_gallery.dart';
 import '../../../constants/constants.dart';
 import '../../../controllers/auth/login_controller.dart';

@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'dart:io';
 
 import '../../../utils/ui_helper.dart';
-import '../../../services/form_verify.dart';
+import '../../../data/providers/form_verify.dart';
 import '../../../controllers/members/member_controller.dart';
 import '../../../constants/app_sizes.dart';
 import '../../dialogs/camera_or_gallery.dart';

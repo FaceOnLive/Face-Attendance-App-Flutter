@@ -1,13 +1,13 @@
-import '../controllers/settings/settings_controller.dart';
-import 'pages/app_member/01_entrypoint/entrypoint_member.dart';
-
-import 'themes/themes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+import '../constants/app_images.dart';
+import '../controllers/auth/login_controller.dart';
+import '../controllers/settings/settings_controller.dart';
 import 'pages/03_entrypoint/entrypoint.dart';
 import 'pages/05_verifier/static_verifier.dart';
-import '../controllers/auth/login_controller.dart';
-import '../constants/app_images.dart';
+import 'pages/app_member/01_entrypoint/entrypoint_member.dart';
+import 'themes/themes.dart';
 
 //// APP \\
 class TuringTechApp extends StatelessWidget {
