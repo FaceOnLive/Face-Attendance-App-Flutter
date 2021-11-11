@@ -1,3 +1,5 @@
+import 'join_qr_code.dart';
+
 import '../../../../constants/app_colors.dart';
 import '../../../../constants/app_defaults.dart';
 import '../../../../constants/app_sizes.dart';
@@ -8,15 +10,20 @@ import '../../../themes/text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class AppMemberDropDown extends StatelessWidget {
+class AppMemberDropDown extends StatefulWidget {
   const AppMemberDropDown({
     Key? key,
   }) : super(key: key);
 
   @override
+  State<AppMemberDropDown> createState() => _AppMemberDropDownState();
+}
+
+class _AppMemberDropDownState extends State<AppMemberDropDown> {
+  @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(20),
+      padding: EdgeInsets.symmetric(horizontal: 20),
       child: Row(
         children: [
           Expanded(
@@ -30,78 +37,71 @@ class AppMemberDropDown extends StatelessWidget {
                 ),
                 borderRadius: AppDefaults.defaulBorderRadius,
               ),
-              child:
-                  GetBuilder<AppMemberSpaceController>(builder: (controller) {
-                if (controller.isFetchingSpaces) {
-                  return Container(
-                    height: 50,
-                    child: LinearProgressIndicator(),
-                  );
-                } else if (controller.allSpaces.length < 1) {
-                  return SizedBox();
-                } else {
-                  return DropdownButton<String>(
-                    isExpanded: true,
-                    underline: SizedBox(),
-                    dropdownColor: context.theme.canvasColor,
-                    items: List.generate(
-                      controller.allSpaces.length + 1,
-                      (index) {
-                        // Create button
-                        if (index == controller.allSpaces.length) {
-                          return DropdownMenuItem(
-                            child: _JoinNewSpaceButton(),
-                            value: 'Join',
-                          );
-                        }
+              child: GetBuilder<AppMemberSpaceController>(
+                builder: (controller) {
+                  if (controller.isFetchingSpaces) {
+                    return Container(
+                      height: 50,
+                      child: LinearProgressIndicator(),
+                    );
+                  } else if (controller.allSpaces.length < 1) {
+                    return SizedBox();
+                  } else {
+                    return DropdownButton<String>(
+                      isExpanded: true,
+                      underline: SizedBox(),
+                      dropdownColor: context.theme.canvasColor,
+                      items: List.generate(
+                        controller.allSpaces.length + 1,
+                        (index) {
+                          // Create button
+                          if (index == controller.allSpaces.length) {
+                            return DropdownMenuItem(
+                              child: _JoinNewSpaceButton(),
+                              value: 'Join',
+                            );
+                          }
 
-                        /// List
-                        Space _currentSpace = controller.allSpaces[index];
-                        return DropdownMenuItem(
-                          child: _DropDownSpaceItem(
-                            active: true,
-                            iconData: _currentSpace.icon,
-                            label: _currentSpace.name,
-                            onTap: () {
-                              Get.to(
-                                () => SpaceInfoScreen(space: _currentSpace),
-                              );
-                            },
-                          ),
-                          value: _currentSpace.name.toLowerCase(),
-                        );
-                      },
-                    ),
-                    value: controller.currentSpace!.name.toLowerCase(),
-                    onChanged: controller.onSpaceDropDownTap,
-                  );
-                }
-              }),
+                          /// List
+                          Space _currentSpace = controller.allSpaces[index];
+                          return DropdownMenuItem(
+                            child: _DropDownSpaceItem(
+                              active: true,
+                              iconData: _currentSpace.icon,
+                              label: _currentSpace.name,
+                              onTap: () {
+                                Get.to(
+                                  () => SpaceInfoScreen(space: _currentSpace),
+                                );
+                              },
+                            ),
+                            value: _currentSpace.name.toLowerCase(),
+                          );
+                        },
+                      ),
+                      value: controller.currentSpace!.name.toLowerCase(),
+                      onChanged: controller.onSpaceDropDownTap,
+                    );
+                  }
+                },
+              ),
             ),
           ),
           AppSizes.wGap10,
           // DATE COLUMN
-          // Column(
-          //   children: [
-          //     Text(
-          //       DateFormat.EEEE().format(DateTime.now()),
-          //       style: AppText.caption,
-          //     ),
-          //     Text(
-          //       DateFormat.yMMMMd().format(DateTime.now()),
-          //       style: AppText.caption,
-          //     ),
-          //   ],
-          // ),
+          Column(
+            children: [],
+          ),
           // Space Log Button
-          // IconButton(
-          //   onPressed: () {
-          //     Get.to(
-          //       () => SpaceLogScreen(),
-          //     );
-          //   },
-          //   icon: Icon(Icons.assignment_outlined),
-          // ),
+          IconButton(
+            onPressed: () {
+              Get.to(() => AppMemberJoinQRCODE());
+            },
+            icon: Icon(
+              Icons.qr_code_scanner_rounded,
+              size: 30,
+            ),
+          ),
         ],
       ),
     );

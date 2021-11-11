@@ -5,10 +5,11 @@ import 'package:get/get.dart';
 
 class AppMemberSpaceController extends GetxController {
   /* <---- Dependency ----> */
-  late CollectionReference _collectionReference = FirebaseFirestore.instance
-      .collection('spaces')
-      .doc(_currentUserID)
-      .collection('space_collection');
+  CollectionReference _collectionReference =
+      FirebaseFirestore.instance.collection('spaces');
+
+  CollectionReference _userCollection =
+      FirebaseFirestore.instance.collection('users');
 
   /// User ID of Current Logged In user
   late String _currentUserID;
@@ -28,9 +29,55 @@ class AppMemberSpaceController extends GetxController {
   /// Is Fetching Space Data
   bool isFetchingSpaces = false;
 
+  /// Fetch All Of the Space
+  Future<void> _fetchSpaces() async {
+    await _userCollection
+        .doc(_currentUserID)
+        .collection('attendance')
+        .get()
+        .then((value) async {
+      allSpaces = [];
+
+      await Future.forEach<QueryDocumentSnapshot>(value.docs, (element) async {
+        Map<String, dynamic>? _data = element.data() as Map<String, dynamic>?;
+        if (_data != null) {
+          // Grab space data
+          String ownerID = _data['space_owner'] as String;
+          String spaceID = element.id;
+          // Fetch the space and add it to the list
+          Space? _theSpace =
+              await _getSpaceByID(id: spaceID, spaceOwner: ownerID);
+          if (_theSpace != null) {
+            allSpaces.add(_theSpace);
+            currentSpace = allSpaces[0];
+            print("Space added name ${_theSpace.name}");
+          }
+        }
+      });
+    });
+    update();
+  }
+
+  /// get Space
+  Future<Space?> _getSpaceByID({
+    required String id,
+    required String spaceOwner,
+  }) async {
+    Space? _theSpace;
+    await _collectionReference
+        .doc(spaceOwner)
+        .collection('space_collection')
+        .doc(id)
+        .get()
+        .then((value) => {_theSpace = Space.fromDocumentSnap(value)});
+
+    return _theSpace;
+  }
+
   @override
   void onInit() {
     super.onInit();
     _getCurrentUserID();
+    _fetchSpaces();
   }
 }

@@ -1,5 +1,5 @@
-import 'package:face_attendance/constants/constants.dart';
-import 'package:face_attendance/views/themes/text.dart';
+import '../../constants/constants.dart';
+import '../themes/text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_utils/src/extensions/context_extensions.dart';
 

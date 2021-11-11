@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../models/logMessage.dart';
 import '../../views/pages/03_entrypoint/entrypoint.dart';
 import '../members/member_controller.dart';
-import '../../services/space_services.dart';
+import '../../data/services/space_services.dart';
 import '../../constants/app_colors.dart';
 import '../../models/member.dart';
 import '../auth/login_controller.dart';

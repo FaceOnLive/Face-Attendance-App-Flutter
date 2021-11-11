@@ -1,7 +1,7 @@
 import '../../../utils/ui_helper.dart';
 
 import '../../../controllers/auth/signup_controller.dart';
-import '../../../services/form_verify.dart';
+import '../../../data/providers/form_verify.dart';
 import '../../../constants/app_images.dart';
 import '../../../constants/app_sizes.dart';
 import '../../widgets/app_button.dart';

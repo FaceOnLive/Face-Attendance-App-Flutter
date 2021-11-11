@@ -3,7 +3,7 @@ import 'dart:io';
 import '../../constants/app_colors.dart';
 import '../../constants/app_defaults.dart';
 import '../../constants/app_sizes.dart';
-import '../../services/app_photo.dart';
+import '../../data/services/app_photo.dart';
 import '../themes/text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

@@ -9,7 +9,7 @@ import 'package:camera/camera.dart';
 import 'static_verifier_LockUnlock.dart';
 import '../../../controllers/user/user_controller.dart';
 import '../../../controllers/verifier/verify_controller.dart';
-import '../../../services/app_photo.dart';
+import '../../../data/services/app_photo.dart';
 import '../../../constants/app_colors.dart';
 import '../../../constants/app_defaults.dart';
 import '../../../constants/app_sizes.dart';
