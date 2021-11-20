@@ -11,7 +11,7 @@ class MembersScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: Get.width,
       child: SafeArea(
         child: Stack(
@@ -20,16 +20,16 @@ class MembersScreen extends StatelessWidget {
               children: [
                 /* <---- Header ----> */
                 Container(
-                  margin: EdgeInsets.symmetric(vertical: 10),
+                  margin: const EdgeInsets.symmetric(vertical: 10),
                   child: Text(
                     'Members',
                     style: AppText.h6.copyWith(
                       fontWeight: FontWeight.bold,
-                      color: AppColors.PRIMARY_COLOR,
+                      color: AppColors.primaryColor,
                     ),
                   ),
                 ),
-                MembersList(),
+                const MembersList(),
               ],
             ),
             /* <---- Member Add ----> */
@@ -38,13 +38,13 @@ class MembersScreen extends StatelessWidget {
               right: Get.width * 0.07,
               child: FloatingActionButton.extended(
                 onPressed: () {
-                  Get.to(() => MemberAddScreen());
+                  Get.to(() => const MemberAddScreen());
                 },
-                icon: Icon(
+                icon: const Icon(
                   Icons.person_add_rounded,
                 ),
-                label: Text('Add'),
-                backgroundColor: AppColors.PRIMARY_COLOR,
+                label: const Text('Add'),
+                backgroundColor: AppColors.primaryColor,
               ),
             ),
           ],

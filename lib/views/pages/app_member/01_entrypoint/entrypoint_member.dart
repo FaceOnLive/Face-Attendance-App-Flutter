@@ -1,4 +1,5 @@
 import 'package:animations/animations.dart';
+import '../../../../constants/app_defaults.dart';
 import '../../../../controllers/verifier/app_member_verify.dart';
 import '../../../../controllers/spaces/app_member_space.dart';
 import '../../../../controllers/settings/app_member_settings.dart';
@@ -26,7 +27,7 @@ class AppMemberMainUi extends StatelessWidget {
                   Get.put(AppMemberVerifyController());
                 },
                 builder: (controller) => PageTransitionSwitcher(
-                  duration: Duration(milliseconds: 500),
+                  duration: AppDefaults.defaultDuration,
                   transitionBuilder: (child, animation, secondAnimation) {
                     return SharedAxisTransition(
                       child: child,
@@ -57,7 +58,7 @@ class AppMemberMainUi extends StatelessWidget {
                   color: context.theme.primaryColor,
                 ),
                 iconSize: 32,
-                items: [
+                items: const [
                   BottomNavigationBarItem(
                     icon: Icon(Icons.home),
                     label: 'Home',

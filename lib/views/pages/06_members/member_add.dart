@@ -19,7 +19,7 @@ class MemberAddScreen extends StatefulWidget {
 
 class _MemberAddScreenState extends State<MemberAddScreen> {
   /* <---- Dependency ----> */
-  MembersController _controller = Get.find();
+  final MembersController _controller = Get.find();
 
   /* <---- Input Fields ----> */
   late TextEditingController _name;
@@ -40,14 +40,14 @@ class _MemberAddScreenState extends State<MemberAddScreen> {
   }
 
   // Other
-  RxBool _addingMember = false.obs;
+  final RxBool _addingMember = false.obs;
 
   // Image
   File? _userImage;
-  RxBool _userPickedImage = false.obs;
+  final RxBool _userPickedImage = false.obs;
 
   // Form Key
-  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   /// When user clicks the add button
   Future<void> _onCreateUserButton() async {
@@ -84,14 +84,15 @@ class _MemberAddScreenState extends State<MemberAddScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           'Add Member',
         ),
       ),
       body: Center(
         child: SingleChildScrollView(
           child: Container(
-            padding: EdgeInsets.symmetric(horizontal: AppSizes.DEFAULT_PADDING),
+            padding:
+                const EdgeInsets.symmetric(horizontal: AppSizes.defaultPadding),
             width: Get.width,
             child: Column(
               children: [
@@ -99,7 +100,7 @@ class _MemberAddScreenState extends State<MemberAddScreen> {
                   () => ProfilePictureWidget(
                     onTap: () async {
                       _userImage =
-                          await Get.dialog(CameraGallerySelectDialog());
+                          await Get.dialog(const CameraGallerySelectDialog());
                       // If the user has picked an image then we will show
                       // the file user has picked
                       if (_userImage != null) {
@@ -112,13 +113,14 @@ class _MemberAddScreenState extends State<MemberAddScreen> {
                 ),
                 /* <---- Form INFO ----> */
                 Container(
-                  margin: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+                  margin:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
                   child: Form(
                     key: _formKey,
                     child: Column(
                       children: [
                         TextFormField(
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             labelText: 'Full Name',
                             prefixIcon: Icon(Icons.person_rounded),
                             hintText: 'Person Name',
@@ -131,7 +133,7 @@ class _MemberAddScreenState extends State<MemberAddScreen> {
                         ),
                         AppSizes.hGap20,
                         TextFormField(
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             labelText: 'Phone',
                             prefixIcon: Icon(Icons.phone_rounded),
                             hintText: '+854 000 0000',
@@ -143,7 +145,7 @@ class _MemberAddScreenState extends State<MemberAddScreen> {
                         ),
                         AppSizes.hGap20,
                         TextFormField(
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             labelText: 'Full Address',
                             prefixIcon: Icon(Icons.location_on_rounded),
                             hintText: 'Ocean Centre, Tsim Sha Tsui, Hong Kong',

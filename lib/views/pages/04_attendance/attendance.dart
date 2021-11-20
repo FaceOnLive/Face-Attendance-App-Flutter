@@ -28,18 +28,18 @@ class AttendanceScreen extends StatelessWidget {
         child: Column(
           children: [
             /* <---- Header ----> */
-            _HeaderMainPage(),
+            const _HeaderMainPage(),
             /* <---- Attendance List -----> */
             GetBuilder<SpaceController>(
               builder: (controller) {
                 if (controller.isFetchingSpaces) {
-                  return LoadingMembers();
-                } else if (controller.allSpaces.length <= 0) {
-                  return _NoSpaceFound();
+                  return const LoadingMembers();
+                } else if (controller.allSpaces.isEmpty) {
+                  return const _NoSpaceFound();
                 } else {
                   return Expanded(
                     child: Column(
-                      children: [
+                      children: const [
                         /* <---- DropDown and Date----> */
                         DropDownRow(),
 
@@ -66,7 +66,7 @@ class _HeaderMainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 20),
+      padding: const EdgeInsets.symmetric(horizontal: 20),
       height: Get.height * 0.1,
       decoration: BoxDecoration(
         color: context.theme.scaffoldBackgroundColor,
@@ -79,9 +79,9 @@ class _HeaderMainPage extends StatelessWidget {
           Row(
             children: [
               Hero(
-                tag: AppImages.MAIN_LOGO,
+                tag: AppImages.mainLogo,
                 child: Image.asset(
-                  AppImages.MAIN_LOGO_2,
+                  AppImages.mainLogo2,
                   width: Get.width * 0.13,
                 ),
               ),
@@ -106,7 +106,7 @@ class _HeaderMainPage extends StatelessWidget {
           ),
           /* <---- Right Side ----> */
           // ADMIN PROFILE PICTURE
-          _UserProfilePicture(),
+          const _UserProfilePicture(),
         ],
       ),
     );
@@ -127,15 +127,15 @@ class _UserProfilePicture extends StatelessWidget {
             baseColor: AppColors.shimmerBaseColor,
             highlightColor: AppColors.shimmerHighlightColor,
             child: CircleAvatar(
-                backgroundImage: AssetImage(
-                  AppImages.DEFAULT_USER,
+                backgroundImage: const AssetImage(
+                  AppImages.deafaultUser,
                 ),
                 radius: Get.width * 0.07),
           );
         } else if (controller.isUserInitialized == true) {
           return InkWell(
             onTap: () {
-              Get.to(() => AdminSettingScreen());
+              Get.to(() => const AdminSettingScreen());
             },
             child: Hero(
               tag: controller.currentUser.userID!,
@@ -147,12 +147,12 @@ class _UserProfilePicture extends StatelessWidget {
                       radius: Get.width * 0.07,
                     )
                   : CircleAvatar(
-                      backgroundImage: AssetImage(AppImages.DEFAULT_USER),
+                      backgroundImage: const AssetImage(AppImages.deafaultUser),
                       radius: Get.width * 0.07),
             ),
           );
         } else {
-          return SizedBox();
+          return const SizedBox();
         }
       },
     );
@@ -167,27 +167,27 @@ class _NoSpaceFound extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: Container(
-        padding: EdgeInsets.all(AppSizes.DEFAULT_PADDING),
+      child: Padding(
+        padding: const EdgeInsets.all(AppSizes.defaultPadding),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: [
-            Container(
+            SizedBox(
               width: Get.width * 0.5,
-              child: Image.asset(AppImages.ILLUSTRATION_SPACE_EMPTY),
+              child: Image.asset(AppImages.illustrationSpaceEmpty),
             ),
             AppSizes.hGap20,
-            Text('No space found..'),
+            const Text('No space found..'),
             AppButton(
               width: Get.width * 0.5,
-              prefixIcon: Icon(
+              prefixIcon: const Icon(
                 Icons.add,
                 color: Colors.white,
               ),
               label: 'Create Space',
               onTap: () {
-                Get.to(() => SpaceCreateScreen());
+                Get.to(() => const SpaceCreateScreen());
               },
             ),
           ],

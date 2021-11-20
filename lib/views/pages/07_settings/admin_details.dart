@@ -25,16 +25,16 @@ class AdminDetailsSheet extends StatefulWidget {
 
 class _AdminDetailsSheetState extends State<AdminDetailsSheet> {
   /* <---- Dependency -----> */
-  AppUserController _controller = Get.find();
+  final AppUserController _controller = Get.find();
 
   // Text
   late TextEditingController _nameController;
 
   // Progress
-  RxBool _isUpdating = false.obs;
+  final RxBool _isUpdating = false.obs;
 
   // Form Key
-  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   // on name update
   Future<void> _onNameUpdate() async {
@@ -71,7 +71,7 @@ class _AdminDetailsSheetState extends State<AdminDetailsSheet> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(AppSizes.DEFAULT_PADDING),
+      padding: const EdgeInsets.all(AppSizes.defaultPadding),
       decoration: BoxDecoration(
         color: Get.theme.canvasColor,
         borderRadius: AppDefaults.defaultBottomSheetRadius,
@@ -85,12 +85,12 @@ class _AdminDetailsSheetState extends State<AdminDetailsSheet> {
               fontWeight: FontWeight.bold,
             ),
           ),
-          Divider(),
+          const Divider(),
           AppSizes.hGap20,
           Form(
             key: _formKey,
             child: TextFormField(
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 labelText: 'Name',
               ),
               controller: _nameController,

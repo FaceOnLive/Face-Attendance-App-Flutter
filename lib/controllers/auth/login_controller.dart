@@ -17,8 +17,8 @@ import '../members/member_controller.dart';
 import '../user/user_controller.dart';
 
 class LoginController extends GetxService {
-  FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-  Rxn<User> _firebaseUser = Rxn<User>();
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  final Rxn<User> _firebaseUser = Rxn<User>();
   User? get user => _firebaseUser.value;
   bool isAdmin = false;
 
@@ -30,9 +30,9 @@ class LoginController extends GetxService {
     _firebaseUser.value = _userCredintial.user;
     isAdmin = await UserServices.isAnAdmin(_userCredintial.user!.uid);
     if (isAdmin) {
-      Get.offAll(() => EntryPointUI());
+      Get.offAll(() => const EntryPointUI());
     } else {
-      Get.offAll(() => AppMemberMainUi());
+      Get.offAll(() => const AppMemberMainUi());
     }
     AppToast.showDefaultToast('Login Successfull');
   }
@@ -48,7 +48,7 @@ class LoginController extends GetxService {
     // Members
     Get.delete<AppMemberSettingsController>(force: true);
     Get.delete<AppMemberUserController>(force: true);
-    Get.offAll(() => LoginScreen());
+    Get.offAll(() => const LoginScreen());
     await _firebaseAuth.signOut();
   }
 
@@ -65,7 +65,7 @@ class LoginController extends GetxService {
     if (user != null) {
       isCheckingAdmin.value = true;
       isAdmin = await UserServices.isAnAdmin(user.uid);
-      await Future.delayed(Duration(seconds: 2));
+      await Future.delayed(const Duration(seconds: 2));
       isCheckingAdmin.value = false;
     }
   }

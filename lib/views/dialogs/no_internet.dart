@@ -15,43 +15,41 @@ class NoInternetDialog extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: AppDefaults.defaulBorderRadius,
       ),
-      child: Container(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            AppSizes.hGap10,
-            Text(
-              'Oops!',
-              style: AppText.h6.copyWith(
-                fontWeight: FontWeight.bold,
-                color: AppColors.APP_RED,
-              ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          AppSizes.hGap10,
+          Text(
+            'Oops!',
+            style: AppText.h6.copyWith(
+              fontWeight: FontWeight.bold,
+              color: AppColors.appRed,
             ),
-            Divider(
-              color: AppColors.PLACEHOLDER_COLOR,
-              thickness: 0.3,
+          ),
+          const Divider(
+            color: AppColors.placeholderColor,
+            thickness: 0.3,
+          ),
+          Container(
+            padding: const EdgeInsets.all(
+              AppSizes.defaultPadding,
             ),
-            Container(
-              padding: EdgeInsets.all(
-                AppSizes.DEFAULT_PADDING,
-              ),
-              child: Column(
-                children: [
-                  Icon(
-                    Icons.signal_wifi_connected_no_internet_4_rounded,
-                    color: AppColors.APP_RED,
-                    size: Get.width * 0.2,
-                  ),
-                  AppSizes.hGap20,
-                  Text(
-                    'No Internet Available',
-                    textAlign: TextAlign.center,
-                  ),
-                ],
-              ),
-            )
-          ],
-        ),
+            child: Column(
+              children: [
+                Icon(
+                  Icons.signal_wifi_connected_no_internet_4_rounded,
+                  color: AppColors.appRed,
+                  size: Get.width * 0.2,
+                ),
+                AppSizes.hGap20,
+                const Text(
+                  'No Internet Available',
+                  textAlign: TextAlign.center,
+                ),
+              ],
+            ),
+          )
+        ],
       ),
     );
   }

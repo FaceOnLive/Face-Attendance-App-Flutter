@@ -21,11 +21,11 @@ class MembersList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: Container(
-        margin: EdgeInsets.symmetric(horizontal: 20),
+        margin: const EdgeInsets.symmetric(horizontal: 20),
         child: GetBuilder<MembersController>(
           builder: (controller) => controller.isFetchingUser
-              ? _LoadingData()
-              : controller.allMember.length > 0
+              ? const _LoadingData()
+              : controller.allMember.isNotEmpty
                   ? ListView.separated(
                       itemCount: controller.allMember.length,
                       itemBuilder: (context, index) {
@@ -34,12 +34,12 @@ class MembersList extends StatelessWidget {
                         );
                       },
                       separatorBuilder: (context, index) {
-                        return Divider(
+                        return const Divider(
                           height: 7,
                         );
                       },
                     )
-                  : _NoMemberFound(),
+                  : const _NoMemberFound(),
         ),
       ),
     );
@@ -57,14 +57,14 @@ class _NoMemberFound extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Container(
+          SizedBox(
             width: Get.width * 0.7,
             child: Image.asset(
-              AppImages.ILLUSTRATION_MEMBER_EMPTY,
+              AppImages.illustrationMemberEmpty,
             ),
           ),
           AppSizes.hGap20,
-          Text('No Member Found'),
+          const Text('No Member Found'),
         ],
       ),
     );
@@ -102,9 +102,9 @@ class _MemberListTile extends StatelessWidget {
       ),
       title: Text(member.memberName),
       subtitle: Text(member.memberNumber.toString()),
-      trailing: Icon(
+      trailing: const Icon(
         Icons.info_outlined,
-        color: AppColors.APP_GREEN,
+        color: AppColors.appGreen,
       ),
     );
   }
@@ -125,7 +125,7 @@ class _LoadingData extends StatelessWidget {
           baseColor: AppColors.shimmerBaseColor,
           highlightColor: AppColors.shimmerHighlightColor,
           child: ListTile(
-            leading: CircleAvatar(),
+            leading: const CircleAvatar(),
             title: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -150,13 +150,11 @@ class _LoadingData extends StatelessWidget {
                     color: Colors.white,
                     borderRadius: AppDefaults.defaulBorderRadius,
                   ),
-                  child: Text('+852 XXXX XXXXgegege g'),
+                  child: const Text('+852 XXXX XXXXgegege g'),
                 ),
               ],
             ),
-            trailing: Container(
-              child: Icon(Icons.info_rounded),
-            ),
+            trailing: const Icon(Icons.info_rounded),
           ),
         );
       },

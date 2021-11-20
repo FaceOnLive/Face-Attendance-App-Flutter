@@ -15,7 +15,7 @@ class SpacesScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Spaces'),
+        title: const Text('Spaces'),
       ),
       body: SafeArea(
         child: Column(
@@ -33,13 +33,13 @@ class SpacesScreen extends StatelessWidget {
                         },
                         leading: Icon(
                           _currentSpace.icon,
-                          color: AppColors.PRIMARY_COLOR,
+                          color: AppColors.primaryColor,
                         ),
                         title: Text(_currentSpace.name),
                         subtitle: Text(
                           'Total Member: ${_currentSpace.memberList.length}',
                         ),
-                        trailing: Icon(Icons.arrow_forward_ios_rounded),
+                        trailing: const Icon(Icons.arrow_forward_ios_rounded),
                       );
                     },
                   );
@@ -48,16 +48,16 @@ class SpacesScreen extends StatelessWidget {
             ),
             AppButton(
               label: 'Add Space',
-              prefixIcon: Icon(
+              prefixIcon: const Icon(
                 Icons.add,
                 color: Colors.white,
               ),
               onTap: () {
-                Get.to(() => SpaceCreateScreen());
+                Get.to(() => const SpaceCreateScreen());
               },
               disableBorderRadius: true,
-              margin: EdgeInsets.all(0),
-              padding: EdgeInsets.all(20),
+              margin: const EdgeInsets.all(0),
+              padding: const EdgeInsets.all(20),
             )
           ],
         ),

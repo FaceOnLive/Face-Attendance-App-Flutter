@@ -23,7 +23,7 @@ class _LoginScreenAltState extends State<LoginScreenAlt>
   /* <---- Trigger the animation on face detection ----> */
   late LottieComposition _composition;
   _onFaceVerified() async {
-    await Future.delayed(Duration(seconds: 2)).then((value) {
+    await Future.delayed(const Duration(seconds: 2)).then((value) {
       _controller
         ..duration = _composition.duration
         ..forward();
@@ -61,16 +61,16 @@ class _LoginScreenAltState extends State<LoginScreenAlt>
         child: Container(
           height: Get.height,
           width: Get.width,
-          padding: EdgeInsets.all(AppSizes.DEFAULT_PADDING),
+          padding: const EdgeInsets.all(AppSizes.defaultPadding),
           child: Column(
             children: [
               Container(
                 width: Get.width * 0.3,
-                margin: EdgeInsets.symmetric(vertical: 20),
+                margin: const EdgeInsets.symmetric(vertical: 20),
                 child: Hero(
-                  tag: AppImages.MAIN_LOGO,
+                  tag: AppImages.mainLogo,
                   child: Image.asset(
-                    AppImages.MAIN_LOGO,
+                    AppImages.mainLogo,
                   ),
                 ),
               ),
@@ -92,7 +92,7 @@ class _LoginScreenAltState extends State<LoginScreenAlt>
                       //     ),
                       //   ),
                       // ),
-                      Container(
+                      SizedBox(
                         width: Get.width * 0.5,
                         child: AspectRatio(
                           aspectRatio: 1 / 1,
@@ -117,7 +117,7 @@ class _LoginScreenAltState extends State<LoginScreenAlt>
                             'Login With Face Verification',
                             style: AppText.h5.copyWith(
                               fontWeight: FontWeight.bold,
-                              color: AppColors.PRIMARY_COLOR,
+                              color: AppColors.primaryColor,
                             ),
                             textAlign: TextAlign.center,
                           ),
@@ -136,25 +136,25 @@ class _LoginScreenAltState extends State<LoginScreenAlt>
               /* <---- Sign In With Other Option ----> */
               TextButton(
                 onPressed: () {
-                  Get.to(() => LoginScreen());
+                  Get.to(() => const LoginScreen());
                 },
                 child: Text(
                   'Sign in With Other Option',
                   style: AppText.b1.copyWith(
                     fontWeight: FontWeight.bold,
-                    color: AppColors.PRIMARY_COLOR,
+                    color: AppColors.primaryColor,
                   ),
                 ),
               ),
               TextButton(
                 onPressed: () {
-                  Get.to(() => SignUpScreen());
+                  Get.to(() => const SignUpScreen());
                 },
                 child: Text(
                   'New User ?',
                   style: AppText.b1.copyWith(
                     fontWeight: FontWeight.bold,
-                    color: AppColors.PRIMARY_COLOR,
+                    color: AppColors.primaryColor,
                   ),
                 ),
               ),

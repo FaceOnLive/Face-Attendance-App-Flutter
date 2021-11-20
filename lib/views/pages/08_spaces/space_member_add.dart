@@ -23,12 +23,12 @@ class SpaceMemberAddScreen extends StatefulWidget {
 
 class _SpaceMemberAddScreenState extends State<SpaceMemberAddScreen> {
   /* <---- Dependency -----> */
-  MembersController _membersController = Get.find();
-  SpaceController _spaceController = Get.find();
+  final MembersController _membersController = Get.find();
+  final SpaceController _spaceController = Get.find();
 
   /* <---- Selection -----> */
-  List<Member> _availableMember = [];
-  RxList<Member> _selectedMember = RxList<Member>();
+  final List<Member> _availableMember = [];
+  final RxList<Member> _selectedMember = RxList<Member>();
 
   void _onMemberSelect(Member member) {
     if (_selectedMember.contains(member)) {
@@ -40,23 +40,23 @@ class _SpaceMemberAddScreenState extends State<SpaceMemberAddScreen> {
   }
 
   /// Progress BOOL
-  RxBool _isAddingMember = false.obs;
+  final RxBool _isAddingMember = false.obs;
 
   /// Remove Member From Available List
   void _filterOutAddedMember() {
     List<Member> _allMember = Get.find<MembersController>().allMember;
     List<String> _idsAllMember = [];
-    _allMember.forEach((element) {
+    for (var element in _allMember) {
       _idsAllMember.add(element.memberID!);
-    });
+    }
 
-    _allMember.forEach((element) {
+    for (var element in _allMember) {
       if (widget.space.memberList.contains(element.memberID)) {
         // That means the member is already in ther list
       } else {
         _availableMember.add(element);
       }
-    });
+    }
     _membersController.update();
   }
 
@@ -77,7 +77,7 @@ class _SpaceMemberAddScreenState extends State<SpaceMemberAddScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           'Add Members',
         ),
       ),
@@ -87,8 +87,8 @@ class _SpaceMemberAddScreenState extends State<SpaceMemberAddScreen> {
             /* <---- List -----> */
             GetBuilder<MembersController>(
               builder: (controller) => controller.isFetchingUser
-                  ? LoadingMembers()
-                  : _availableMember.length > 0
+                  ? const LoadingMembers()
+                  : _availableMember.isNotEmpty
                       ? Expanded(
                           child: ListView.builder(
                             itemCount: _availableMember.length,
@@ -105,17 +105,17 @@ class _SpaceMemberAddScreenState extends State<SpaceMemberAddScreen> {
                             },
                           ),
                         )
-                      : _EmptyMemberList(),
+                      : const _EmptyMemberList(),
             ),
             /* <---- Add Button -----> */
             Obx(
               () => AppButton(
                 disableBorderRadius: true,
-                margin: EdgeInsets.all(0),
-                padding: EdgeInsets.all(AppSizes.DEFAULT_PADDING),
+                margin: const EdgeInsets.all(0),
+                padding: const EdgeInsets.all(AppSizes.defaultPadding),
                 label: 'Add',
                 isLoading: _isAddingMember.value,
-                isButtonDisabled: _selectedMember.length < 1,
+                isButtonDisabled: _selectedMember.isEmpty,
                 onTap: () async {
                   try {
                     _isAddingMember.trigger(true);
@@ -130,7 +130,7 @@ class _SpaceMemberAddScreenState extends State<SpaceMemberAddScreen> {
                       title: 'Member Added Successfully',
                       message:
                           'Total ${_selectedMember.length} Members has been added',
-                      backgroundColor: AppColors.APP_GREEN,
+                      backgroundColor: AppColors.appGreen,
                       snackStyle: SnackStyle.GROUNDED,
                     );
                     _isAddingMember.trigger(false);
@@ -161,12 +161,12 @@ class _EmptyMemberList extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Container(
+          SizedBox(
             width: Get.width * 0.6,
-            child: Image.asset(AppImages.ILLUSTRATION_MEMBER_EMPTY),
+            child: Image.asset(AppImages.illustrationMemberEmpty),
           ),
           AppSizes.hGap20,
-          Text('There is no one to add'),
+          const Text('There is no one to add'),
         ],
       ),
     );

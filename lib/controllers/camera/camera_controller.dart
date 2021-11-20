@@ -11,7 +11,7 @@ class AppCameraController extends GetxController {
     cameras = await availableCameras();
     cameraController = CameraController(
       // If there is secondary [Front_Camera] then we will use that one
-      cameras[cameras.length > 0 ? 1 : 0],
+      cameras[cameras.isNotEmpty ? 1 : 0],
       ResolutionPreset.max,
       enableAudio: false,
     );

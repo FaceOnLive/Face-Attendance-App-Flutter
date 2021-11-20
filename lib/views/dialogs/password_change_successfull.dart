@@ -16,41 +16,39 @@ class SuccessfullDialog extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: AppDefaults.defaulBorderRadius,
       ),
-      child: Container(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            AppSizes.hGap10,
-            Text(
-              'Successfull',
-              style: AppText.h6.copyWith(
-                fontWeight: FontWeight.bold,
-                color: AppColors.PRIMARY_COLOR,
-              ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          AppSizes.hGap10,
+          Text(
+            'Successfull',
+            style: AppText.h6.copyWith(
+              fontWeight: FontWeight.bold,
+              color: AppColors.primaryColor,
             ),
-            Divider(
-              color: AppColors.PLACEHOLDER_COLOR,
-              thickness: 0.3,
+          ),
+          const Divider(
+            color: AppColors.placeholderColor,
+            thickness: 0.3,
+          ),
+          Container(
+            padding: const EdgeInsets.all(
+              AppSizes.defaultPadding,
             ),
-            Container(
-              padding: EdgeInsets.all(
-                AppSizes.DEFAULT_PADDING,
-              ),
-              child: Column(
-                children: [
-                  Image.asset(
-                    AppImages.ILLUSTRATION_SUCCESSFULL,
-                  ),
-                  AppSizes.hGap20,
-                  Text(
-                    message ?? 'The task has been finished successfully',
-                    textAlign: TextAlign.center,
-                  ),
-                ],
-              ),
-            )
-          ],
-        ),
+            child: Column(
+              children: [
+                Image.asset(
+                  AppImages.illustrationSuccessFull,
+                ),
+                AppSizes.hGap20,
+                Text(
+                  message ?? 'The task has been finished successfully',
+                  textAlign: TextAlign.center,
+                ),
+              ],
+            ),
+          )
+        ],
       ),
     );
   }

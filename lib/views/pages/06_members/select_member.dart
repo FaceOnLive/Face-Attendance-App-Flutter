@@ -15,7 +15,7 @@ class SelectMemberScreen extends StatefulWidget {
 }
 
 class _SelectMemberScreenState extends State<SelectMemberScreen> {
-  SpaceController _controller = Get.find();
+  final SpaceController _controller = Get.find();
   List<Member> _allMember = [];
 
   late Rxn<Member> _selectedMember;
@@ -37,23 +37,21 @@ class _SelectMemberScreenState extends State<SelectMemberScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Select A Member'),
+        title: const Text('Select A Member'),
       ),
-      body: Container(
-        child: Column(
-          children: [
-            _allMember.length > 0
-                ? _MemberList(
-                    allMember: _allMember,
-                    selectedMember: _selectedMember,
-                  )
-                : Expanded(
-                    child: Center(
-                      child: Text('No Member Found'),
-                    ),
+      body: Column(
+        children: [
+          _allMember.isNotEmpty
+              ? _MemberList(
+                  allMember: _allMember,
+                  selectedMember: _selectedMember,
+                )
+              : const Expanded(
+                  child: Center(
+                    child: Text('No Member Found'),
                   ),
-          ],
-        ),
+                ),
+        ],
       ),
       bottomNavigationBar: Obx(
         () => AppButton(
@@ -63,9 +61,11 @@ class _SelectMemberScreenState extends State<SelectMemberScreen> {
           },
           isButtonDisabled: _selectedMember.value == null,
           height: _selectedMember.value == null ? 0 : Get.height * 0.1,
-          suffixIcon:
-              Icon(Icons.arrow_forward_ios_rounded, color: Colors.white),
-          margin: EdgeInsets.all(0),
+          suffixIcon: const Icon(
+            Icons.arrow_forward_ios_rounded,
+            color: Colors.white,
+          ),
+          margin: const EdgeInsets.all(0),
           disableBorderRadius: true,
         ),
       ),

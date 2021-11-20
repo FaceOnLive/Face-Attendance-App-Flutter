@@ -36,7 +36,7 @@ class UploadPicture {
 
     await _uploadImage.whenComplete(() async {
       // String newFileName = '${_fullPath}_600x600';
-      String newFileName = '$_fullPath';
+      String newFileName = _fullPath;
       /* <---- This will retry until it gets the download link ----> */
       await retry(
         () async {
@@ -45,7 +45,7 @@ class UploadPicture {
         },
         retryIf: (e) => _downloadUrl == null,
         maxAttempts: 20,
-        delayFactor: Duration(seconds: 2),
+        delayFactor: const Duration(seconds: 2),
       );
     });
     return _downloadUrl;
@@ -81,7 +81,7 @@ class UploadPicture {
 
     await _uploadImage.whenComplete(() async {
       // String newFileName = '${_fullPath}_600x600';
-      String newFileName = '$_fullPath';
+      String newFileName = _fullPath;
       /* <---- This will retry until it gets the download link ----> */
       await retry(
         () async {
@@ -90,7 +90,7 @@ class UploadPicture {
         },
         retryIf: (e) => _downloadUrl == null,
         maxAttempts: 20,
-        delayFactor: Duration(seconds: 2),
+        delayFactor: const Duration(seconds: 2),
       );
     });
     return _downloadUrl;
@@ -122,7 +122,7 @@ class UploadPicture {
 
     await _uploadImage.whenComplete(() async {
       // String newFileName = '${_fullPath}_600x600';
-      String newFileName = '$_fullPath';
+      String newFileName = _fullPath;
       /* <---- This will retry until it gets the download link ----> */
       await retry(
         () async {
@@ -131,7 +131,7 @@ class UploadPicture {
         },
         retryIf: (e) => _downloadUrl == null,
         maxAttempts: 20,
-        delayFactor: Duration(seconds: 2),
+        delayFactor: const Duration(seconds: 2),
       );
     });
     return _downloadUrl;

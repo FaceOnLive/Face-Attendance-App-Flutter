@@ -25,8 +25,8 @@ class SettingsController extends GetxController {
       await Firebase.initializeApp();
       await Hive.initFlutter();
       // This is for reducing the time on start app
-      await Hive.openBox(_APPS_BOOL_BOX);
-      await Hive.openBox(SpaceServices.SPACE_BOX_NAME);
+      await Hive.openBox(_appsBoolBox);
+      await Hive.openBox(SpaceServices.spaceBoxName);
       Get.put(LoginController(), permanent: true);
       everyThingLoadedUp = true;
       update();
@@ -38,9 +38,9 @@ class SettingsController extends GetxController {
   /* <---- Main App Navigation ----> */
   Widget introOrLogin() {
     if (isIntroDone() == false) {
-      return IntroScreen();
+      return const IntroScreen();
     } else {
-      return LoginScreen();
+      return const LoginScreen();
     }
   }
 
@@ -55,34 +55,34 @@ class SettingsController extends GetxController {
   /// Decides Which Page to return based on the nav index
   Widget currentSelectedPage() {
     if (currentIndex == 0) {
-      return AttendanceScreen();
+      return const AttendanceScreen();
     } else if (currentIndex == 1) {
-      return VerifierScreen();
+      return const VerifierScreen();
     } else if (currentIndex == 2) {
-      return MembersScreen();
+      return const MembersScreen();
     } else {
-      return AttendanceScreen();
+      return const AttendanceScreen();
     }
   }
 
   /* <---- Intro Screen Related ----> */
   /// Used For Storing Data
-  static const String _APPS_BOOL_BOX = 'appsBool';
-  static const String _BOX_KEY_INTRO = 'introDone';
-  static const String _IN_VERIFIER_MODE = 'inVerify';
+  static const String _appsBoolBox = 'appsBool';
+  static const String _boxKeyIntro = 'introDone';
+  static const String _inVerifierMode = 'inVerify';
 
   /// Save a bool that intro screen has already been showed
   void introScreenDone() {
-    Box box = Hive.box(_APPS_BOOL_BOX);
-    box.put(_BOX_KEY_INTRO, true);
+    Box box = Hive.box(_appsBoolBox);
+    box.put(_boxKeyIntro, true);
   }
 
   /* <---- HELPER FUNCTIONS ----> */
 
   /// Returns true/false if the intro has been done
   bool isIntroDone() {
-    Box box = Hive.box(_APPS_BOOL_BOX);
-    bool _isDone = box.get(_BOX_KEY_INTRO) ?? false;
+    Box box = Hive.box(_appsBoolBox);
+    bool _isDone = box.get(_boxKeyIntro) ?? false;
     return _isDone;
   }
 
@@ -95,29 +95,29 @@ class SettingsController extends GetxController {
   /* <---- VERIFIER ----> */
   /// If the app is in verifier mode
   bool isInVerifierMode() {
-    Box box = Hive.box(_APPS_BOOL_BOX);
-    bool _isInVerify = box.get(_IN_VERIFIER_MODE) ?? false;
+    Box box = Hive.box(_appsBoolBox);
+    bool _isInVerify = box.get(_inVerifierMode) ?? false;
     return _isInVerify;
   }
 
   /// Set The Apps In Verify Mode
   void setAppInVerifyMode() {
-    Box box = Hive.box(_APPS_BOOL_BOX);
-    box.put(_IN_VERIFIER_MODE, true);
+    Box box = Hive.box(_appsBoolBox);
+    box.put(_inVerifierMode, true);
     print('SETTED APP IN LOCK MODE');
   }
 
   /// Set The Apps In Unverify Mode
   void setAppInUnverifyMode() {
-    Box box = Hive.box(_APPS_BOOL_BOX);
-    box.put(_IN_VERIFIER_MODE, false);
+    Box box = Hive.box(_appsBoolBox);
+    box.put(_inVerifierMode, false);
     print('SETTED APP IN UNLOCK MODE');
   }
 
   /////////////////////////////
   /* <---- DARK MODE -----> */
   // static const String _THEME_MODE_BOX = 'theme_box';
-  static const String _THEME_MODE = 'isInDarkMode';
+  static const String _themeModeString = 'isInDarkMode';
 
   /// Change the theme to dark mode
   void switchTheme(bool? value) {
@@ -141,7 +141,7 @@ class SettingsController extends GetxController {
   bool _isTheAppInDarkMode() {
     final box = GetStorage();
     bool _isAppInDark = false;
-    String _data = box.read(_THEME_MODE) ?? 'light';
+    String _data = box.read(_themeModeString) ?? 'light';
     ThemeMode _theme = _convertToThemeMode(_data);
     if (_theme == ThemeMode.dark) {
       _isAppInDark = true;
@@ -154,11 +154,11 @@ class SettingsController extends GetxController {
   void _writeThemeStateToStorage(ThemeMode themeMode) {
     final box = GetStorage();
     if (themeMode == ThemeMode.system) {
-      box.write(_THEME_MODE, 'system');
+      box.write(_themeModeString, 'system');
     } else if (themeMode == ThemeMode.dark) {
-      box.write(_THEME_MODE, 'dark');
+      box.write(_themeModeString, 'dark');
     } else if (themeMode == ThemeMode.light) {
-      box.write(_THEME_MODE, 'light');
+      box.write(_themeModeString, 'light');
     }
   }
 
@@ -179,7 +179,7 @@ class SettingsController extends GetxController {
   ThemeMode appThemeMode() {
     ThemeMode _theme = ThemeMode.light;
     final box = GetStorage();
-    String _data = box.read(_THEME_MODE) ?? 'light';
+    String _data = box.read(_themeModeString) ?? 'light';
     _theme = _convertToThemeMode(_data);
     return _theme;
   }
@@ -190,7 +190,7 @@ class SettingsController extends GetxController {
     if (_isAvailable) {
       // do nothing
     } else {
-      Get.dialog(NoInternetDialog());
+      Get.dialog(const NoInternetDialog());
     }
   }
 

@@ -19,22 +19,22 @@ class SpaceEditScreen extends StatefulWidget {
 
 class _SpaceEditScreenState extends State<SpaceEditScreen> {
   /* <---- Dependency -----> */
-  SpaceController _controller = Get.find();
+  final SpaceController _controller = Get.find();
 
   // TExt
   late TextEditingController _spaceName;
 
   /* <---- Icon ----> */
-  List<IconData> _icons = [
+  final List<IconData> _icons = [
     Icons.home_rounded,
     Icons.business_rounded,
     Icons.food_bank_rounded,
     Icons.tour,
   ];
-  Rxn<IconData> _selectedIcon = Rxn<IconData>();
+  final Rxn<IconData> _selectedIcon = Rxn<IconData>();
 
   /// Is in updating state
-  RxBool _isUpdating = false.obs;
+  final RxBool _isUpdating = false.obs;
 
   /// On Update Button Clicked
   Future<void> _onUpdateButtonClicked() async {
@@ -68,7 +68,7 @@ class _SpaceEditScreenState extends State<SpaceEditScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Edit Space'),
+        title: const Text('Edit Space'),
         actions: [
           IconButton(
             onPressed: () {
@@ -76,7 +76,7 @@ class _SpaceEditScreenState extends State<SpaceEditScreen> {
                 DeleteSpaceDialog(spaceID: widget.space.spaceID!),
               );
             },
-            icon: Icon(Icons.delete_rounded),
+            icon: const Icon(Icons.delete_rounded),
           ),
         ],
       ),
@@ -86,54 +86,54 @@ class _SpaceEditScreenState extends State<SpaceEditScreen> {
           onTap: _onUpdateButtonClicked,
         ),
       ),
-      body: Container(
-        child: Column(
-          children: [
-            /* <---- Field ----> */
-            Container(
-              margin: EdgeInsets.all(AppSizes.DEFAULT_MARGIN),
-              child: TextField(
-                controller: _spaceName,
-                decoration: InputDecoration(
-                  prefixIcon: Icon(Icons.assignment),
-                  labelText: 'Space Name',
-                  hintText: 'Home',
-                ),
+      body: Column(
+        children: [
+          /* <---- Field ----> */
+          Container(
+            margin: const EdgeInsets.all(AppSizes.defaultMargin),
+            child: TextField(
+              controller: _spaceName,
+              decoration: const InputDecoration(
+                prefixIcon: Icon(Icons.assignment),
+                labelText: 'Space Name',
+                hintText: 'Home',
               ),
             ),
-            /* <---- Icon Selector ----> */
-            Container(
-              margin: EdgeInsets.symmetric(horizontal: AppSizes.DEFAULT_MARGIN),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('Select an icon'),
-                  AppSizes.hGap10,
-                  Obx(
-                    () => SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        children: List.generate(
-                          _icons.length,
-                          (index) {
-                            return _SelectIconWidget(
-                              active: _selectedIcon.value == _icons[index],
-                              iconData: _icons[index],
-                              onTap: () {
-                                _selectedIcon.value = _icons[index];
-                              },
-                            );
-                          },
-                        ),
+          ),
+          /* <---- Icon Selector ----> */
+          Container(
+            margin: const EdgeInsets.symmetric(
+              horizontal: AppSizes.defaultMargin,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text('Select an icon'),
+                AppSizes.hGap10,
+                Obx(
+                  () => SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: List.generate(
+                        _icons.length,
+                        (index) {
+                          return _SelectIconWidget(
+                            active: _selectedIcon.value == _icons[index],
+                            iconData: _icons[index],
+                            onTap: () {
+                              _selectedIcon.value = _icons[index];
+                            },
+                          );
+                        },
                       ),
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-            /* <---- Action Button ----> */
-          ],
-        ),
+          ),
+          /* <---- Action Button ----> */
+        ],
       ),
     );
   }
@@ -156,12 +156,12 @@ class _CustomBottomActionButton extends StatelessWidget {
       child: Container(
         alignment: Alignment.center,
         decoration: BoxDecoration(
-          color: AppColors.APP_GREEN,
+          color: AppColors.appGreen,
           borderRadius: AppDefaults.defaultBottomSheetRadius,
         ),
         height: Get.height * 0.1,
         child: isLoading
-            ? CircularProgressIndicator(
+            ? const CircularProgressIndicator(
                 color: Colors.white,
               )
             : Text(
@@ -194,18 +194,18 @@ class _SelectIconWidget extends StatelessWidget {
       onTap: onTap,
       child: AnimatedContainer(
         duration: AppDefaults.defaultDuration,
-        margin: EdgeInsets.symmetric(horizontal: 5),
-        padding: EdgeInsets.all(AppSizes.DEFAULT_PADDING),
+        margin: const EdgeInsets.symmetric(horizontal: 5),
+        padding: const EdgeInsets.all(AppSizes.defaultPadding),
         decoration: BoxDecoration(
-            color: active ? AppColors.PRIMARY_COLOR : Get.theme.canvasColor,
+            color: active ? AppColors.primaryColor : Get.theme.canvasColor,
             borderRadius: AppDefaults.defaulBorderRadius,
             border: Border.all(
-              color: AppColors.PRIMARY_COLOR,
+              color: AppColors.primaryColor,
             )),
         child: Icon(
           iconData,
           size: Get.width * 0.1,
-          color: active ? Colors.white : AppColors.PRIMARY_COLOR,
+          color: active ? Colors.white : AppColors.primaryColor,
         ),
       ),
     );

@@ -11,55 +11,55 @@ class AppThemes {
       Light Theme    
    <-----------------------> */
   static ThemeData lightTheme = ThemeData(
-    primaryColor: AppColors.PRIMARY_COLOR,
+    primaryColor: AppColors.primaryColor,
     brightness: Brightness.light,
     textTheme: GoogleFonts.poppinsTextTheme(),
     scaffoldBackgroundColor: Colors.white,
     appBarTheme: AppBarTheme(
-      actionsIconTheme: IconThemeData(
-        color: AppColors.DARK_COLOR,
+      actionsIconTheme: const IconThemeData(
+        color: AppColors.darkColor,
       ),
       titleTextStyle: AppText.b1.copyWith(
-        color: AppColors.DARK_COLOR,
+        color: AppColors.darkColor,
         fontWeight: FontWeight.bold,
       ),
       centerTitle: true,
       backgroundColor: Colors.white,
-      iconTheme: IconThemeData(color: AppColors.DARK_COLOR),
+      iconTheme: const IconThemeData(color: AppColors.darkColor),
       toolbarTextStyle: AppText.b1,
       elevation: 0,
     ),
     inputDecorationTheme: InputDecorationTheme(
       enabledBorder: OutlineInputBorder(
         borderRadius: AppDefaults.defaulBorderRadius,
-        borderSide: BorderSide(
-          color: AppColors.PLACEHOLDER_COLOR,
+        borderSide: const BorderSide(
+          color: AppColors.placeholderColor,
         ),
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: AppDefaults.defaulBorderRadius,
-        borderSide: BorderSide(
-          color: AppColors.ACCENT_COLOR,
+        borderSide: const BorderSide(
+          color: AppColors.accentColor,
         ),
       ),
     ),
-    iconTheme: IconThemeData(
-      color: AppColors.PRIMARY_COLOR,
+    iconTheme: const IconThemeData(
+      color: AppColors.primaryColor,
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
-        padding: EdgeInsets.all(AppSizes.DEFAULT_PADDING),
+        padding: const EdgeInsets.all(AppSizes.defaultPadding),
       ),
     ),
     outlinedButtonTheme: OutlinedButtonThemeData(
       style: OutlinedButton.styleFrom(
-        padding: EdgeInsets.all(AppSizes.DEFAULT_PADDING),
+        padding: const EdgeInsets.all(AppSizes.defaultPadding),
       ),
     ),
     colorScheme: ColorScheme.fromSwatch(
             primarySwatch:
-                AppUiHelper.generateMaterialColor(AppColors.PRIMARY_COLOR))
-        .copyWith(secondary: AppColors.ACCENT_COLOR),
+                AppUiHelper.generateMaterialColor(AppColors.primaryColor))
+        .copyWith(secondary: AppColors.accentColor),
   );
 
   /* <-----------------------> 
@@ -67,63 +67,63 @@ class AppThemes {
    <-----------------------> */
 
   static ThemeData darkTheme = ThemeData(
-    primaryColor: AppColors.PRIMARY_COLOR,
-    primaryColorDark: AppColors.ACCENT_COLOR,
-    scaffoldBackgroundColor: AppColors.DARK_COLOR,
+    primaryColor: AppColors.primaryColor,
+    primaryColorDark: AppColors.accentColor,
+    scaffoldBackgroundColor: AppColors.darkColor,
     brightness: Brightness.dark,
-    cardColor: AppColors.DARK_COLOR.withOpacity(0.7),
+    cardColor: AppColors.darkColor.withOpacity(0.7),
     textTheme: GoogleFonts.poppinsTextTheme().apply(
       bodyColor: Colors.white,
       displayColor: Colors.white38,
     ),
     appBarTheme: AppBarTheme(
-      actionsIconTheme: IconThemeData(
-        color: AppColors.PRIMARY_COLOR,
+      actionsIconTheme: const IconThemeData(
+        color: AppColors.primaryColor,
       ),
-      titleTextStyle: TextStyle(
+      titleTextStyle: const TextStyle(
         color: Colors.white,
         fontWeight: FontWeight.bold,
       ),
       centerTitle: true,
-      backgroundColor: AppColors.DARK_COLOR,
-      iconTheme: IconThemeData(color: AppColors.PRIMARY_COLOR),
+      backgroundColor: AppColors.darkColor,
+      iconTheme: const IconThemeData(color: AppColors.primaryColor),
       toolbarTextStyle: AppText.b1,
       elevation: 0,
     ),
     inputDecorationTheme: InputDecorationTheme(
       enabledBorder: OutlineInputBorder(
         borderRadius: AppDefaults.defaulBorderRadius,
-        borderSide: BorderSide(
-          color: AppColors.PLACEHOLDER_COLOR,
+        borderSide: const BorderSide(
+          color: AppColors.placeholderColor,
         ),
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: AppDefaults.defaulBorderRadius,
-        borderSide: BorderSide(
-          color: AppColors.ACCENT_COLOR,
+        borderSide: const BorderSide(
+          color: AppColors.accentColor,
         ),
       ),
     ),
-    iconTheme: IconThemeData(
-      color: AppColors.PRIMARY_COLOR,
+    iconTheme: const IconThemeData(
+      color: AppColors.primaryColor,
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
-        padding: EdgeInsets.all(AppSizes.DEFAULT_PADDING),
+        padding: const EdgeInsets.all(AppSizes.defaultPadding),
       ),
     ),
     outlinedButtonTheme: OutlinedButtonThemeData(
       style: OutlinedButton.styleFrom(
-        padding: EdgeInsets.all(AppSizes.DEFAULT_PADDING),
-        side: BorderSide(
-          color: AppColors.PRIMARY_COLOR,
+        padding: const EdgeInsets.all(AppSizes.defaultPadding),
+        side: const BorderSide(
+          color: AppColors.primaryColor,
         ),
       ),
     ),
     colorScheme: ColorScheme.fromSwatch(
-      primaryColorDark: AppColors.PRIMARY_COLOR,
-      primarySwatch: AppUiHelper.generateMaterialColor(AppColors.PRIMARY_COLOR),
-      accentColor: AppColors.ACCENT_COLOR,
+      primaryColorDark: AppColors.primaryColor,
+      primarySwatch: AppUiHelper.generateMaterialColor(AppColors.primaryColor),
+      accentColor: AppColors.accentColor,
       brightness: Brightness.dark,
     ),
   );

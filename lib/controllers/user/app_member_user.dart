@@ -1,7 +1,8 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import '../../data/services/uploadPicture.dart';
+import '../../data/services/app_toast.dart';
+import '../../data/services/upload_picture.dart';
 import '../auth/login_controller.dart';
 import '../../models/user.dart';
 import 'package:get/get.dart';
@@ -11,7 +12,7 @@ import 'package:get/get.dart';
 /// This is not AppUserController
 class AppMemberUserController extends GetxController {
   // Dependency
-  CollectionReference _collectionReference =
+  final CollectionReference _collectionReference =
       FirebaseFirestore.instance.collection('users');
 
   /// User ID of Current Logged In user
@@ -32,7 +33,9 @@ class AppMemberUserController extends GetxController {
         isUserInitialized = true;
         update();
       });
-    } catch (e) {}
+    } catch (e) {
+      AppToast.showDefaultToast(e.toString());
+    }
   }
 
   /* <---- User Picture -----> */

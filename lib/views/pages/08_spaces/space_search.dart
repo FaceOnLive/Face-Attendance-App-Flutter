@@ -26,7 +26,7 @@ class SpaceSearchScreen extends StatefulWidget {
 
 class _SpaceSearchScreenState extends State<SpaceSearchScreen> {
 /* <---- Dependency -----> */
-  MembersController _membersController = Get.find();
+  final MembersController _membersController = Get.find();
 
   /* <---- Selection -----> */
   late Rxn<Member> _selectedMember;
@@ -80,9 +80,9 @@ class _SpaceSearchScreenState extends State<SpaceSearchScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Search Attendance'),
+        title: const Text('Search Attendance'),
       ),
-      body: Container(
+      body: SizedBox(
         width: Get.width,
         child: Column(
           children: [
@@ -101,37 +101,40 @@ class _SpaceSearchScreenState extends State<SpaceSearchScreen> {
                             _selectedMember.value!.memberNumber.toString(),
                           ),
                           trailing: IconButton(
-                            icon: Icon(Icons.arrow_forward_ios_rounded),
+                            icon: const Icon(
+                              Icons.arrow_forward_ios_rounded,
+                            ),
                             onPressed: () async {
-                              Member? _selectedM =
-                                  await Get.to(() => SelectMemberScreen());
+                              Member? _selectedM = await Get.to(
+                                () => const SelectMemberScreen(),
+                              );
                               if (_selectedM != null) {
                                 _selectedMember.value = _selectedM;
                               }
                             },
                           ),
                         )
-                      : SizedBox(),
+                      : const SizedBox(),
                   _selectedMember.value == null
                       ? AppButtonOutline(
                           width: Get.width * 0.9,
                           label: 'Select A Member',
                           onTap: () async {
                             Member? _selectedM =
-                                await Get.to(() => SelectMemberScreen());
+                                await Get.to(() => const SelectMemberScreen());
                             if (_selectedM != null) {
                               _selectedMember.value = _selectedM;
                             }
                           },
-                          suffixIcon: Icon(
+                          suffixIcon: const Icon(
                             Icons.arrow_forward_ios_rounded,
                           ),
                         )
-                      : SizedBox(),
+                      : const SizedBox(),
                 ],
               ),
             ),
-            Divider(),
+            const Divider(),
             /* <---- Select a Date -----> */
             Obx(
               () => Column(
@@ -141,7 +144,7 @@ class _SpaceSearchScreenState extends State<SpaceSearchScreen> {
                     DateFormat.yMMMEd().format(_selectedDate.value),
                     style: AppText.h6.copyWith(
                       fontWeight: FontWeight.bold,
-                      color: AppColors.PRIMARY_COLOR,
+                      color: AppColors.primaryColor,
                     ),
                   ),
                   AppSizes.hGap10,
@@ -161,7 +164,7 @@ class _SpaceSearchScreenState extends State<SpaceSearchScreen> {
                       }
                       // print(DateFormat.yMEd(result));
                     },
-                    suffixIcon: Icon(Icons.timelapse_rounded),
+                    suffixIcon: const Icon(Icons.timelapse_rounded),
                   ),
                 ],
               ),
@@ -170,11 +173,11 @@ class _SpaceSearchScreenState extends State<SpaceSearchScreen> {
             Obx(
               () => _isSearchOn.isTrue
                   ? _isSearching.isTrue
-                      ? _SearchLoading()
+                      ? const _SearchLoading()
                       : _wasMemberAttended.isTrue
-                          ? _MemberWasAttended()
-                          : _MemberWasNotAttended()
-                  : SizedBox(),
+                          ? const _MemberWasAttended()
+                          : const _MemberWasNotAttended()
+                  : const SizedBox(),
             ),
           ],
         ),
@@ -185,8 +188,8 @@ class _SpaceSearchScreenState extends State<SpaceSearchScreen> {
           onTap: _searchMemberAttendance,
           isButtonDisabled: _selectedMember.value == null,
           height: Get.height * 0.1,
-          prefixIcon: Icon(Icons.search_rounded, color: Colors.white),
-          margin: EdgeInsets.all(0),
+          prefixIcon: const Icon(Icons.search_rounded, color: Colors.white),
+          margin: const EdgeInsets.all(0),
           disableBorderRadius: true,
         ),
       ),
@@ -205,13 +208,13 @@ class _MemberWasNotAttended extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Container(
+          SizedBox(
             width: Get.width * 0.4,
             child: Image.asset(
-              AppImages.ILLUSTRATION_NO_ATTEND,
+              AppImages.illustrationNoAttend,
             ),
           ),
-          Text(
+          const Text(
             'Member was not attended',
           ),
           // CircularProgressIndicator()
@@ -232,13 +235,13 @@ class _MemberWasAttended extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Container(
+          SizedBox(
             width: Get.width * 0.4,
             child: Image.asset(
-              AppImages.ILLUSTRATION_ATTEND_FOUND,
+              AppImages.illustrationAttendFound,
             ),
           ),
-          Text(
+          const Text(
             'Member was attended',
           ),
           // CircularProgressIndicator()
@@ -255,7 +258,7 @@ class _SearchLoading extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
+    return const Expanded(
       child: Center(
         child: CircularProgressIndicator(),
       ),

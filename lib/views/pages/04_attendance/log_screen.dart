@@ -2,7 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import '../../../data/services/app_toast.dart';
 import '../../../constants/app_images.dart';
 import '../../../controllers/spaces/space_controller.dart';
-import '../../../models/logMessage.dart';
+import '../../../models/log_message.dart';
 import 'package:get/get.dart';
 
 import '../../themes/text.dart';
@@ -21,10 +21,10 @@ class SpaceLogScreen extends StatefulWidget {
 
 class _SpaceLogScreenState extends State<SpaceLogScreen> {
   /* <---- Dependency -----> */
-  SpaceController _controller = Get.find();
+  final SpaceController _controller = Get.find();
 
   // Progress
-  RxBool _isFetching = false.obs;
+  final RxBool _isFetching = false.obs;
 
   // Fetch Data
   Future<void> _fetchAllLog() async {
@@ -60,30 +60,30 @@ class _SpaceLogScreenState extends State<SpaceLogScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Log'),
+        title: const Text('Log'),
         actions: [
           Obx(
             () => _isFetching.isTrue
-                ? SizedBox()
+                ? const SizedBox()
                 : IconButton(
                     onPressed: () {},
-                    icon: Icon(Icons.delete_forever_rounded),
+                    icon: const Icon(Icons.delete_forever_rounded),
                   ),
           ),
         ],
       ),
       body: Container(
         width: Get.width,
-        margin: EdgeInsets.symmetric(
-          horizontal: AppSizes.DEFAULT_MARGIN,
+        margin: const EdgeInsets.symmetric(
+          horizontal: AppSizes.defaultMargin,
         ),
         child: Obx(
           () => _isFetching.isTrue
-              ? Center(child: CircularProgressIndicator())
+              ? const Center(child: CircularProgressIndicator())
               : Column(
                   children: [
                     Expanded(
-                      child: _allLogSpace.length > 0
+                      child: _allLogSpace.isNotEmpty
                           ? ListView.separated(
                               itemCount: _allLogSpace.length,
                               itemBuilder: (context, index) {
@@ -92,18 +92,18 @@ class _SpaceLogScreenState extends State<SpaceLogScreen> {
                                 );
                               },
                               separatorBuilder: (context, index) {
-                                return Divider();
+                                return const Divider();
                               },
                             )
                           : Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Image.asset(
-                                  AppImages.ILLUSTRATION_SPACE_EMPTY,
+                                  AppImages.illustrationSpaceEmpty,
                                   width: Get.width * 0.6,
                                 ),
                                 AppSizes.hGap20,
-                                Text('Nothing is logged today')
+                                const Text('Nothing is logged today')
                               ],
                             ),
                     ),
@@ -137,11 +137,11 @@ class _LogMessageTile extends StatelessWidget {
         style: AppText.caption,
       ),
       trailing: message.isAnError
-          ? Icon(
+          ? const Icon(
               Icons.close,
-              color: AppColors.APP_RED,
+              color: AppColors.appRed,
             )
-          : Icon(
+          : const Icon(
               Icons.check,
               color: Colors.green,
             ),

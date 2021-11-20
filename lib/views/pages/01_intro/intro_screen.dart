@@ -20,7 +20,7 @@ class IntroScreen extends StatefulWidget {
 
 class _IntroScreenState extends State<IntroScreen> {
   // Add or remove intro from here
-  List<Intro> _allIntros = [
+  final List<Intro> _allIntros = [
     Intro(
       title: 'Fast, Accurate Face Detection',
       imageLocation: 'assets/images/intro/intro_0.png',
@@ -48,11 +48,11 @@ class _IntroScreenState extends State<IntroScreen> {
   ];
 
   // Tracks currently active page
-  RxInt _currentPage = 0.obs;
+  final RxInt _currentPage = 0.obs;
   late PageController _pageController;
 
   // Navigation
-  SettingsController _controller = Get.find();
+  final SettingsController _controller = Get.find();
 
   @override
   void initState() {
@@ -84,7 +84,7 @@ class _IntroScreenState extends State<IntroScreen> {
                   },
                   itemBuilder: (context, index) {
                     return Container(
-                      padding: EdgeInsets.all(10),
+                      padding: const EdgeInsets.all(10),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -123,7 +123,7 @@ class _IntroScreenState extends State<IntroScreen> {
               ),
             ),
             Container(
-              margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+              margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.end,
@@ -131,16 +131,16 @@ class _IntroScreenState extends State<IntroScreen> {
                   TextButton(
                     onPressed: () {
                       _controller.introScreenDone();
-                      Get.to(() => LoginScreen());
+                      Get.to(() => const LoginScreen());
                     },
-                    child: Text('SKIP'),
+                    child: const Text('SKIP'),
                   ),
                   InkWell(
                     borderRadius: AppDefaults.defaulBorderRadius,
                     onTap: () {
                       if (_currentPage.value == _allIntros.length - 1) {
                         _controller.introScreenDone();
-                        Get.to(() => LoginScreen());
+                        Get.to(() => const LoginScreen());
                       } else {
                         _pageController.animateToPage(
                           _currentPage.value + 1,
@@ -150,13 +150,13 @@ class _IntroScreenState extends State<IntroScreen> {
                       }
                     },
                     child: Container(
-                      margin: EdgeInsets.all(20),
-                      padding: EdgeInsets.all(20),
-                      decoration: BoxDecoration(
-                        color: AppColors.PRIMARY_COLOR,
+                      margin: const EdgeInsets.all(20),
+                      padding: const EdgeInsets.all(20),
+                      decoration: const BoxDecoration(
+                        color: AppColors.primaryColor,
                         shape: BoxShape.circle,
                       ),
-                      child: Icon(
+                      child: const Icon(
                         Icons.arrow_forward_ios_rounded,
                         color: Colors.white,
                       ),
@@ -187,11 +187,11 @@ class _IntroDots extends StatelessWidget {
       duration: AppDefaults.defaultDuration,
       width: 15,
       height: 15,
-      margin: EdgeInsets.symmetric(horizontal: 5),
+      margin: const EdgeInsets.symmetric(horizontal: 5),
       decoration: BoxDecoration(
         color: active
-            ? AppColors.PRIMARY_COLOR
-            : AppColors.PRIMARY_COLOR.withOpacity(0.2),
+            ? AppColors.primaryColor
+            : AppColors.primaryColor.withOpacity(0.2),
         shape: BoxShape.circle,
       ),
     );

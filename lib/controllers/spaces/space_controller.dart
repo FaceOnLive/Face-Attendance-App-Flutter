@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import '../../models/logMessage.dart';
+import '../../models/log_message.dart';
 import '../../views/pages/03_entrypoint/entrypoint.dart';
 import '../members/member_controller.dart';
 import '../../data/services/space_services.dart';
@@ -13,7 +13,8 @@ import 'package:get/get.dart';
 
 class SpaceController extends GetxController {
   /* <---- Dependency ----> */
-  late CollectionReference _collectionReference = FirebaseFirestore.instance
+  late final CollectionReference _collectionReference = FirebaseFirestore
+      .instance
       .collection('spaces')
       .doc(_currentUserID)
       .collection('space_collection');
@@ -73,13 +74,13 @@ class SpaceController extends GetxController {
     _allMembersSpace = [];
     List<Member> _allMembers = Get.find<MembersController>().allMember;
     Space _currentSpace = currentSpace!;
-    _allMembers.forEach((element) {
+    for (var element in _allMembers) {
       if (_currentSpace.memberList.contains(element.memberID)) {
         _allMembersSpace.add(element);
       } else {
         // print('Member does not belong to ${currentSpace!.name}');
       }
-    });
+    }
     update();
   }
 
@@ -92,13 +93,13 @@ class SpaceController extends GetxController {
     // if the space exist
     if (_space != null) {
       List<Member> _allFetchedMembers = Get.find<MembersController>().allMember;
-      _allFetchedMembers.forEach((element) {
+      for (var element in _allFetchedMembers) {
         if (_space.memberList.contains(element.memberID)) {
           _allSpaceMembers.add(element);
         } else {
           // print('Member does not belong to ${currentSpace!.name}');
         }
-      });
+      }
     }
 
     // return list
@@ -113,12 +114,12 @@ class SpaceController extends GetxController {
     isFetchingSpaces = true;
     allSpaces.clear();
     await _collectionReference.get().then((value) {
-      value.docs.forEach((element) {
+      for (var element in value.docs) {
         Space _fetchedSpace = Space.fromDocumentSnap(element);
         allSpaces.add(_fetchedSpace);
-      });
+      }
       print('Total Space fetched: ${value.docs.length}');
-      if (currentSpace == null && value.docs.length > 0) {
+      if (currentSpace == null && value.docs.isNotEmpty) {
         _setSpaceID(allSpaces);
       }
     });
@@ -146,7 +147,7 @@ class SpaceController extends GetxController {
       Get.rawSnackbar(
         title: 'Update Successfull',
         message: 'Space Info Updated Successfully',
-        backgroundColor: AppColors.APP_GREEN,
+        backgroundColor: AppColors.appGreen,
         snackStyle: SnackStyle.GROUNDED,
       );
     } on FirebaseException catch (e) {
@@ -159,7 +160,7 @@ class SpaceController extends GetxController {
     try {
       await _collectionReference.doc(spaceID).delete();
       await _fetchAllSpaces();
-      Get.offAll(() => EntryPointUI());
+      Get.offAll(() => const EntryPointUI());
     } on FirebaseException catch (e) {
       print(e);
     }
@@ -253,9 +254,9 @@ class SpaceController extends GetxController {
   Space? getSpaceById({required String spaceID}) {
     Space? _space;
     List<String> allSpacesId = [];
-    allSpaces.forEach((element) {
+    for (var element in allSpaces) {
       allSpacesId.add(element.spaceID!);
-    });
+    }
     if (allSpacesId.contains(spaceID)) {
       _space = allSpaces.singleWhere((element) => element.spaceID == spaceID);
     } else {
@@ -277,22 +278,22 @@ class SpaceController extends GetxController {
   /// When user select attendance button
   void _onAttendedSelection() {
     spacesMember = [];
-    todayAttended.keys.forEach((member) {
+    for (var member in todayAttended.keys) {
       spacesMember = _allMembersSpace
           .where((element) => element.memberID == member)
           .toList();
-    });
+    }
     update();
   }
 
   /// When user select unattendance button
   void _onUnattendedSelection() {
     spacesMember = [];
-    todayAttended.keys.forEach((member) {
+    for (var member in todayAttended.keys) {
       spacesMember = _allMembersSpace
           .where((element) => element.memberID != member)
           .toList();
-    });
+    }
     update();
   }
 
@@ -348,14 +349,14 @@ class SpaceController extends GetxController {
           .collection('log_data')
           .get()
           .then((value) {
-        value.docs.forEach((element) {
+        for (var element in value.docs) {
           // Individual doc contains a timestamp
           Timestamp _timeInStamp = element.data()['attended_at'];
           DateTime _timeInDate = _timeInStamp.toDate();
           todayAttended.addAll(
             {element.id: _timeInDate},
           );
-        });
+        }
         // print(todayAttended.toString());
       });
       fetchingTodaysLog = false;
@@ -381,6 +382,7 @@ class SpaceController extends GetxController {
         .collection('attendance_log_today')
         .get()
         .then((messages) => {
+              // ignore: avoid_function_literals_in_foreach_calls
               messages.docs.forEach((aMessage) {
                 LogMessage _fetchedMessage =
                     LogMessage.fromDocumentSnap(aMessage);

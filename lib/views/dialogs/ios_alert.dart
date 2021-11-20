@@ -14,41 +14,39 @@ class IosAlertDialog extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: AppDefaults.defaulBorderRadius,
       ),
-      child: Container(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            AppSizes.hGap10,
-            Text(
-              'Info',
-              style: AppText.h6.copyWith(
-                fontWeight: FontWeight.bold,
-                color: AppColors.PRIMARY_COLOR,
-              ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          AppSizes.hGap10,
+          Text(
+            'Info',
+            style: AppText.h6.copyWith(
+              fontWeight: FontWeight.bold,
+              color: AppColors.primaryColor,
             ),
-            Divider(
-              color: AppColors.PLACEHOLDER_COLOR,
-              thickness: 0.3,
+          ),
+          const Divider(
+            color: AppColors.placeholderColor,
+            thickness: 0.3,
+          ),
+          Container(
+            padding: const EdgeInsets.all(
+              AppSizes.defaultPadding,
             ),
-            Container(
-              padding: EdgeInsets.all(
-                AppSizes.DEFAULT_PADDING,
-              ),
-              child: Column(
-                children: [
-                  Image.asset(
-                    AppImages.ILLUSTRATION_WORKING_ON,
-                  ),
-                  AppSizes.hGap20,
-                  Text(
-                    'Currently the app functionality is limited for iOS. We are working hard to bring full support.',
-                    textAlign: TextAlign.center,
-                  ),
-                ],
-              ),
-            )
-          ],
-        ),
+            child: Column(
+              children: [
+                Image.asset(
+                  AppImages.illustrationWorkingOn,
+                ),
+                AppSizes.hGap20,
+                const Text(
+                  'Currently the app functionality is limited for iOS. We are working hard to bring full support.',
+                  textAlign: TextAlign.center,
+                ),
+              ],
+            ),
+          )
+        ],
       ),
     );
   }

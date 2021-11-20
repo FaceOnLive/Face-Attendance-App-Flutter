@@ -48,9 +48,10 @@ class AppButton extends StatelessWidget {
       child: AnimatedContainer(
         height: height,
         duration: AppDefaults.defaultDuration,
-        margin: margin ?? EdgeInsets.all(8),
+        margin: margin ?? const EdgeInsets.all(8),
         alignment: Alignment.center,
-        padding: padding ?? EdgeInsets.symmetric(horizontal: 14, vertical: 14),
+        padding:
+            padding ?? const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
         decoration: BoxDecoration(
           color: isButtonDisabled
               ? Colors.grey
@@ -60,11 +61,9 @@ class AppButton extends StatelessWidget {
         ),
         width: width,
         child: isLoading
-            ? Container(
-                child: CircularProgressIndicator(
-                  color: Colors.white,
-                  strokeWidth: 3,
-                ),
+            ? const CircularProgressIndicator(
+                color: Colors.white,
+                strokeWidth: 3,
               )
             : Row(
                 mainAxisSize: MainAxisSize.min,
@@ -73,8 +72,9 @@ class AppButton extends StatelessWidget {
                 children: [
                   prefixIcon != null
                       ? Container(
-                          margin: EdgeInsets.only(right: 5), child: prefixIcon)
-                      : SizedBox(),
+                          margin: const EdgeInsets.only(right: 5),
+                          child: prefixIcon)
+                      : const SizedBox(),
                   Text(
                     label,
                     style: AppText.b1.copyWith(
@@ -85,8 +85,10 @@ class AppButton extends StatelessWidget {
                   ),
                   suffixIcon != null
                       ? Container(
-                          margin: EdgeInsets.only(left: 5), child: suffixIcon)
-                      : SizedBox(),
+                          margin: const EdgeInsets.only(left: 5),
+                          child: suffixIcon,
+                        )
+                      : const SizedBox(),
                 ],
               ),
       ),
@@ -128,9 +130,13 @@ class AppButtonOutline extends StatelessWidget {
       child: AnimatedContainer(
         height: height,
         duration: AppDefaults.defaultDuration,
-        margin: margin ?? EdgeInsets.all(8),
+        margin: margin ?? const EdgeInsets.all(8),
         alignment: Alignment.center,
-        padding: padding ?? EdgeInsets.symmetric(horizontal: 14, vertical: 14),
+        padding: padding ??
+            const EdgeInsets.symmetric(
+              horizontal: 14,
+              vertical: 14,
+            ),
         decoration: BoxDecoration(
           color: Get.theme.canvasColor,
           borderRadius: AppDefaults.defaulBorderRadius,
@@ -140,7 +146,7 @@ class AppButtonOutline extends StatelessWidget {
         ),
         width: width,
         child: isLoading
-            ? AspectRatio(
+            ? const AspectRatio(
                 aspectRatio: 1 / 1,
                 child: CircularProgressIndicator(
                   color: Colors.white,
@@ -151,19 +157,21 @@ class AppButtonOutline extends StatelessWidget {
                 children: [
                   prefixIcon != null
                       ? Container(
-                          margin: EdgeInsets.only(right: 5), child: prefixIcon)
-                      : SizedBox(),
+                          margin: const EdgeInsets.only(right: 5),
+                          child: prefixIcon)
+                      : const SizedBox(),
                   Text(
                     label,
                     style: AppText.b1.copyWith(
                       fontWeight: FontWeight.bold,
-                      color: AppColors.PRIMARY_COLOR,
+                      color: AppColors.primaryColor,
                     ),
                   ),
                   suffixIcon != null
                       ? Container(
-                          margin: EdgeInsets.only(left: 5), child: suffixIcon)
-                      : SizedBox(),
+                          margin: const EdgeInsets.only(left: 5),
+                          child: suffixIcon)
+                      : const SizedBox(),
                 ],
               ),
       ),
@@ -176,7 +184,7 @@ class CircleIconButton extends StatelessWidget {
     Key? key,
     required this.icon,
     required this.onTap,
-    this.backgroundColor = AppColors.PRIMARY_COLOR,
+    this.backgroundColor = AppColors.primaryColor,
   }) : super(key: key);
 
   final void Function() onTap;
@@ -188,10 +196,10 @@ class CircleIconButton extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: Container(
-        padding: EdgeInsets.all(AppSizes.DEFAULT_PADDING - 8),
-        decoration: BoxDecoration(
+        padding: const EdgeInsets.all(AppSizes.defaultPadding - 8),
+        decoration: const BoxDecoration(
           shape: BoxShape.circle,
-          color: AppColors.PRIMARY_COLOR,
+          color: AppColors.primaryColor,
         ),
         child: icon,
       ),

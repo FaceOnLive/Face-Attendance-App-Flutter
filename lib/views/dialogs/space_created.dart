@@ -14,41 +14,39 @@ class EmailSentSuccessfullDialog extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: AppDefaults.defaulBorderRadius,
       ),
-      child: Container(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            AppSizes.hGap10,
-            Text(
-              'Successfull',
-              style: AppText.h6.copyWith(
-                fontWeight: FontWeight.bold,
-                color: AppColors.PRIMARY_COLOR,
-              ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          AppSizes.hGap10,
+          Text(
+            'Successfull',
+            style: AppText.h6.copyWith(
+              fontWeight: FontWeight.bold,
+              color: AppColors.primaryColor,
             ),
-            Divider(
-              color: AppColors.PLACEHOLDER_COLOR,
-              thickness: 0.3,
+          ),
+          const Divider(
+            color: AppColors.placeholderColor,
+            thickness: 0.3,
+          ),
+          Container(
+            padding: const EdgeInsets.all(
+              AppSizes.defaultPadding,
             ),
-            Container(
-              padding: EdgeInsets.all(
-                AppSizes.DEFAULT_PADDING,
-              ),
-              child: Column(
-                children: [
-                  Image.asset(
-                    AppImages.ILLUSTRATION_EMAIL_SENT,
-                  ),
-                  AppSizes.hGap20,
-                  Text(
-                    'A email has been sent to you verify. Please verify the email by clicking the link.',
-                    textAlign: TextAlign.center,
-                  ),
-                ],
-              ),
-            )
-          ],
-        ),
+            child: Column(
+              children: [
+                Image.asset(
+                  AppImages.illustrationEmailSent,
+                ),
+                AppSizes.hGap20,
+                const Text(
+                  'A email has been sent to you verify. Please verify the email by clicking the link.',
+                  textAlign: TextAlign.center,
+                ),
+              ],
+            ),
+          )
+        ],
       ),
     );
   }

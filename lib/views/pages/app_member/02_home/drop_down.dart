@@ -23,12 +23,12 @@ class _AppMemberDropDownState extends State<AppMemberDropDown> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 20),
+      padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Row(
         children: [
           Expanded(
             child: Container(
-              padding: EdgeInsets.symmetric(
+              padding: const EdgeInsets.symmetric(
                 horizontal: 10,
               ),
               decoration: BoxDecoration(
@@ -40,23 +40,23 @@ class _AppMemberDropDownState extends State<AppMemberDropDown> {
               child: GetBuilder<AppMemberSpaceController>(
                 builder: (controller) {
                   if (controller.isFetchingSpaces) {
-                    return Container(
+                    return const SizedBox(
                       height: 50,
                       child: LinearProgressIndicator(),
                     );
-                  } else if (controller.allSpaces.length < 1) {
-                    return SizedBox();
+                  } else if (controller.allSpaces.isEmpty) {
+                    return const SizedBox();
                   } else {
                     return DropdownButton<String>(
                       isExpanded: true,
-                      underline: SizedBox(),
+                      underline: const SizedBox(),
                       dropdownColor: context.theme.canvasColor,
                       items: List.generate(
                         controller.allSpaces.length + 1,
                         (index) {
                           // Create button
                           if (index == controller.allSpaces.length) {
-                            return DropdownMenuItem(
+                            return const DropdownMenuItem(
                               child: _JoinNewSpaceButton(),
                               value: 'Join',
                             );
@@ -90,14 +90,14 @@ class _AppMemberDropDownState extends State<AppMemberDropDown> {
           AppSizes.wGap10,
           // DATE COLUMN
           Column(
-            children: [],
+            children: const [],
           ),
           // Space Log Button
           IconButton(
             onPressed: () {
-              Get.to(() => AppMemberJoinQRCODE());
+              Get.to(() => const AppMemberJoinQRCODE());
             },
-            icon: Icon(
+            icon: const Icon(
               Icons.qr_code_scanner_rounded,
               size: 30,
             ),
@@ -119,21 +119,19 @@ class _JoinNewSpaceButton extends StatelessWidget {
       onTap: () {
         // Get.to(() => SpaceCreateScreen());
       },
-      child: Container(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              'Join New Space',
-              style: AppText.b1.copyWith(
-                fontWeight: FontWeight.bold,
-                color: AppColors.PRIMARY_COLOR,
-              ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            'Join New Space',
+            style: AppText.b1.copyWith(
+              fontWeight: FontWeight.bold,
+              color: AppColors.primaryColor,
             ),
-            AppSizes.wGap10,
-            Icon(Icons.add),
-          ],
-        ),
+          ),
+          AppSizes.wGap10,
+          const Icon(Icons.add),
+        ],
       ),
     );
   }
@@ -166,16 +164,16 @@ class _DropDownSpaceItem extends StatelessWidget {
               label,
               style: AppText.b1.copyWith(
                 fontWeight: active ? FontWeight.bold : FontWeight.normal,
-                color: AppColors.PRIMARY_COLOR,
+                color: AppColors.primaryColor,
               ),
             ),
           ],
         ),
         InkWell(
           onTap: onTap,
-          child: Icon(
+          child: const Icon(
             Icons.info_outline_rounded,
-            color: AppColors.PRIMARY_COLOR,
+            color: AppColors.primaryColor,
           ),
         ),
       ],

@@ -17,76 +17,74 @@ class CameraGallerySelectDialog extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: AppDefaults.defaulBorderRadius,
       ),
-      child: Container(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            AppSizes.hGap10,
-            Text(
-              'Select',
-              style: AppText.h6.copyWith(
-                fontWeight: FontWeight.bold,
-                color: AppColors.PRIMARY_COLOR,
-              ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          AppSizes.hGap10,
+          Text(
+            'Select',
+            style: AppText.h6.copyWith(
+              fontWeight: FontWeight.bold,
+              color: AppColors.primaryColor,
             ),
-            Divider(
-              color: AppColors.PLACEHOLDER_COLOR,
-              thickness: 0.3,
+          ),
+          const Divider(
+            color: AppColors.placeholderColor,
+            thickness: 0.3,
+          ),
+          Container(
+            padding: const EdgeInsets.all(
+              AppSizes.defaultPadding,
             ),
-            Container(
-              padding: EdgeInsets.all(
-                AppSizes.DEFAULT_PADDING,
-              ),
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      InkWell(
-                        onTap: () async {
-                          File? _image =
-                              await AppPhotoService.getImageFromCamera();
-                          Get.back(result: _image);
-                        },
-                        child: Column(
-                          children: [
-                            Icon(
-                              Icons.camera_alt,
-                              size: Get.width * 0.2,
-                            ),
-                            Text('Camera'),
-                          ],
-                        ),
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    InkWell(
+                      onTap: () async {
+                        File? _image =
+                            await AppPhotoService.getImageFromCamera();
+                        Get.back(result: _image);
+                      },
+                      child: Column(
+                        children: [
+                          Icon(
+                            Icons.camera_alt,
+                            size: Get.width * 0.2,
+                          ),
+                          const Text('Camera'),
+                        ],
                       ),
-                      InkWell(
-                        onTap: () async {
-                          File? _image =
-                              await AppPhotoService.getImageFromGallery();
-                          Get.back(result: _image);
-                        },
-                        child: Column(
-                          children: [
-                            Icon(
-                              Icons.photo_library_rounded,
-                              size: Get.width * 0.2,
-                            ),
-                            Text('Gallery')
-                          ],
-                        ),
+                    ),
+                    InkWell(
+                      onTap: () async {
+                        File? _image =
+                            await AppPhotoService.getImageFromGallery();
+                        Get.back(result: _image);
+                      },
+                      child: Column(
+                        children: [
+                          Icon(
+                            Icons.photo_library_rounded,
+                            size: Get.width * 0.2,
+                          ),
+                          const Text('Gallery')
+                        ],
                       ),
-                    ],
-                  ),
-                  AppSizes.hGap20,
-                  Text(
-                    'Please select a source',
-                    textAlign: TextAlign.center,
-                    style: AppText.caption,
-                  ),
-                ],
-              ),
-            )
-          ],
-        ),
+                    ),
+                  ],
+                ),
+                AppSizes.hGap20,
+                Text(
+                  'Please select a source',
+                  textAlign: TextAlign.center,
+                  style: AppText.caption,
+                ),
+              ],
+            ),
+          )
+        ],
       ),
     );
   }

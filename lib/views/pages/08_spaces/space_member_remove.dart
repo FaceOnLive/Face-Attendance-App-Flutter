@@ -25,12 +25,12 @@ class SpaceMemberRemoveScreen extends StatefulWidget {
 
 class _SpaceMemberRemoveScreenState extends State<SpaceMemberRemoveScreen> {
   /* <---- Dependency -----> */
-  MembersController _membersController = Get.find();
-  SpaceController _spaceController = Get.find();
+  final MembersController _membersController = Get.find();
+  final SpaceController _spaceController = Get.find();
 
   /* <---- Selection -----> */
-  List<Member> _availableMemberInSpace = [];
-  RxList<Member> _selectedMember = RxList<Member>();
+  final List<Member> _availableMemberInSpace = [];
+  final RxList<Member> _selectedMember = RxList<Member>();
 
   void _onMemberSelect(Member member) {
     if (_selectedMember.contains(member)) {
@@ -42,23 +42,23 @@ class _SpaceMemberRemoveScreenState extends State<SpaceMemberRemoveScreen> {
   }
 
   /// Progress BOOL
-  RxBool _isRemovingMember = false.obs;
+  final RxBool _isRemovingMember = false.obs;
 
   /// Remove Member From Available List
   void _filterOutAddedMember() {
     List<Member> _allMember = Get.find<MembersController>().allMember;
     List<String> _idsAllMember = [];
-    _allMember.forEach((element) {
+    for (var element in _allMember) {
       _idsAllMember.add(element.memberID!);
-    });
+    }
 
-    _allMember.forEach((element) {
+    for (var element in _allMember) {
       if (widget.space.memberList.contains(element.memberID)) {
         _availableMemberInSpace.add(element);
       } else {
         // That means the member is already in their list
       }
-    });
+    }
     _membersController.update();
   }
 
@@ -79,7 +79,7 @@ class _SpaceMemberRemoveScreenState extends State<SpaceMemberRemoveScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Remove Members'),
+        title: const Text('Remove Members'),
       ),
       body: Container(
         decoration: BoxDecoration(
@@ -91,8 +91,8 @@ class _SpaceMemberRemoveScreenState extends State<SpaceMemberRemoveScreen> {
               /* <---- List -----> */
               GetBuilder<MembersController>(
                 builder: (controller) => controller.isFetchingUser
-                    ? LoadingMembers()
-                    : _availableMemberInSpace.length > 0
+                    ? const LoadingMembers()
+                    : _availableMemberInSpace.isNotEmpty
                         ? Expanded(
                             child: ListView.builder(
                               itemCount: _availableMemberInSpace.length,
@@ -110,17 +110,17 @@ class _SpaceMemberRemoveScreenState extends State<SpaceMemberRemoveScreen> {
                               },
                             ),
                           )
-                        : _EmptyMemberList(),
+                        : const _EmptyMemberList(),
               ),
               /* <---- Add Button -----> */
               Obx(() => AppButton(
                     disableBorderRadius: true,
-                    margin: EdgeInsets.all(0),
-                    padding: EdgeInsets.all(AppSizes.DEFAULT_PADDING),
+                    margin: const EdgeInsets.all(0),
+                    padding: const EdgeInsets.all(AppSizes.defaultPadding),
                     label: 'Remove',
                     isLoading: _isRemovingMember.value,
-                    backgroundColor: AppColors.APP_RED,
-                    isButtonDisabled: _selectedMember.length < 1,
+                    backgroundColor: AppColors.appRed,
+                    isButtonDisabled: _selectedMember.isEmpty,
                     onTap: () async {
                       try {
                         _isRemovingMember.trigger(true);
@@ -135,7 +135,7 @@ class _SpaceMemberRemoveScreenState extends State<SpaceMemberRemoveScreen> {
                           title: 'Member Removed Successfully',
                           message:
                               'Total ${_selectedMember.length} Members has been removed',
-                          backgroundColor: AppColors.APP_RED,
+                          backgroundColor: AppColors.appRed,
                           snackStyle: SnackStyle.GROUNDED,
                         );
                         _isRemovingMember.trigger(false);
@@ -164,12 +164,12 @@ class _EmptyMemberList extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Container(
+          SizedBox(
             width: Get.width * 0.6,
-            child: Image.asset(AppImages.ILLUSTRATION_MEMBER_EMPTY),
+            child: Image.asset(AppImages.illustrationMemberEmpty),
           ),
           AppSizes.hGap20,
-          Text('There is no one to add'),
+          const Text('There is no one to add'),
         ],
       ),
     );

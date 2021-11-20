@@ -18,7 +18,8 @@ import 'package:get/get.dart';
 class VerifyController extends GetxController {
   /* <---- Dependency -----> */
   // ignore: unused_field
-  late CollectionReference _collectionReference = FirebaseFirestore.instance
+  late final CollectionReference _collectionReference = FirebaseFirestore
+      .instance
       .collection('members')
       .doc(_currentUserID)
       .collection('members_collection');
@@ -85,7 +86,7 @@ class VerifyController extends GetxController {
       print('Authenticated_successfully');
 
       Get.find<SettingsController>().setAppInVerifyMode();
-      Get.offAll(() => StaticVerifierScreen());
+      Get.offAll(() => const StaticVerifierScreen());
 
       return null;
     } on FirebaseException catch (e) {
@@ -112,7 +113,7 @@ class VerifyController extends GetxController {
       print('Authenticated_successfully');
 
       Get.find<SettingsController>().setAppInUnverifyMode();
-      Get.offAll(() => EntryPointUI());
+      Get.offAll(() => const EntryPointUI());
 
       return null;
     } on FirebaseException catch (e) {
@@ -226,8 +227,8 @@ class VerifyController extends GetxController {
 
   /* <---- HELPER METHOD FOR VERIFYER -----> */
   bool _isCloseFunctionAlreadyTriggerd = false;
-  int _durationOfCardShowing = 10;
-  int _maxDurationTime = 40;
+  final int _durationOfCardShowing = 10;
+  final int _maxDurationTime = 40;
 
   /// This function is used to close the card, MAX TIME 40 Seconds
   Future<void> _disableCardAfterSomeTime() async {
@@ -241,7 +242,7 @@ class VerifyController extends GetxController {
       });
     } else {
       _isCloseFunctionAlreadyTriggerd = true;
-      await Future.delayed(Duration(seconds: 10)).then((value) {
+      await Future.delayed(const Duration(seconds: 10)).then((value) {
         showProgressIndicator = false;
         _isCloseFunctionAlreadyTriggerd = false;
         update();
@@ -254,7 +255,7 @@ class VerifyController extends GetxController {
   void onInit() async {
     super.onInit();
     _getCurrentUserID();
-    await Future.delayed(Duration(seconds: 10));
+    await Future.delayed(const Duration(seconds: 10));
     await _getAllMembersImagesURL();
     await _getAllMemberImagesToFile();
   }
