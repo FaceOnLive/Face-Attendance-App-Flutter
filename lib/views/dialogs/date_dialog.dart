@@ -28,29 +28,27 @@ class DateInfoDialog extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: AppDefaults.defaulBorderRadius,
       ),
-      child: Container(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            AppSizes.hGap10,
-            Text(
-              'Update Attendnace',
-              style: AppText.h6.copyWith(
-                fontWeight: FontWeight.bold,
-                color: AppColors.PRIMARY_COLOR,
-              ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          AppSizes.hGap10,
+          Text(
+            'Update Attendnace',
+            style: AppText.h6.copyWith(
+              fontWeight: FontWeight.bold,
+              color: AppColors.primaryColor,
             ),
-            Divider(
-              color: AppColors.PLACEHOLDER_COLOR,
-              thickness: 0.3,
-            ),
-            _UpdateAttendane(
-              memberID: memberID,
-              spaceID: spaceID,
-              date: dateTime,
-            ),
-          ],
-        ),
+          ),
+          const Divider(
+            color: AppColors.placeholderColor,
+            thickness: 0.3,
+          ),
+          _UpdateAttendane(
+            memberID: memberID,
+            spaceID: spaceID,
+            date: dateTime,
+          ),
+        ],
       ),
     );
   }
@@ -73,13 +71,13 @@ class _UpdateAttendane extends StatefulWidget {
 
 class __UpdateAttendaneState extends State<_UpdateAttendane> {
   /* <---- Dependency -----> */
-  MembersController _controller = Get.find();
+  final MembersController _controller = Get.find();
 
   // Progress
-  RxBool _isUpdatingAttendance = false.obs;
+  final RxBool _isUpdatingAttendance = false.obs;
 
   // SWITCH
-  RxBool _attended = true.obs;
+  final RxBool _attended = true.obs;
 
   // is Today
   bool _isToday = false;
@@ -138,8 +136,8 @@ class __UpdateAttendaneState extends State<_UpdateAttendane> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(
-        AppSizes.DEFAULT_PADDING,
+      padding: const EdgeInsets.all(
+        AppSizes.defaultPadding,
       ),
       child: Column(
         children: [

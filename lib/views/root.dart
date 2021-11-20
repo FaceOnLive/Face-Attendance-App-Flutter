@@ -10,6 +10,7 @@ import 'pages/app_member/01_entrypoint/entrypoint_member.dart';
 import 'themes/themes.dart';
 
 //// APP \\
+// ignore: use_key_in_widget_constructors
 class TuringTechApp extends StatelessWidget {
   // Needed for themes
   final settings = Get.put(SettingsController());
@@ -21,7 +22,7 @@ class TuringTechApp extends StatelessWidget {
       theme: AppThemes.lightTheme,
       darkTheme: AppThemes.darkTheme,
       themeMode: settings.appThemeMode(),
-      home: AppRoot(),
+      home: const AppRoot(),
       debugShowCheckedModeBanner: false,
       // enableLog: false,
     );
@@ -38,9 +39,9 @@ class AppRoot extends StatelessWidget {
       builder: (controller) {
         // Loading Database, And Firebase
         if (controller.everyThingLoadedUp) {
-          return _MainUI();
+          return const _MainUI();
         } else {
-          return _LoadingApp();
+          return const _LoadingApp();
         }
       },
     );
@@ -56,7 +57,7 @@ class _MainUI extends GetView<SettingsController> {
   Widget build(BuildContext context) {
     LoginController _login = Get.find();
     if (controller.isInVerifierMode()) {
-      return StaticVerifierScreen();
+      return const StaticVerifierScreen();
     } else {
       return Obx(() {
         // Intro Screen or Login Screen
@@ -64,17 +65,17 @@ class _MainUI extends GetView<SettingsController> {
           return controller.introOrLogin();
         } else if (_login.isCheckingAdmin.value) {
           // are we checking user is admin
-          return _LoadingApp();
+          return const _LoadingApp();
         } else if (!_login.isAdmin) {
           // is the user is admin
-          return AppMemberMainUi();
+          return const AppMemberMainUi();
         } else if (_login.user != null &&
             _login.isCheckingAdmin.value == false &&
             _login.isAdmin == true) {
           // Home sweet home
-          return EntryPointUI();
+          return const EntryPointUI();
         } else {
-          return _LoadingApp();
+          return const _LoadingApp();
         }
       });
     }
@@ -92,18 +93,19 @@ class _LoadingApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Container(
+        child: SizedBox(
           width: Get.width,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Container(
+              SizedBox(
                 width: Get.width * 0.5,
                 child: Hero(
-                    tag: AppImages.MAIN_LOGO,
-                    child: Image.asset(AppImages.MAIN_LOGO)),
+                  tag: AppImages.mainLogo,
+                  child: Image.asset(AppImages.mainLogo),
+                ),
               ),
-              CircularProgressIndicator(),
+              const CircularProgressIndicator(),
             ],
           ),
         ),

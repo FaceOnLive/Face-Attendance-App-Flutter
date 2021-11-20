@@ -18,7 +18,7 @@ class ChangePasswordSheet extends StatefulWidget {
 
 class _ChangePasswordSheetState extends State<ChangePasswordSheet> {
   /// Dependency
-  AppUserController _controller = Get.find();
+  final AppUserController _controller = Get.find();
 
   /* <---- Text Editing Controller -----> */
   late TextEditingController _oldPassword;
@@ -40,18 +40,18 @@ class _ChangePasswordSheetState extends State<ChangePasswordSheet> {
   }
 
   /* <---- Show Password ----> */
-  RxBool _showPass = false.obs;
+  final RxBool _showPass = false.obs;
   _onEyeClick() {
     _showPass.value = !_showPass.value;
   }
 
   /* <---- Form Related -----> */
-  RxnString _errorMessage = RxnString();
+  final RxnString _errorMessage = RxnString();
   // Form Key
-  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   /// Progress BOOL
-  RxBool _isChanginPass = false.obs;
+  final RxBool _isChanginPass = false.obs;
 
   /// On Change Pass Click
   Future<void> _onChangePass() async {
@@ -91,7 +91,7 @@ class _ChangePasswordSheetState extends State<ChangePasswordSheet> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(AppSizes.DEFAULT_PADDING),
+      padding: const EdgeInsets.all(AppSizes.defaultPadding),
       decoration: BoxDecoration(
         color: Get.theme.canvasColor,
         borderRadius: AppDefaults.defaultBottomSheetRadius,
@@ -102,82 +102,80 @@ class _ChangePasswordSheetState extends State<ChangePasswordSheet> {
           Text(
             'Change Password',
             style: AppText.h6.copyWith(
-                fontWeight: FontWeight.bold, color: AppColors.PRIMARY_COLOR),
+                fontWeight: FontWeight.bold, color: AppColors.primaryColor),
           ),
-          Divider(),
+          const Divider(),
           AppSizes.hGap20,
           Obx(
             () => Form(
               key: _formKey,
-              child: Container(
-                child: Column(
-                  children: [
-                    // Password Field
-                    TextFormField(
-                      decoration: InputDecoration(
-                        labelText: 'Old Password',
-                        prefixIcon: Icon(Icons.vpn_key_rounded),
-                        hintText: '***********',
-                        errorText: _errorMessage.value,
-                        suffixIcon: GestureDetector(
-                          onTap: () {
-                            _onEyeClick();
-                          },
-                          child: Icon(
-                            _showPass.isFalse
-                                ? Icons.visibility_off_rounded
-                                : Icons.visibility_rounded,
-                          ),
+              child: Column(
+                children: [
+                  // Password Field
+                  TextFormField(
+                    decoration: InputDecoration(
+                      labelText: 'Old Password',
+                      prefixIcon: const Icon(Icons.vpn_key_rounded),
+                      hintText: '***********',
+                      errorText: _errorMessage.value,
+                      suffixIcon: GestureDetector(
+                        onTap: () {
+                          _onEyeClick();
+                        },
+                        child: Icon(
+                          _showPass.isFalse
+                              ? Icons.visibility_off_rounded
+                              : Icons.visibility_rounded,
                         ),
                       ),
-                      controller: _oldPassword,
-                      obscureText: !_showPass.value,
-                      validator: (value) {
-                        return AppFormVerify.password(
-                          password: value,
-                        );
-                      },
-                      onFieldSubmitted: (v) {},
-                      textInputAction: TextInputAction.next,
                     ),
-                    AppSizes.hGap20,
-                    TextFormField(
-                      decoration: InputDecoration(
-                        labelText: 'New Password',
-                        prefixIcon: Icon(Icons.vpn_key_rounded),
-                        hintText: '***********',
-                      ),
-                      controller: _newPassword,
-                      obscureText: !_showPass.value,
-                      validator: (value) {
-                        return AppFormVerify.password(
-                          password: value,
-                          confirmPassword: _confirmNewPassword.text,
-                        );
-                      },
-                      // onFieldSubmitted: (v) {},
-                      // textInputAction: TextInputAction.next,
+                    controller: _oldPassword,
+                    obscureText: !_showPass.value,
+                    validator: (value) {
+                      return AppFormVerify.password(
+                        password: value,
+                      );
+                    },
+                    onFieldSubmitted: (v) {},
+                    textInputAction: TextInputAction.next,
+                  ),
+                  AppSizes.hGap20,
+                  TextFormField(
+                    decoration: const InputDecoration(
+                      labelText: 'New Password',
+                      prefixIcon: Icon(Icons.vpn_key_rounded),
+                      hintText: '***********',
                     ),
-                    AppSizes.hGap20,
-                    TextFormField(
-                      decoration: InputDecoration(
-                        labelText: 'Confirm Password',
-                        prefixIcon: Icon(Icons.vpn_key_rounded),
-                        hintText: '***********',
-                      ),
-                      controller: _confirmNewPassword,
-                      obscureText: !_showPass.value,
-                      validator: (value) {
-                        return AppFormVerify.password(
-                          password: value,
-                          confirmPassword: _newPassword.text,
-                        );
-                      },
-                      // onFieldSubmitted: (v) {},
-                      // textInputAction: TextInputAction.done,
+                    controller: _newPassword,
+                    obscureText: !_showPass.value,
+                    validator: (value) {
+                      return AppFormVerify.password(
+                        password: value,
+                        confirmPassword: _confirmNewPassword.text,
+                      );
+                    },
+                    // onFieldSubmitted: (v) {},
+                    // textInputAction: TextInputAction.next,
+                  ),
+                  AppSizes.hGap20,
+                  TextFormField(
+                    decoration: const InputDecoration(
+                      labelText: 'Confirm Password',
+                      prefixIcon: Icon(Icons.vpn_key_rounded),
+                      hintText: '***********',
                     ),
-                  ],
-                ),
+                    controller: _confirmNewPassword,
+                    obscureText: !_showPass.value,
+                    validator: (value) {
+                      return AppFormVerify.password(
+                        password: value,
+                        confirmPassword: _newPassword.text,
+                      );
+                    },
+                    // onFieldSubmitted: (v) {},
+                    // textInputAction: TextInputAction.done,
+                  ),
+                ],
               ),
             ),
           ),

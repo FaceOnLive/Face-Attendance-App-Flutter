@@ -10,7 +10,7 @@ class AppMapController extends GetxController {
   late GoogleMapController _googleMapController;
 
   // Hong kong city
-  CameraPosition initialCameraPostion = CameraPosition(
+  CameraPosition initialCameraPostion = const CameraPosition(
     target: LatLng(22.302711, 114.177216),
     zoom: 17,
   );
@@ -50,8 +50,8 @@ class AppMapController extends GetxController {
   /// For Demo Purpose
   CameraTargetBounds hkgBounds = CameraTargetBounds(
     LatLngBounds(
-      northeast: LatLng(22.4393278, 114.3228131),
-      southwest: LatLng(22.1193278, 114.0028131),
+      northeast: const LatLng(22.4393278, 114.3228131),
+      southwest: const LatLng(22.1193278, 114.0028131),
     ),
   );
 
@@ -60,8 +60,8 @@ class AppMapController extends GetxController {
   Set<Marker> allMarker = {};
 
   /// CIRCLE ID
-  String _circleID = '1';
-  String _markerID = 'marker_1';
+  final String _circleID = '1';
+  final String _markerID = 'marker_1';
   double defaultRadius = 100;
   double sliderValue = 0.5;
 
@@ -73,8 +73,8 @@ class AppMapController extends GetxController {
         circleId: CircleId(_circleID),
         center: latLng,
         radius: defaultRadius,
-        fillColor: AppColors.PRIMARY_COLOR.withOpacity(0.3),
-        strokeColor: AppColors.PRIMARY_COLOR,
+        fillColor: AppColors.primaryColor.withOpacity(0.3),
+        strokeColor: AppColors.primaryColor,
         strokeWidth: 1,
       ),
     );
@@ -96,8 +96,8 @@ class AppMapController extends GetxController {
         circleId: CircleId(_circleID),
         radius: defaultRadius,
         center: LatLng(currentLat, currentLon),
-        fillColor: AppColors.PRIMARY_COLOR.withOpacity(0.3),
-        strokeColor: AppColors.PRIMARY_COLOR,
+        fillColor: AppColors.primaryColor.withOpacity(0.3),
+        strokeColor: AppColors.primaryColor,
         strokeWidth: 1,
       ),
     );
@@ -116,11 +116,6 @@ class AppMapController extends GetxController {
   onForward() {
     print("Radius: ${allCircles.first.radius}");
     print("Center: ${allCircles.first.center.toString()}");
-  }
-
-  @override
-  void onInit() {
-    super.onInit();
   }
 
   @override

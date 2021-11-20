@@ -12,33 +12,33 @@ import '../../../../controllers/user/app_member_user.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class ChangeNameSheet extends StatefulWidget {
-  const ChangeNameSheet({Key? key}) : super(key: key);
+class ChangeAddressSheet extends StatefulWidget {
+  const ChangeAddressSheet({Key? key}) : super(key: key);
 
   @override
-  _ChangeNameSheetState createState() => _ChangeNameSheetState();
+  _ChangeAddressSheetState createState() => _ChangeAddressSheetState();
 }
 
-class _ChangeNameSheetState extends State<ChangeNameSheet> {
+class _ChangeAddressSheetState extends State<ChangeAddressSheet> {
   /// Dependency
-  AppMemberUserController _controller = Get.find();
+  final AppMemberUserController _controller = Get.find();
 
   // Form Key
-  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   /// Text
-  late TextEditingController _name;
+  late TextEditingController _address;
 
   /// Progress
-  RxBool _isUpdating = false.obs;
+  final RxBool _isUpdating = false.obs;
 
   /// on update
-  Future<void> _onNameUpdate() async {
+  Future<void> _onAddressUpdate() async {
     bool _isFormOkay = _formKey.currentState!.validate();
     if (_isFormOkay) {
       try {
         _isUpdating.trigger(true);
-        await _controller.changeUserName(newName: _name.text);
+        await _controller.changeUserAddress(address: _address.text);
         _isUpdating.trigger(false);
         Get.back();
       } on FirebaseException catch (e) {
@@ -52,13 +52,15 @@ class _ChangeNameSheetState extends State<ChangeNameSheet> {
   @override
   void initState() {
     super.initState();
-    _name = TextEditingController();
-    _name.text = _controller.currentUser.name;
+    _address = TextEditingController();
+    _address.text = _controller.currentUser.address == null
+        ? ''
+        : _controller.currentUser.address!;
   }
 
   @override
   void dispose() {
-    _name.dispose();
+    _address.dispose();
     _isUpdating.close();
     super.dispose();
   }
@@ -66,7 +68,7 @@ class _ChangeNameSheetState extends State<ChangeNameSheet> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(AppSizes.DEFAULT_PADDING),
+      padding: const EdgeInsets.all(AppSizes.defaultPadding),
       decoration: BoxDecoration(
         color: context.theme.scaffoldBackgroundColor,
         borderRadius: AppDefaults.defaultBottomSheetRadius,
@@ -76,29 +78,29 @@ class _ChangeNameSheetState extends State<ChangeNameSheet> {
         children: [
           /// HEADER
           Text(
-            'Update Your Name',
+            'Update Address',
             style: AppText.h6,
           ),
 
           /// DIVIDER
           AppSizes.hGap10,
-          Divider(),
+          const Divider(),
           AppSizes.hGap20,
 
           /// FORM
           Form(
             key: _formKey,
             child: TextFormField(
-              controller: _name,
-              decoration: InputDecoration(
-                labelText: 'Name',
-                hintText: 'John Doe',
+              controller: _address,
+              decoration: const InputDecoration(
+                labelText: 'Address',
+                hintText: 'Ocean City, B-Block',
               ),
               validator: (text) {
-                return AppFormVerify.name(fullName: text);
+                return AppFormVerify.address(address: text);
               },
               onFieldSubmitted: (v) {
-                _onNameUpdate();
+                _onAddressUpdate();
               },
             ),
           ),
@@ -109,7 +111,7 @@ class _ChangeNameSheetState extends State<ChangeNameSheet> {
             () => AppButton(
               label: 'Update',
               isLoading: _isUpdating.value,
-              onTap: _onNameUpdate,
+              onTap: _onAddressUpdate,
             ),
           ),
         ],

@@ -5,10 +5,10 @@ import 'package:get/get.dart';
 
 class AppMemberSpaceController extends GetxController {
   /* <---- Dependency ----> */
-  CollectionReference _collectionReference =
+  final CollectionReference _collectionReference =
       FirebaseFirestore.instance.collection('spaces');
 
-  CollectionReference _userCollection =
+  final CollectionReference _userCollection =
       FirebaseFirestore.instance.collection('users');
 
   /// User ID of Current Logged In user

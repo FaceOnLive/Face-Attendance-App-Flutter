@@ -21,7 +21,7 @@ class AppMemberHomeScreen extends StatelessWidget {
     return Container(
       color: context.theme.scaffoldBackgroundColor,
       child: Column(
-        children: [
+        children: const [
           _HeaderMainPage(),
           _DateRow(),
           // DropDown
@@ -43,7 +43,7 @@ class _DateRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 10),
+      padding: const EdgeInsets.symmetric(vertical: 10),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -51,7 +51,7 @@ class _DateRow extends StatelessWidget {
             DateFormat.EEEE().format(DateTime.now()),
             style: AppText.caption,
           ),
-          Text(' | '),
+          const Text(' | '),
           Text(
             DateFormat.yMMMMd().format(DateTime.now()),
             style: AppText.caption,
@@ -70,7 +70,7 @@ class _HeaderMainPage extends GetView<AppMemberUserController> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 20),
+      padding: const EdgeInsets.symmetric(horizontal: 20),
       height: Get.height * 0.1,
       decoration: BoxDecoration(
         color: context.theme.scaffoldBackgroundColor,
@@ -83,9 +83,9 @@ class _HeaderMainPage extends GetView<AppMemberUserController> {
           Row(
             children: [
               Hero(
-                tag: AppImages.MAIN_LOGO,
+                tag: AppImages.mainLogo,
                 child: Image.asset(
-                  AppImages.MAIN_LOGO_2,
+                  AppImages.mainLogo2,
                   width: Get.width * 0.13,
                 ),
               ),
@@ -110,7 +110,7 @@ class _HeaderMainPage extends GetView<AppMemberUserController> {
           ),
           /* <---- Right Side ----> */
           // ADMIN PROFILE PICTURE
-          _UserProfilePicture(),
+          const _UserProfilePicture(),
         ],
       ),
     );
@@ -131,8 +131,8 @@ class _UserProfilePicture extends StatelessWidget {
             baseColor: AppColors.shimmerBaseColor,
             highlightColor: AppColors.shimmerHighlightColor,
             child: CircleAvatar(
-                backgroundImage: AssetImage(
-                  AppImages.DEFAULT_USER,
+                backgroundImage: const AssetImage(
+                  AppImages.deafaultUser,
                 ),
                 radius: Get.width * 0.07),
           );
@@ -151,12 +151,12 @@ class _UserProfilePicture extends StatelessWidget {
                       radius: Get.width * 0.07,
                     )
                   : CircleAvatar(
-                      backgroundImage: AssetImage(AppImages.DEFAULT_USER),
+                      backgroundImage: const AssetImage(AppImages.deafaultUser),
                       radius: Get.width * 0.07),
             ),
           );
         } else {
-          return SizedBox();
+          return const SizedBox();
         }
       },
     );

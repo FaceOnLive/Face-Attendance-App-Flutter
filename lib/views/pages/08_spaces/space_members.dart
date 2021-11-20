@@ -42,59 +42,58 @@ class _SpaceMembersScreenState extends State<SpaceMembersScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Members'),
+        title: const Text('Members'),
       ),
-      body: Container(
-        child: Column(
-          children: [
-            Expanded(
-              child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 20),
-                child: ListView.builder(
-                  itemCount: _allSpacesMember.length,
-                  itemBuilder: (context, index) {
-                    Member _currentMember = _allSpacesMember[index];
-                    return _MemberListTile(member: _currentMember);
-                  },
-                ),
+      body: Column(
+        children: [
+          Expanded(
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: ListView.builder(
+                itemCount: _allSpacesMember.length,
+                itemBuilder: (context, index) {
+                  Member _currentMember = _allSpacesMember[index];
+                  return _MemberListTile(member: _currentMember);
+                },
               ),
             ),
-            Row(
-              children: [
-                Expanded(
-                  child: AppButton(
-                    label: 'Add Member',
-                    onTap: () {
-                      Get.to(() => SpaceMemberAddScreen(space: widget.space));
-                    },
-                    disableBorderRadius: true,
-                    margin: EdgeInsets.all(0),
-                    padding: EdgeInsets.all(20),
-                    prefixIcon: Icon(
-                      Icons.person_add_alt_1_rounded,
-                      color: Colors.white,
-                    ),
+          ),
+          Row(
+            children: [
+              Expanded(
+                child: AppButton(
+                  label: 'Add Member',
+                  onTap: () {
+                    Get.to(() => SpaceMemberAddScreen(space: widget.space));
+                  },
+                  disableBorderRadius: true,
+                  margin: const EdgeInsets.all(0),
+                  padding: const EdgeInsets.all(20),
+                  prefixIcon: const Icon(
+                    Icons.person_add_alt_1_rounded,
+                    color: Colors.white,
                   ),
                 ),
-                Expanded(
-                  child: AppButton(
-                    label: 'Remove Member',
-                    onTap: () {
-                      Get.to(
-                          () => SpaceMemberRemoveScreen(space: widget.space));
-                    },
-                    disableBorderRadius: true,
-                    backgroundColor: AppColors.APP_RED,
-                    margin: EdgeInsets.all(0),
-                    padding: EdgeInsets.all(20),
-                    prefixIcon: Icon(Icons.person_remove_alt_1_rounded,
-                        color: Colors.white),
+              ),
+              Expanded(
+                child: AppButton(
+                  label: 'Remove Member',
+                  onTap: () {
+                    Get.to(() => SpaceMemberRemoveScreen(space: widget.space));
+                  },
+                  disableBorderRadius: true,
+                  backgroundColor: AppColors.appRed,
+                  margin: const EdgeInsets.all(0),
+                  padding: const EdgeInsets.all(20),
+                  prefixIcon: const Icon(
+                    Icons.person_remove_alt_1_rounded,
+                    color: Colors.white,
                   ),
                 ),
-              ],
-            )
-          ],
-        ),
+              ),
+            ],
+          )
+        ],
       ),
     );
   }
@@ -126,9 +125,9 @@ class _MemberListTile extends StatelessWidget {
       ),
       title: Text(member.memberName),
       subtitle: Text(member.memberNumber.toString()),
-      trailing: Icon(
+      trailing: const Icon(
         Icons.info_outlined,
-        color: AppColors.APP_GREEN,
+        color: AppColors.appGreen,
       ),
     );
   }

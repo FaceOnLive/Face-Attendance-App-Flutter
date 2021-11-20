@@ -12,7 +12,7 @@ class AppMemberVerifyController extends GetxController {
     isAttendedToday = false;
     isVerifyingMember = true;
     update();
-    await Future.delayed(Duration(seconds: 5));
+    await Future.delayed(const Duration(seconds: 5));
     isAttendedToday = true;
     isVerifyingMember = false;
     update();

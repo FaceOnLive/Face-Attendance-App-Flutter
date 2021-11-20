@@ -21,7 +21,7 @@ class MemberInfoScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: AppSizes.DEFAULT_PADDING),
+      padding: const EdgeInsets.symmetric(horizontal: AppSizes.defaultPadding),
       width: Get.width,
       decoration: BoxDecoration(
         color: Colors.white,
@@ -31,14 +31,14 @@ class MemberInfoScreen extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           AppBar(
-            leading: SizedBox(),
+            leading: const SizedBox(),
             // title: Text('Info'),
             actions: [
               IconButton(
                 onPressed: () {
                   Get.back();
                 },
-                icon: Icon(Icons.close),
+                icon: const Icon(Icons.close),
               )
             ],
           ),
@@ -54,14 +54,13 @@ class MemberInfoScreen extends StatelessWidget {
               Text(
                 member.memberName,
                 style: AppText.h5.copyWith(
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.PRIMARY_COLOR),
+                    fontWeight: FontWeight.bold, color: AppColors.primaryColor),
               ),
               Text(member.memberNumber.toString()),
               Text(member.memberFullAdress),
             ],
           ),
-          Chip(
+          const Chip(
             label: Text('Member is Custom'),
           ),
           AppButtonOutline(

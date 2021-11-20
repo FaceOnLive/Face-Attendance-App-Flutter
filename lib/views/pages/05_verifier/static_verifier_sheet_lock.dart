@@ -25,21 +25,21 @@ class StaticVerifierLockUnlock extends StatefulWidget {
 class _StaticVerifierLockUnlockState extends State<StaticVerifierLockUnlock> {
   /* <---- Text Editing Controllers ----> */
   late TextEditingController passController;
-  RxnString _errorMessage = RxnString();
+  final RxnString _errorMessage = RxnString();
   // Form Key
-  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   /* <---- Show Password ----> */
-  RxBool _showPass = false.obs;
+  final RxBool _showPass = false.obs;
   _onEyeClick() {
     _showPass.value = !_showPass.value;
   }
 
   /// Progress
-  RxBool _isInProgress = false.obs;
+  final RxBool _isInProgress = false.obs;
 
   /* <---- Dependency -----> */
-  VerifyController _verifyController = Get.find();
+  final VerifyController _verifyController = Get.find();
 
   /// On Lock
   Future<void> _onLock() async {
@@ -97,7 +97,7 @@ class _StaticVerifierLockUnlockState extends State<StaticVerifierLockUnlock> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(AppSizes.DEFAULT_PADDING),
+      padding: const EdgeInsets.all(AppSizes.defaultPadding),
       decoration: BoxDecoration(
         color: Colors.white,
         boxShadow: AppDefaults.defaultBoxShadow,
@@ -110,8 +110,8 @@ class _StaticVerifierLockUnlockState extends State<StaticVerifierLockUnlock> {
           Container(
             width: Get.width * 0.25,
             height: 3,
-            decoration: BoxDecoration(
-              color: AppColors.PLACEHOLDER_COLOR,
+            decoration: const BoxDecoration(
+              color: AppColors.placeholderColor,
             ),
           ),
           AppSizes.hGap10,
@@ -120,20 +120,20 @@ class _StaticVerifierLockUnlockState extends State<StaticVerifierLockUnlock> {
             'Enter Password',
             style: AppText.h6.copyWith(
               fontWeight: FontWeight.bold,
-              color: AppColors.PRIMARY_COLOR,
+              color: AppColors.primaryColor,
             ),
           ),
           AppSizes.hGap20,
           /* <---- Password Form ----> */
           Container(
-            margin: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+            margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
             child: Obx(
               () => Form(
                 key: _formKey,
                 child: TextFormField(
                     decoration: InputDecoration(
                       labelText: 'Password',
-                      prefixIcon: Icon(Icons.vpn_key_rounded),
+                      prefixIcon: const Icon(Icons.vpn_key_rounded),
                       hintText: '***********',
                       errorText: _errorMessage.value,
                       suffixIcon: GestureDetector(
@@ -180,7 +180,7 @@ class _StaticVerifierLockUnlockState extends State<StaticVerifierLockUnlock> {
               'Forgot Password?',
               style: AppText.b1.copyWith(
                 fontWeight: FontWeight.bold,
-                color: AppColors.PRIMARY_COLOR,
+                color: AppColors.primaryColor,
               ),
             ),
           ),

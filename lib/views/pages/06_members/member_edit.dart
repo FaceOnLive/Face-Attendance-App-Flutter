@@ -22,7 +22,7 @@ class MemberEditScreen extends StatefulWidget {
 
 class _MemberEditScreenState extends State<MemberEditScreen> {
   /* <---- Dependency ----> */
-  MembersController _controller = Get.find();
+  final MembersController _controller = Get.find();
   _addDataToFields() {
     _name.text = widget.member.memberName;
     _phoneNumber.text = widget.member.memberNumber.toString();
@@ -48,14 +48,14 @@ class _MemberEditScreenState extends State<MemberEditScreen> {
   }
 
   // Other
-  RxBool _updatingMember = false.obs;
+  final RxBool _updatingMember = false.obs;
 
   // Image
   File? _userImage;
-  RxBool _userPickedImage = false.obs;
+  final RxBool _userPickedImage = false.obs;
 
   // Form Key
-  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   /// When user clicks update button
   Future<void> _onUserUpdate() async {
@@ -94,12 +94,12 @@ class _MemberEditScreenState extends State<MemberEditScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           'Update Member',
         ),
         actions: [
           IconButton(
-            icon: Icon(Icons.delete),
+            icon: const Icon(Icons.delete),
             onPressed: () {
               Get.dialog(DeleteUserDialog(
                 memberID: widget.member.memberID!,
@@ -111,7 +111,8 @@ class _MemberEditScreenState extends State<MemberEditScreen> {
       body: Center(
         child: SingleChildScrollView(
           child: Container(
-            padding: EdgeInsets.symmetric(horizontal: AppSizes.DEFAULT_PADDING),
+            padding:
+                const EdgeInsets.symmetric(horizontal: AppSizes.defaultPadding),
             width: Get.width,
             child: Column(
               children: [
@@ -119,7 +120,7 @@ class _MemberEditScreenState extends State<MemberEditScreen> {
                   () => ProfilePictureWidget(
                     onTap: () async {
                       _userImage =
-                          await Get.dialog(CameraGallerySelectDialog());
+                          await Get.dialog(const CameraGallerySelectDialog());
                       // If the user has picked an image then we will show
                       // the file user has picked
                       if (_userImage != null) {
@@ -133,13 +134,14 @@ class _MemberEditScreenState extends State<MemberEditScreen> {
                 ),
                 /* <---- Form INFO ----> */
                 Container(
-                  margin: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+                  margin:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
                   child: Form(
                     key: _formKey,
                     child: Column(
                       children: [
                         TextFormField(
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             labelText: 'Full Name',
                             prefixIcon: Icon(Icons.person_rounded),
                             hintText: 'John Doe',
@@ -152,7 +154,7 @@ class _MemberEditScreenState extends State<MemberEditScreen> {
                         ),
                         AppSizes.hGap20,
                         TextFormField(
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                               labelText: 'Phone',
                               prefixIcon: Icon(Icons.phone_rounded),
                               hintText: '+852 XXX-XXX',
@@ -163,7 +165,7 @@ class _MemberEditScreenState extends State<MemberEditScreen> {
                             }),
                         AppSizes.hGap20,
                         TextFormField(
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             labelText: 'Full Address',
                             prefixIcon: Icon(Icons.location_on_rounded),
                             hintText: 'Ocean Centre, Tsim Sha Tsui, Hong Kong',

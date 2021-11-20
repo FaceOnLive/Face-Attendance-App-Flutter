@@ -17,7 +17,7 @@ class SignUpScreen extends StatefulWidget {
 
 class _SignUpScreenState extends State<SignUpScreen> {
   /* <---- Dependency -----> */
-  SignUpController _controller = Get.put(SignUpController());
+  final SignUpController _controller = Get.put(SignUpController());
 
   /* <---- Text Editing Controllers ----> */
   late TextEditingController nameController;
@@ -39,7 +39,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
 
   /* <---- Show Password ----> */
-  RxBool _showPass = false.obs;
+  final RxBool _showPass = false.obs;
   _onEyeClick() {
     _showPass.value = !_showPass.value;
   }
@@ -49,9 +49,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
 
   // Key
-  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  RxBool _isAddingUser = false.obs;
+  final RxBool _isAddingUser = false.obs;
 
   Future<void> _onCreateUser() async {
     bool _isFormOkay =
@@ -92,114 +92,112 @@ class _SignUpScreenState extends State<SignUpScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Sign Up'),
+        title: const Text('Sign Up'),
       ),
-      body: Container(
-        child: Center(
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                /* <---- Header ----> */
-                Image.asset(AppImages.ILLUSTRATION_WELCOME),
-                /* <---- Form ----> */
-                Form(
-                  key: _formKey,
-                  child: Container(
-                    margin: EdgeInsets.all(AppSizes.DEFAULT_MARGIN),
-                    padding: EdgeInsets.all(AppSizes.DEFAULT_MARGIN),
-                    child: Column(
-                      children: [
-                        // Full Name
-                        TextFormField(
-                          decoration: InputDecoration(
-                            labelText: 'Full Name',
-                            prefixIcon: Icon(Icons.person_rounded),
-                            hintText: 'John Doe',
-                          ),
-                          controller: nameController,
-                          validator: (value) {
-                            return AppFormVerify.name(fullName: value);
-                          },
+      body: Center(
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              /* <---- Header ----> */
+              Image.asset(AppImages.illustrationWelcome),
+              /* <---- Form ----> */
+              Form(
+                key: _formKey,
+                child: Container(
+                  margin: const EdgeInsets.all(AppSizes.defaultMargin),
+                  padding: const EdgeInsets.all(AppSizes.defaultMargin),
+                  child: Column(
+                    children: [
+                      // Full Name
+                      TextFormField(
+                        decoration: const InputDecoration(
+                          labelText: 'Full Name',
+                          prefixIcon: Icon(Icons.person_rounded),
+                          hintText: 'John Doe',
                         ),
-                        AppSizes.hGap20,
-                        // Email
-                        TextFormField(
-                          decoration: InputDecoration(
-                            labelText: 'Email',
-                            prefixIcon: Icon(Icons.email_rounded),
-                            hintText: 'you@email.com',
-                          ),
-                          controller: emailController,
-                          validator: (value) {
-                            return AppFormVerify.email(email: value);
-                          },
+                        controller: nameController,
+                        validator: (value) {
+                          return AppFormVerify.name(fullName: value);
+                        },
+                      ),
+                      AppSizes.hGap20,
+                      // Email
+                      TextFormField(
+                        decoration: const InputDecoration(
+                          labelText: 'Email',
+                          prefixIcon: Icon(Icons.email_rounded),
+                          hintText: 'you@email.com',
                         ),
-                        AppSizes.hGap20,
-                        // Password Fields
-                        Obx(
-                          () => Column(
-                            children: [
-                              TextFormField(
-                                decoration: InputDecoration(
-                                  labelText: 'Password',
-                                  prefixIcon: Icon(Icons.vpn_key_rounded),
-                                  hintText: '***********',
-                                  suffixIcon: GestureDetector(
-                                    onTap: () {
-                                      _onEyeClick();
-                                    },
-                                    child: Icon(
-                                      _showPass.isFalse
-                                          ? Icons.visibility_off_rounded
-                                          : Icons.visibility_rounded,
-                                    ),
+                        controller: emailController,
+                        validator: (value) {
+                          return AppFormVerify.email(email: value);
+                        },
+                      ),
+                      AppSizes.hGap20,
+                      // Password Fields
+                      Obx(
+                        () => Column(
+                          children: [
+                            TextFormField(
+                              decoration: InputDecoration(
+                                labelText: 'Password',
+                                prefixIcon: const Icon(Icons.vpn_key_rounded),
+                                hintText: '***********',
+                                suffixIcon: GestureDetector(
+                                  onTap: () {
+                                    _onEyeClick();
+                                  },
+                                  child: Icon(
+                                    _showPass.isFalse
+                                        ? Icons.visibility_off_rounded
+                                        : Icons.visibility_rounded,
                                   ),
                                 ),
-                                controller: passController,
-                                obscureText: !_showPass.value,
-                                validator: (value) {
-                                  return AppFormVerify.password(
-                                      password: value,
-                                      confirmPassword:
-                                          confirmPassController.text);
-                                },
                               ),
-                              AppSizes.hGap20,
-                              // Confirm Password
-                              TextFormField(
-                                decoration: InputDecoration(
-                                  labelText: 'Confirm Password',
-                                  prefixIcon: Icon(Icons.vpn_key_rounded),
-                                  hintText: '***********',
-                                ),
-                                controller: confirmPassController,
-                                obscureText: !_showPass.value,
-                                validator: (value) {
-                                  return AppFormVerify.password(
+                              controller: passController,
+                              obscureText: !_showPass.value,
+                              validator: (value) {
+                                return AppFormVerify.password(
                                     password: value,
-                                    confirmPassword: passController.text,
-                                  );
-                                },
+                                    confirmPassword:
+                                        confirmPassController.text);
+                              },
+                            ),
+                            AppSizes.hGap20,
+                            // Confirm Password
+                            TextFormField(
+                              decoration: const InputDecoration(
+                                labelText: 'Confirm Password',
+                                prefixIcon: Icon(Icons.vpn_key_rounded),
+                                hintText: '***********',
                               ),
-                            ],
-                          ),
+                              controller: confirmPassController,
+                              obscureText: !_showPass.value,
+                              validator: (value) {
+                                return AppFormVerify.password(
+                                  password: value,
+                                  confirmPassword: passController.text,
+                                );
+                              },
+                            ),
+                          ],
                         ),
-                        /* <---- Submit Button ----> */
-                        AppSizes.hGap30,
-                        Obx(
-                          () => AppButton(
-                            label: 'Submit',
-                            isLoading: _isAddingUser.value,
-                            onTap: _onCreateUser,
-                          ),
+                      ),
+                      /* <---- Submit Button ----> */
+                      AppSizes.hGap30,
+                      Obx(
+                        () => AppButton(
+                          label: 'Submit',
+                          isLoading: _isAddingUser.value,
+                          onTap: _onCreateUser,
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

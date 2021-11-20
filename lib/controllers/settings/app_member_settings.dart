@@ -14,11 +14,11 @@ class AppMemberSettingsController extends GetxController {
   /// Decides Which Page to return based on the nav index
   Widget currentSelectedPage() {
     if (currentIndex == 0) {
-      return AppMemberHomeScreen();
+      return const AppMemberHomeScreen();
     } else if (currentIndex == 1) {
-      return AppMemberProfileScreen();
+      return const AppMemberProfileScreen();
     } else {
-      return AppMemberHomeScreen();
+      return const AppMemberHomeScreen();
     }
   }
 }

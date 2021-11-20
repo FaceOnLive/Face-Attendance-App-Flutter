@@ -26,10 +26,10 @@ class MemberAttendanceEditScreen extends StatefulWidget {
 class _MemberAttendanceEditScreenState
     extends State<MemberAttendanceEditScreen> {
   /* <---- Dependency -----> */
-  MembersController _controller = Get.find();
+  final MembersController _controller = Get.find();
 
   /// Keep Track of selected date
-  RxList<DateTime> _selectedDate = RxList<DateTime>();
+  final RxList<DateTime> _selectedDate = RxList<DateTime>();
 
   // When a checkbox is tapped on list
   _onCheckBoxTapped(DateTime date) {
@@ -41,12 +41,12 @@ class _MemberAttendanceEditScreenState
   }
 
   /// Progress
-  RxBool _addingAttendance = false.obs;
+  final RxBool _addingAttendance = false.obs;
 
   /// On Attendance add
   Future<void> _onAttendanceAdd() async {
     bool _confirmDelete = await Get.dialog(
-      DeleteAttendDialog(),
+      const DeleteAttendDialog(),
     );
     if (_confirmDelete) {
       _addingAttendance.trigger(true);
@@ -71,55 +71,53 @@ class _MemberAttendanceEditScreenState
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Unattended Dates'),
+        title: const Text('Unattended Dates'),
       ),
-      body: Container(
-        child: Obx(
-          () => Column(
-            children: [
-              widget.unattendedDates.length > 0
-                  ? Expanded(
-                      child: ListView.builder(
-                        itemCount: widget.unattendedDates.length,
-                        itemBuilder: (context, index) {
-                          DateTime _currentDate = widget.unattendedDates[index];
-                          return ListTile(
-                            onTap: () {
+      body: Obx(
+        () => Column(
+          children: [
+            widget.unattendedDates.isNotEmpty
+                ? Expanded(
+                    child: ListView.builder(
+                      itemCount: widget.unattendedDates.length,
+                      itemBuilder: (context, index) {
+                        DateTime _currentDate = widget.unattendedDates[index];
+                        return ListTile(
+                          onTap: () {
+                            _onCheckBoxTapped(_currentDate);
+                          },
+                          leading: Checkbox(
+                            onChanged: (v) {
                               _onCheckBoxTapped(_currentDate);
                             },
-                            leading: Checkbox(
-                              onChanged: (v) {
-                                _onCheckBoxTapped(_currentDate);
-                              },
-                              value: _selectedDate.contains(_currentDate),
-                            ),
-                            title: Text(
-                              DateFormat.yMMMEd().format(_currentDate),
-                            ),
-                            trailing: IconButton(
-                              icon: Icon(Icons.delete),
-                              onPressed: () {},
-                            ),
-                          );
-                        },
-                      ),
-                    )
-                  : Expanded(
-                      child: Center(
-                        child: Text('No Unattended Dates Found'),
-                      ),
+                            value: _selectedDate.contains(_currentDate),
+                          ),
+                          title: Text(
+                            DateFormat.yMMMEd().format(_currentDate),
+                          ),
+                          trailing: IconButton(
+                            icon: const Icon(Icons.delete),
+                            onPressed: () {},
+                          ),
+                        );
+                      },
                     ),
-              AppButton(
-                label: 'Mark As Attended',
-                onTap: _onAttendanceAdd,
-                isLoading: _addingAttendance.value,
-                disableBorderRadius: true,
-                margin: EdgeInsets.all(0),
-                padding: EdgeInsets.all(25),
-                isButtonDisabled: _selectedDate.length > 0 ? false : true,
-              )
-            ],
-          ),
+                  )
+                : const Expanded(
+                    child: Center(
+                      child: Text('No Unattended Dates Found'),
+                    ),
+                  ),
+            AppButton(
+              label: 'Mark As Attended',
+              onTap: _onAttendanceAdd,
+              isLoading: _addingAttendance.value,
+              disableBorderRadius: true,
+              margin: const EdgeInsets.all(0),
+              padding: const EdgeInsets.all(25),
+              isButtonDisabled: _selectedDate.isNotEmpty ? false : true,
+            )
+          ],
         ),
       ),
     );

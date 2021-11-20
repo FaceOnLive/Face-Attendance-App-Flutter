@@ -4,6 +4,7 @@
  <-----------------------> */
 
 import 'package:animations/animations.dart';
+import 'package:face_attendance/constants/app_defaults.dart';
 import 'package:face_attendance/controllers/members/member_controller.dart';
 import 'package:face_attendance/controllers/settings/settings_controller.dart';
 
@@ -33,7 +34,7 @@ class EntryPointUI extends StatelessWidget {
                 Get.put(VerifyController());
               },
               builder: (controller) => PageTransitionSwitcher(
-                duration: Duration(milliseconds: 500),
+                duration: AppDefaults.defaultDuration,
                 transitionBuilder: (child, animation, secondAnimation) {
                   return SharedAxisTransition(
                     child: child,
@@ -65,7 +66,7 @@ class EntryPointUI extends StatelessWidget {
                 color: context.theme.primaryColor,
               ),
               iconSize: 32,
-              items: [
+              items: const [
                 BottomNavigationBarItem(
                   icon: Icon(Icons.assignment_ind_rounded),
                   label: 'Attendance',

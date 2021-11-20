@@ -33,7 +33,7 @@ class AdminSettingScreen extends StatelessWidget {
           style: AppText.bBOLD,
         ),
       ),
-      body: Container(
+      body: SizedBox(
         width: Get.width,
         child: Column(
           children: [
@@ -46,7 +46,7 @@ class AdminSettingScreen extends StatelessWidget {
                       children: [
                         AppSizes.hGap10,
                         // ADMIN PROFILE PICTURE
-                        _UserInfo(),
+                        const _UserInfo(),
                         /* <---- Settings -----> */
                         AppCustomListTile(
                           label: 'Admin Details',
@@ -58,29 +58,29 @@ class AdminSettingScreen extends StatelessWidget {
                               isScrollControlled: true,
                             );
                           },
-                          leading: Icon(Icons.person),
+                          leading: const Icon(Icons.person),
                         ),
                         AppCustomListTile(
                           label: 'Change Password',
                           onTap: () {
                             Get.bottomSheet(
-                              ChangePasswordSheet(),
+                              const ChangePasswordSheet(),
                               isScrollControlled: true,
                             );
                           },
-                          leading: Icon(Icons.lock),
+                          leading: const Icon(Icons.lock),
                         ),
                         AppCustomListTile(
                           label: 'Spaces',
                           onTap: () {
-                            Get.to(() => SpacesScreen());
+                            Get.to(() => const SpacesScreen());
                           },
-                          leading: Icon(Icons.group_work),
+                          leading: const Icon(Icons.group_work),
                         ),
                         AppCustomListTile(
                           label: 'Notfications',
                           onTap: () {},
-                          leading: Icon(Icons.notifications_rounded),
+                          leading: const Icon(Icons.notifications_rounded),
                           trailing: CupertinoSwitch(
                             onChanged: (val) {
                               controller.updateNotificationSetting(val);
@@ -95,7 +95,7 @@ class AdminSettingScreen extends StatelessWidget {
                             return AppCustomListTile(
                               onTap: () {},
                               label: 'Dark Mode',
-                              leading: Icon(Icons.dark_mode_rounded),
+                              leading: const Icon(Icons.dark_mode_rounded),
                               trailing: CupertinoSwitch(
                                 value: _controller.isAppInDarkMode,
                                 onChanged: (v) {
@@ -115,7 +115,7 @@ class AdminSettingScreen extends StatelessWidget {
                                 controller.updateUserFaceID(imageFile: _image);
                               }
                             },
-                            leading: Icon(Icons.face_rounded),
+                            leading: const Icon(Icons.face_rounded),
                             isUpdating: controller.isUpdatingFaceID,
                             updateMessage: 'Adding new face...',
                             subtitle: controller.currentUser.userFace != null
@@ -126,11 +126,11 @@ class AdminSettingScreen extends StatelessWidget {
                           label: 'Change Holiday',
                           onTap: () {
                             Get.bottomSheet(
-                              ChangeHolidaySheet(),
+                              const ChangeHolidaySheet(),
                               isScrollControlled: true,
                             );
                           },
-                          leading: Icon(Icons.emoji_food_beverage),
+                          leading: const Icon(Icons.emoji_food_beverage),
                           subtitle: controller.getCurrentHoliday(),
                         ),
                       ],
@@ -142,14 +142,14 @@ class AdminSettingScreen extends StatelessWidget {
             /* <---- Bottom Logout Button ----> */
             Container(
               width: Get.width,
-              padding: EdgeInsets.symmetric(vertical: 10, horizontal: 50),
+              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 50),
               decoration: BoxDecoration(
                 color: context.theme.scaffoldBackgroundColor,
-                borderRadius: BorderRadius.only(
+                borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(20),
                   topRight: Radius.circular(20),
                 ),
-                boxShadow: [
+                boxShadow: const [
                   BoxShadow(
                     offset: Offset(3, 4),
                     color: Colors.black12,
@@ -161,12 +161,12 @@ class AdminSettingScreen extends StatelessWidget {
               child: AppButton(
                 label: 'Logout',
                 onTap: () {
-                  Get.offAll(() => LoginScreen());
+                  Get.offAll(() => const LoginScreen());
                   Get.find<LoginController>().logOut();
                 },
                 width: Get.width * 0.5,
-                backgroundColor: AppColors.APP_RED,
-                suffixIcon: Icon(
+                backgroundColor: AppColors.appRed,
+                suffixIcon: const Icon(
                   Icons.logout_rounded,
                   color: Colors.white,
                 ),
@@ -196,7 +196,7 @@ class _UserInfo extends GetView<AppUserController> {
               isUpdating: controller.isUpdatingPicture,
               onTap: () async {
                 File? _userImage =
-                    await Get.dialog(CameraGallerySelectDialog());
+                    await Get.dialog(const CameraGallerySelectDialog());
                 if (_userImage != null) {
                   await controller.updateUserProfilePicture(_userImage);
                 }

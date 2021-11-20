@@ -26,24 +26,24 @@ class AppCustomListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 10, vertical: 0),
+      margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
       child: InkWell(
         borderRadius: AppDefaults.defaulBorderRadius,
         splashColor: AppColors.shimmerHighlightColor,
         onTap: onTap,
         child: Container(
-          margin: EdgeInsets.symmetric(
-              horizontal: AppSizes.DEFAULT_MARGIN,
-              vertical: AppSizes.DEFAULT_MARGIN / 2),
+          margin: const EdgeInsets.symmetric(
+              horizontal: AppSizes.defaultMargin,
+              vertical: AppSizes.defaultMargin / 2),
           decoration: BoxDecoration(
             boxShadow: AppDefaults.defaultBoxShadow,
             color: context.theme.cardColor,
             borderRadius: AppDefaults.defaulBorderRadius,
           ),
           child: ListTile(
-            contentPadding: EdgeInsets.all(AppSizes.DEFAULT_PADDING / 2),
+            contentPadding: const EdgeInsets.all(AppSizes.defaultPadding / 2),
             enabled: true,
-            leading: leading ?? Icon(Icons.person_rounded),
+            leading: leading ?? const Icon(Icons.person_rounded),
             title: Text(
               label ?? 'Add Text Here',
               style: context.textTheme.bodyText1,
@@ -56,7 +56,7 @@ class AppCustomListTile extends StatelessWidget {
                 : subtitle == null
                     ? null
                     : Text(subtitle!, style: AppText.caption),
-            trailing: trailing ?? Icon(Icons.arrow_forward_ios_rounded),
+            trailing: trailing ?? const Icon(Icons.arrow_forward_ios_rounded),
           ),
         ),
       ),

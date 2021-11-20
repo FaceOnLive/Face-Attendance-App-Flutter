@@ -38,7 +38,7 @@ class _SpaceAddQrPersonScreenState extends State<SpaceAddQrPersonScreen> {
               key: qrKey,
               onQRViewCreated: _onQRViewCreated,
               overlay: QrScannerOverlayShape(
-                borderColor: AppColors.PRIMARY_COLOR,
+                borderColor: AppColors.primaryColor,
                 borderWidth: 3.0,
               ),
             ),
@@ -48,7 +48,7 @@ class _SpaceAddQrPersonScreenState extends State<SpaceAddQrPersonScreen> {
             child: Center(
               child: (result != null)
                   ? Text('Space ID: ${result!.code}')
-                  : Text('Scan A User Code To Add'),
+                  : const Text('Scan A User Code To Add'),
             ),
           )
         ],

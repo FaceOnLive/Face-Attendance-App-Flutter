@@ -1,14 +1,15 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import '../../data/services/app_toast.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import '../../data/services/uploadPicture.dart';
+import '../../data/services/upload_picture.dart';
 import '../auth/login_controller.dart';
 import '../../models/user.dart';
 import 'package:get/get.dart';
 
 class AppUserController extends GetxController {
   /* <---- Dependency ----> */
-  CollectionReference _collectionReference =
+  final CollectionReference _collectionReference =
       FirebaseFirestore.instance.collection('users');
 
   /// User ID of Current Logged In user
@@ -29,7 +30,9 @@ class AppUserController extends GetxController {
         isUserInitialized = true;
         update();
       });
-    } catch (e) {}
+    } catch (e) {
+      AppToast.showDefaultToast(e.toString());
+    }
   }
 
   /* <---- Notification -----> */

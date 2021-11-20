@@ -21,34 +21,34 @@ class AppUiHelper {
   /// Generate Material COLOR for the whole app
   static MaterialColor generateMaterialColor(Color color) {
     return MaterialColor(color.value, {
-      50: tintColor(color, 0.9),
-      100: tintColor(color, 0.8),
-      200: tintColor(color, 0.6),
-      300: tintColor(color, 0.4),
-      400: tintColor(color, 0.2),
+      50: _tintColor(color, 0.9),
+      100: _tintColor(color, 0.8),
+      200: _tintColor(color, 0.6),
+      300: _tintColor(color, 0.4),
+      400: _tintColor(color, 0.2),
       500: color,
-      600: shadeColor(color, 0.1),
-      700: shadeColor(color, 0.2),
-      800: shadeColor(color, 0.3),
-      900: shadeColor(color, 0.4),
+      600: _shadeColor(color, 0.1),
+      700: _shadeColor(color, 0.2),
+      800: _shadeColor(color, 0.3),
+      900: _shadeColor(color, 0.4),
     });
   }
 
-  static int tintValue(int value, double factor) =>
+  static int _tintValue(int value, double factor) =>
       max(0, min((value + ((255 - value) * factor)).round(), 255));
 
-  static Color tintColor(Color color, double factor) => Color.fromRGBO(
-      tintValue(color.red, factor),
-      tintValue(color.green, factor),
-      tintValue(color.blue, factor),
+  static Color _tintColor(Color color, double factor) => Color.fromRGBO(
+      _tintValue(color.red, factor),
+      _tintValue(color.green, factor),
+      _tintValue(color.blue, factor),
       1);
 
-  static int shadeValue(int value, double factor) =>
+  static int _shadeValue(int value, double factor) =>
       max(0, min(value - (value * factor).round(), 255));
 
-  static Color shadeColor(Color color, double factor) => Color.fromRGBO(
-      shadeValue(color.red, factor),
-      shadeValue(color.green, factor),
-      shadeValue(color.blue, factor),
+  static Color _shadeColor(Color color, double factor) => Color.fromRGBO(
+      _shadeValue(color.red, factor),
+      _shadeValue(color.green, factor),
+      _shadeValue(color.blue, factor),
       1);
 }

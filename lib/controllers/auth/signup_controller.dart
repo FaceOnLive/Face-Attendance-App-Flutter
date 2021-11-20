@@ -1,17 +1,18 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'login_controller.dart';
-import '../../views/pages/app_member/01_entrypoint/entrypoint_member.dart';
-import '../../views/dialogs/email_sent.dart';
-import '../../models/user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:get/get.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:get/get.dart';
+
+import '../../models/user.dart';
+import '../../views/dialogs/email_sent.dart';
+import '../../views/pages/app_member/01_entrypoint/entrypoint_member.dart';
+import 'login_controller.dart';
 
 class SignUpController extends GetxController {
   /* <---- Dependency ----> */
-  CollectionReference _collectionReference =
+  final CollectionReference _collectionReference =
       FirebaseFirestore.instance.collection('users');
-  FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
   /// To Make the signup process faster we will store the device token in this
   /// when we are starting the signup screen
@@ -41,9 +42,9 @@ class SignUpController extends GetxController {
               deviceIDToken: _idTokenOfDevice,
             ).toMap(),
           );
-      await Get.dialog(EmailSentSuccessfullDialog());
+      await Get.dialog(const EmailSentSuccessfullDialog());
       Get.find<LoginController>().isAdmin = false;
-      Get.offAll(() => AppMemberMainUi());
+      Get.offAll(() => const AppMemberMainUi());
     } on FirebaseException catch (e) {
       print(e);
     }

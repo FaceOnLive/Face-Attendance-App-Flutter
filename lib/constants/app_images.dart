@@ -1,35 +1,34 @@
 class AppImages {
-  static const String MAIN_LOGO = 'assets/images/logos/logo.png';
-  static const String MAIN_LOGO_2 =
-      'assets/images/logos/logo_without_title.png';
-  static const String GOOGLE_LOGO = 'assets/images/logos/google_logo.png';
-  static const String ILLUSTRATION_FACE_ID =
+  static const String mainLogo = 'assets/images/logos/logo.png';
+  static const String mainLogo2 = 'assets/images/logos/logo_without_title.png';
+  static const String googleLogo = 'assets/images/logos/google_logo.png';
+  static const String illustrationFaceID =
       'assets/images/illustration/face_id_logo.png';
 
-  static const String ILLUSTRATION_WELCOME =
+  static const String illustrationWelcome =
       'assets/images/illustration/welcome_cat.png';
 
-  static const String ILLUSTRATION_EMAIL_SENT =
+  static const String illustrationEmailSent =
       'assets/images/illustration/email_sent.png';
 
-  static const String ILLUSTRATION_WORKING_ON =
+  static const String illustrationWorkingOn =
       'assets/images/illustration/working_on_dev.png';
 
-  static const String ILLUSTRATION_MEMBER_EMPTY =
+  static const String illustrationMemberEmpty =
       'assets/images/illustration/member_empty.png';
 
-  static const String ILLUSTRATION_SPACE_EMPTY =
+  static const String illustrationSpaceEmpty =
       'assets/images/illustration/empty-space.png';
 
-  static const String ILLUSTRATION_SUCCESSFULL =
+  static const String illustrationSuccessFull =
       'assets/images/illustration/operation_success.png';
 
-  static const String ILLUSTRATION_ATTEND_FOUND =
+  static const String illustrationAttendFound =
       'assets/images/illustration/attendence_found.png';
 
-  static const String ILLUSTRATION_NO_ATTEND =
+  static const String illustrationNoAttend =
       'assets/images/illustration/no_attendence.png';
 
-  static const String DEFAULT_USER =
+  static const String deafaultUser =
       'assets/images/illustration/default_user.png';
 }

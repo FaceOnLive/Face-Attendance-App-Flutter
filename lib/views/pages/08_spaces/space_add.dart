@@ -19,17 +19,17 @@ class SpaceCreateScreen extends StatefulWidget {
 
 class _SpaceCreateScreenState extends State<SpaceCreateScreen> {
   /* <---- Dependecny -----> */
-  SpaceController _controller = Get.find();
+  final SpaceController _controller = Get.find();
 
   /* <---- Icon ----> */
   late List<IconData> _icons;
-  Rxn<IconData> _selectedIcon = Rxn<IconData>();
+  final Rxn<IconData> _selectedIcon = Rxn<IconData>();
 
   // Text Controller
   late TextEditingController _nameController;
   String? errorMessage;
 
-  RxBool _isAdding = false.obs;
+  final RxBool _isAdding = false.obs;
 
   /// When user Clicks Create Button
   _onSubmitButtonClicked() async {
@@ -44,7 +44,7 @@ class _SpaceCreateScreenState extends State<SpaceCreateScreen> {
         ),
       );
       Get.back();
-      Get.to(() => SpacesScreen());
+      Get.to(() => const SpacesScreen());
       _isAdding.trigger(false);
     } on FirebaseException catch (e) {
       _isAdding.trigger(false);
@@ -72,7 +72,7 @@ class _SpaceCreateScreenState extends State<SpaceCreateScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('New Space'),
+        title: const Text('New Space'),
       ),
       bottomNavigationBar: Obx(
         () => _CustomBottomActionButton(
@@ -80,90 +80,90 @@ class _SpaceCreateScreenState extends State<SpaceCreateScreen> {
           isLoading: _isAdding.value,
         ),
       ),
-      body: Container(
-        child: Column(
-          children: [
-            /* <---- Field ----> */
-            GetBuilder<SpaceController>(
-              builder: (_) {
-                return Container(
-                  margin: EdgeInsets.all(AppSizes.DEFAULT_MARGIN),
-                  child: TextField(
-                    decoration: InputDecoration(
-                      prefixIcon: Icon(Icons.assignment),
-                      labelText: 'Space Name',
-                      hintText: 'Home',
-                      errorText: errorMessage,
-                    ),
-                    controller: _nameController,
-                    onSubmitted: (value) {
-                      errorMessage = AppFormVerify.spaceName(spaceName: value);
-                      _controller.update();
-                    },
+      body: Column(
+        children: [
+          /* <---- Field ----> */
+          GetBuilder<SpaceController>(
+            builder: (_) {
+              return Container(
+                margin: const EdgeInsets.all(AppSizes.defaultMargin),
+                child: TextField(
+                  decoration: InputDecoration(
+                    prefixIcon: const Icon(Icons.assignment),
+                    labelText: 'Space Name',
+                    hintText: 'Home',
+                    errorText: errorMessage,
                   ),
-                );
-              },
+                  controller: _nameController,
+                  onSubmitted: (value) {
+                    errorMessage = AppFormVerify.spaceName(spaceName: value);
+                    _controller.update();
+                  },
+                ),
+              );
+            },
+          ),
+          /* <---- Icon Selector ----> */
+          Container(
+            margin: const EdgeInsets.symmetric(
+              horizontal: AppSizes.defaultMargin,
             ),
-            /* <---- Icon Selector ----> */
-            Container(
-              margin: EdgeInsets.symmetric(horizontal: AppSizes.DEFAULT_MARGIN),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('Select an icon'),
-                  AppSizes.hGap10,
-                  Obx(
-                    () => SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        children: List.generate(
-                          _icons.length,
-                          (index) {
-                            return _SelectIconWidget(
-                              active: _selectedIcon.value == _icons[index],
-                              iconData: _icons[index],
-                              onTap: () {
-                                _selectedIcon.value = _icons[index];
-                              },
-                            );
-                          },
-                        ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text('Select an icon'),
+                AppSizes.hGap10,
+                Obx(
+                  () => SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: List.generate(
+                        _icons.length,
+                        (index) {
+                          return _SelectIconWidget(
+                            active: _selectedIcon.value == _icons[index],
+                            iconData: _icons[index],
+                            onTap: () {
+                              _selectedIcon.value = _icons[index];
+                            },
+                          );
+                        },
                       ),
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-            /* <---- Action Button ----> */
-            // Container(
-            //   margin: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-            //   child: Column(
-            //     children: [
-            //       AppButton(
-            //         mainAxisAlignment: MainAxisAlignment.start,
-            //         padding: EdgeInsets.all(AppSizes.DEFAULT_PADDING),
-            //         prefixIcon: Icon(
-            //           Icons.person_add_alt_1_rounded,
-            //           color: Colors.white,
-            //         ),
-            //         label: 'Add Members',
-            //         onTap: () {},
-            //       ),
-            //       AppButton(
-            //         mainAxisAlignment: MainAxisAlignment.start,
-            //         padding: EdgeInsets.all(AppSizes.DEFAULT_PADDING),
-            //         prefixIcon: Icon(
-            //           Icons.edit_location_alt_rounded,
-            //           color: Colors.white,
-            //         ),
-            //         label: 'Edit Office Range',
-            //         onTap: () {},
-            //       ),
-            //     ],
-            //   ),
-            // )
-          ],
-        ),
+          ),
+          /* <---- Action Button ----> */
+          // Container(
+          //   margin: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+          //   child: Column(
+          //     children: [
+          //       AppButton(
+          //         mainAxisAlignment: MainAxisAlignment.start,
+          //         padding: EdgeInsets.all(AppSizes.DEFAULT_PADDING),
+          //         prefixIcon: Icon(
+          //           Icons.person_add_alt_1_rounded,
+          //           color: Colors.white,
+          //         ),
+          //         label: 'Add Members',
+          //         onTap: () {},
+          //       ),
+          //       AppButton(
+          //         mainAxisAlignment: MainAxisAlignment.start,
+          //         padding: EdgeInsets.all(AppSizes.DEFAULT_PADDING),
+          //         prefixIcon: Icon(
+          //           Icons.edit_location_alt_rounded,
+          //           color: Colors.white,
+          //         ),
+          //         label: 'Edit Office Range',
+          //         onTap: () {},
+          //       ),
+          //     ],
+          //   ),
+          // )
+        ],
       ),
     );
   }
@@ -187,12 +187,12 @@ class _CustomBottomActionButton extends StatelessWidget {
       child: Container(
         alignment: Alignment.center,
         decoration: BoxDecoration(
-          color: AppColors.PRIMARY_COLOR,
+          color: AppColors.primaryColor,
           borderRadius: AppDefaults.defaultBottomSheetRadius,
         ),
         height: Get.height * 0.1,
         child: isLoading
-            ? CircularProgressIndicator(
+            ? const CircularProgressIndicator(
                 color: Colors.white,
               )
             : Text(
@@ -225,18 +225,18 @@ class _SelectIconWidget extends StatelessWidget {
       onTap: onTap,
       child: AnimatedContainer(
         duration: AppDefaults.defaultDuration,
-        margin: EdgeInsets.symmetric(horizontal: 5),
-        padding: EdgeInsets.all(AppSizes.DEFAULT_PADDING),
+        margin: const EdgeInsets.symmetric(horizontal: 5),
+        padding: const EdgeInsets.all(AppSizes.defaultPadding),
         decoration: BoxDecoration(
-            color: active ? AppColors.PRIMARY_COLOR : Get.theme.canvasColor,
+            color: active ? AppColors.primaryColor : Get.theme.canvasColor,
             borderRadius: AppDefaults.defaulBorderRadius,
             border: Border.all(
-              color: AppColors.PRIMARY_COLOR,
+              color: AppColors.primaryColor,
             )),
         child: Icon(
           iconData,
           size: Get.width * 0.1,
-          color: active ? Colors.white : AppColors.PRIMARY_COLOR,
+          color: active ? Colors.white : AppColors.primaryColor,
         ),
       ),
     );

@@ -28,7 +28,7 @@ class MemberAttendanceDetails extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Info'),
+        title: const Text('Info'),
         actions: [
           IconButton(
             onPressed: () {
@@ -38,12 +38,12 @@ class MemberAttendanceDetails extends StatelessWidget {
                 ),
               );
             },
-            icon: Icon(Icons.edit_rounded),
+            icon: const Icon(Icons.edit_rounded),
           ),
         ],
       ),
       body: SingleChildScrollView(
-        child: Container(
+        child: SizedBox(
           width: Get.width,
           child: Column(
             children: [
@@ -60,7 +60,7 @@ class MemberAttendanceDetails extends StatelessWidget {
                     member.memberName,
                     style: AppText.h5.copyWith(
                         fontWeight: FontWeight.bold,
-                        color: AppColors.PRIMARY_COLOR),
+                        color: AppColors.primaryColor),
                   ),
                   Text(member.memberNumber.toString()),
                   Text(member.memberFullAdress),
@@ -70,14 +70,14 @@ class MemberAttendanceDetails extends StatelessWidget {
               SizedBox(
                 height: Get.height * 0.05,
                 width: Get.width * 0.4,
-                child: Divider(
-                  color: AppColors.PRIMARY_COLOR,
+                child: const Divider(
+                  color: AppColors.primaryColor,
                 ),
               ),
 
               /* <---- Attendance ----> */
               spaceID == null
-                  ? SizedBox()
+                  ? const SizedBox()
                   :
                   // Calendar
                   _MemberAttendance(
@@ -108,17 +108,17 @@ class _MemberAttendance extends StatefulWidget {
 
 class _MemberAttendanceState extends State<_MemberAttendance> {
   /* <---- Dependency -----> */
-  MembersController _membersController = Get.find();
-  SpaceController _spaceController = Get.find();
+  final MembersController _membersController = Get.find();
+  final SpaceController _spaceController = Get.find();
 
   // Progress
-  RxBool _isFetchingUserData = false.obs;
+  final RxBool _isFetchingUserData = false.obs;
 
   // UnAttended Date
   List<DateTime> _unAttendedDate = [];
 
   /// Is Attended Today
-  RxBool _isAttendedToday = false.obs;
+  final RxBool _isAttendedToday = false.obs;
 
   Future<void> _fetchThisMemberAttendance() async {
     _unAttendedDate = [];
@@ -160,7 +160,7 @@ class _MemberAttendanceState extends State<_MemberAttendance> {
       children: [
         Text(
           'Attendance Report',
-          style: AppText.bBOLD.copyWith(color: AppColors.PRIMARY_COLOR),
+          style: AppText.bBOLD.copyWith(color: AppColors.primaryColor),
         ),
         // is attended Today
         Obx(() => _IsAttendedTodayRow(isAttendedToday: _isAttendedToday.value)),
@@ -170,9 +170,9 @@ class _MemberAttendanceState extends State<_MemberAttendance> {
         /// Calender
         Obx(
           () => _isFetchingUserData.isTrue
-              ? Center(child: CircularProgressIndicator())
+              ? const Center(child: CircularProgressIndicator())
               : Container(
-                  margin: EdgeInsets.symmetric(horizontal: 20),
+                  margin: const EdgeInsets.symmetric(horizontal: 20),
                   child: Column(
                     children: [
                       SfCalendar(
@@ -185,7 +185,7 @@ class _MemberAttendanceState extends State<_MemberAttendance> {
                             fontWeight: FontWeight.w100,
                           ),
                         ),
-                        blackoutDatesTextStyle: TextStyle(
+                        blackoutDatesTextStyle: const TextStyle(
                           color: Colors.red,
                           decoration: TextDecoration.lineThrough,
                         ),
@@ -208,7 +208,7 @@ class _MemberAttendanceState extends State<_MemberAttendance> {
                       AppButton(
                         width: Get.width * 0.8,
                         label: "Update Attendance",
-                        suffixIcon: Icon(Icons.edit, color: Colors.white),
+                        suffixIcon: const Icon(Icons.edit, color: Colors.white),
                         onTap: () {
                           Get.to(
                             () => MemberAttendanceEditScreen(
@@ -244,14 +244,14 @@ class _IsAttendedTodayRow extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text('Attended Today', style: AppText.caption),
-                  Icon(Icons.check, color: AppColors.APP_GREEN, size: 15),
+                  const Icon(Icons.check, color: AppColors.appGreen, size: 15),
                 ],
               )
             : Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text('No Attendence Today', style: AppText.caption),
-                  Icon(Icons.close, color: AppColors.APP_RED, size: 15),
+                  const Icon(Icons.close, color: AppColors.appRed, size: 15),
                 ],
               ),
       ],

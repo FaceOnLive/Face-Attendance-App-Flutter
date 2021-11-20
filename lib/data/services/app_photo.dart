@@ -44,15 +44,15 @@ class AppPhotoService {
   static Future<File> _goToImageCropper(File? imageFile) async {
     File? croppedFile = await ImageCropper.cropImage(
         sourcePath: imageFile!.path,
-        aspectRatio: CropAspectRatio(ratioX: 1, ratioY: 1),
-        androidUiSettings: AndroidUiSettings(
+        aspectRatio: const CropAspectRatio(ratioX: 1, ratioY: 1),
+        androidUiSettings: const AndroidUiSettings(
           toolbarTitle: 'Prefered Size 500x500',
-          toolbarColor: AppColors.PRIMARY_COLOR,
+          toolbarColor: AppColors.primaryColor,
           toolbarWidgetColor: Colors.white,
           initAspectRatio: CropAspectRatioPreset.original,
           lockAspectRatio: true,
         ),
-        iosUiSettings: IOSUiSettings(
+        iosUiSettings: const IOSUiSettings(
           title: 'Cropper',
         ));
     return croppedFile!;

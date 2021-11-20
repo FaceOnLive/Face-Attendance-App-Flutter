@@ -22,7 +22,7 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   /* <---- Login Dependecny ----> */
-  LoginController _controller = Get.find();
+  final LoginController _controller = Get.find();
 
   /* <---- Text Editing Controllers ----> */
   late TextEditingController emailController;
@@ -38,16 +38,16 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   /* <---- Show Password ----> */
-  RxBool _showPass = false.obs;
+  final RxBool _showPass = false.obs;
   _onEyeClick() {
     _showPass.value = !_showPass.value;
   }
 
   // Form Key
-  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   /* <---- Login Click Button ----> */
-  RxBool _loginProgress = false.obs;
+  final RxBool _loginProgress = false.obs;
 
   Rxn<String> errorMessage = Rxn<String>();
 
@@ -91,17 +91,17 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: SizedBox(),
+        leading: const SizedBox(),
         actions: [
           InkWell(
             onTap: () {
-              Get.to(() => LoginScreenAlt());
+              Get.to(() => const LoginScreenAlt());
             },
             borderRadius: AppDefaults.defaulBorderRadius,
             child: Padding(
               padding: const EdgeInsets.all(16.0),
               child: Image.asset(
-                AppImages.ILLUSTRATION_FACE_ID,
+                AppImages.illustrationFaceID,
                 height: 24,
                 width: 24,
               ),
@@ -111,116 +111,114 @@ class _LoginScreenState extends State<LoginScreen> {
         backgroundColor: Colors.transparent,
       ),
       extendBodyBehindAppBar: true,
-      body: Container(
-        child: Center(
-          child: SingleChildScrollView(
-            child: Container(
-              padding: EdgeInsets.all(AppSizes.DEFAULT_PADDING),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  /* <---- Header Logo ----> */
-                  Container(
-                    width: Get.width * 0.5,
-                    margin: EdgeInsets.symmetric(vertical: 30),
-                    child: Hero(
-                      tag: AppImages.MAIN_LOGO,
-                      child: Image.asset(
-                        AppImages.MAIN_LOGO,
-                      ),
+      body: Center(
+        child: SingleChildScrollView(
+          child: Container(
+            padding: const EdgeInsets.all(AppSizes.defaultPadding),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                /* <---- Header Logo ----> */
+                Container(
+                  width: Get.width * 0.5,
+                  margin: const EdgeInsets.symmetric(vertical: 30),
+                  child: Hero(
+                    tag: AppImages.mainLogo,
+                    child: Image.asset(
+                      AppImages.mainLogo,
                     ),
                   ),
-                  /* <---- Input ----> */
-                  Form(
-                    key: _formKey,
-                    child: Container(
-                      width: Get.width * 0.75,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          TextFormField(
-                            decoration: InputDecoration(
-                              labelText: 'Email',
-                              prefixIcon: Icon(Icons.email_rounded),
-                              hintText: 'you@email.com',
-                            ),
-                            controller: emailController,
-                            validator: (value) {
-                              return AppFormVerify.email(email: value);
-                            },
-                            textInputAction: TextInputAction.next,
+                ),
+                /* <---- Input ----> */
+                Form(
+                  key: _formKey,
+                  child: SizedBox(
+                    width: Get.width * 0.75,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        TextFormField(
+                          decoration: const InputDecoration(
+                            labelText: 'Email',
+                            prefixIcon: Icon(Icons.email_rounded),
+                            hintText: 'you@email.com',
                           ),
-                          AppSizes.hGap20,
-                          // Password Field
-                          Obx(
-                            () => TextFormField(
-                              decoration: InputDecoration(
-                                labelText: 'Password',
-                                prefixIcon: Icon(Icons.vpn_key_rounded),
-                                hintText: '***********',
-                                errorText: errorMessage.value,
-                                suffixIcon: GestureDetector(
-                                  onTap: () {
-                                    _onEyeClick();
-                                  },
-                                  child: Icon(
-                                    _showPass.isFalse
-                                        ? Icons.visibility_off_rounded
-                                        : Icons.visibility_rounded,
-                                  ),
+                          controller: emailController,
+                          validator: (value) {
+                            return AppFormVerify.email(email: value);
+                          },
+                          textInputAction: TextInputAction.next,
+                        ),
+                        AppSizes.hGap20,
+                        // Password Field
+                        Obx(
+                          () => TextFormField(
+                            decoration: InputDecoration(
+                              labelText: 'Password',
+                              prefixIcon: const Icon(Icons.vpn_key_rounded),
+                              hintText: '***********',
+                              errorText: errorMessage.value,
+                              suffixIcon: GestureDetector(
+                                onTap: () {
+                                  _onEyeClick();
+                                },
+                                child: Icon(
+                                  _showPass.isFalse
+                                      ? Icons.visibility_off_rounded
+                                      : Icons.visibility_rounded,
                                 ),
                               ),
-                              controller: passController,
-                              obscureText: !_showPass.value,
-                              validator: (value) {
-                                errorMessage.value =
-                                    AppFormVerify.password(password: value);
-                                return errorMessage.value;
-                              },
-                              onFieldSubmitted: (v) {
-                                _onLoginButtonPressed();
-                              },
-                              textInputAction: TextInputAction.done,
                             ),
+                            controller: passController,
+                            obscureText: !_showPass.value,
+                            validator: (value) {
+                              errorMessage.value =
+                                  AppFormVerify.password(password: value);
+                              return errorMessage.value;
+                            },
+                            onFieldSubmitted: (v) {
+                              _onLoginButtonPressed();
+                            },
+                            textInputAction: TextInputAction.done,
                           ),
-                          /* <---- Login Button ----> */
-                          Obx(
-                            () => AppButton(
-                              margin: EdgeInsets.symmetric(vertical: 30),
-                              label: 'Login',
-                              isLoading: _loginProgress.value,
-                              onTap: _onLoginButtonPressed,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  /* <---- Sign UP BUTTON ----> */
-                  Container(
-                    margin: EdgeInsets.symmetric(vertical: 20),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text('Don\'t have an account?'),
-                        TextButton(
-                          onPressed: () {
-                            Get.to(() => SignUpScreen());
-                          },
-                          child: Text(
-                            'Sign up',
-                            style: AppText.b1.copyWith(
-                              fontWeight: FontWeight.bold,
-                              color: AppColors.PRIMARY_COLOR,
-                            ),
+                        ),
+                        /* <---- Login Button ----> */
+                        Obx(
+                          () => AppButton(
+                            margin: const EdgeInsets.symmetric(vertical: 30),
+                            label: 'Login',
+                            isLoading: _loginProgress.value,
+                            onTap: _onLoginButtonPressed,
                           ),
                         ),
                       ],
                     ),
-                  )
-                ],
-              ),
+                  ),
+                ),
+                /* <---- Sign UP BUTTON ----> */
+                Container(
+                  margin: const EdgeInsets.symmetric(vertical: 20),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text('Don\'t have an account?'),
+                      TextButton(
+                        onPressed: () {
+                          Get.to(() => const SignUpScreen());
+                        },
+                        child: Text(
+                          'Sign up',
+                          style: AppText.b1.copyWith(
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.primaryColor,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                )
+              ],
             ),
           ),
         ),

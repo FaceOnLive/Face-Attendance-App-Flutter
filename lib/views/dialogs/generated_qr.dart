@@ -25,7 +25,7 @@ class GenerateQRDialog extends StatelessWidget {
       ),
       backgroundColor: context.theme.scaffoldBackgroundColor,
       child: Container(
-        padding: EdgeInsets.all(AppSizes.DEFAULT_PADDING / 2),
+        padding: const EdgeInsets.all(AppSizes.defaultPadding / 2),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -33,16 +33,16 @@ class GenerateQRDialog extends StatelessWidget {
               title ?? 'Share QR Code',
               style: AppText.h6.copyWith(fontWeight: FontWeight.bold),
             ),
-            Divider(
-              color: AppColors.PLACEHOLDER_COLOR,
+            const Divider(
+              color: AppColors.placeholderColor,
               thickness: 0.3,
             ),
             QrImage(
-              padding: EdgeInsets.all(5),
+              padding: const EdgeInsets.all(5),
               data: data,
               version: QrVersions.auto,
               size: Get.height * 0.3,
-              foregroundColor: AppColors.PRIMARY_COLOR,
+              foregroundColor: AppColors.primaryColor,
             ),
             AppSizes.hGap10,
             AppButton(

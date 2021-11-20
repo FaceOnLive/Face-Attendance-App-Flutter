@@ -6,15 +6,16 @@ import 'package:intl/intl.dart';
 
 import '../../models/member.dart';
 import '../../data/services/date_helper.dart';
-import '../../data/services/deletePicture.dart';
-import '../../data/services/uploadPicture.dart';
+import '../../data/services/delete_picture.dart';
+import '../../data/services/upload_picture.dart';
 import '../auth/login_controller.dart';
 import '../spaces/space_controller.dart';
 
 class MembersController extends GetxController {
   /* <---- Dependency ----> */
   /// All Members Collection
-  late CollectionReference _collectionReference = FirebaseFirestore.instance
+  late final CollectionReference _collectionReference = FirebaseFirestore
+      .instance
       .collection('members')
       .doc(_currentUserID)
       .collection('members_collection');
@@ -37,10 +38,10 @@ class MembersController extends GetxController {
     allMember = [];
     try {
       await _collectionReference.get().then((value) {
-        value.docs.forEach((element) {
+        for (var element in value.docs) {
           Member _currenMember = Member.fromDocumentSnap(element);
           allMember.add(_currenMember);
-        });
+        }
       });
     } on Exception catch (e) {
       print(e);
@@ -153,9 +154,9 @@ class MembersController extends GetxController {
   Member? getMemberByID({required String memberID}) {
     // Check If Member EXISTS
     List<String> _allMemberID = [];
-    allMember.forEach((element) {
+    for (var element in allMember) {
       _allMemberID.add(element.memberID!);
-    });
+    }
 
     Member? member;
     // if the member exist
@@ -191,10 +192,10 @@ class MembersController extends GetxController {
       List<dynamic> _unattendedDateInTimeStamp = [];
       if (_allDateMonth != null && _allDateMonth['unattended_date'] != null) {
         _unattendedDateInTimeStamp = _allDateMonth['unattended_date'];
-        _unattendedDateInTimeStamp.forEach((element) {
+        for (var element in _unattendedDateInTimeStamp) {
           DateTime _date = element.toDate();
           _unatttendedDate.add(_date);
-        });
+        }
       }
     });
     // _unatttendedDate.forEach((element) {
@@ -247,10 +248,10 @@ class MembersController extends GetxController {
 
     /// To compare if the date exist in the list
     List<String> _allDateString = [];
-    unattendedDate.forEach((element) {
+    for (var element in unattendedDate) {
       String date = _dateFormat.format(element);
       _allDateString.add(date);
-    });
+    }
 
     String _todayDateInFormat = _dateFormat.format(DateTime.now());
 

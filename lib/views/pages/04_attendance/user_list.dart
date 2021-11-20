@@ -25,7 +25,7 @@ class AttendedUserList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: Container(
-        margin: EdgeInsets.symmetric(horizontal: 20),
+        margin: const EdgeInsets.symmetric(horizontal: 20),
         child: Column(
           children: [
             Text(
@@ -48,7 +48,7 @@ class AttendedUserList extends StatelessWidget {
                               controller.onRadioSelection(0);
                             },
                           ),
-                          Text('All'),
+                          const Text('All'),
                         ],
                       ),
                       Row(
@@ -60,7 +60,7 @@ class AttendedUserList extends StatelessWidget {
                               controller.onRadioSelection(1);
                             },
                           ),
-                          Text('Attended'),
+                          const Text('Attended'),
                         ],
                       ),
                       Row(
@@ -72,7 +72,7 @@ class AttendedUserList extends StatelessWidget {
                               controller.onRadioSelection(2);
                             },
                           ),
-                          Text('Unattended'),
+                          const Text('Unattended'),
                         ],
                       ),
                     ],
@@ -99,11 +99,11 @@ class AttendedUserList extends StatelessWidget {
               builder: (controller) {
                 if (!controller.isEverythingFetched) {
                   // Loading Members
-                  return LoadingMembers();
+                  return const LoadingMembers();
                 } else {
                   // There is no member
-                  if (controller.spacesMember.length > 0 &&
-                      controller.allMembersSpace.length > 0) {
+                  if (controller.spacesMember.isNotEmpty &&
+                      controller.allMembersSpace.isNotEmpty) {
                     return Expanded(
                       child: RefreshIndicator(
                         onRefresh: () async {
@@ -125,15 +125,15 @@ class AttendedUserList extends StatelessWidget {
                               );
                             },
                             separatorBuilder: (context, index) {
-                              return Divider(
+                              return const Divider(
                                 height: 7,
                               );
                             }),
                       ),
                     );
-                  } else if (controller.allMembersSpace.length > 0 &&
-                      controller.spacesMember.length < 1) {
-                    return Expanded(
+                  } else if (controller.allMembersSpace.isNotEmpty &&
+                      controller.spacesMember.isEmpty) {
+                    return const Expanded(
                       child: Center(
                         child: Text('Attendance is clear'),
                       ),
@@ -194,7 +194,7 @@ class _MemberListTile extends StatelessWidget {
           ? Shimmer.fromColors(
               baseColor: AppColors.shimmerBaseColor,
               highlightColor: AppColors.shimmerHighlightColor,
-              child: Icon(Icons.info_outline_rounded),
+              child: const Icon(Icons.info_outline_rounded),
             )
           : attendedTime != null
               ? Row(
@@ -205,15 +205,15 @@ class _MemberListTile extends StatelessWidget {
                       style: AppText.caption,
                     ),
                     AppSizes.wGap5,
-                    Icon(
+                    const Icon(
                       Icons.check_circle_rounded,
-                      color: AppColors.APP_GREEN,
+                      color: AppColors.appGreen,
                     ),
                   ],
                 )
               : Icon(
                   Icons.close_rounded,
-                  color: AppColors.APP_RED.withOpacity(0.5),
+                  color: AppColors.appRed.withOpacity(0.5),
                 ),
     );
   }
@@ -237,18 +237,18 @@ class NoMemberFound extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       mainAxisSize: MainAxisSize.min,
       children: [
-        Container(
+        SizedBox(
           width: Get.width * 0.5,
           child: Image.asset(
-            AppImages.ILLUSTRATION_MEMBER_EMPTY,
+            AppImages.illustrationMemberEmpty,
           ),
         ),
         AppSizes.hGap20,
-        Text('No Member Found'),
+        const Text('No Member Found'),
         AppSizes.hGap10,
         AppButton(
           width: Get.width * 0.8,
-          prefixIcon: Icon(
+          prefixIcon: const Icon(
             Icons.person_add_alt_1_rounded,
             color: Colors.white,
           ),
@@ -287,7 +287,7 @@ class LoadingMembers extends StatelessWidget {
             baseColor: AppColors.shimmerBaseColor,
             highlightColor: AppColors.shimmerHighlightColor,
             child: ListTile(
-              leading: CircleAvatar(),
+              leading: const CircleAvatar(),
               title: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -312,13 +312,11 @@ class LoadingMembers extends StatelessWidget {
                       color: Colors.white,
                       borderRadius: AppDefaults.defaulBorderRadius,
                     ),
-                    child: Text('+852 XXXX XXXXgegege g'),
+                    child: const Text('+852 XXXX XXXXgegege g'),
                   ),
                 ],
               ),
-              trailing: Container(
-                child: Icon(Icons.info_rounded),
-              ),
+              trailing: const Icon(Icons.info_rounded),
             ),
           );
         },

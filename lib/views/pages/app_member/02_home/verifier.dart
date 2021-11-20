@@ -7,6 +7,8 @@ import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 
 class AppMemberVerifierWidget extends GetView<AppMemberVerifyController> {
+  const AppMemberVerifierWidget({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -18,14 +20,14 @@ class AppMemberVerifierWidget extends GetView<AppMemberVerifyController> {
           builder: (_) {
             if (controller.isAttendedToday) {
               return Image.asset(
-                AppImages.ILLUSTRATION_ATTEND_FOUND,
+                AppImages.illustrationAttendFound,
                 width: Get.width * 0.8,
               );
             } else if (controller.isVerifyingMember) {
-              return _VerifyingAnimation();
+              return const _VerifyingAnimation();
             } else {
               return Image.asset(
-                AppImages.ILLUSTRATION_FACE_ID,
+                AppImages.illustrationFaceID,
                 width: Get.width * 0.5,
               );
             }
@@ -39,11 +41,11 @@ class AppMemberVerifierWidget extends GetView<AppMemberVerifyController> {
             if (controller.isAttendedToday) {
               return Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: [
+                children: const [
                   Text('You attended today in {Space}'),
                   Icon(
                     Icons.check_box_rounded,
-                    color: AppColors.APP_GREEN,
+                    color: AppColors.appGreen,
                   ),
                 ],
               );

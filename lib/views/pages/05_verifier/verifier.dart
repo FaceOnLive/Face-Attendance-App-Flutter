@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:camera/camera.dart';
 
-import 'static_verifier_LockUnlock.dart';
+import 'static_verifier_sheet_lock.dart';
 import '../../../controllers/user/user_controller.dart';
 import '../../../controllers/verifier/verify_controller.dart';
 import '../../../data/services/app_photo.dart';
@@ -28,11 +28,11 @@ class _VerifierScreenState extends State<VerifierScreen> {
   because on lower end device it takes time to start the device,
   so the controller doesn't start immedietly.Then we see some white screen, that's why we should wait a little bit.
    -----> */
-  RxBool _isScreenReady = false.obs;
+  final RxBool _isScreenReady = false.obs;
 
   Future<void> _waitABit() async {
     await Future.delayed(
-      Duration(seconds: 1),
+      const Duration(seconds: 1),
     ).then((value) {
       Get.put(AppCameraController());
     });
@@ -55,28 +55,28 @@ class _VerifierScreenState extends State<VerifierScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: Get.width,
       child: SafeArea(
         child: Column(
           children: [
             Container(
-              margin: EdgeInsets.symmetric(vertical: 10),
+              margin: const EdgeInsets.symmetric(vertical: 10),
               child: Text(
                 'Verifier',
                 style: AppText.h6.copyWith(
                   fontWeight: FontWeight.bold,
-                  color: AppColors.PRIMARY_COLOR,
+                  color: AppColors.primaryColor,
                 ),
               ),
             ),
             Obx(() => _isScreenReady.isFalse
-                ? Expanded(
+                ? const Expanded(
                     child: Center(
                       child: CircularProgressIndicator(),
                     ),
                   )
-                : _CameraSection()),
+                : const _CameraSection()),
           ],
         ),
       ),
@@ -93,11 +93,11 @@ class _CameraSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetBuilder<AppCameraController>(
       builder: (controller) => controller.activatingCamera == true
-          ? Expanded(child: Center(child: CircularProgressIndicator()))
+          ? const Expanded(child: Center(child: CircularProgressIndicator()))
           : Expanded(
               child: Stack(
                 children: [
-                  Container(
+                  SizedBox(
                     width: double.infinity,
                     height: double.infinity,
                     child: CameraPreview(controller.cameraController),
@@ -106,7 +106,7 @@ class _CameraSection extends StatelessWidget {
                   Positioned(
                     bottom: 0,
                     child: Column(
-                      children: [
+                      children: const [
                         _UseAsAVerifierButton(),
                       ],
                     ),
@@ -119,8 +119,8 @@ class _CameraSection extends StatelessWidget {
                       opacity: 0.5,
                       child: FloatingActionButton(
                         onPressed: controller.toggleCameraLens,
-                        child: Icon(Icons.switch_camera_rounded),
-                        backgroundColor: AppColors.PRIMARY_COLOR,
+                        child: const Icon(Icons.switch_camera_rounded),
+                        backgroundColor: AppColors.primaryColor,
                       ),
                     ),
                   ),
@@ -130,11 +130,11 @@ class _CameraSection extends StatelessWidget {
                     bottom: Get.height * 0.10,
                     left: 0,
                     right: 0,
-                    child: _ShowMessage(),
+                    child: const _ShowMessage(),
                   ),
 
                   /// TEMPORARY
-                  _TemporaryFunctionToCheckMethod(),
+                  const _TemporaryFunctionToCheckMethod(),
                 ],
               ),
             ),
@@ -159,8 +159,8 @@ class _ShowMessage extends StatelessWidget {
             duration: AppDefaults.defaultDuration,
             child: AnimatedContainer(
               duration: AppDefaults.defaultDuration,
-              margin: EdgeInsets.all(AppSizes.DEFAULT_MARGIN),
-              padding: EdgeInsets.all(10),
+              margin: const EdgeInsets.all(AppSizes.defaultMargin),
+              padding: const EdgeInsets.all(10),
               width: Get.width,
               decoration: BoxDecoration(
                 color: Colors.white,
@@ -168,12 +168,12 @@ class _ShowMessage extends StatelessWidget {
                 boxShadow: AppDefaults.defaultBoxShadow,
               ),
               child: controller.isVerifyingNow
-                  ? Container(
-                      padding: EdgeInsets.all(10),
+                  ? Padding(
+                      padding: const EdgeInsets.all(10),
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
+                        children: const [
                           CircularProgressIndicator(),
                           AppSizes.wGap10,
                           Text('Verifying'),
@@ -181,7 +181,7 @@ class _ShowMessage extends StatelessWidget {
                       ),
                     )
                   : controller.verifiedMember == null
-                      ? ListTile(
+                      ? const ListTile(
                           title: Text('No Member Found'),
                           trailing: Icon(
                             Icons.close,
@@ -196,9 +196,9 @@ class _ShowMessage extends StatelessWidget {
                           title: Text(controller.verifiedMember!.memberName),
                           subtitle: Text(controller.verifiedMember!.memberNumber
                               .toString()),
-                          trailing: Icon(
+                          trailing: const Icon(
                             Icons.check_box_rounded,
-                            color: AppColors.APP_GREEN,
+                            color: AppColors.appGreen,
                           ),
                         ),
             ),
@@ -237,9 +237,9 @@ class _TemporaryFunctionToCheckMethod extends GetView<AppCameraController> {
                 );
               }
             },
-            label: Text('Detect Person'),
-            icon: Icon(Icons.camera),
-            backgroundColor: AppColors.PRIMARY_COLOR,
+            label: const Text('Detect Person'),
+            icon: const Icon(Icons.camera),
+            backgroundColor: AppColors.primaryColor,
           ),
           AppSizes.hGap20,
           /* <----  -----> */
@@ -261,9 +261,9 @@ class _TemporaryFunctionToCheckMethod extends GetView<AppCameraController> {
                 );
               }
             },
-            label: Text('Verify From All'),
-            icon: Icon(Icons.people_alt_rounded),
-            backgroundColor: AppColors.PRIMARY_COLOR,
+            label: const Text('Verify From All'),
+            icon: const Icon(Icons.people_alt_rounded),
+            backgroundColor: AppColors.primaryColor,
           ),
           AppSizes.hGap20,
           /* <----  -----> */
@@ -292,9 +292,9 @@ class _TemporaryFunctionToCheckMethod extends GetView<AppCameraController> {
                 );
               }
             },
-            label: Text('Verify Single'),
-            icon: Icon(Icons.person),
-            backgroundColor: AppColors.PRIMARY_COLOR,
+            label: const Text('Verify Single'),
+            icon: const Icon(Icons.person),
+            backgroundColor: AppColors.primaryColor,
           ),
         ],
       ),
@@ -316,20 +316,20 @@ class _UseAsAVerifierButton extends StatelessWidget {
         //   isScrollControlled: true,
         // );
         Get.bottomSheet(
-            StaticVerifierLockUnlock(
+            const StaticVerifierLockUnlock(
               isLockMode: true,
             ),
             isScrollControlled: true);
       },
       child: Container(
         width: Get.width,
-        padding: EdgeInsets.all(AppSizes.DEFAULT_PADDING),
-        margin: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
+        padding: const EdgeInsets.all(AppSizes.defaultPadding),
+        margin: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
         decoration: BoxDecoration(
-          color: AppColors.PRIMARY_COLOR,
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(AppSizes.DEFAULT_RADIUS),
-            topRight: Radius.circular(AppSizes.DEFAULT_RADIUS),
+          color: AppColors.primaryColor,
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(AppSizes.defaultRadius),
+            topRight: Radius.circular(AppSizes.defaultRadius),
           ),
           boxShadow: AppDefaults.defaultBoxShadow,
         ),
@@ -344,7 +344,7 @@ class _UseAsAVerifierButton extends StatelessWidget {
                 color: Colors.white,
               ),
             ),
-            Icon(
+            const Icon(
               Icons.arrow_forward_ios_rounded,
               color: Colors.white,
             ),

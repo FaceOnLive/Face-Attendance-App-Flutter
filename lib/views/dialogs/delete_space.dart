@@ -22,7 +22,7 @@ class DeleteSpaceDialog extends StatefulWidget {
 }
 
 class _DeleteSpaceDialog extends State<DeleteSpaceDialog> {
-  RxBool _deletingSpace = false.obs;
+  final RxBool _deletingSpace = false.obs;
 
   @override
   void dispose() {
@@ -36,82 +36,80 @@ class _DeleteSpaceDialog extends State<DeleteSpaceDialog> {
       shape: RoundedRectangleBorder(
         borderRadius: AppDefaults.defaulBorderRadius,
       ),
-      child: Container(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            AppSizes.hGap10,
-            Text(
-              'Delete Space',
-              style: AppText.h6.copyWith(
-                fontWeight: FontWeight.bold,
-                color: AppColors.APP_RED,
-              ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          AppSizes.hGap10,
+          Text(
+            'Delete Space',
+            style: AppText.h6.copyWith(
+              fontWeight: FontWeight.bold,
+              color: AppColors.appRed,
             ),
-            Divider(
-              color: AppColors.PLACEHOLDER_COLOR,
-              thickness: 0.3,
+          ),
+          const Divider(
+            color: AppColors.placeholderColor,
+            thickness: 0.3,
+          ),
+          Container(
+            padding: const EdgeInsets.all(
+              AppSizes.defaultPadding,
             ),
-            Container(
-              padding: EdgeInsets.all(
-                AppSizes.DEFAULT_PADDING,
-              ),
-              child: Column(
-                children: [
-                  Obx(
-                    () => _deletingSpace.isTrue
-                        ? CircularProgressIndicator()
-                        : Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              InkWell(
-                                onTap: () async {
-                                  Get.back();
-                                },
-                                child: Column(
-                                  children: [
-                                    Icon(
-                                      Icons.close,
-                                      size: Get.width * 0.2,
-                                      color: AppColors.APP_GREEN,
-                                    ),
-                                    Text('No'),
-                                  ],
-                                ),
+            child: Column(
+              children: [
+                Obx(
+                  () => _deletingSpace.isTrue
+                      ? const CircularProgressIndicator()
+                      : Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            InkWell(
+                              onTap: () async {
+                                Get.back();
+                              },
+                              child: Column(
+                                children: [
+                                  Icon(
+                                    Icons.close,
+                                    size: Get.width * 0.2,
+                                    color: AppColors.appGreen,
+                                  ),
+                                  const Text('No'),
+                                ],
                               ),
-                              InkWell(
-                                onTap: () async {
-                                  _deletingSpace.trigger(true);
-                                  await Get.find<SpaceController>()
-                                      .removeSpace(spaceID: widget.spaceID);
-                                  Get.offAll(() => EntryPointUI());
-                                  _deletingSpace.trigger(false);
-                                },
-                                child: Column(
-                                  children: [
-                                    Icon(
-                                      Icons.check,
-                                      size: Get.width * 0.2,
-                                      color: AppColors.APP_RED,
-                                    ),
-                                    Text('Yes')
-                                  ],
-                                ),
+                            ),
+                            InkWell(
+                              onTap: () async {
+                                _deletingSpace.trigger(true);
+                                await Get.find<SpaceController>()
+                                    .removeSpace(spaceID: widget.spaceID);
+                                Get.offAll(() => const EntryPointUI());
+                                _deletingSpace.trigger(false);
+                              },
+                              child: Column(
+                                children: [
+                                  Icon(
+                                    Icons.check,
+                                    size: Get.width * 0.2,
+                                    color: AppColors.appRed,
+                                  ),
+                                  const Text('Yes')
+                                ],
                               ),
-                            ],
-                          ),
-                  ),
-                  AppSizes.hGap20,
-                  Text(
-                    'CAUTION: This action is irreversible.',
-                    textAlign: TextAlign.center,
-                    style: AppText.caption,
-                  ),
-                ],
-              ),
-            )
-          ],
-        ),
+                            ),
+                          ],
+                        ),
+                ),
+                AppSizes.hGap20,
+                Text(
+                  'CAUTION: This action is irreversible.',
+                  textAlign: TextAlign.center,
+                  style: AppText.caption,
+                ),
+              ],
+            ),
+          )
+        ],
       ),
     );
   }

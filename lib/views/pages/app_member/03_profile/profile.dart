@@ -1,8 +1,8 @@
 import 'dart:io';
 import '../../../../controllers/settings/settings_controller.dart';
-import 'change-address.dart';
-import 'change-name.dart';
-import 'change-number.dart';
+import 'change_address.dart';
+import 'change_name.dart';
+import 'change_number.dart';
 import 'package:flutter/cupertino.dart';
 
 import '../../../../constants/app_sizes.dart';
@@ -35,7 +35,8 @@ class AppMemberProfileScreen extends GetView<AppMemberUserController> {
             GetBuilder<SettingsController>(
               builder: (_controller) {
                 return Container(
-                  margin: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                  margin:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
@@ -45,7 +46,7 @@ class AppMemberProfileScreen extends GetView<AppMemberUserController> {
                           _controller.switchTheme(v);
                         },
                       ),
-                      Icon(Icons.dark_mode_rounded),
+                      const Icon(Icons.dark_mode_rounded),
                     ],
                   ),
                 );
@@ -62,7 +63,7 @@ class AppMemberProfileScreen extends GetView<AppMemberUserController> {
                       isUpdating: controller.isUpdatingPicture,
                       onTap: () async {
                         File? _userImage =
-                            await Get.dialog(CameraGallerySelectDialog());
+                            await Get.dialog(const CameraGallerySelectDialog());
                         if (_userImage != null) {
                           await controller.updateUserProfilePicture(_userImage);
                         }
@@ -71,11 +72,11 @@ class AppMemberProfileScreen extends GetView<AppMemberUserController> {
                   },
                 ),
                 AppSizes.hGap20,
-                _UserInfo(),
-                _UserSettings(),
+                const _UserInfo(),
+                const _UserSettings(),
               ],
             ),
-            _ActionButtons(),
+            const _ActionButtons(),
           ],
         ),
       ),
@@ -90,7 +91,7 @@ class _UserSettings extends GetView<AppMemberUserController> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: Get.width * 0.7,
       child: Column(
         children: [
@@ -99,17 +100,20 @@ class _UserSettings extends GetView<AppMemberUserController> {
             label: 'Change Name',
             onTap: () {
               Get.bottomSheet(
-                ChangeNameSheet(),
+                const ChangeNameSheet(),
                 isScrollControlled: true,
               );
             },
-            prefixIcon: Icon(Icons.edit_rounded, color: Colors.white),
+            prefixIcon: const Icon(
+              Icons.edit_rounded,
+              color: Colors.white,
+            ),
           ),
           AppButton(
             label: 'Add/Edit Address',
             onTap: () {
               Get.bottomSheet(
-                ChangeAddressSheet(),
+                const ChangeAddressSheet(),
                 isScrollControlled: true,
               );
             },
@@ -120,14 +124,14 @@ class _UserSettings extends GetView<AppMemberUserController> {
               color: Colors.white,
             ),
             backgroundColor: controller.currentUser.address == null
-                ? AppColors.APP_RED
+                ? AppColors.appRed
                 : null,
           ),
           AppButton(
             label: 'Add/Edit Number',
             onTap: () {
               Get.bottomSheet(
-                ChangeNumberSheet(),
+                const ChangeNumberSheet(),
                 isScrollControlled: true,
               );
             },
@@ -137,7 +141,7 @@ class _UserSettings extends GetView<AppMemberUserController> {
                     : Icons.phone_rounded,
                 color: Colors.white),
             backgroundColor:
-                controller.currentUser.phone == null ? AppColors.APP_RED : null,
+                controller.currentUser.phone == null ? AppColors.appRed : null,
           ),
         ],
       ),
@@ -154,14 +158,14 @@ class _ActionButtons extends GetView<AppMemberUserController> {
   Widget build(BuildContext context) {
     return Container(
       width: Get.width * 0.7,
-      margin: EdgeInsets.symmetric(vertical: 20),
+      margin: const EdgeInsets.symmetric(vertical: 20),
       child: Column(
         children: [
-          Divider(),
+          const Divider(),
           AppSizes.hGap10,
           AppButtonOutline(
             label: 'Share Info',
-            suffixIcon: Icon(Icons.qr_code_2_rounded),
+            suffixIcon: const Icon(Icons.qr_code_2_rounded),
             onTap: () {
               String userId = controller.currentUser.userID ?? 'no-user-id';
               bool _isValidForShare = controller.isPhoneAndAddressValid();
@@ -174,7 +178,7 @@ class _ActionButtons extends GetView<AppMemberUserController> {
                 );
               } else {
                 Get.dialog(
-                  ErrorDialog(message: 'Please Add Phone & Address'),
+                  const ErrorDialog(message: 'Please Add Phone & Address'),
                 );
               }
             },
@@ -182,11 +186,11 @@ class _ActionButtons extends GetView<AppMemberUserController> {
           // Logout button
           AppButton(
             label: 'Logout',
-            suffixIcon: Icon(
+            suffixIcon: const Icon(
               Icons.logout_rounded,
               color: Colors.white,
             ),
-            backgroundColor: AppColors.APP_RED,
+            backgroundColor: AppColors.appRed,
             onTap: () {
               Get.find<LoginController>().logOut();
             },
@@ -211,7 +215,7 @@ class _UserInfo extends GetView<AppMemberUserController> {
               controller.currentUser.name,
               style: AppText.h6.copyWith(
                 fontWeight: FontWeight.bold,
-                color: AppColors.PRIMARY_COLOR,
+                color: AppColors.primaryColor,
               ),
             ),
             AppSizes.hGap10,

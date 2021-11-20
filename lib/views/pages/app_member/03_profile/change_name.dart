@@ -6,40 +6,39 @@ import '../../../../constants/app_sizes.dart';
 import '../../../themes/text.dart';
 import '../../../widgets/app_button.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/services.dart';
 
 import '../../../../constants/app_defaults.dart';
 import '../../../../controllers/user/app_member_user.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class ChangeNumberSheet extends StatefulWidget {
-  const ChangeNumberSheet({Key? key}) : super(key: key);
+class ChangeNameSheet extends StatefulWidget {
+  const ChangeNameSheet({Key? key}) : super(key: key);
 
   @override
-  _ChangeNumberSheetState createState() => _ChangeNumberSheetState();
+  _ChangeNameSheetState createState() => _ChangeNameSheetState();
 }
 
-class _ChangeNumberSheetState extends State<ChangeNumberSheet> {
+class _ChangeNameSheetState extends State<ChangeNameSheet> {
   /// Dependency
-  AppMemberUserController _controller = Get.find();
+  final AppMemberUserController _controller = Get.find();
 
   // Form Key
-  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   /// Text
-  late TextEditingController _number;
+  late TextEditingController _name;
 
   /// Progress
-  RxBool _isUpdating = false.obs;
+  final RxBool _isUpdating = false.obs;
 
   /// on update
-  Future<void> _onNumberUpdate() async {
+  Future<void> _onNameUpdate() async {
     bool _isFormOkay = _formKey.currentState!.validate();
     if (_isFormOkay) {
       try {
         _isUpdating.trigger(true);
-        await _controller.changeUserNumber(phone: int.parse(_number.text));
+        await _controller.changeUserName(newName: _name.text);
         _isUpdating.trigger(false);
         Get.back();
       } on FirebaseException catch (e) {
@@ -53,15 +52,13 @@ class _ChangeNumberSheetState extends State<ChangeNumberSheet> {
   @override
   void initState() {
     super.initState();
-    _number = TextEditingController();
-    _number.text = _controller.currentUser.phone == null
-        ? ''
-        : _controller.currentUser.phone.toString();
+    _name = TextEditingController();
+    _name.text = _controller.currentUser.name;
   }
 
   @override
   void dispose() {
-    _number.dispose();
+    _name.dispose();
     _isUpdating.close();
     super.dispose();
   }
@@ -69,7 +66,7 @@ class _ChangeNumberSheetState extends State<ChangeNumberSheet> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(AppSizes.DEFAULT_PADDING),
+      padding: const EdgeInsets.all(AppSizes.defaultPadding),
       decoration: BoxDecoration(
         color: context.theme.scaffoldBackgroundColor,
         borderRadius: AppDefaults.defaultBottomSheetRadius,
@@ -77,7 +74,7 @@ class _ChangeNumberSheetState extends State<ChangeNumberSheet> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          /// HEADLINE
+          /// HEADER
           Text(
             'Update Your Name',
             style: AppText.h6,
@@ -85,38 +82,34 @@ class _ChangeNumberSheetState extends State<ChangeNumberSheet> {
 
           /// DIVIDER
           AppSizes.hGap10,
-          Divider(),
+          const Divider(),
           AppSizes.hGap20,
 
           /// FORM
           Form(
             key: _formKey,
             child: TextFormField(
-              controller: _number,
-              decoration: InputDecoration(
-                labelText: 'Number',
-                hintText: '+244555058000',
+              controller: _name,
+              decoration: const InputDecoration(
+                labelText: 'Name',
+                hintText: 'John Doe',
               ),
-              keyboardType: TextInputType.number,
-              inputFormatters: [
-                FilteringTextInputFormatter.digitsOnly,
-              ],
               validator: (text) {
-                return AppFormVerify.phoneNumber(phone: text);
+                return AppFormVerify.name(fullName: text);
               },
               onFieldSubmitted: (v) {
-                _onNumberUpdate();
+                _onNameUpdate();
               },
             ),
           ),
           AppSizes.hGap20,
 
-          /// UPDATE
+          /// BUTTON
           Obx(
             () => AppButton(
               label: 'Update',
               isLoading: _isUpdating.value,
-              onTap: _onNumberUpdate,
+              onTap: _onNameUpdate,
             ),
           ),
         ],

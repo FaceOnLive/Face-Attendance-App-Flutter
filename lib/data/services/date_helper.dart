@@ -33,10 +33,10 @@ class DateHelper {
 
     // For comparing
     List<String> _allDateInString = [];
-    allDates.forEach((_date) {
+    for (var _date in allDates) {
       String _formattedDate = _dateFormat.format(_date);
       _allDateInString.add(_formattedDate);
-    });
+    }
 
     // Date
     String _dateInString = _dateFormat.format(date);
@@ -60,10 +60,10 @@ class DateHelper {
 
     // For comparing
     List<String> _allDateInString = [];
-    allDates.forEach((_date) {
+    for (var _date in allDates) {
       String _formattedDate = _dateFormat.format(_date.toDate());
       _allDateInString.add(_formattedDate);
-    });
+    }
 
     // Date
     String _dateInString = _dateFormat.format(date);

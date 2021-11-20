@@ -18,13 +18,13 @@ class DropDownRow extends GetView<SpaceController> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(20),
+    return Padding(
+      padding: const EdgeInsets.all(20),
       child: Row(
         children: [
           Expanded(
             child: Container(
-              padding: EdgeInsets.symmetric(
+              padding: const EdgeInsets.symmetric(
                 horizontal: 10,
               ),
               decoration: BoxDecoration(
@@ -35,20 +35,20 @@ class DropDownRow extends GetView<SpaceController> {
               ),
               child: GetBuilder<SpaceController>(builder: (controller) {
                 return controller.isFetchingSpaces
-                    ? Container(
+                    ? const SizedBox(
                         height: 50,
                         child: LinearProgressIndicator(),
                       )
                     : DropdownButton<String>(
                         isExpanded: true,
-                        underline: SizedBox(),
+                        underline: const SizedBox(),
                         dropdownColor: context.theme.canvasColor,
                         items: List.generate(
                           controller.allSpaces.length + 1,
                           (index) {
                             // Create button
                             if (index == controller.allSpaces.length) {
-                              return DropdownMenuItem(
+                              return const DropdownMenuItem(
                                 child: _CreateNewSpaceButton(),
                                 value: 'create',
                               );
@@ -94,11 +94,9 @@ class DropDownRow extends GetView<SpaceController> {
           // Space Log Button
           IconButton(
             onPressed: () {
-              Get.to(
-                () => SpaceLogScreen(),
-              );
+              Get.to(() => const SpaceLogScreen());
             },
-            icon: Icon(Icons.assignment_outlined),
+            icon: const Icon(Icons.assignment_outlined),
           ),
         ],
       ),
@@ -115,23 +113,21 @@ class _CreateNewSpaceButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Get.to(() => SpaceCreateScreen());
+        Get.to(() => const SpaceCreateScreen());
       },
-      child: Container(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              'Create New Space',
-              style: AppText.b1.copyWith(
-                fontWeight: FontWeight.bold,
-                color: AppColors.PRIMARY_COLOR,
-              ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            'Create New Space',
+            style: AppText.b1.copyWith(
+              fontWeight: FontWeight.bold,
+              color: AppColors.primaryColor,
             ),
-            AppSizes.wGap10,
-            Icon(Icons.add),
-          ],
-        ),
+          ),
+          AppSizes.wGap10,
+          const Icon(Icons.add),
+        ],
       ),
     );
   }
@@ -164,16 +160,16 @@ class _DropDownSpaceItem extends StatelessWidget {
               label,
               style: AppText.b1.copyWith(
                 fontWeight: active ? FontWeight.bold : FontWeight.normal,
-                color: AppColors.PRIMARY_COLOR,
+                color: AppColors.primaryColor,
               ),
             ),
           ],
         ),
         InkWell(
           onTap: onTap,
-          child: Icon(
+          child: const Icon(
             Icons.info_outline_rounded,
-            color: AppColors.PRIMARY_COLOR,
+            color: AppColors.primaryColor,
           ),
         ),
       ],

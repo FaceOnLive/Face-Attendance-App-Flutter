@@ -16,7 +16,7 @@ class ChangeHolidaySheet extends StatefulWidget {
 
 class _ChangeHolidaySheetState extends State<ChangeHolidaySheet> {
   /* <---- Dependency -----> */
-  AppUserController _controller = Get.find();
+  final AppUserController _controller = Get.find();
 
   /// List of days to show in option
   List<String> _days = [];
@@ -30,8 +30,8 @@ class _ChangeHolidaySheetState extends State<ChangeHolidaySheet> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(
-        AppSizes.DEFAULT_PADDING,
+      padding: const EdgeInsets.all(
+        AppSizes.defaultPadding,
       ),
       decoration: BoxDecoration(
         color: Get.theme.canvasColor,
@@ -44,11 +44,11 @@ class _ChangeHolidaySheetState extends State<ChangeHolidaySheet> {
             'Select a holiday',
             style: AppText.h6.copyWith(
               fontWeight: FontWeight.bold,
-              color: AppColors.PRIMARY_COLOR,
+              color: AppColors.primaryColor,
             ),
           ),
           AppSizes.hGap10,
-          Divider(),
+          const Divider(),
           AppSizes.hGap10,
           /* <---- Days List -----> */
           GetBuilder<AppUserController>(builder: (controller) {
@@ -91,9 +91,9 @@ class _DayTile extends StatelessWidget {
       onTap: onTap,
       child: ListTile(
         leading: isSelected
-            ? Icon(
+            ? const Icon(
                 Icons.check,
-                color: AppColors.APP_GREEN,
+                color: AppColors.appGreen,
               )
             : null,
         title: Text(

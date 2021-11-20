@@ -39,7 +39,7 @@ class _AppMemberJoinQRCODEState extends State<AppMemberJoinQRCODE> {
               key: qrKey,
               onQRViewCreated: _onQRViewCreated,
               overlay: QrScannerOverlayShape(
-                borderColor: AppColors.PRIMARY_COLOR,
+                borderColor: AppColors.primaryColor,
                 borderWidth: 3.0,
               ),
             ),
@@ -49,7 +49,7 @@ class _AppMemberJoinQRCODEState extends State<AppMemberJoinQRCODE> {
             child: Center(
               child: (result != null)
                   ? Text('Space ID: ${result!.code}')
-                  : Text('Scan A Space to add'),
+                  : const Text('Scan A Space to add'),
             ),
           )
         ],
