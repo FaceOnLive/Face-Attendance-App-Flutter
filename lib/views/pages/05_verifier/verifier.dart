@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'dart:typed_data';
-import 'package:cached_network_image/cached_network_image.dart';
+import '../../widgets/member_image_leading.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -189,9 +189,8 @@ class _ShowMessage extends StatelessWidget {
                           ),
                         )
                       : ListTile(
-                          leading: CircleAvatar(
-                            backgroundImage: CachedNetworkImageProvider(
-                                controller.verifiedMember!.memberPicture),
+                          leading: MemberImageLeading(
+                            imageLink: controller.verifiedMember!.memberPicture,
                           ),
                           title: Text(controller.verifiedMember!.memberName),
                           subtitle: Text(controller.verifiedMember!.memberNumber

@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 import '../../models/member.dart';
-import '../../data/services/date_helper.dart';
+import '../../data/providers/date_helper.dart';
 import '../../data/services/delete_picture.dart';
 import '../../data/services/upload_picture.dart';
 import '../auth/login_controller.dart';

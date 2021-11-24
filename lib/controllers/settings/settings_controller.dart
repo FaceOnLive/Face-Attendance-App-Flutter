@@ -1,20 +1,20 @@
-import '../../utils/check_internet.dart';
-import '../../views/dialogs/no_internet.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 import '../../data/services/space_services.dart';
-import '../auth/login_controller.dart';
+import '../../utils/check_internet.dart';
+import '../../views/dialogs/no_internet.dart';
 import '../../views/pages/01_intro/intro_screen.dart';
 import '../../views/pages/02_auth/login_screen.dart';
 import '../../views/pages/04_attendance/attendance.dart';
 import '../../views/pages/05_verifier/verifier.dart';
 import '../../views/pages/06_members/members.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/widgets.dart';
-import 'package:get/get.dart';
-import 'package:hive/hive.dart';
-import 'package:hive_flutter/hive_flutter.dart';
+import '../auth/login_controller.dart';
 
 class SettingsController extends GetxController {
   /// If All The Database And Firebase Loaded, so that we can show user something

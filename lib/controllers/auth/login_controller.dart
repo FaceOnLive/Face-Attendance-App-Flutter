@@ -1,20 +1,18 @@
-import '../../data/services/app_toast.dart';
-import '../../data/services/member_services.dart';
-
-import '../settings/app_member_settings.dart';
-import '../user/app_member_user.dart';
-
-import '../../views/pages/02_auth/login_screen.dart';
-import '../../views/pages/03_entrypoint/entrypoint.dart';
-import '../../views/pages/app_member/01_entrypoint/entrypoint_member.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 
+import '../../data/providers/app_toast.dart';
+import '../../data/services/member_services.dart';
+import '../../views/pages/02_auth/login_screen.dart';
+import '../../views/pages/03_entrypoint/entrypoint.dart';
+import '../../views/pages/app_member/01_entrypoint/entrypoint_member.dart';
 import '../camera/camera_controller.dart';
-import '../spaces/space_controller.dart';
-import '../verifier/verify_controller.dart';
 import '../members/member_controller.dart';
+import '../settings/app_member_settings.dart';
+import '../spaces/space_controller.dart';
+import '../user/app_member_user.dart';
 import '../user/user_controller.dart';
+import '../verifier/verify_controller.dart';
 
 class LoginController extends GetxService {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
@@ -39,13 +37,14 @@ class LoginController extends GetxService {
 
   /// Log out
   Future<void> logOut() async {
-    // These Dependencies require a user.
+    // These Dependencies require a ADMIN USER
     Get.delete<AppUserController>(force: true);
     Get.delete<MembersController>(force: true);
     Get.delete<SpaceController>(force: true);
     Get.delete<VerifyController>(force: true);
     Get.delete<AppCameraController>(force: true);
-    // Members
+
+    // Members dependencies, if is not initialized the app won't crash
     Get.delete<AppMemberSettingsController>(force: true);
     Get.delete<AppMemberUserController>(force: true);
     Get.offAll(() => const LoginScreen());
@@ -75,6 +74,7 @@ class LoginController extends GetxService {
     super.onInit();
     _firebaseUser.bindStream(_firebaseAuth.userChanges());
     await _checkIfAdmin(_firebaseAuth.currentUser);
+    // UserServices.getMemberByID(userID: 'gegeg');
   }
 
   @override

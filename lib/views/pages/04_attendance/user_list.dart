@@ -181,12 +181,16 @@ class _MemberListTile extends StatelessWidget {
         );
       },
       leading: Hero(
-        tag: member.memberID ?? member.memberPicture,
-        child: CircleAvatar(
-          backgroundImage: CachedNetworkImageProvider(
-            member.memberPicture,
-          ),
-        ),
+        tag: member.memberID ?? member.memberName,
+        child: member.memberPicture == null
+            ? const CircleAvatar(
+                backgroundImage: AssetImage(AppImages.deafaultUser),
+              )
+            : CircleAvatar(
+                backgroundImage: CachedNetworkImageProvider(
+                  member.memberPicture!,
+                ),
+              ),
       ),
       title: Text(member.memberName),
       subtitle: Text(member.memberNumber.toString()),

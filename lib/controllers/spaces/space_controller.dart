@@ -1,15 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import '../../models/log_message.dart';
-import '../../views/pages/03_entrypoint/entrypoint.dart';
-import '../members/member_controller.dart';
-import '../../data/services/space_services.dart';
-import '../../constants/app_colors.dart';
-import '../../models/member.dart';
-import '../auth/login_controller.dart';
-import '../../models/space.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+import '../../constants/app_colors.dart';
+import '../../data/services/space_services.dart';
+import '../../models/log_message.dart';
+import '../../models/member.dart';
+import '../../models/space.dart';
+import '../../views/pages/03_entrypoint/entrypoint.dart';
+import '../auth/login_controller.dart';
+import '../members/member_controller.dart';
 
 class SpaceController extends GetxController {
   /* <---- Dependency ----> */

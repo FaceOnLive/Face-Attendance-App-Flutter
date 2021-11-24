@@ -1,19 +1,20 @@
 import 'dart:async';
 import 'dart:io';
 import 'dart:typed_data';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import '../settings/settings_controller.dart';
-import '../../views/pages/03_entrypoint/entrypoint.dart';
-import 'package:flutter/services.dart';
 
-import '../user/user_controller.dart';
-import '../../views/pages/05_verifier/static_verifier.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/services.dart';
+import 'package:get/get.dart';
+
+import '../../data/services/app_photo.dart';
+import '../../models/member.dart';
+import '../../views/pages/03_entrypoint/entrypoint.dart';
+import '../../views/pages/05_verifier/static_verifier.dart';
 import '../auth/login_controller.dart';
 import '../members/member_controller.dart';
-import '../../models/member.dart';
-import '../../data/services/app_photo.dart';
-import 'package:get/get.dart';
+import '../settings/settings_controller.dart';
+import '../user/user_controller.dart';
 
 class VerifyController extends GetxController {
   /* <---- Dependency -----> */
@@ -49,7 +50,9 @@ class VerifyController extends GetxController {
   Future<void> _getAllMembersImagesURL() async {
     List<Member> _allMember = Get.find<MembersController>().allMember;
     await Future.forEach<Member>(_allMember, (element) {
-      allMemberImagesURL.add(element.memberPicture);
+      if (element.memberPicture != null) {
+        allMemberImagesURL.add(element.memberPicture!);
+      }
     });
     print("Total Image URL fetched: ${allMemberImagesURL.length}");
     update();

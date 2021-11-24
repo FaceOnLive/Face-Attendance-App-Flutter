@@ -1,4 +1,4 @@
-import '../../../data/services/app_toast.dart';
+import '../../../data/providers/app_toast.dart';
 
 import '../../../constants/app_sizes.dart';
 import '../../../controllers/user/user_controller.dart';

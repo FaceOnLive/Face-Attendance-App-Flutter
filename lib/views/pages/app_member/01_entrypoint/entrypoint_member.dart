@@ -1,12 +1,20 @@
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:animations/animations.dart';
+
 import '../../../../constants/app_defaults.dart';
 import '../../../../controllers/verifier/app_member_verify.dart';
 import '../../../../controllers/spaces/app_member_space.dart';
 import '../../../../controllers/settings/app_member_settings.dart';
 import '../../../../controllers/user/app_member_user.dart';
 import '../../../themes/text.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+
+/* <-----------------------> 
+    This is kind of another app which is completely seperated from the main
+    admin version of this app, if in future you need to separate this thing
+    from here then you need to also duplicate the utils and helpers functions
+    that are used in here.    
+ <-----------------------> */
 
 class AppMemberMainUi extends StatelessWidget {
   const AppMemberMainUi({Key? key}) : super(key: key);

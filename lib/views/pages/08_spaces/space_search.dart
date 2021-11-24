@@ -1,5 +1,5 @@
-import 'package:cached_network_image/cached_network_image.dart';
-import '../../../data/services/app_toast.dart';
+import '../../widgets/member_image_leading.dart';
+import '../../../data/providers/app_toast.dart';
 import '../../../constants/app_colors.dart';
 import '../../../constants/app_images.dart';
 import '../../../constants/app_sizes.dart';
@@ -92,9 +92,8 @@ class _SpaceSearchScreenState extends State<SpaceSearchScreen> {
                 children: [
                   _selectedMember.value != null
                       ? ListTile(
-                          leading: CircleAvatar(
-                            backgroundImage: CachedNetworkImageProvider(
-                                _selectedMember.value!.memberPicture),
+                          leading: MemberImageLeading(
+                            imageLink: _selectedMember.value!.memberPicture,
                           ),
                           title: Text(_selectedMember.value!.memberName),
                           subtitle: Text(

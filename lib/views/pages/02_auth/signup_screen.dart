@@ -1,12 +1,12 @@
-import '../../../utils/ui_helper.dart';
-
-import '../../../controllers/auth/signup_controller.dart';
-import '../../../data/providers/form_verify.dart';
-import '../../../constants/app_images.dart';
-import '../../../constants/app_sizes.dart';
-import '../../widgets/app_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+import '../../../constants/app_images.dart';
+import '../../../constants/app_sizes.dart';
+import '../../../controllers/auth/signup_controller.dart';
+import '../../../data/providers/form_verify.dart';
+import '../../../utils/ui_helper.dart';
+import '../../widgets/app_button.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);

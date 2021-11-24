@@ -1,9 +1,9 @@
 import 'dart:typed_data';
+import '../../widgets/member_image_leading.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:camera/camera.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 
 import '../../../constants/app_sizes.dart';
 import '../../../controllers/members/member_controller.dart';
@@ -258,9 +258,8 @@ class _ShowMessage extends StatelessWidget {
                           ),
                         )
                       : ListTile(
-                          leading: CircleAvatar(
-                            backgroundImage: CachedNetworkImageProvider(
-                                controller.verifiedMember!.memberPicture),
+                          leading: MemberImageLeading(
+                            imageLink: controller.verifiedMember!.memberPicture,
                           ),
                           title: Text(controller.verifiedMember!.memberName),
                           subtitle: Text(controller.verifiedMember!.memberNumber

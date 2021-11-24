@@ -1,7 +1,7 @@
+import '../../widgets/member_image_leading.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 
 import '../../../controllers/members/member_controller.dart';
 import '../../../models/member.dart';
@@ -93,11 +93,9 @@ class _MemberListTile extends StatelessWidget {
         );
       },
       leading: Hero(
-        tag: member.memberID ?? member.memberPicture,
-        child: CircleAvatar(
-          backgroundImage: CachedNetworkImageProvider(
-            member.memberPicture,
-          ),
+        tag: member.memberID ?? member.memberNumber,
+        child: MemberImageLeading(
+          imageLink: member.memberPicture,
         ),
       ),
       title: Text(member.memberName),
