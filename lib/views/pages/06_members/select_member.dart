@@ -1,4 +1,4 @@
-import 'package:cached_network_image/cached_network_image.dart';
+import '../../widgets/member_image_leading.dart';
 import '../../../controllers/spaces/space_controller.dart';
 import '../../../models/member.dart';
 import '../../widgets/app_button.dart';
@@ -96,10 +96,8 @@ class _MemberList extends StatelessWidget {
             onTap: () {
               _selectedMember.value = _currentMember;
             },
-            leading: CircleAvatar(
-              backgroundImage: CachedNetworkImageProvider(
-                _currentMember.memberPicture,
-              ),
+            leading: MemberImageLeading(
+              imageLink: _currentMember.memberPicture,
             ),
             title: Text(_currentMember.memberName),
             subtitle: Text(

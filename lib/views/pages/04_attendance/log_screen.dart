@@ -1,5 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import '../../../data/services/app_toast.dart';
+import '../../../data/providers/app_toast.dart';
 import '../../../constants/app_images.dart';
 import '../../../controllers/spaces/space_controller.dart';
 import '../../../models/log_message.dart';

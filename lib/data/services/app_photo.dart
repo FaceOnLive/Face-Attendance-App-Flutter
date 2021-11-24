@@ -1,13 +1,14 @@
 import 'dart:io';
-import '../../constants/constants.dart';
-import 'package:flutter_cache_manager/flutter_cache_manager.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:path/path.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
+import 'package:http/http.dart' as http;
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:http/http.dart' as http;
+import 'package:path/path.dart';
+import 'package:path_provider/path_provider.dart';
+
+import '../../constants/constants.dart';
 
 class AppPhotoService {
   static Future<File?> getImageFromGallery() async {

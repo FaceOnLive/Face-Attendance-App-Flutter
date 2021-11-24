@@ -3,14 +3,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 /// A Member data is controlled by the ADMIN/USER
 class Member {
   String memberName;
-  String memberPicture;
+  String? memberPicture;
   int memberNumber;
   String memberFullAdress;
   String? memberID;
   bool isCustom = false;
   Member({
     required this.memberName,
-    required this.memberPicture,
+    this.memberPicture,
     required this.memberNumber,
     required this.memberFullAdress,
     this.memberID,

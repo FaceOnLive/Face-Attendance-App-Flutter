@@ -1,24 +1,25 @@
 import 'dart:io';
-import '../../../../controllers/settings/settings_controller.dart';
-import 'change_address.dart';
-import 'change_name.dart';
-import 'change_number.dart';
-import 'package:flutter/cupertino.dart';
 
+import '../../../../utils/encrypt_decrypt.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_state_manager/get_state_manager.dart';
+
+import '../../../../constants/app_colors.dart';
 import '../../../../constants/app_sizes.dart';
+import '../../../../controllers/auth/login_controller.dart';
+import '../../../../controllers/settings/settings_controller.dart';
+import '../../../../controllers/user/app_member_user.dart';
 import '../../../dialogs/camera_or_gallery.dart';
 import '../../../dialogs/error_dialog.dart';
 import '../../../dialogs/generated_qr.dart';
 import '../../../themes/text.dart';
-import '../../../widgets/picture_display.dart';
-
-import '../../../../constants/app_colors.dart';
-import '../../../../controllers/auth/login_controller.dart';
-import '../../../../controllers/user/app_member_user.dart';
 import '../../../widgets/app_button.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:get/get_state_manager/get_state_manager.dart';
+import '../../../widgets/picture_display.dart';
+import 'change_address.dart';
+import 'change_name.dart';
+import 'change_number.dart';
 
 class AppMemberProfileScreen extends GetView<AppMemberUserController> {
   const AppMemberProfileScreen({Key? key}) : super(key: key);
@@ -171,8 +172,9 @@ class _ActionButtons extends GetView<AppMemberUserController> {
               bool _isValidForShare = controller.isPhoneAndAddressValid();
               if (_isValidForShare) {
                 Get.dialog(
+                  /// Returns an encrypted USER ID
                   GenerateQRDialog(
-                    data: 'User: $userId',
+                    data: AppAlgo.encrypt(userId),
                     title: 'Share User',
                   ),
                 );

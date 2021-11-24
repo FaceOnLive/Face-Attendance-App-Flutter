@@ -1,12 +1,12 @@
-import '../../widgets/app_button.dart';
-
-import '../../../controllers/spaces/space_controller.dart';
-import '../../../constants/app_colors.dart';
-import '../../../models/space.dart';
-import 'space_add.dart';
-import 'space_info.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+import '../../../constants/app_colors.dart';
+import '../../../controllers/spaces/space_controller.dart';
+import '../../../models/space.dart';
+import '../../widgets/app_button.dart';
+import 'space_add.dart';
+import 'space_info.dart';
 
 class SpacesScreen extends StatelessWidget {
   const SpacesScreen({Key? key}) : super(key: key);

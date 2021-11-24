@@ -57,4 +57,9 @@ class AppUser {
       userID: documentSnapshot.id,
     );
   }
+
+  @override
+  String toString() {
+    return 'AppUser(name: $name, email: $email, phone: $phone, holiday: $holiday, notification: $notification, userProfilePicture: $userProfilePicture, userID: $userID, address: $address, userFace: $userFace, deviceIDToken: $deviceIDToken)';
+  }
 }

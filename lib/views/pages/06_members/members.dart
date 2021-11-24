@@ -1,9 +1,9 @@
+import '../../dialogs/add_user.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../constants/app_colors.dart';
 import '../../themes/text.dart';
-import 'member_add.dart';
 import 'members_list.dart';
 
 class MembersScreen extends StatelessWidget {
@@ -38,7 +38,7 @@ class MembersScreen extends StatelessWidget {
               right: Get.width * 0.07,
               child: FloatingActionButton.extended(
                 onPressed: () {
-                  Get.to(() => const MemberAddScreen());
+                  Get.dialog(const AddUserDialog());
                 },
                 icon: const Icon(
                   Icons.person_add_rounded,

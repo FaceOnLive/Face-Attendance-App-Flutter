@@ -1,7 +1,8 @@
-import '../../views/pages/app_member/02_home/home.dart';
-import '../../views/pages/app_member/03_profile/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:get/state_manager.dart';
+
+import '../../views/pages/app_member/02_home/home.dart';
+import '../../views/pages/app_member/03_profile/profile.dart';
 
 class AppMemberSettingsController extends GetxController {
   /// Used in entry point screen

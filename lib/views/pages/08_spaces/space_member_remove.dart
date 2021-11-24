@@ -1,4 +1,4 @@
-import 'package:cached_network_image/cached_network_image.dart';
+import '../../widgets/member_image_leading.dart';
 import '../../../constants/app_images.dart';
 import '../../../models/space.dart';
 import '../../../constants/app_colors.dart';
@@ -193,11 +193,9 @@ class _MemberListTile extends StatelessWidget {
     return ListTile(
       onTap: onTap,
       leading: Hero(
-        tag: member.memberID ?? member.memberPicture,
-        child: CircleAvatar(
-          backgroundImage: CachedNetworkImageProvider(
-            member.memberPicture,
-          ),
+        tag: member.memberID ?? member.memberNumber,
+        child: MemberImageLeading(
+          imageLink: member.memberPicture,
         ),
       ),
       title: Text(member.memberName),

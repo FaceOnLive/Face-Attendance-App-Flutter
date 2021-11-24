@@ -1,7 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import '../auth/login_controller.dart';
-import '../../models/space.dart';
 import 'package:get/get.dart';
+
+import '../../models/space.dart';
+import '../auth/login_controller.dart';
 
 class AppMemberSpaceController extends GetxController {
   /* <---- Dependency ----> */
