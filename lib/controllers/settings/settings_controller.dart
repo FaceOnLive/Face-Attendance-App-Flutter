@@ -5,6 +5,8 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:flutter/services.dart';
+
 
 import '../../data/services/space_services.dart';
 import '../../utils/check_internet.dart';
@@ -18,6 +20,9 @@ import '../auth/login_controller.dart';
 
 class SettingsController extends GetxController {
   /// If All The Database And Firebase Loaded, so that we can show user something
+
+  static const MethodChannel _channel = MethodChannel('turingtech');
+
   bool everyThingLoadedUp = false;
   Future<void> _onAppStart() async {
     try {
@@ -27,6 +32,12 @@ class SettingsController extends GetxController {
       // This is for reducing the time on start app
       await Hive.openBox(_appsBoolBox);
       await Hive.openBox(SpaceServices.spaceBoxName);
+
+      bool? initRet = await _channel
+          .invokeMethod('initSDK', {});
+
+      print("_onApp Start!!!!! " + initRet.toString());
+
       Get.put(LoginController(), permanent: true);
       everyThingLoadedUp = true;
       update();

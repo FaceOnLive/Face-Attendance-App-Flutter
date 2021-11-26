@@ -208,22 +208,24 @@ class VerifyController extends GetxController {
   }
 
   /// Detect if a person exist in a photo
-  Future<bool> isPersonDetected({required Uint8List capturedImage}) async {
+  Future<bool> isPersonDetected({required Uint8List capturedImage,
+    required int imageWidth,
+    required int imageHeight}) async {
     // Show progress
-    isVerifyingNow = true;
-    showProgressIndicator = true;
-    update();
+    // isVerifyingNow = true;
+    // showProgressIndicator = true;
+    // update();
 
     // Uint8List _pictureToBeVerified = capturedImage.readAsBytesSync();
     bool? _isPersonDetected = await _channel
-        .invokeMethod('isFaceDeteced', {'capturedImage': capturedImage});
+        .invokeMethod('detectFace', {'capturedImage': capturedImage, 'imageWidth': imageWidth, 'imageHeight': imageHeight});
 
     print('A PERSON IS DETECTED : $_isPersonDetected');
 
-    // Show progress
-    isVerifyingNow = false;
-    update();
-    _disableCardAfterSomeTime();
+    // // Show progress
+    // isVerifyingNow = false;
+    // update();
+    // _disableCardAfterSomeTime();
 
     return _isPersonDetected ?? false;
   }

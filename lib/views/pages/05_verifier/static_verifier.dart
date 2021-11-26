@@ -293,17 +293,17 @@ class _TemporaryFunctionToCheckMethod extends GetView<AppCameraController> {
               XFile _image = await controller.cameraController.takePicture();
               Uint8List _file = await _image.readAsBytes();
 
-              bool _isPersonPresent = await Get.find<VerifyController>()
-                  .isPersonDetected(capturedImage: _file);
-
-              if (_isPersonPresent) {
-                Get.snackbar(
-                  'A Face is detected',
-                  'This is a dummy function, you should return the real value',
-                  colorText: Colors.white,
-                  backgroundColor: Colors.green,
-                );
-              }
+              // bool _isPersonPresent = await Get.find<VerifyController>()
+              //     .isPersonDetected(capturedImage: _file);
+              //
+              // if (_isPersonPresent) {
+              //   Get.snackbar(
+              //     'A Face is detected',
+              //     'This is a dummy function, you should return the real value',
+              //     colorText: Colors.white,
+              //     backgroundColor: Colors.green,
+              //   );
+              // }
             },
             label: const Text('Detect Person'),
             icon: const Icon(Icons.camera),
