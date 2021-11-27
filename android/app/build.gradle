@@ -61,5 +61,6 @@ flutter {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'io.fotoapparat:fotoapparat:2.7.0'
     implementation files('libs/ttvface.aar')
 }

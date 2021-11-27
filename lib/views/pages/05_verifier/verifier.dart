@@ -15,6 +15,8 @@ import '../../../constants/app_defaults.dart';
 import '../../../constants/app_sizes.dart';
 import '../../../controllers/camera/camera_controller.dart';
 import '../../themes/text.dart';
+import '../../../camerakit/CameraKitController.dart';
+import '../../../camerakit/CameraKitView.dart';
 
 class VerifierScreen extends StatefulWidget {
   const VerifierScreen({Key? key}) : super(key: key);
@@ -34,7 +36,7 @@ class _VerifierScreenState extends State<VerifierScreen> {
     await Future.delayed(
       const Duration(seconds: 1),
     ).then((value) {
-      Get.put(AppCameraController());
+      Get.put(CameraKitController());
     });
     _isScreenReady.trigger(true);
   }
@@ -43,12 +45,13 @@ class _VerifierScreenState extends State<VerifierScreen> {
   @override
   void initState() {
     super.initState();
+
     _waitABit();
   }
 
   @override
   void dispose() {
-    Get.delete<AppCameraController>(force: true);
+    Get.delete<CameraKitController>(force: true);
     _isScreenReady.close();
     super.dispose();
   }
@@ -89,18 +92,28 @@ class _CameraSection extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
+
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<AppCameraController>(
-      builder: (controller) => controller.activatingCamera == true
-          ? const Expanded(child: Center(child: CircularProgressIndicator()))
-          : Expanded(
+    return GetBuilder<CameraKitController>(
+      builder: (controller) => Expanded(
               child: Stack(
                 children: [
                   SizedBox(
                     width: double.infinity,
                     height: double.infinity,
-                    child: CameraPreview(controller.cameraController),
+                    // child: CameraPreview(controller.cameraController),
+                    child: CameraKitView(
+                      doFaceAnalysis: true,
+                      scaleType: ScaleTypeMode.fit,
+                      onFaceDetected: (recognitions) {
+
+                      },
+                      previewFlashMode: CameraFlashMode.auto,
+                      cameraKitController: controller,
+                      androidCameraMode: AndroidCameraMode.API_X,
+                      cameraSelector: CameraSelector.front,
+                    ),
                   ),
                   /* <---- Verifier Button ----> */
                   Positioned(
