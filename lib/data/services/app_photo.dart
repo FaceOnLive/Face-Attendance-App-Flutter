@@ -8,7 +8,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 
-import '../../constants/constants.dart';
+import '../../../../core/constants/constants.dart';
 
 class AppPhotoService {
   static Future<File?> getImageFromGallery() async {

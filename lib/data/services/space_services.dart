@@ -1,6 +1,5 @@
+import 'package:face_attendance/core/models/space.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-
-import '../../models/space.dart';
 
 class SpaceServices {
   static const String spaceBoxName = 'space_box';

@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:face_attendance/core/models/member.dart';
+import 'package:face_attendance/core/models/user.dart';
 
-import '../../models/member.dart';
-import '../../models/user.dart';
 import '../providers/app_toast.dart';
 
 class UserServices {
