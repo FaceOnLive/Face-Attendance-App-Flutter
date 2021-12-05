@@ -1,17 +1,17 @@
-import 'package:face_attendance/core/models/member.dart';
-import 'package:face_attendance/core/models/space.dart';
-import 'package:face_attendance/core/themes/text.dart';
-import 'package:face_attendance/core/widgets/app_button.dart';
-import 'package:face_attendance/core/widgets/member_image_leading.dart';
-import 'package:face_attendance/data/providers/app_toast.dart';
-import 'package:face_attendance/features/05_members/views/controllers/member_controller.dart';
-import 'package:face_attendance/features/05_members/views/pages/select_member.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../core/constants/constants.dart';
+import '../../../../core/data/providers/app_toast.dart';
+import '../../../../core/models/member.dart';
+import '../../../../core/models/space.dart';
+import '../../../../core/themes/text.dart';
+import '../../../../core/widgets/app_button.dart';
+import '../../../../core/widgets/member_image_leading.dart';
+import '../../../05_members/views/controllers/member_controller.dart';
+import '../../../05_members/views/pages/select_member.dart';
 
 class SpaceSearchScreen extends StatefulWidget {
   const SpaceSearchScreen({Key? key, required this.space}) : super(key: key);

@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class MemberAttendanceServices {
+class MemberAttendanceRepository {
   String adminID;
-  MemberAttendanceServices({
+  MemberAttendanceRepository({
     required this.adminID,
   });
 

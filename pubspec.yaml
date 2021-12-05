@@ -44,6 +44,7 @@ dependencies:
   connectivity_plus: ^2.0.2
   data_connection_checker_tv: ^0.3.5-nullsafety
   encrypt: ^5.0.1
+  dartz: ^0.10.0
 
 
 dev_dependencies:

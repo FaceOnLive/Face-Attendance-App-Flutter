@@ -6,13 +6,13 @@ import 'package:get_storage/get_storage.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
-import '../../../data/services/space_services.dart';
 import '../../../features/01_onboarding/views/onboarding_page.dart';
 import '../../../features/03_attendance/views/pages/attendance_screen.dart';
 import '../../../features/04_verifier/views/pages/verifier.dart';
 import '../../../features/05_members/views/pages/members.dart';
 import '../../auth/controllers/login_controller.dart';
 import '../../auth/views/login_screen.dart';
+import '../../data/services/space_services.dart';
 import '../../utils/check_internet.dart';
 import '../views/dialogs/no_internet.dart';
 
@@ -190,7 +190,7 @@ class SettingsController extends GetxController {
     if (_isAvailable) {
       // do nothing
     } else {
-      Get.dialog(const NoInternetDialog());
+      Get.dialog(const NoInternetDialog(), barrierDismissible: false);
     }
   }
 

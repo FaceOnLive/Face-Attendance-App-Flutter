@@ -1,22 +1,21 @@
 import 'dart:io';
 
-import 'package:face_attendance/core/app/controllers/settings_controller.dart';
-import 'package:face_attendance/core/auth/controllers/login_controller.dart';
-import 'package:face_attendance/core/auth/views/login_screen.dart';
-import 'package:face_attendance/core/themes/text.dart';
-import 'package:face_attendance/core/widgets/app_button.dart';
-import 'package:face_attendance/core/widgets/app_custom_list_tile.dart';
-import 'package:face_attendance/core/widgets/picture_display.dart';
-import 'package:face_attendance/data/services/app_photo.dart';
-import 'package:face_attendance/features/07_settings/views/controllers/user_controller.dart';
-import 'package:face_attendance/features/06_spaces/views/pages/spaces.dart';
-import 'package:face_attendance/features/05_members/views/dialogs/camera_or_gallery.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../../core/app/controllers/settings_controller.dart';
+import '../../../../core/auth/controllers/login_controller.dart';
+import '../../../../core/auth/views/login_screen.dart';
 import '../../../../core/constants/constants.dart';
-
+import '../../../../core/data/services/app_photo.dart';
+import '../../../../core/themes/text.dart';
+import '../../../../core/widgets/app_button.dart';
+import '../../../../core/widgets/app_custom_list_tile.dart';
+import '../../../../core/widgets/picture_display.dart';
+import '../../../05_members/views/dialogs/camera_or_gallery.dart';
+import '../../../06_spaces/views/pages/spaces.dart';
+import '../controllers/user_controller.dart';
 import 'admin_details.dart';
 import 'change_holiday.dart';
 import 'change_password.dart';

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../../core/constants/constants.dart';
-import '../../../../data/services/app_photo.dart';
+import '../../../../core/data/services/app_photo.dart';
 import '../../../../core/themes/text.dart';
 
 class CameraGallerySelectDialog extends StatelessWidget {

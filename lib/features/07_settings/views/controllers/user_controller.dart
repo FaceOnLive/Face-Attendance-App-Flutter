@@ -5,9 +5,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 
 import '../../../../core/auth/controllers/login_controller.dart';
+import '../../../../core/data/providers/app_toast.dart';
+import '../../../../core/data/services/upload_picture.dart';
 import '../../../../core/models/user.dart';
-import '../../../../data/providers/app_toast.dart';
-import '../../../../data/services/upload_picture.dart';
 
 class AppUserController extends GetxController {
   /* <---- Dependency ----> */

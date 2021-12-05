@@ -1,9 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:face_attendance/core/error/exceptions.dart';
-import 'package:face_attendance/core/models/member.dart';
-import 'package:face_attendance/data/providers/app_toast.dart';
-import 'package:face_attendance/data/providers/date_helper.dart';
-import 'package:face_attendance/data/services/member_services.dart';
+
+import '../../../../core/data/providers/app_toast.dart';
+import '../../../../core/data/providers/date_helper.dart';
+import '../../../../core/data/services/member_services.dart';
+import '../../../../core/error/exceptions.dart';
+import '../../../../core/models/member.dart';
 
 class MemberRepository {
   final String userID;
@@ -75,7 +76,7 @@ class MemberRepository {
           _allFetchedMembers.add(_fetchedMember);
         }
       });
-    } on ServerExeption catch (e) {
+    } on Exception catch (e) {
       AppToast.showDefaultToast(e.toString());
     }
 

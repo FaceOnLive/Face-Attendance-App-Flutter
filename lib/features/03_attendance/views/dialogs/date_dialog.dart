@@ -1,13 +1,13 @@
-import 'package:face_attendance/features/05_members/views/controllers/member_controller.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../core/constants/constants.dart';
+import '../../../../core/data/providers/date_helper.dart';
 import '../../../../core/themes/text.dart';
 import '../../../../core/widgets/app_button.dart';
-import '../../../../data/providers/date_helper.dart';
+import '../../../05_members/views/controllers/member_controller.dart';
 
 class DateInfoDialog extends StatelessWidget {
   const DateInfoDialog({

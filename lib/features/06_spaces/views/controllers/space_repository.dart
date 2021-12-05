@@ -1,8 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:face_attendance/core/models/member.dart';
-import 'package:face_attendance/core/models/space.dart';
-import 'package:face_attendance/data/providers/app_toast.dart';
-import 'package:face_attendance/data/services/space_services.dart';
+
+import '../../../../core/data/providers/app_toast.dart';
+import '../../../../core/data/services/space_services.dart';
+import '../../../../core/models/member.dart';
+import '../../../../core/models/space.dart';
 
 class SpaceRepository {
   /// Set Space ID to a Default Value or The one the user setted earlier

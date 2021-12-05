@@ -1,19 +1,18 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:face_attendance/core/auth/controllers/login_controller.dart';
-import 'package:face_attendance/core/models/log_message.dart';
-import 'package:face_attendance/core/models/member.dart';
-import 'package:face_attendance/core/models/space.dart';
-import 'package:face_attendance/data/services/space_services.dart';
-import 'package:face_attendance/features/02_entrypoint/entrypoint.dart';
-import 'package:face_attendance/features/05_members/views/controllers/member_controller.dart';
-import 'package:face_attendance/features/05_members/views/controllers/member_repository.dart';
-
-import 'space_repository.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../../core/auth/controllers/login_controller.dart';
 import '../../../../core/constants/constants.dart';
+import '../../../../core/data/services/space_services.dart';
+import '../../../../core/models/log_message.dart';
+import '../../../../core/models/member.dart';
+import '../../../../core/models/space.dart';
+import '../../../02_entrypoint/entrypoint.dart';
+import '../../../05_members/views/controllers/member_controller.dart';
+import '../../../05_members/views/controllers/member_repository.dart';
+import 'space_repository.dart';
 
 /// Used in the main home screen
 enum MemberFilterList { all, attended, unattended }

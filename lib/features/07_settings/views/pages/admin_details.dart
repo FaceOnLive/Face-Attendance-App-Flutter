@@ -5,10 +5,10 @@ import 'package:get/route_manager.dart';
 import 'package:get/state_manager.dart';
 
 import '../../../../core/constants/constants.dart';
+import '../../../../core/data/providers/app_toast.dart';
+import '../../../../core/data/providers/form_verify.dart';
 import '../../../../core/themes/text.dart';
 import '../../../../core/widgets/app_button.dart';
-import '../../../../data/providers/app_toast.dart';
-import '../../../../data/providers/form_verify.dart';
 import '../controllers/user_controller.dart';
 
 class AdminDetailsSheet extends StatefulWidget {

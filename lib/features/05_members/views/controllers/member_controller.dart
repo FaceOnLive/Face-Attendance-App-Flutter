@@ -1,25 +1,32 @@
 import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:face_attendance/core/auth/controllers/login_controller.dart';
-import 'package:face_attendance/core/models/member.dart';
-import 'package:face_attendance/data/providers/date_helper.dart';
-import 'package:face_attendance/data/services/delete_picture.dart';
-import 'package:face_attendance/data/services/upload_picture.dart';
-import 'package:face_attendance/features/06_spaces/views/controllers/space_controller.dart';
-import 'member_attendance_services.dart';
-import 'member_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
+import '../../../../core/auth/controllers/login_controller.dart';
+import '../../../../core/data/providers/app_toast.dart';
+import '../../../../core/data/providers/date_helper.dart';
+import '../../../../core/data/services/delete_picture.dart';
+import '../../../../core/data/services/upload_picture.dart';
+import '../../../../core/error/exceptions.dart';
+import '../../../../core/models/member.dart';
+import '../../../06_spaces/views/controllers/space_controller.dart';
+import '../../data/repository/attendance_repo.dart';
+import '../../data/repository/member_repo.dart';
+
 class MembersController extends GetxController {
   /* <---- Dependency ----> */
   /// All Members Collection
-  late final CollectionReference _collectionReference = FirebaseFirestore
+  late final CollectionReference _customMembersCollections = FirebaseFirestore
       .instance
       .collection('members')
       .doc(_currentUserID)
       .collection('members_collection');
+
+  final CollectionReference _appMembersCollection =
+      FirebaseFirestore.instance.collection('members');
 
   /// User ID of Current Logged In user
   late String _currentUserID;
@@ -37,7 +44,18 @@ class MembersController extends GetxController {
   Future<void> fetchMembersList() async {
     isFetchingUser = true;
     // We are going to fetch multiple times, this is to avoid duplication
-    allMember = await MemberRepository(_currentUserID).getAllCustomMember();
+    final _fetchedData = await MemberRepositoryImpl(
+            appMemberCollection: _appMembersCollection,
+            customMemberCollection: _customMembersCollections)
+        .getAllMembers(adminID: _currentUserID);
+
+    _fetchedData.fold(
+      (l) => {
+        AppToast.showDefaultToast('There is an error with fetching Members'),
+      },
+      (fetchedList) => allMember = fetchedList,
+    );
+
     isFetchingUser = false;
     update();
   }
@@ -50,14 +68,23 @@ class MembersController extends GetxController {
     required String fullAddress,
   }) async {
     try {
-      // We should add the member first so that we can get a user Id
-      String _id = await MemberRepository(_currentUserID).addMember(Member(
+      Member _member = Member(
         memberName: name,
         memberPicture: '',
         memberNumber: phoneNumber,
         memberFullAdress: fullAddress,
         isCustom: true,
-      ));
+      );
+      // We should add the member first so that we can get a user Id
+      final documentRef = await MemberRepositoryImpl(
+              appMemberCollection: _appMembersCollection,
+              customMemberCollection: _customMembersCollections)
+          .addCustomMember(member: _member);
+
+      String _id = 'null';
+
+      documentRef.fold(
+          (l) => throw ServerExeption(), (_docRef) => {_id = _docRef});
 
       String? _downloadUrl = await UploadPicture.ofMember(
         memberID: _id,
@@ -65,7 +92,7 @@ class MembersController extends GetxController {
         userID: _currentUserID,
       );
 
-      await _collectionReference.doc(_id).update({
+      await _customMembersCollections.doc(_id).update({
         'memberPicture': _downloadUrl,
       });
 
@@ -98,7 +125,7 @@ class MembersController extends GetxController {
         _downloadUrl = member.memberPicture;
       }
 
-      await _collectionReference.doc(member.memberID!).get().then(
+      await _customMembersCollections.doc(member.memberID!).get().then(
         (value) {
           value.reference.update(
             Member(
@@ -121,7 +148,7 @@ class MembersController extends GetxController {
   /// Remove or Delete A Member
   Future<void> removeMember({required String memberID}) async {
     /// NEED TO DELETE THE USER PICTURE AS WELL WHEN REMOVING USER
-    await _collectionReference.doc(memberID).delete();
+    await _customMembersCollections.doc(memberID).delete();
     await Get.find<SpaceController>()
         .removeAmemberFromAllSpace(userID: memberID);
     await DeletePicture.ofMember(userID: _currentUserID, memberID: memberID);
@@ -161,7 +188,7 @@ class MembersController extends GetxController {
   }) async {
     String thisYear = year.toString();
     List<DateTime> _unatttendedDate = [];
-    await _collectionReference
+    await _customMembersCollections
         .doc(memberID)
         .collection('attendance')
         .doc(spaceID)
@@ -256,7 +283,7 @@ class MembersController extends GetxController {
     required String spaceID,
     required DateTime date,
   }) async {
-    await MemberAttendanceServices(adminID: _currentUserID).addAttendance(
+    await MemberAttendanceRepository(adminID: _currentUserID).addAttendance(
       memberID: memberID,
       spaceID: spaceID,
       date: date,
@@ -269,7 +296,7 @@ class MembersController extends GetxController {
     required String spaceID,
     required DateTime date,
   }) async {
-    await MemberAttendanceServices(adminID: _currentUserID).attendanceRemove(
+    await MemberAttendanceRepository(adminID: _currentUserID).attendanceRemove(
       memberID: memberID,
       spaceID: spaceID,
       date: date,
@@ -282,7 +309,7 @@ class MembersController extends GetxController {
     required String spaceID,
     required List<DateTime> dates,
   }) async {
-    await MemberAttendanceServices(adminID: _currentUserID)
+    await MemberAttendanceRepository(adminID: _currentUserID)
         .multipleAttendanceDelete(
       memberID: memberID,
       spaceID: spaceID,
@@ -296,7 +323,7 @@ class MembersController extends GetxController {
     required String spaceID,
     required List<DateTime> dates,
   }) async {
-    await MemberAttendanceServices(adminID: _currentUserID)
+    await MemberAttendanceRepository(adminID: _currentUserID)
         .multipleAttendanceAdd(
       memberID: memberID,
       spaceID: spaceID,
@@ -368,8 +395,6 @@ class MembersController extends GetxController {
     _getCurrentUserID();
     fetchMembersList();
     scrollController = ScrollController();
-    // _addAttendance('hHwgUrdKKnXfpdrgJnbR');
-    // fetchMemberAttendedTodayList(spaceID: 'hHwgUrdKKnXfpdrgJnbR');
   }
 
   @override

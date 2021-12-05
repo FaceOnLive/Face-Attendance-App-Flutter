@@ -1,13 +1,12 @@
-import 'package:face_attendance/core/models/space.dart';
-import 'package:face_attendance/core/themes/text.dart';
-import 'package:face_attendance/data/providers/form_verify.dart';
-import 'package:face_attendance/features/06_spaces/views/controllers/space_controller.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../../core/constants/constants.dart';
-
+import '../../../../core/data/providers/form_verify.dart';
+import '../../../../core/models/space.dart';
+import '../../../../core/themes/text.dart';
+import '../controllers/space_controller.dart';
 import 'spaces.dart';
 
 class SpaceCreateScreen extends StatefulWidget {

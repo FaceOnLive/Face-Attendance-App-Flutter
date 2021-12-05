@@ -2,18 +2,17 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:camera/camera.dart';
-import 'package:face_attendance/core/app/controllers/camera_controller.dart';
-import 'package:face_attendance/features/07_settings/views/controllers/user_controller.dart';
-import 'package:face_attendance/core/themes/text.dart';
-import 'package:face_attendance/core/widgets/member_image_leading.dart';
-import 'package:face_attendance/data/services/app_photo.dart';
-import 'package:face_attendance/features/04_verifier/views/controllers/verify_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../../core/app/controllers/camera_controller.dart';
 import '../../../../core/constants/constants.dart';
-
+import '../../../../core/data/services/app_photo.dart';
+import '../../../../core/themes/text.dart';
+import '../../../../core/widgets/member_image_leading.dart';
+import '../../../07_settings/views/controllers/user_controller.dart';
+import '../controllers/verify_controller.dart';
 import 'static_verifier_sheet_lock.dart';
 
 class VerifierScreen extends StatefulWidget {
