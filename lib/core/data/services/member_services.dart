@@ -27,13 +27,14 @@ class UserServices {
       if (value.data() != null) {
         AppUser _user = AppUser.fromDocumentSnap(value);
         _theMember = Member(
+          memberID: _user.userID,
           memberName: _user.name,
           memberPicture: _user.userProfilePicture,
           memberNumber: _user.phone ?? 00000000000,
           memberFullAdress: _user.address ?? 'No Address',
           isCustom: false,
         );
-        print(_user.toString());
+        // print(_user.toString());
       } else {
         AppToast.showDefaultToast('No User Found With this id');
       }

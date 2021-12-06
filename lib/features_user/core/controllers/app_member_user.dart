@@ -1,11 +1,12 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:face_attendance/core/auth/controllers/login_controller.dart';
-import 'package:face_attendance/core/models/user.dart';
-import 'package:face_attendance/data/providers/app_toast.dart';
-import 'package:face_attendance/data/services/upload_picture.dart';
 import 'package:get/get.dart';
+
+import '../../../core/auth/controllers/login_controller.dart';
+import '../../../core/data/providers/app_toast.dart';
+import '../../../core/data/services/upload_picture.dart';
+import '../../../core/models/user.dart';
 
 /// A User which is a member of this app.
 ///
@@ -65,7 +66,7 @@ class AppMemberUserController extends GetxController {
   }
 
   // Check if the current user added phone number and address
-  bool isPhoneAndAddressValid() {
+  bool isPhoneAndAddressFound() {
     bool isValid = false;
     if (currentUser.phone == null && currentUser.address == null) {
       isValid = false;

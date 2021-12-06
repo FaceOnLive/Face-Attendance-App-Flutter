@@ -43,7 +43,8 @@ class _SpaceEditScreenState extends State<SpaceEditScreen> {
         icon: _selectedIcon.value!,
         name: _spaceName.text,
         spaceID: widget.space.spaceID,
-        memberList: [],
+        memberList: widget.space.memberList,
+        appMembers: widget.space.appMembers,
       ),
     );
     _isUpdating.trigger(false);

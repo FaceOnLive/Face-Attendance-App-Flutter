@@ -4,9 +4,9 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../core/constants/constants.dart';
+import '../../../../core/data/providers/app_toast.dart';
 import '../../../../core/models/log_message.dart';
 import '../../../../core/themes/text.dart';
-import '../../../../data/providers/app_toast.dart';
 import '../../../06_spaces/views/controllers/space_controller.dart';
 
 class SpaceLogScreen extends StatefulWidget {

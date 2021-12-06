@@ -1,14 +1,13 @@
-import 'package:face_attendance/core/auth/controllers/login_controller.dart';
-import 'package:face_attendance/core/themes/text.dart';
-import 'package:face_attendance/core/widgets/app_button.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../core/constants/constants.dart';
 import '../../../core/utils/ui_helper.dart';
-import '../../../data/providers/form_verify.dart';
-
+import '../../data/providers/form_verify.dart';
+import '../../themes/text.dart';
+import '../../widgets/app_button.dart';
+import '../controllers/login_controller.dart';
 import 'login_screen_face.dart';
 import 'signup_screen.dart';
 

@@ -3,19 +3,18 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:face_attendance/core/auth/controllers/login_controller.dart';
-import 'package:face_attendance/core/models/member.dart';
-import 'package:face_attendance/features/02_entrypoint/entrypoint.dart';
-import 'package:face_attendance/features/04_verifier/views/pages/static_verifier.dart';
-import 'package:face_attendance/features/05_members/views/controllers/member_controller.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
-import '../../../../data/services/app_photo.dart';
-
 import '../../../../core/app/controllers/settings_controller.dart';
+import '../../../../core/auth/controllers/login_controller.dart';
+import '../../../../core/data/services/app_photo.dart';
+import '../../../../core/models/member.dart';
+import '../../../02_entrypoint/entrypoint.dart';
+import '../../../05_members/views/controllers/member_controller.dart';
 import '../../../07_settings/views/controllers/user_controller.dart';
+import '../pages/static_verifier.dart';
 
 class VerifyController extends GetxController {
   /* <---- Dependency -----> */
@@ -49,7 +48,7 @@ class VerifyController extends GetxController {
   // }
   /// Local Way of Getting Images URL
   Future<void> _getAllMembersImagesURL() async {
-    List<Member> _allMember = Get.find<MembersController>().allMember;
+    List<Member> _allMember = Get.find<MembersController>().allMembers;
     await Future.forEach<Member>(_allMember, (element) {
       if (element.memberPicture != null) {
         allMemberImagesURL.add(element.memberPicture!);

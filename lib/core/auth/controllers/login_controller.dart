@@ -1,17 +1,17 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 
-import '../../../data/providers/app_toast.dart';
-import '../../../data/services/member_services.dart';
 import '../../../features/02_entrypoint/entrypoint.dart';
 import '../../../features/04_verifier/views/controllers/verify_controller.dart';
 import '../../../features/05_members/views/controllers/member_controller.dart';
-import '../../../features/07_settings/views/controllers/user_controller.dart';
 import '../../../features/06_spaces/views/controllers/space_controller.dart';
+import '../../../features/07_settings/views/controllers/user_controller.dart';
 import '../../../features_user/core/controllers/app_member_settings.dart';
 import '../../../features_user/core/controllers/app_member_user.dart';
 import '../../../features_user/core/views/entrypoint_member.dart';
 import '../../app/controllers/camera_controller.dart';
+import '../../data/providers/app_toast.dart';
+import '../../data/services/member_services.dart';
 
 class LoginController extends GetxService {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;

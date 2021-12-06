@@ -4,13 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../../core/constants/constants.dart';
+import '../../../../core/data/providers/form_verify.dart';
 import '../../../../core/models/member.dart';
 import '../../../../core/widgets/app_button.dart';
 import '../../../../core/widgets/picture_display.dart';
-import '../../../../data/providers/form_verify.dart';
+import '../controllers/member_controller.dart';
 import '../dialogs/camera_or_gallery.dart';
 import '../dialogs/delete_user.dart';
-import '../controllers/member_controller.dart';
 
 class MemberEditScreen extends StatefulWidget {
   const MemberEditScreen({Key? key, required this.member}) : super(key: key);

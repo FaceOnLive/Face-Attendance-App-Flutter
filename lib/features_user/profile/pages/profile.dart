@@ -168,7 +168,7 @@ class _ActionButtons extends GetView<AppMemberUserController> {
             suffixIcon: const Icon(Icons.qr_code_2_rounded),
             onTap: () {
               String userId = controller.currentUser.userID ?? 'no-user-id';
-              bool _isValidForShare = controller.isPhoneAndAddressValid();
+              bool _isValidForShare = controller.isPhoneAndAddressFound();
               if (_isValidForShare) {
                 Get.dialog(
                   /// Returns an encrypted USER ID

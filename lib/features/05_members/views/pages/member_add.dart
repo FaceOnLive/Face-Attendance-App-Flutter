@@ -1,14 +1,15 @@
-import 'package:face_attendance/core/utils/ui_helper.dart';
-import 'package:face_attendance/core/widgets/app_button.dart';
-import 'package:face_attendance/core/widgets/picture_display.dart';
-import 'package:face_attendance/data/providers/form_verify.dart';
-import 'package:face_attendance/features/05_members/views/controllers/member_controller.dart';
-import 'package:face_attendance/features/05_members/views/dialogs/camera_or_gallery.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'dart:io';
 
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
 import '../../../../core/constants/constants.dart';
+import '../../../../core/data/providers/form_verify.dart';
+import '../../../../core/utils/ui_helper.dart';
+import '../../../../core/widgets/app_button.dart';
+import '../../../../core/widgets/picture_display.dart';
+import '../controllers/member_controller.dart';
+import '../dialogs/camera_or_gallery.dart';
 
 class MemberAddScreen extends StatefulWidget {
   const MemberAddScreen({Key? key}) : super(key: key);

@@ -6,5 +6,11 @@ abstract class Failure {
 }
 
 class ServerFailure extends Failure {
-  ServerFailure() : super();
+  final String? errorMessage;
+  ServerFailure({this.errorMessage}) : super(message: errorMessage);
+}
+
+class NotFoundFailure extends Failure {
+  final String? errorMessage;
+  NotFoundFailure({this.errorMessage}) : super(message: errorMessage);
 }

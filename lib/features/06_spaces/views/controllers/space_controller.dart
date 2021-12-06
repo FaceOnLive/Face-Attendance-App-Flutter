@@ -1,27 +1,25 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:face_attendance/core/auth/controllers/login_controller.dart';
-import 'package:face_attendance/core/models/log_message.dart';
-import 'package:face_attendance/core/models/member.dart';
-import 'package:face_attendance/core/models/space.dart';
-import 'package:face_attendance/data/services/space_services.dart';
-import 'package:face_attendance/features/02_entrypoint/entrypoint.dart';
-import 'package:face_attendance/features/05_members/views/controllers/member_controller.dart';
-import 'package:face_attendance/features/05_members/views/controllers/member_repository.dart';
-
-import 'space_repository.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:retry/retry.dart';
 
-import '../../../../core/constants/constants.dart';
+import '../../../../core/auth/controllers/login_controller.dart';
+import '../../../../core/data/providers/app_toast.dart';
+import '../../../../core/models/log_message.dart';
+import '../../../../core/models/member.dart';
+import '../../../../core/models/space.dart';
+import '../../../02_entrypoint/entrypoint.dart';
+import '../../../05_members/views/controllers/member_controller.dart';
+import '../../data/repository/space_repository_impl.dart';
+import '../../data/source/space_local_source.dart';
 
 /// Used in the main home screen
 enum MemberFilterList { all, attended, unattended }
 
 class SpaceController extends GetxController {
   /* <---- Dependency ----> */
-  late final CollectionReference _collectionReference = FirebaseFirestore
-      .instance
+  late final CollectionReference _spaceCollection = FirebaseFirestore.instance
       .collection('spaces')
       .doc(_currentUserID)
       .collection('space_collection');
@@ -30,6 +28,14 @@ class SpaceController extends GetxController {
   late String _currentUserID;
   void _getCurrentUserID() {
     _currentUserID = Get.find<LoginController>().getCurrentUserID();
+  }
+
+  /// Repository
+  late final SpaceRepositoryImpl _repository;
+
+  void _initializeRepository() {
+    _getCurrentUserID();
+    _repository = SpaceRepositoryImpl(spaceCollection: _spaceCollection);
   }
 
   /// Space Options
@@ -53,37 +59,84 @@ class SpaceController extends GetxController {
   //   currentSpace = allSpaces[0];
   // }
 
+  /// To show progress indicator
+  bool isFetchingSpaces = false;
+
+  /// Fetch All Spaces of This User ID
+  /// On initial startup we don't want to show the empty illustration
+  Future<void> _fetchAllSpaces({bool shouldUpdate = true}) async {
+    isFetchingSpaces = true;
+    if (shouldUpdate) update();
+    allSpaces.clear();
+
+    final _fetchedData = await _repository.getAllSpaces();
+
+    _fetchedData.fold((l) {
+      return AppToast.showDefaultToast(
+        'Oops! There is an fatal error',
+      );
+    }, (value) {
+      allSpaces = value;
+      currentSpace = SpaceLocalSource.getDefaultSpace(
+        fetchedSpaces: value,
+        userID: _currentUserID,
+      );
+      _addCurrentSpaceMemberToList(currentSpace!);
+    });
+
+    isFetchingSpaces = false;
+    if (shouldUpdate) update();
+  }
+
   /// When user tap on a space in dropdown
-  onSpaceChangeDropDown(String? value) {
-    if (value != null) {
-      Space? _space = allSpaces
-          .singleWhere((element) => element.name.toLowerCase() == value);
+  void onDropDownUpdate(String? newSpace) {
+    if (newSpace != null) {
+      Space? _space = allSpaces.singleWhere(
+        (singleSpace) => singleSpace.name.toLowerCase() == newSpace,
+      );
       currentSpace = _space;
-      _addCurrentSpaceMemberToList();
+      _addCurrentSpaceMemberToList(_space);
       _onBothButtonSelection();
       selectedOption = MemberFilterList.all;
-      SpaceServices.saveSpaceToDevice(space: _space, userID: _currentUserID);
+      SpaceLocalSource.saveToLocal(space: _space, userID: _currentUserID);
       update();
     }
   }
 
   /// Contains all the Current Spaces Members
-  List<Member> _allMembersSpace = [];
+  final List<Member> _allMembersSpace = [];
   List<Member> get allMembersSpace => _allMembersSpace;
 
+  /// List to return based on user interation
+  List<Member> filteredListMember = [];
+
   /// Add Current Space Members To List
-  void _addCurrentSpaceMemberToList() {
-    _allMembersSpace = [];
-    List<Member> _allMembers = Get.find<MembersController>().allMember;
-    Space _currentSpace = currentSpace!;
-    for (var element in _allMembers) {
-      if (_currentSpace.memberList.contains(element.memberID)) {
+  void _addCurrentSpaceMemberToList(Space theSpace,
+      {bool shouldUpdate = true}) async {
+    final _memberController = Get.find<MembersController>();
+
+    _allMembersSpace.clear();
+
+    List<Member> fetchedMembers = [];
+
+    await retry<List>(
+      () {
+        fetchedMembers = _memberController.allMembers;
+        if (fetchedMembers.isEmpty) throw Exception();
+        return fetchedMembers;
+      },
+      retryIf: (v) => _memberController.isFetchingUser == true,
+    );
+
+    for (var element in fetchedMembers) {
+      if (theSpace.memberList.contains(element.memberID) ||
+          theSpace.appMembers.contains(element.memberID)) {
         _allMembersSpace.add(element);
       } else {
-        // print('Member does not belong to ${currentSpace!.name}');
+        // print('${element.memberName} does not belong to ${currentSpace!.name}');
       }
     }
-    update();
+    if (shouldUpdate) update();
   }
 
   /// Get Member List By Space
@@ -94,9 +147,11 @@ class SpaceController extends GetxController {
 
     // if the space exist
     if (_space != null) {
-      List<Member> _allFetchedMembers = Get.find<MembersController>().allMember;
+      List<Member> _allFetchedMembers =
+          Get.find<MembersController>().allMembers;
       for (var element in _allFetchedMembers) {
-        if (_space.memberList.contains(element.memberID)) {
+        if (_space.memberList.contains(element.memberID) ||
+            _space.appMembers.contains(element.memberID)) {
           _allSpaceMembers.add(element);
         } else {
           // print('Member does not belong to ${currentSpace!.name}');
@@ -108,35 +163,10 @@ class SpaceController extends GetxController {
     return _allSpaceMembers;
   }
 
-  /// To show progress indicator
-  bool isFetchingSpaces = false;
-
-  /// Fetch All Spaces of This User ID
-  Future<void> _fetchAllSpaces() async {
-    isFetchingSpaces = true;
-    allSpaces.clear();
-    await _collectionReference.get().then((value) {
-      for (var element in value.docs) {
-        Space _fetchedSpace = Space.fromDocumentSnap(element);
-        allSpaces.add(_fetchedSpace);
-      }
-      print('Total Space fetched: ${value.docs.length}');
-      if (currentSpace == null && value.docs.isNotEmpty) {
-        currentSpace = SpaceRepository.setSpaceID(
-          fetchedSpaces: allSpaces,
-          userID: _currentUserID,
-        );
-      }
-    });
-
-    isFetchingSpaces = false;
-    update();
-  }
-
   /// Add Space
   Future<void> addSpace({required Space space}) async {
     try {
-      await _collectionReference.add(space.toMap());
+      await _repository.createSpace(space: space);
       await _fetchAllSpaces();
     } on FirebaseException catch (e) {
       print(e);
@@ -145,24 +175,18 @@ class SpaceController extends GetxController {
 
   /// Modify The Space Data
   Future<void> editSpace({required Space space}) async {
-    try {
-      await _collectionReference.doc(space.spaceID).update(space.toMap());
-      await _fetchAllSpaces();
-      Get.back();
-      Get.rawSnackbar(
-        title: 'Update Successfull',
-        message: 'Space Info Updated Successfully',
-        backgroundColor: AppColors.appGreen,
-        snackStyle: SnackStyle.GROUNDED,
-      );
-    } on FirebaseException catch (e) {
-      print(e);
-    }
+    await _repository.updateSpace(space: space);
+    await _fetchAllSpaces();
+    Get.back();
+    Get.back();
+    AppToast.showDefaultToast('Update Successfull');
   }
 
   /// Remove Space
   Future<void> removeSpace({required String spaceID}) async {
-    await SpaceRepository.removeSpace(spaceID, reference: _collectionReference);
+    await SpaceRepositoryImpl(spaceCollection: _spaceCollection).deleteSpace(
+      spaceID: spaceID,
+    );
     await _fetchAllSpaces();
     Get.offAll(() => const EntryPointUI());
   }
@@ -172,44 +196,67 @@ class SpaceController extends GetxController {
     required String spaceID,
     required List<Member> members,
   }) async {
-    await SpaceRepository.addMultipleMembers(
+    /// Seperate The Custom Members and App Members
+    List<String> customMemberIDs = [];
+    List<String> appMemberIDs = [];
+    await Future.forEach<Member>(members, (theMember) {
+      if (theMember.isCustom == true) {
+        customMemberIDs.add(theMember.memberID!);
+      } else {
+        appMemberIDs.add(theMember.memberID!);
+      }
+    });
+
+    /// Add Custom Member IDs
+    await _repository.addCustomMembersSpace(
+      userIDs: customMemberIDs,
       spaceID: spaceID,
-      members: members,
-      reference: _collectionReference,
     );
+
+    /// Add App Members
+    await _repository.addAppMembersSpace(
+      spaceID: spaceID,
+      userIDs: appMemberIDs,
+    );
+
     await refreshAll();
   }
 
-  /// Remove Members From A Space
+  /// Remove Custom Members From A Space
   Future<void> removeMembersFromSpace({
     required String spaceID,
     required List<Member> members,
   }) async {
-    SpaceRepository.removeMultipleMembers(
+    List<String> customMemberIDs = [];
+    List<String> appMemberIDs = [];
+    await Future.forEach<Member>(members, (theMember) {
+      if (theMember.isCustom == true) {
+        customMemberIDs.add(theMember.memberID!);
+      } else {
+        appMemberIDs.add(theMember.memberID!);
+      }
+    });
+    await _repository.removeCustomMembersSpace(
+      userIDs: customMemberIDs,
       spaceID: spaceID,
-      members: members,
-      reference: _collectionReference,
     );
+
+    await _repository.removeAppMembersSpace(
+      spaceID: spaceID,
+      userIDs: appMemberIDs,
+    );
+
     await refreshAll();
   }
 
   /// Remove A Member from All Space
   /// This is useful if you are deleting a user
   Future<void> removeAmemberFromAllSpace({required String userID}) async {
-    await SpaceRepository.removeAmemberFromAllSpace(
-        userID: userID, reference: _collectionReference);
+    await _repository.removeThisMemberFromAll(userID: userID);
 
     /// Remove locally
     _allMembersSpace.removeWhere((element) => element.memberID == userID);
     await _fetchAllSpaces();
-    await _fetchCurrentActiveSpace();
-  }
-
-  /// Fetch Current Active SPACE
-  Future<void> _fetchCurrentActiveSpace() async {
-    await _collectionReference.doc(currentSpace!.spaceID).get().then((value) {
-      currentSpace = Space.fromDocumentSnap(value);
-    });
   }
 
   /// Get Space by ID
@@ -227,21 +274,11 @@ class SpaceController extends GetxController {
     return _space;
   }
 
-  /// Member That Attended Today
-  List<String> memberAttendedToday = [];
-  Future<void> _fetchMemberAttendedToday() async {
-    memberAttendedToday = await MemberRepository(_currentUserID)
-        .getMemberAttendedList(spaceID: currentSpace!.spaceID!);
-  }
-
-  /// List to return based on user interation
-  List<Member> spacesMember = [];
-
   /// When user select attendance button
   void _onAttendedSelection() {
-    spacesMember = [];
+    filteredListMember = [];
     for (var member in todayAttended.keys) {
-      spacesMember = _allMembersSpace
+      filteredListMember = _allMembersSpace
           .where((element) => element.memberID == member)
           .toList();
     }
@@ -250,9 +287,9 @@ class SpaceController extends GetxController {
 
   /// When user select unattendance button
   void _onUnattendedSelection() {
-    spacesMember = [];
+    filteredListMember = [];
     for (var member in todayAttended.keys) {
-      spacesMember = _allMembersSpace
+      filteredListMember = _allMembersSpace
           .where((element) => element.memberID != member)
           .toList();
     }
@@ -261,8 +298,8 @@ class SpaceController extends GetxController {
 
   /// When Both Are Selected
   void _onBothButtonSelection() {
-    spacesMember = [];
-    spacesMember = _allMembersSpace;
+    filteredListMember = [];
+    filteredListMember = _allMembersSpace;
     update();
   }
 
@@ -308,12 +345,12 @@ class SpaceController extends GetxController {
   bool fetchingTodaysLog = true;
 
   /// Todays Log of Current Space
-  Future<void> _fetchTodaysLogCurrentSpace() async {
+  Future<void> _fetchTodaysLogCurrentSpace({bool shouldUpdate = true}) async {
     if (currentSpace != null) {
       fetchingTodaysLog = true;
       todayAttended = {};
-      update();
-      await _collectionReference
+      if (shouldUpdate) update();
+      await _spaceCollection
           .doc(currentSpace!.spaceID)
           .collection('log_data')
           .get()
@@ -329,7 +366,7 @@ class SpaceController extends GetxController {
         // print(todayAttended.toString());
       });
       fetchingTodaysLog = false;
-      update();
+      if (shouldUpdate) update();
     }
   }
 
@@ -346,7 +383,7 @@ class SpaceController extends GetxController {
   Future<List<LogMessage>> fetchLogMessages({required String spaceID}) async {
     List<LogMessage> _logMessages = [];
 
-    await _collectionReference
+    await _spaceCollection
         .doc(spaceID)
         .collection('attendance_log_today')
         .get()
@@ -366,20 +403,18 @@ class SpaceController extends GetxController {
   /// Everything goes in order
   Future<void> refreshAll() async {
     isEverythingFetched = false;
-    _getCurrentUserID();
-    await _fetchAllSpaces();
-    await _fetchCurrentActiveSpace();
-    _addCurrentSpaceMemberToList();
-    await _fetchMemberAttendedToday();
-    spacesMember = _allMembersSpace;
-    isEverythingFetched = true;
     update();
+    await _fetchAllSpaces(shouldUpdate: false);
+    filteredListMember = _allMembersSpace;
+    isEverythingFetched = true;
     await _fetchTodaysLogCurrentSpace();
+    update();
   }
 
   @override
   void onInit() async {
     super.onInit();
+    _initializeRepository();
     await refreshAll();
   }
 }

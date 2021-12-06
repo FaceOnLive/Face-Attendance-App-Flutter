@@ -1,4 +1,3 @@
-import 'package:face_attendance/features_user/core/controllers/app_member_user.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -6,8 +5,9 @@ import 'package:get/get.dart';
 import '../../../../core/constants/constants.dart';
 import '../../../../core/themes/text.dart';
 import '../../../../core/widgets/app_button.dart';
-import '../../../../data/providers/app_toast.dart';
-import '../../../../data/providers/form_verify.dart';
+import '../../../core/data/providers/app_toast.dart';
+import '../../../core/data/providers/form_verify.dart';
+import '../../core/controllers/app_member_user.dart';
 
 class ChangeAddressSheet extends StatefulWidget {
   const ChangeAddressSheet({Key? key}) : super(key: key);

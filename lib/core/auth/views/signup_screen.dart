@@ -1,12 +1,11 @@
-import 'package:face_attendance/core/auth/controllers/signup_controller.dart';
-import 'package:face_attendance/core/widgets/app_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../core/constants/constants.dart';
-
-import '../../../data/providers/form_verify.dart';
 import '../../../core/utils/ui_helper.dart';
+import '../../data/providers/form_verify.dart';
+import '../../widgets/app_button.dart';
+import '../controllers/signup_controller.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);

@@ -1,3 +1,4 @@
+import 'package:face_attendance/features/06_spaces/data/source/space_local_source.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -6,7 +7,6 @@ import 'package:get_storage/get_storage.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
-import '../../../data/services/space_services.dart';
 import '../../../features/01_onboarding/views/onboarding_page.dart';
 import '../../../features/03_attendance/views/pages/attendance_screen.dart';
 import '../../../features/04_verifier/views/pages/verifier.dart';
@@ -26,7 +26,7 @@ class SettingsController extends GetxController {
       await Hive.initFlutter();
       // This is for reducing the time on start app
       await Hive.openBox(_appsBoolBox);
-      await Hive.openBox(SpaceServices.spaceBoxName);
+      await Hive.openBox(SpaceLocalSource.spaceBoxName);
       Get.put(LoginController(), permanent: true);
       everyThingLoadedUp = true;
       update();
@@ -190,7 +190,7 @@ class SettingsController extends GetxController {
     if (_isAvailable) {
       // do nothing
     } else {
-      Get.dialog(const NoInternetDialog());
+      Get.dialog(const NoInternetDialog(), barrierDismissible: false);
     }
   }
 
