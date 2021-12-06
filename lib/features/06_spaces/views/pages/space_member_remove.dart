@@ -45,14 +45,15 @@ class _SpaceMemberRemoveScreenState extends State<SpaceMemberRemoveScreen> {
 
   /// Remove Member From Available List
   void _filterOutAddedMember() {
-    List<Member> _allMember = Get.find<MembersController>().allMember;
-    List<String> _idsAllMember = [];
-    for (var element in _allMember) {
-      _idsAllMember.add(element.memberID!);
+    List<Member> _allMember = Get.find<MembersController>().allMembers;
+    List<String> _allMemberIDs = [];
+    for (Member singleMember in _allMember) {
+      _allMemberIDs.add(singleMember.memberID!);
     }
 
     for (var element in _allMember) {
-      if (widget.space.memberList.contains(element.memberID)) {
+      if (widget.space.memberList.contains(element.memberID) ||
+          widget.space.appMembers.contains(element.memberID!)) {
         _availableMemberInSpace.add(element);
       } else {
         // That means the member is already in their list

@@ -22,13 +22,13 @@ class MembersList extends StatelessWidget {
         child: GetBuilder<MembersController>(
           builder: (controller) => controller.isFetchingUser
               ? const _LoadingData()
-              : controller.allMember.isNotEmpty
+              : controller.allMembers.isNotEmpty
                   ? ListView.separated(
-                      itemCount: controller.allMember.length,
+                      itemCount: controller.allMembers.length,
                       controller: controller.scrollController,
                       itemBuilder: (context, index) {
                         return _MemberListTile(
-                          member: controller.allMember[index],
+                          member: controller.allMembers[index],
                         );
                       },
                       separatorBuilder: (context, index) {

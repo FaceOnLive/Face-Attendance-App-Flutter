@@ -1,15 +1,17 @@
 import 'dart:io';
 
-import 'package:face_attendance/core/themes/text.dart';
-import 'package:face_attendance/core/utils/encrypt_decrypt.dart';
-import 'package:face_attendance/core/widgets/app_button.dart';
-import 'package:face_attendance/features/02_entrypoint/entrypoint.dart';
+import 'package:face_attendance/features/05_members/views/controllers/member_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/route_manager.dart';
 import 'package:get/state_manager.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 import '../../../../core/constants/constants.dart';
+import '../../../../core/themes/text.dart';
+import '../../../../core/utils/encrypt_decrypt.dart';
+import '../../../../core/widgets/app_button.dart';
+import '../../../02_entrypoint/entrypoint.dart';
 
 class MemberAddQrScreen extends StatefulWidget {
   const MemberAddQrScreen({Key? key}) : super(key: key);
@@ -101,10 +103,12 @@ class _AddingUserQRCodeDialog extends StatefulWidget {
 
 class _AddingUserQRCodeDialogState extends State<_AddingUserQRCodeDialog> {
   late RxBool _isAddingUser;
+  final _membersController = Get.find<MembersController>();
 
   Future<void> _addUser(String userId) async {
-    await Future.delayed(const Duration(seconds: 10));
+    await _membersController.addAppMembersFromQRCode(userID: userId);
     _isAddingUser.trigger(false);
+    Get.back();
   }
 
   @override

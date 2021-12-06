@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
-import 'package:face_attendance/core/data/providers/app_toast.dart';
 
-import 'package:face_attendance/core/error/failure.dart';
-import 'package:face_attendance/core/models/space.dart';
-import 'package:face_attendance/features/06_spaces/data/repository/space_repository.dart';
+import '../../../../core/data/providers/app_toast.dart';
+import '../../../../core/error/failure.dart';
+import '../../../../core/models/space.dart';
+import 'space_repository.dart';
 
 class SpaceRepositoryImpl extends SpaceRepository {
   CollectionReference spaceCollection;
@@ -19,7 +19,7 @@ class SpaceRepositoryImpl extends SpaceRepository {
     try {
       await spaceCollection.doc(spaceID).get().then((value) {
         value.reference.update({
-          'app_members': FieldValue.arrayUnion(userIDs),
+          'appMembers': FieldValue.arrayUnion(userIDs),
         });
       });
     } on FirebaseException catch (e) {
@@ -70,7 +70,7 @@ class SpaceRepositoryImpl extends SpaceRepository {
       List<Space> _fethcedSpaces = [];
 
       // Get All Spaces
-      spaceCollection.get().then((spaces) => {
+      await spaceCollection.get().then((spaces) => {
             for (var space in spaces.docs)
               {_fethcedSpaces.add(Space.fromDocumentSnap(space))}
           });
@@ -104,7 +104,7 @@ class SpaceRepositoryImpl extends SpaceRepository {
     try {
       await spaceCollection.doc(spaceID).get().then((value) {
         value.reference.update({
-          'app_members': FieldValue.arrayRemove(userIDs),
+          'appMembers': FieldValue.arrayRemove(userIDs),
         });
       });
     } on FirebaseException catch (e) {

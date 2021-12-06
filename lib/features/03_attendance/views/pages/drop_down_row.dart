@@ -70,7 +70,7 @@ class DropDownRow extends GetView<SpaceController> {
                           },
                         ),
                         value: controller.currentSpace!.name.toLowerCase(),
-                        onChanged: controller.onSpaceChangeDropDown,
+                        onChanged: controller.onDropDownUpdate,
                       );
               }),
             ),

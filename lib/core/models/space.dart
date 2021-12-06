@@ -9,11 +9,13 @@ class Space {
   IconData icon;
   String? spaceID;
   List<String> memberList;
+  List<String> appMembers;
   Space({
     required this.name,
     required this.icon,
     required this.spaceID,
     required this.memberList,
+    required this.appMembers,
   });
 
   Map<String, dynamic> toMap() {
@@ -22,6 +24,7 @@ class Space {
       'icon': _iconToString(icon),
       'spaceID': spaceID,
       'memberList': memberList,
+      'appMembers': appMembers,
     };
   }
 
@@ -31,6 +34,7 @@ class Space {
       name: map['name'],
       icon: _stringToIcon(map['icon']),
       memberList: List<String>.from(map['memberList'] ?? []),
+      appMembers: List<String>.from(map['appMembers'] ?? []),
       spaceID: documentSnap.id,
     );
   }
@@ -41,6 +45,7 @@ class Space {
       icon: map['icon'],
       spaceID: map['spaceID'],
       memberList: List<String>.from(map['memberList']),
+      appMembers: List<String>.from(map['appMembers'] ?? []),
     );
   }
 

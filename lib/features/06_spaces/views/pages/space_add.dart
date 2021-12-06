@@ -39,6 +39,7 @@ class _SpaceCreateScreenState extends State<SpaceCreateScreen> {
           name: _nameController.text,
           icon: _selectedIcon.value!,
           memberList: [],
+          appMembers: [],
           spaceID: '',
         ),
       );

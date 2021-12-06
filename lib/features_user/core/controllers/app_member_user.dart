@@ -66,7 +66,7 @@ class AppMemberUserController extends GetxController {
   }
 
   // Check if the current user added phone number and address
-  bool isPhoneAndAddressValid() {
+  bool isPhoneAndAddressFound() {
     bool isValid = false;
     if (currentUser.phone == null && currentUser.address == null) {
       isValid = false;

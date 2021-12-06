@@ -1,3 +1,4 @@
+import 'package:face_attendance/features/06_spaces/data/source/space_local_source.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -12,7 +13,6 @@ import '../../../features/04_verifier/views/pages/verifier.dart';
 import '../../../features/05_members/views/pages/members.dart';
 import '../../auth/controllers/login_controller.dart';
 import '../../auth/views/login_screen.dart';
-import '../../data/services/space_services.dart';
 import '../../utils/check_internet.dart';
 import '../views/dialogs/no_internet.dart';
 
@@ -26,7 +26,7 @@ class SettingsController extends GetxController {
       await Hive.initFlutter();
       // This is for reducing the time on start app
       await Hive.openBox(_appsBoolBox);
-      await Hive.openBox(SpaceServices.spaceBoxName);
+      await Hive.openBox(SpaceLocalSource.spaceBoxName);
       Get.put(LoginController(), permanent: true);
       everyThingLoadedUp = true;
       update();

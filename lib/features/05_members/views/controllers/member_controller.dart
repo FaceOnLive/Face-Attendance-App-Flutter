@@ -22,21 +22,31 @@ class MembersController extends GetxController {
   late final CollectionReference _customMembersCollections = FirebaseFirestore
       .instance
       .collection('members')
-      .doc(_currentUserID)
+      .doc(_currentAdminID)
       .collection('members_collection');
 
   final CollectionReference _appMembersCollection =
       FirebaseFirestore.instance.collection('members');
 
   /// User ID of Current Logged In user
-  late String _currentUserID;
+  late String _currentAdminID;
   void _getCurrentUserID() {
-    _currentUserID = Get.find<LoginController>().user!.uid;
+    _currentAdminID = Get.find<LoginController>().user!.uid;
+  }
+
+  late final MemberRepositoryImpl _repository;
+
+  void _initializeRepositroy() {
+    _getCurrentUserID();
+    _repository = MemberRepositoryImpl(
+      appMemberCollection: _appMembersCollection,
+      customMemberCollection: _customMembersCollections,
+    );
   }
 
   /* <---- Members ----> */
   /// List Of All the fetched Members
-  List<Member> allMember = [];
+  List<Member> allMembers = [];
   late ScrollController scrollController;
   bool isFetchingUser = false;
 
@@ -44,16 +54,14 @@ class MembersController extends GetxController {
   Future<void> fetchMembersList() async {
     isFetchingUser = true;
     // We are going to fetch multiple times, this is to avoid duplication
-    final _fetchedData = await MemberRepositoryImpl(
-            appMemberCollection: _appMembersCollection,
-            customMemberCollection: _customMembersCollections)
-        .getAllMembers(adminID: _currentUserID);
+    final _fetchedData =
+        await _repository.getAllMembers(adminID: _currentAdminID);
 
     _fetchedData.fold(
       (l) => {
         AppToast.showDefaultToast('There is an error with fetching Members'),
       },
-      (fetchedList) => allMember = fetchedList,
+      (fetchedList) => allMembers = fetchedList,
     );
 
     isFetchingUser = false;
@@ -76,10 +84,7 @@ class MembersController extends GetxController {
         isCustom: true,
       );
       // We should add the member first so that we can get a user Id
-      final documentRef = await MemberRepositoryImpl(
-              appMemberCollection: _appMembersCollection,
-              customMemberCollection: _customMembersCollections)
-          .addCustomMember(member: _member);
+      final documentRef = await _repository.addCustomMember(member: _member);
 
       String _id = 'null';
 
@@ -89,7 +94,7 @@ class MembersController extends GetxController {
       String? _downloadUrl = await UploadPicture.ofMember(
         memberID: _id,
         imageFile: memberPictureFile,
-        userID: _currentUserID,
+        userID: _currentAdminID,
       );
 
       await _customMembersCollections.doc(_id).update({
@@ -119,7 +124,7 @@ class MembersController extends GetxController {
         _downloadUrl = await UploadPicture.ofMember(
           memberID: member.memberID!,
           imageFile: memberPicture,
-          userID: _currentUserID,
+          userID: _currentAdminID,
         );
       } else {
         _downloadUrl = member.memberPicture;
@@ -151,9 +156,33 @@ class MembersController extends GetxController {
     await _customMembersCollections.doc(memberID).delete();
     await Get.find<SpaceController>()
         .removeAmemberFromAllSpace(userID: memberID);
-    await DeletePicture.ofMember(userID: _currentUserID, memberID: memberID);
+    await DeletePicture.ofMember(userID: _currentAdminID, memberID: memberID);
     await fetchMembersList();
     update();
+  }
+
+  /// Add Members by QR Code
+  Future<void> addAppMembersFromQRCode({required String userID}) async {
+    final _response = await _repository.addAppMember(
+        userID: userID, adminID: _currentAdminID);
+    _response.fold(
+        (l) =>
+            AppToast.showDefaultToast('There is an error Adding This Member'),
+        (r) =>
+            {Get.back(), AppToast.showDefaultToast('Member has been added')});
+  }
+
+  /// Delete App Member by QR Code
+  Future<void> deleteAppMember({required String userID}) async {
+    final _response = await _repository.removeAppMember(
+      userID: userID,
+      adminID: _currentAdminID,
+    );
+    _response.fold(
+        (l) =>
+            AppToast.showDefaultToast('There is an error Removing This Member'),
+        (r) =>
+            {Get.back(), AppToast.showDefaultToast('Member has been removed')});
   }
 
   /// Get Member by ID.
@@ -163,14 +192,15 @@ class MembersController extends GetxController {
   Member? getMemberByIDLocal({required String memberID}) {
     // Check If Member EXISTS
     List<String> _allMemberID = [];
-    for (var element in allMember) {
+    for (var element in allMembers) {
       _allMemberID.add(element.memberID!);
     }
 
     Member? member;
     // if the member exist
     if (_allMemberID.contains(memberID)) {
-      member = allMember.singleWhere((element) => element.memberID == memberID);
+      member =
+          allMembers.singleWhere((element) => element.memberID == memberID);
     } else {
       member = null;
     }
@@ -207,6 +237,8 @@ class MembersController extends GetxController {
         }
       }
     });
+
+    /// Dubugging Purpose
     // _unatttendedDate.forEach((element) {
     //   print("Unattended Dates are: [${DateFormat.MMMMd().format(element)}]");
     //   print(element.day);
@@ -214,42 +246,6 @@ class MembersController extends GetxController {
 
     return _unatttendedDate;
   }
-
-  /* <---- MEMBER ATTENDANCE CHECK -----> */
-  ////  VERSION 0.1
-  ///
-  /// Is the member Attended Today
-  // Future<bool> isMemberAttendedToday(
-  //     {required String memberID, required String spaceID}) async {
-  //   List<DateTime> _unattendedData = await fetchThisYearAttendnce(
-  //     memberID: memberID,
-  //     spaceID: spaceID,
-  //     year: DateTime.now().year,
-  //   );
-  //   // We should format this accoroding to this one
-  //   DateFormat _dateFormat = DateFormat.yMMMMd();
-
-  //   /// To compare if the date exist in the list
-  //   List<String> _allDateString = [];
-  //   await Future.forEach<DateTime>(_unattendedData, (element) {
-  //     String date = _dateFormat.format(element);
-  //     _allDateString.add(date);
-  //   });
-
-  //   String _todayDateInFormat = _dateFormat.format(DateTime.now());
-
-  //   bool _isMemberAttended = false;
-
-  //   if (_allDateString.contains(_todayDateInFormat)) {
-  //     print('Member is unattended today');
-  //     _isMemberAttended = false;
-  //   } else {
-  //     print('Member is attended today');
-  //     _isMemberAttended = true;
-  //   }
-
-  //   return _isMemberAttended;
-  // }
 
   bool isMemberAttendedToday({required List<DateTime> unattendedDate}) {
     // We should format this accoroding to this one
@@ -283,7 +279,7 @@ class MembersController extends GetxController {
     required String spaceID,
     required DateTime date,
   }) async {
-    await MemberAttendanceRepository(adminID: _currentUserID).addAttendance(
+    await MemberAttendanceRepository(adminID: _currentAdminID).addAttendance(
       memberID: memberID,
       spaceID: spaceID,
       date: date,
@@ -296,7 +292,7 @@ class MembersController extends GetxController {
     required String spaceID,
     required DateTime date,
   }) async {
-    await MemberAttendanceRepository(adminID: _currentUserID).attendanceRemove(
+    await MemberAttendanceRepository(adminID: _currentAdminID).attendanceRemove(
       memberID: memberID,
       spaceID: spaceID,
       date: date,
@@ -309,7 +305,7 @@ class MembersController extends GetxController {
     required String spaceID,
     required List<DateTime> dates,
   }) async {
-    await MemberAttendanceRepository(adminID: _currentUserID)
+    await MemberAttendanceRepository(adminID: _currentAdminID)
         .multipleAttendanceDelete(
       memberID: memberID,
       spaceID: spaceID,
@@ -323,7 +319,7 @@ class MembersController extends GetxController {
     required String spaceID,
     required List<DateTime> dates,
   }) async {
-    await MemberAttendanceRepository(adminID: _currentUserID)
+    await MemberAttendanceRepository(adminID: _currentAdminID)
         .multipleAttendanceAdd(
       memberID: memberID,
       spaceID: spaceID,
@@ -352,47 +348,10 @@ class MembersController extends GetxController {
     return _isMemberWasAttended;
   }
 
-  /// Temporary Function To Add Attendance to all member
-  // _addAttendance(String spaceID) async {
-  //   _collectionReference.get().then((value) async {
-  //     await Future.forEach<QueryDocumentSnapshot>(value.docs, (element) async {
-  //       await element.reference
-  //           .collection('attendance')
-  //           .doc(spaceID)
-  //           .collection('data')
-  //           .doc('2021')
-  //           .set({
-  //         'unattended_date': [],
-  //       });
-  //       print('Added Attendance to ${element.id}');
-  //     });
-  //   });
-  // }
-
-  // addCustomProperty() async {
-  //   await FirebaseFirestore.instance
-  //       .collection('members')
-  //       .get()
-  //       .then((value) async {
-  //     value.docs.forEach((element) {
-  //       element.reference
-  //           .collection('members_collection')
-  //           .get()
-  //           .then((value) async {
-  //         value.docs.forEach((member) {
-  //           member.reference.update({
-  //             'isCustom': true,
-  //           });
-  //         });
-  //       });
-  //     });
-  //   });
-  // }
-
   @override
   void onInit() {
     super.onInit();
-    _getCurrentUserID();
+    _initializeRepositroy();
     fetchMembersList();
     scrollController = ScrollController();
   }

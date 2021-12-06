@@ -113,9 +113,12 @@ class _MemberListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       onTap: () {
-        Get.to(() => MemberInfoScreen(
-              member: member,
-            ));
+        Get.bottomSheet(
+          MemberInfoScreen(
+            member: member,
+          ),
+          isScrollControlled: true,
+        );
       },
       leading: Hero(
         tag: member.memberID ?? member.memberNumber,

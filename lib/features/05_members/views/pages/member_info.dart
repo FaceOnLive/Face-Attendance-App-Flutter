@@ -62,13 +62,18 @@ class MemberInfoScreen extends StatelessWidget {
             label: Text(
                 member.isCustom ? 'Member is Custom' : 'A User of this app'),
           ),
-          AppButtonOutline(
-            label: 'Edit Member',
-            onTap: () {
-              Get.back();
-              Get.to(() => MemberEditScreen(member: member));
-            },
-          ),
+          member.isCustom
+              ? AppButtonOutline(
+                  label: 'Edit Member',
+                  onTap: () {
+                    Get.back();
+                    Get.to(() => MemberEditScreen(member: member));
+                  },
+                )
+              : Text(
+                  'Only this user can change his info',
+                  style: AppText.caption,
+                ),
           AppSizes.hGap20,
         ],
       ),

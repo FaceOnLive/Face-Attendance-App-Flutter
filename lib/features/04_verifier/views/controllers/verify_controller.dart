@@ -48,7 +48,7 @@ class VerifyController extends GetxController {
   // }
   /// Local Way of Getting Images URL
   Future<void> _getAllMembersImagesURL() async {
-    List<Member> _allMember = Get.find<MembersController>().allMember;
+    List<Member> _allMember = Get.find<MembersController>().allMembers;
     await Future.forEach<Member>(_allMember, (element) {
       if (element.memberPicture != null) {
         allMemberImagesURL.add(element.memberPicture!);

@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
-import 'package:face_attendance/core/error/exceptions.dart';
-import 'package:face_attendance/core/error/failure.dart';
-import 'package:face_attendance/core/models/space.dart';
+
+import '../../../../core/error/failure.dart';
+import '../../../../core/models/space.dart';
 
 abstract class SpaceRepository {
   /// Get All Spaces for this user

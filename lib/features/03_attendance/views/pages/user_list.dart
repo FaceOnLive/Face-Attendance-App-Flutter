@@ -81,9 +81,9 @@ class AttendedUserList extends StatelessWidget {
                 if (!controller.isEverythingFetched) {
                   // Loading Members
                   return const LoadingMembers();
-                } else {
+                } else if (controller.isEverythingFetched) {
                   // There is no member
-                  if (controller.spacesMember.isNotEmpty &&
+                  if (controller.filteredListMember.isNotEmpty &&
                       controller.allMembersSpace.isNotEmpty) {
                     return Expanded(
                       child: RefreshIndicator(
@@ -91,10 +91,10 @@ class AttendedUserList extends StatelessWidget {
                           return await controller.refreshAll();
                         },
                         child: ListView.separated(
-                            itemCount: controller.spacesMember.length,
+                            itemCount: controller.filteredListMember.length,
                             itemBuilder: (context, index) {
                               Member _currentMember =
-                                  controller.spacesMember[index];
+                                  controller.filteredListMember[index];
                               return MemberListTile(
                                 member: _currentMember,
                                 currentSpaceID:
@@ -113,13 +113,21 @@ class AttendedUserList extends StatelessWidget {
                       ),
                     );
                   } else if (controller.allMembersSpace.isNotEmpty &&
-                      controller.spacesMember.isEmpty) {
+                      controller.filteredListMember.isEmpty) {
                     return const AttendanceIsClearWidget();
-                  } else {
+                  } else if (controller.allMembersSpace.isEmpty &&
+                      controller.filteredListMember.isEmpty &&
+                      controller.isEverythingFetched) {
                     return NoMemberFound(
                       currentSpace: controller.currentSpace!,
                     );
+                  } else {
+                    return const Center(
+                      child: Text('There is an error'),
+                    );
                   }
+                } else {
+                  return const LoadingMembers();
                 }
               },
             )

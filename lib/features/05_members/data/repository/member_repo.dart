@@ -118,7 +118,7 @@ class MemberRepositoryImpl extends MemberRepository {
       } else {
         /// Member ID in String
         List<String> _memberIDs =
-            List<String>.from(_allMemberIDs['app_members']);
+            List<String>.from(_allMemberIDs['appMembers']);
 
         // Convert it
         await Future.forEach<String>(_memberIDs, (singleMember) async {
@@ -208,7 +208,7 @@ class MemberRepositoryImpl extends MemberRepository {
       {required String userID, required String adminID}) async {
     try {
       await appMemberCollection.doc(adminID).update({
-        'app_members': FieldValue.arrayUnion([userID])
+        'appMembers': FieldValue.arrayUnion([userID])
       });
       return const Right(null);
     } on FirebaseException catch (_) {
@@ -221,7 +221,7 @@ class MemberRepositoryImpl extends MemberRepository {
       {required String userID, required String adminID}) async {
     try {
       await appMemberCollection.doc(adminID).update({
-        'app_members': FieldValue.arrayRemove([userID])
+        'appMembers': FieldValue.arrayRemove([userID])
       });
       return const Right(null);
     } on FirebaseException catch (_) {
