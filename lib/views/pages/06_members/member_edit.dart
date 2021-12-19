@@ -1,4 +1,7 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'dart:io';
 
@@ -10,6 +13,7 @@ import '../../../constants/app_sizes.dart';
 import '../../dialogs/camera_or_gallery.dart';
 import '../../widgets/app_button.dart';
 import '../../widgets/picture_display.dart';
+
 
 class MemberEditScreen extends StatefulWidget {
   const MemberEditScreen({Key? key, required this.member}) : super(key: key);
@@ -23,6 +27,8 @@ class MemberEditScreen extends StatefulWidget {
 class _MemberEditScreenState extends State<MemberEditScreen> {
   /* <---- Dependency ----> */
   final MembersController _controller = Get.find();
+  static const MethodChannel _channel = MethodChannel('turingtech');
+
   _addDataToFields() {
     _name.text = widget.member.memberName;
     _phoneNumber.text = widget.member.memberNumber.toString();
@@ -52,6 +58,7 @@ class _MemberEditScreenState extends State<MemberEditScreen> {
 
   // Image
   File? _userImage;
+  Uint8List? _userFeat;
   final RxBool _userPickedImage = false.obs;
 
   // Form Key
@@ -125,11 +132,24 @@ class _MemberEditScreenState extends State<MemberEditScreen> {
                       // the file user has picked
                       if (_userImage != null) {
                         _userPickedImage.trigger(true);
+
+                        Uint8List _capturedImage = _userImage!.readAsBytesSync();
+                        Uint8List? _feats = await _channel
+                            .invokeMethod('getFeature', {
+                              'image': _capturedImage,
+                              'mode' : 1    //1 -> enroll mode, 0 -> verify mode
+                        });
+                        if(_feats != null) {
+                          print(
+                              "get feature feat: " + _feats!.length.toString());
+                        } else {
+                          //failed getFeature process
+                        }
                       }
                     },
                     isLocal: _userPickedImage.value,
                     profileLink: widget.member.memberPicture,
-                    localImage: _userImage,
+                    localImage: _userImage
                   ),
                 ),
                 /* <---- Form INFO ----> */

@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:shimmer/shimmer.dart';
@@ -26,6 +27,7 @@ class ProfilePictureWidget extends StatelessWidget {
   final bool isLocal;
   final bool isUpdating;
   final File? localImage;
+  final Uint8List? faceFeat = null;
 
   @override
   Widget build(BuildContext context) {

@@ -19,10 +19,6 @@ class AppCameraController extends GetxController {
       enableAudio: false,
     );
     cameraController.initialize().then((_) {
-      cameraController.startImageStream((image) => {
-        processFrame(image)
-      });
-      
       update();
     });
     activatingCamera = false;
@@ -68,27 +64,5 @@ class AppCameraController extends GetxController {
   void onClose() {
     cameraController.dispose();
     super.onClose();
-  }
-
-  void processFrame(CameraImage image) async {
-    print("image captured: " + image.width.toString() + " " + image.height.toString() + " " + image.planes[0].bytes.length.toString() +
-        " " + image.planes[1].bytes.length.toString() + " " + image.planes[2].bytes.length.toString());
-
-    double nv21Len = (image.width * image.height * 3 / 2);
-    var nv21Buf = Uint8List(nv21Len.toInt());
-    int pos = 0;
-    for(int i = 0; i < image.planes[0].bytes.length; i ++) {
-      nv21Buf[pos] = image.planes[0].bytes[i];
-      pos ++;
-    }
-
-    for(int i = 0; i < image.planes[1].bytes.length; i ++) {
-      nv21Buf[pos] = image.planes[1].bytes[i];
-      pos ++;
-    }
-
-    bool _isPersonPresent = await Get.find<VerifyController>()
-        .isPersonDetected(capturedImage: nv21Buf, imageWidth: image.width, imageHeight: image.height);
-    print("is person detected: " + _isPersonPresent.toString());
   }
 }

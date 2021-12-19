@@ -11,6 +11,7 @@ import java.util.concurrent.ThreadPoolExecutor
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.ExecutorService
 import android.content.Context
+import android.graphics.BitmapFactory
 
 class MainActivity: FlutterActivity() {
 
@@ -48,9 +49,28 @@ class MainActivity: FlutterActivity() {
         val capturedImage: ByteArray? = call.argument("capturedImage");
         
         // You can verify this 1to1 and put your result in this
-        val isThisPersonVerified: Boolean = true;
+        val isThisPersonVerified: Boolean = false;
+
+        val image1 = BitmapFactory.decodeByteArray(personImage!!, 0, personImage!!.size)
+        if(image1 != null) {
+          val faceResults1:List<FaceResult> = FaceEngine.getInstance(this).detectFace(image1)
+          if(faceResults1.count() == 1) {
+            FaceEngine.getInstance(this).extractFeature(image1, true, faceResults1)
+
+            val image2 = BitmapFactory.decodeByteArray(capturedImage!!, 0, capturedImage!!.size)
+            val faceResults2:List<FaceResult> = FaceEngine.getInstance(this).detectFace(image1)
+            if(faceResults2.count() == 1) {
+              FaceEngine.getInstance(this).extractFeature(image2, false, faceResults2)
+              val score = FaceEngine.getInstance(this).compareFeature(faceResults1.get(0).feature, faceResults1.get(1).feature)
+              if(score > 0.82) {
+                isThisPersonVerified = true
+              }
+            }
+          }
+        }
+
         result.success(isThisPersonVerified);
-      
+
 
       /// <--- METHOD: If a photo has face in it --->
       } else if(call.method == "detectFace"){
@@ -67,6 +87,21 @@ class MainActivity: FlutterActivity() {
         Log.e("ddd", "init ok!!!");
 
         result.success(true);
+      } else if(call.method == "getFeature") {
+        Log.e("ddd", "getFeature!!!!");
+
+        val capturedImage: ByteArray? = call.argument("image");
+        val mode:Int = call.argument("mode");
+        if(capturedImage != null) {
+          val image = BitmapFactory.decodeByteArray(capturedImage!!, 0, capturedImage!!.size)
+          val faceResults:List<FaceResult> = FaceEngine.getInstance(this).detectFace(image)
+          if(faceResults.count() == 1) {
+            FaceEngine.getInstance(this).extractFeature(image, true, faceResults)
+
+            return result.success(faceResults.get(0).feature);
+          }
+
+        result.success(null);
       }
       
       else {
