@@ -15,6 +15,8 @@ import android.view.ViewGroup
 import android.app.Activity
 import android.widget.FrameLayout
 import com.ttv.face.*
+import com.ttv.attendance.FaceRectView
+import com.ttv.attendance.FaceRectTransformer
 import com.ttv.face.enums.ExtractType
 import io.fotoapparat.Fotoapparat
 import io.fotoapparat.parameter.Resolution
@@ -38,8 +40,9 @@ class CameraKitView(activity: Activity, flutterMethodListener: FlutterMethodList
     private var hasPermission = false
     private var appCtx: Context? = null
     private var cameraView: CameraView? = null
+    private var rectanglesView: FaceRectView? = null
+    private var faceRectTransformer: FaceRectTransformer? = null
     private var frontFotoapparat: Fotoapparat? = null
-
     private var previewFlashMode = 0
     private var doFaceAnalysis = false
     private var displaySize = Point()
@@ -77,7 +80,14 @@ class CameraKitView(activity: Activity, flutterMethodListener: FlutterMethodList
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT))
 
+        rectanglesView = FaceRectView(this.appCtx!!)
+        rectanglesView!!.setLayoutParams(
+            FrameLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT))
+
         linearLayout?.addView(cameraView)
+        linearLayout?.addView(rectanglesView)
 
         hasPermission = permissionsDelegate?.hasPermissions()!!
         if (hasPermission) {
@@ -92,17 +102,6 @@ class CameraKitView(activity: Activity, flutterMethodListener: FlutterMethodList
             .frameProcessor(SampleFrameProcessor())
             .previewResolution { Resolution(1280,720) }
             .build()
-
-//        previewView = PreviewView(activity)
-//        previewView.setLayoutParams(
-//            FrameLayout.LayoutParams(
-//                ViewGroup.LayoutParams.MATCH_PARENT,
-//                ViewGroup.LayoutParams.MATCH_PARENT
-//            )
-//        )
-//        linearLayout.addView(previewView)
-//        //        startCamera();
-//        android.util.Log.e("ddd", "initCamera")
     }
 
 
@@ -138,6 +137,50 @@ class CameraKitView(activity: Activity, flutterMethodListener: FlutterMethodList
     override fun dispose() {}
 
 
+    fun adjustPreview(frameWidth: Int, frameHeight: Int, rotation: Int) : Boolean{
+        if(faceRectTransformer == null) {
+            val frameSize: Size = Size(frameWidth, frameHeight);
+            if(cameraView!!.measuredWidth == 0)
+                return false;
+
+            adjustPreviewViewSize (cameraView!!, rectanglesView!!);
+
+            faceRectTransformer = FaceRectTransformer (
+                frameSize.width, frameSize.height,
+                cameraView!!.getLayoutParams().width, cameraView!!.getLayoutParams().height,
+                rotation, 0, false,
+                false,
+                false);
+
+            return true;
+        }
+
+        return true;
+    }
+
+    private fun adjustPreviewViewSize(
+        previewView: View,
+        faceRectView: FaceRectView,
+    ): ViewGroup.LayoutParams? {
+        val layoutParams = previewView.layoutParams
+        val measuredWidth = previewView.measuredWidth
+        val measuredHeight = previewView.measuredHeight
+        layoutParams.width = measuredWidth
+        layoutParams.height = measuredHeight
+
+        faceRectView.layoutParams.width = measuredWidth
+        faceRectView.layoutParams.height = measuredHeight
+        return layoutParams
+    }
+
+    /* access modifiers changed from: private */ /* access modifiers changed from: public */
+    private fun sendMessage(w: Int, o: Any) {
+        val message = Message()
+        message.what = w
+        message.obj = o
+        mHandler.sendMessage(message)
+    }
+
     inner class SampleFrameProcessor : FrameProcessor {
         var frThreadQueue: LinkedBlockingQueue<Runnable>? = null
         var frExecutor: ExecutorService? = null
@@ -155,8 +198,9 @@ class CameraKitView(activity: Activity, flutterMethodListener: FlutterMethodList
 
         override fun invoke(frame: Frame) {
             val faceResults:List<FaceResult> = FaceEngine.getInstance(appCtx).detectFace(frame.image, frame.size.width, frame.size.height)
-            Log.e("ddd", "detected face: " + faceResults.size)
 
+            if(adjustPreview(frame.size.width, frame.size.height, frame.rotation))
+                sendMessage(0, faceResults)
 //            if(faceResults.count() > 0) {
 //                FaceEngine.getInstance(appCtx).livenessProcess(frame.image, frame.size.width, frame.size.height, faceResults)
 //                if(frThreadQueue!!.remainingCapacity() > 0) {
@@ -172,7 +216,30 @@ class CameraKitView(activity: Activity, flutterMethodListener: FlutterMethodList
 //            }
 //            if(adjustPreview(frame.size.width, frame.size.height, frame.rotation))
 //                sendMessage(0, faceResults)
+        }
+    }
 
+    private val mHandler: Handler = object : Handler() {
+        override fun handleMessage(msg: Message) {
+            val i: Int = msg.what
+            if (i == 0) {
+                var drawInfoList = ArrayList<FaceRectView.DrawInfo>();
+                var detectionResult = msg.obj as ArrayList<FaceResult>
+
+                for(faceResult in detectionResult) {
+                    var rect : Rect = faceRectTransformer!!.adjustRect(faceResult.rect);
+                    var drawInfo : FaceRectView.DrawInfo;
+                    if(faceResult.liveness == 1)
+                        drawInfo = FaceRectView.DrawInfo(rect, 0, 0, 1, Color.GREEN, null);
+                    else
+                        drawInfo = FaceRectView.DrawInfo(rect, 0, 0, 0, Color.GREEN, null);
+
+                    drawInfoList.add(drawInfo);
+                }
+
+                rectanglesView!!.clearFaceInfo();
+                rectanglesView!!.addFaceInfo(drawInfoList);
+            }
         }
     }
 }

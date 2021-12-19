@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugin.platform.PlatformView;
@@ -22,9 +23,9 @@ public class CameraBaseView implements PlatformView {
         this.activity = activity;
         this.flutterMethodListener = flutterMethodListener;
         linearLayout = new FrameLayout(activity);
-        linearLayout.setLayoutParams(new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.MATCH_PARENT));
+        linearLayout.setLayoutParams(new RelativeLayout.LayoutParams(
+                RelativeLayout.LayoutParams.MATCH_PARENT,
+                RelativeLayout.LayoutParams.MATCH_PARENT));
         linearLayout.setBackgroundColor(Color.parseColor("#000000"));
 
     }
