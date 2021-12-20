@@ -107,7 +107,8 @@ class CameraKitView(activity: Activity, flutterMethodListener: FlutterMethodList
 
 
     override fun setCameraVisible(isCameraVisible: Boolean) {
-        Log.e("ddd", "setCameraVisible " + isCameraVisible)
+        hasPermission = permissionsDelegate?.hasPermissions()!!
+        Log.e("ddd", "setCameraVisible " + isCameraVisible + " " + hasPermission)
         if(hasPermission && isCameraVisible) {
             frontFotoapparat!!.start()
         } else {
@@ -129,10 +130,12 @@ class CameraKitView(activity: Activity, flutterMethodListener: FlutterMethodList
 
     override fun pauseCamera() {
         Log.e("ddd", "pauseCamera")
+        setCameraVisible(false)
     }
 
     override fun resumeCamera() {
         Log.e("ddd", "resumeCamera")
+        setCameraVisible(true)
     }
 
     override fun dispose() {}
