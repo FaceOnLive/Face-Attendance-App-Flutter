@@ -14,8 +14,8 @@ import '../../../../core/widgets/member_image_leading.dart';
 import '../../../07_settings/views/controllers/user_controller.dart';
 import '../controllers/verify_controller.dart';
 import 'static_verifier_sheet_lock.dart';
-import '../../../camerakit/CameraKitController.dart';
-import '../../../camerakit/CameraKitView.dart';
+import '../../../../camerakit/CameraKitController.dart';
+import '../../../../camerakit/CameraKitView.dart';
 
 
 class VerifierScreen extends StatefulWidget {

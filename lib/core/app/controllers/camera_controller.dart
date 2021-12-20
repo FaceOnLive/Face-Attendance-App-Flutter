@@ -2,7 +2,6 @@ import 'dart:typed_data';
 
 import 'package:camera/camera.dart';
 import 'package:get/get.dart';
-import '../verifier/verify_controller.dart';
 
 class AppCameraController extends GetxController {
   List<CameraDescription> cameras = [];
