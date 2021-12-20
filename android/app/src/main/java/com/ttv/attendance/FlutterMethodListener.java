@@ -8,6 +8,8 @@ public interface FlutterMethodListener {
 
     void onFaceDetected(ArrayList<HashMap<String,Object>> faces);
 
+    void onRecognized(int searchedID);
+
     void onTakePicture(MethodChannel.Result result, String filePath);
 
     void onTakePictureFailed(MethodChannel.Result result, String errorCode, String errorMessage);

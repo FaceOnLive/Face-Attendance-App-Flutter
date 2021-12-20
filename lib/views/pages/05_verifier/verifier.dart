@@ -106,8 +106,8 @@ class _CameraSection extends StatelessWidget {
                     child: CameraKitView(
                       doFaceAnalysis: true,
                       scaleType: ScaleTypeMode.fit,
-                      onFaceDetected: (recognitions) {
-
+                      onRecognized: (serachID) {
+                        print("-----serach id: " + serachID.toString());
                       },
                       previewFlashMode: CameraFlashMode.auto,
                       cameraKitController: controller,

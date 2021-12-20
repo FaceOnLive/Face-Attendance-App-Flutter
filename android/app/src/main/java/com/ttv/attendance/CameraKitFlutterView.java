@@ -82,6 +82,7 @@ public class CameraKitFlutterView implements PlatformView, MethodChannel.MethodC
             int cameraSelector = call.argument("cameraSelector");
             getCameraView().initCamera(doFaceAnalysis, flashMode, isFillScale
                     , androidCameraMode, cameraSelector);
+
         } else if (call.method.equals("resumeCamera")) {
             getCameraView().resumeCamera();
 
@@ -131,6 +132,11 @@ public class CameraKitFlutterView implements PlatformView, MethodChannel.MethodC
     @Override
     public void onFaceDetected(ArrayList<HashMap<String,Object>> faces) {
         channel.invokeMethod("onFaceDetected", faces);
+    }
+
+    @Override
+    public void onRecognized(int searchedID) {
+        channel.invokeMethod("onRecognized", searchedID);
     }
 
     @Override

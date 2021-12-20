@@ -141,7 +141,7 @@ class _MemberEditScreenState extends State<MemberEditScreen> {
                         });
                         if(_feats != null) {
                           print(
-                              "get feature feat: " + _feats!.length.toString());
+                              "get feature feat: " + _feats.length.toString());
                         } else {
                           //failed getFeature process
                         }

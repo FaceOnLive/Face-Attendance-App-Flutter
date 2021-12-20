@@ -15,14 +15,12 @@ enum ScaleTypeMode { fit, fill }
 enum AndroidCameraMode { API_1, API_2, API_X }
 enum CameraSelector { front, back }
 
-const APP_KEY = 'com.phoenixcapture.camerakit_example';
 
 // ignore: must_be_immutable
 class CameraKitView extends StatefulWidget {
   /// In barcodeReader mode, while camera preview detect barcodes, This method is called.
-  final Function? onFaceDetected;
 
-  final Function? onInitState;
+  final Function? onRecognized;
 
   ///After android and iOS user deny run time permission, this method is called.
   final Function? onPermissionDenied;
@@ -60,8 +58,7 @@ class CameraKitView extends StatefulWidget {
       {Key? key,
       this.doFaceAnalysis = true,
       this.scaleType = ScaleTypeMode.fill,
-      this.onFaceDetected,
-      this.onInitState,
+      this.onRecognized,
       this.previewFlashMode = CameraFlashMode.auto,
       this.cameraKitController,
       this.onPermissionDenied,
@@ -176,9 +173,9 @@ class NativeCameraKitController {
   final MethodChannel _channel;
 
   Future<dynamic> nativeMethodCallHandler(MethodCall methodCall) async {
-    if (methodCall.method == "onFaceDetected") {
-      if (widget.onFaceDetected != null) {
-        widget.onFaceDetected!(methodCall.arguments);
+    if (methodCall.method == "onRecognized") {
+      if (widget.onRecognized != null) {
+        widget.onRecognized!(methodCall.arguments);
       }
     }
 

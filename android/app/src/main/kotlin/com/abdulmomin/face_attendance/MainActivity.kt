@@ -41,7 +41,25 @@ class MainActivity: FlutterActivity() {
         // Put the verified user id in this variable 
         val verifiedUserID :String? = "NcGJQ2QPQ1UqgsqeJVzSmGAHXga2";
         result.success(verifiedUserID);
-      } 
+      } else if(call.method == "setDatabase"){
+        val memberList : HashMap<Int, ByteArray>? = call.argument("membersList");
+        // <-- IMPORTANT -->
+        // Compare and verify if the user is in the list, if he is then return the
+        //  user id associated with the map
+        //  something like this "0prLJklAKJdbQgb7FNyAxEor0Zs1"
+        // if there  is nothing you can return null
+
+        FaceEngine.getInstance(this).removeFaceFeature(-1);
+        for ((key, value) in memberList!!) {
+          val faceFeatureInfo =
+            FaceFeatureInfo(key, value)
+
+          FaceEngine.getInstance(this).registerFaceFeature(faceFeatureInfo)
+        }
+        // Do verification and
+        // Put the verified user id in this variable
+        result.success(true);
+      }
 
       // <--- METHOD: Verify Single Person --->
       else if(call.method == "verifySinglePerson"){
@@ -49,7 +67,7 @@ class MainActivity: FlutterActivity() {
         val capturedImage: ByteArray? = call.argument("capturedImage");
         
         // You can verify this 1to1 and put your result in this
-        val isThisPersonVerified: Boolean = false;
+        var isThisPersonVerified: Boolean = false;
 
         val image1 = BitmapFactory.decodeByteArray(personImage!!, 0, personImage!!.size)
         if(image1 != null) {
@@ -90,18 +108,24 @@ class MainActivity: FlutterActivity() {
       } else if(call.method == "getFeature") {
         Log.e("ddd", "getFeature!!!!");
 
+        var feat:ByteArray? = null;
         val capturedImage: ByteArray? = call.argument("image");
-        val mode:Int = call.argument("mode");
+        val mode:Int? = call.argument("mode");
         if(capturedImage != null) {
           val image = BitmapFactory.decodeByteArray(capturedImage!!, 0, capturedImage!!.size)
-          val faceResults:List<FaceResult> = FaceEngine.getInstance(this).detectFace(image)
-          if(faceResults.count() == 1) {
+          val faceResults: List<FaceResult> = FaceEngine.getInstance(this).detectFace(image)
+          if (faceResults.count() == 1) {
             FaceEngine.getInstance(this).extractFeature(image, true, faceResults)
 
-            return result.success(faceResults.get(0).feature);
-          }
+            feat = faceResults.get(0).feature
 
-        result.success(null);
+//            val faceFeatureInfo =
+//              FaceFeatureInfo(1, feat)
+//            FaceEngine.getInstance(this).registerFaceFeature(faceFeatureInfo)
+          }
+        }
+
+        result.success(feat);
       }
       
       else {

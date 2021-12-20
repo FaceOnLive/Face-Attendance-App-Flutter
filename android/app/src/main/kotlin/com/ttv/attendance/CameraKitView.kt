@@ -8,6 +8,7 @@ import android.icu.util.UniversalTimeScale.toLong
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
+import android.os.Looper
 import android.util.Log
 import android.util.Size
 import android.view.View
@@ -199,23 +200,53 @@ class CameraKitView(activity: Activity, flutterMethodListener: FlutterMethodList
         override fun invoke(frame: Frame) {
             val faceResults:List<FaceResult> = FaceEngine.getInstance(appCtx).detectFace(frame.image, frame.size.width, frame.size.height)
 
+            if(faceResults.count() > 0) {
+                FaceEngine.getInstance(appCtx).livenessProcess(frame.image, frame.size.width, frame.size.height, faceResults)
+                if(frThreadQueue!!.remainingCapacity() > 0) {
+                    frExecutor!!.execute(
+                        FaceRecognizeRunnable(
+                            frame.image,
+                            frame.size.width,
+                            frame.size.height,
+                            faceResults
+                        )
+                    )
+                }
+            }
             if(adjustPreview(frame.size.width, frame.size.height, frame.rotation))
                 sendMessage(0, faceResults)
-//            if(faceResults.count() > 0) {
-//                FaceEngine.getInstance(appCtx).livenessProcess(frame.image, frame.size.width, frame.size.height, faceResults)
-//                if(frThreadQueue!!.remainingCapacity() > 0) {
-//                    frExecutor!!.execute(
-//                        FaceRecognizeRunnable(
-//                            frame.image,
-//                            frame.size.width,
-//                            frame.size.height,
-//                            faceResults
-//                        )
-//                    )
-//                }
-//            }
-//            if(adjustPreview(frame.size.width, frame.size.height, frame.rotation))
-//                sendMessage(0, faceResults)
+        }
+    }
+
+
+    inner class FaceRecognizeRunnable(nv21Data_: ByteArray, width_: Int, height_: Int, faceResults_:List<FaceResult>) : Runnable {
+        val nv21Data: ByteArray
+        val width: Int
+        val height: Int
+        val faceResults: List<FaceResult>
+
+        init {
+            nv21Data = nv21Data_
+            width = width_
+            height = height_
+            faceResults = faceResults_
+        }
+
+        override fun run() {
+            FaceEngine.getInstance(appCtx).extractFeature(nv21Data, width, height, false, faceResults)
+            val faceFeature = FaceFeature(faceResults[0].feature)
+            try {
+                val searchResult = FaceEngine.getInstance(appCtx).searchFaceFeature(faceFeature)
+                if(searchResult != null) {
+                    if(searchResult.getMaxSimilar() > 0.82 && faceResults.get(0).liveness == 1) {
+                        Handler(Looper.getMainLooper()).post(Runnable {
+                            flutterMethodListener!!.onRecognized(searchResult.getFaceFeatureInfo().getSearchId());
+                        })
+                    }
+                }
+                } catch (e:Exception) {
+            }
+
         }
     }
 
