@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:face_attendance/features/04_verifier/data/native_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -71,6 +72,10 @@ class VerifyController extends GetxController {
       File _file = await AppPhotoService.fileFromImageUrl(element);
       allMemberImagesFile.add(_file);
     });
+
+    NativeSDKFunctions.setSdkDatabase({'1': allMemberImagesFile[0]});
+
+    print("First Person Image ${allMemberImagesURL[0]}");
     update();
   }
 
@@ -208,17 +213,21 @@ class VerifyController extends GetxController {
   }
 
   /// Detect if a person exist in a photo
-  Future<bool> isPersonDetected({required Uint8List capturedImage,
-    required int imageWidth,
-    required int imageHeight}) async {
+  Future<bool> isPersonDetected(
+      {required Uint8List capturedImage,
+      required int imageWidth,
+      required int imageHeight}) async {
     // Show progress
     // isVerifyingNow = true;
     // showProgressIndicator = true;
     // update();
 
     // Uint8List _pictureToBeVerified = capturedImage.readAsBytesSync();
-    bool? _isPersonDetected = await _channel
-        .invokeMethod('detectFace', {'capturedImage': capturedImage, 'imageWidth': imageWidth, 'imageHeight': imageHeight});
+    bool? _isPersonDetected = await _channel.invokeMethod('detectFace', {
+      'capturedImage': capturedImage,
+      'imageWidth': imageWidth,
+      'imageHeight': imageHeight
+    });
 
     print('A PERSON IS DETECTED : $_isPersonDetected');
 

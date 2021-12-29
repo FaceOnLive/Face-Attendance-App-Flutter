@@ -17,7 +17,7 @@ class AppButton extends StatelessWidget {
     this.suffixIcon,
     this.prefixIcon,
     this.backgroundColor,
-    this.mainAxisAlignment,
+    this.mainAxisAlignment = MainAxisAlignment.spaceBetween,
     this.disableBorderRadius = false,
     this.isButtonDisabled = false,
     this.fontSize,
@@ -33,7 +33,7 @@ class AppButton extends StatelessWidget {
   final Color? backgroundColor;
   final Icon? suffixIcon;
   final Icon? prefixIcon;
-  final MainAxisAlignment? mainAxisAlignment;
+  final MainAxisAlignment mainAxisAlignment;
   final bool disableBorderRadius;
   final bool isButtonDisabled;
   final double? fontSize;
@@ -65,8 +65,7 @@ class AppButton extends StatelessWidget {
               )
             : Row(
                 mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment:
-                    mainAxisAlignment ?? MainAxisAlignment.center,
+                mainAxisAlignment: mainAxisAlignment,
                 children: [
                   prefixIcon != null
                       ? Container(

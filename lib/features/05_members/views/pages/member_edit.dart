@@ -57,7 +57,7 @@ class _MemberEditScreenState extends State<MemberEditScreen> {
 
   // Image
   File? _userImage;
-  Uint8List? _userFeat;
+  // Uint8List? _userFeat;
   final RxBool _userPickedImage = false.obs;
 
   // Form Key
@@ -124,32 +124,32 @@ class _MemberEditScreenState extends State<MemberEditScreen> {
               children: [
                 Obx(
                   () => ProfilePictureWidget(
-                    onTap: () async {
-                      _userImage =
-                          await Get.dialog(const CameraGallerySelectDialog());
-                      // If the user has picked an image then we will show
-                      // the file user has picked
-                      if (_userImage != null) {
-                        _userPickedImage.trigger(true);
+                      onTap: () async {
+                        _userImage =
+                            await Get.dialog(const CameraGallerySelectDialog());
+                        // If the user has picked an image then we will show
+                        // the file user has picked
+                        if (_userImage != null) {
+                          _userPickedImage.trigger(true);
 
-                        Uint8List _capturedImage = _userImage!.readAsBytesSync();
-                        Uint8List? _feats = await _channel
-                            .invokeMethod('getFeature', {
-                              'image': _capturedImage,
-                              'mode' : 1    //1 -> enroll mode, 0 -> verify mode
-                        });
-                        if(_feats != null) {
-                          print(
-                              "get feature feat: " + _feats.length.toString());
-                        } else {
-                          //failed getFeature process
+                          Uint8List _capturedImage =
+                              _userImage!.readAsBytesSync();
+                          Uint8List? _feats =
+                              await _channel.invokeMethod('getFeature', {
+                            'image': _capturedImage,
+                            'mode': 1 //1 -> enroll mode, 0 -> verify mode
+                          });
+                          if (_feats != null) {
+                            print("get feature feat: " +
+                                _feats.length.toString());
+                          } else {
+                            //failed getFeature process
+                          }
                         }
-                      }
-                    },
-                    isLocal: _userPickedImage.value,
-                    profileLink: widget.member.memberPicture,
-                    localImage: _userImage
-                  ),
+                      },
+                      isLocal: _userPickedImage.value,
+                      profileLink: widget.member.memberPicture,
+                      localImage: _userImage),
                 ),
                 /* <---- Form INFO ----> */
                 Container(

@@ -1,13 +1,10 @@
 import 'package:face_attendance/features/06_spaces/data/source/space_local_source.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:flutter/services.dart';
-
 
 import '../../../features/01_onboarding/views/onboarding_page.dart';
 import '../../../features/03_attendance/views/pages/attendance_screen.dart';
@@ -33,8 +30,7 @@ class SettingsController extends GetxController {
       await Hive.openBox(_appsBoolBox);
       await Hive.openBox(SpaceLocalSource.spaceBoxName);
 
-      bool? initRet = await _channel
-          .invokeMethod('initSDK', {});
+      bool? initRet = await _channel.invokeMethod('initSDK', {});
 
       print("_onApp Start!!!!! " + initRet.toString());
 

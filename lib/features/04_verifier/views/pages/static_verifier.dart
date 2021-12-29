@@ -1,17 +1,15 @@
-import 'dart:typed_data';
-
 import 'package:camera/camera.dart';
-import 'package:face_attendance/core/app/controllers/camera_controller.dart';
-import 'package:face_attendance/core/themes/text.dart';
-import 'package:face_attendance/core/widgets/member_image_leading.dart';
-import 'package:face_attendance/features/04_verifier/views/controllers/verify_controller.dart';
-import 'package:face_attendance/features/05_members/views/controllers/member_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../../../core/app/controllers/camera_controller.dart';
 import '../../../../core/constants/constants.dart';
-
+import '../../../../core/themes/text.dart';
+import '../../../../core/widgets/member_image_leading.dart';
+import '../../../05_members/views/controllers/member_controller.dart';
+import '../components/temporary_functions.dart';
+import '../controllers/verify_controller.dart';
 import 'static_verifier_sheet_lock.dart';
 
 class StaticVerifierScreen extends StatefulWidget {
@@ -150,7 +148,7 @@ class _CameraSection extends StatelessWidget {
                   ),
 
                   /// TEMPORARY
-                  const _TemporaryFunctionToCheckMethod(),
+                  const TemporaryFunctionToCheckMethod(),
                 ],
               ),
             ),
@@ -272,99 +270,6 @@ class _ShowMessage extends StatelessWidget {
           ),
         );
       },
-    );
-  }
-}
-
-class _TemporaryFunctionToCheckMethod extends GetView<AppCameraController> {
-  const _TemporaryFunctionToCheckMethod({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Positioned(
-      top: Get.height * 0.12,
-      child: Column(
-        children: [
-          FloatingActionButton.extended(
-            onPressed: () async {
-              XFile _image = await controller.cameraController.takePicture();
-              Uint8List _file = await _image.readAsBytes();
-
-              // bool _isPersonPresent = await Get.find<VerifyController>()
-              //     .isPersonDetected(capturedImage: _file);
-              //
-              // if (_isPersonPresent) {
-              //   Get.snackbar(
-              //     'A Face is detected',
-              //     'This is a dummy function, you should return the real value',
-              //     colorText: Colors.white,
-              //     backgroundColor: Colors.green,
-              //   );
-              // }
-            },
-            label: const Text('Detect Person'),
-            icon: const Icon(Icons.camera),
-            backgroundColor: AppColors.primaryColor,
-          ),
-          AppSizes.hGap20,
-          /* <----  -----> */
-          FloatingActionButton.extended(
-            onPressed: () async {
-              XFile _image = await controller.cameraController.takePicture();
-              Uint8List _uin8file = await _image.readAsBytes();
-              // File _file = File.fromRawPath(_uin8file);
-
-              String? user = await Get.find<VerifyController>()
-                  .verifyPersonList(memberToBeVerified: _uin8file);
-
-              if (user != null) {
-                Get.snackbar(
-                  'Person Verified: $user',
-                  'Verified Member',
-                  colorText: Colors.white,
-                  backgroundColor: Colors.green,
-                );
-              }
-            },
-            label: const Text('Verify From All'),
-            icon: const Icon(Icons.people_alt_rounded),
-            backgroundColor: AppColors.primaryColor,
-          ),
-          AppSizes.hGap20,
-          /* <----  -----> */
-          // FloatingActionButton.extended(
-          //   onPressed: () async {
-          //     XFile _image = await controller.cameraController.takePicture();
-          //     Uint8List _file = await _image.readAsBytes();
-
-          //     String _currentUserImageUrl =
-          //         Get.find<AppUserController>().currentUser.userProfilePicture!;
-          //     File _currentUserImage =
-          //         await AppPhotoService.fileFromImageUrl(_currentUserImageUrl);
-
-          //     bool _isVerified =
-          //         await Get.find<VerifyController>().verfiyPersonSingle(
-          //       capturedImage: _file,
-          //       personImage: _currentUserImage,
-          //     );
-
-          //     if (_isVerified) {
-          //       Get.snackbar(
-          //         'Person Verified Successfull',
-          //         'Verified Member',
-          //         colorText: Colors.white,
-          //         backgroundColor: Colors.green,
-          //       );
-          //     }
-          //   },
-          //   label: Text('Verify Single'),
-          //   icon: Icon(Icons.person),
-          //   backgroundColor: AppColors.PRIMARY_COLOR,
-          // ),
-        ],
-      ),
     );
   }
 }

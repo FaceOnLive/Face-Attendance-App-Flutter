@@ -1,22 +1,14 @@
-import 'dart:io';
-import 'dart:typed_data';
-
-import 'package:camera/camera.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../../core/app/controllers/camera_controller.dart';
+import '../../../../camerakit/camera_kit_controller.dart';
+import '../../../../camerakit/camera_kit_view.dart';
 import '../../../../core/constants/constants.dart';
-import '../../../../core/data/services/app_photo.dart';
 import '../../../../core/themes/text.dart';
 import '../../../../core/widgets/member_image_leading.dart';
-import '../../../07_settings/views/controllers/user_controller.dart';
 import '../controllers/verify_controller.dart';
 import 'static_verifier_sheet_lock.dart';
-import '../../../../camerakit/CameraKitController.dart';
-import '../../../../camerakit/CameraKitView.dart';
-
+import '../components/temporary_functions.dart';
 
 class VerifierScreen extends StatefulWidget {
   const VerifierScreen({Key? key}) : super(key: key);
@@ -92,65 +84,65 @@ class _CameraSection extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
-
   @override
   Widget build(BuildContext context) {
     return GetBuilder<CameraKitController>(
       builder: (controller) => Expanded(
-              child: Stack(
-                children: [
-                  SizedBox(
-                    width: double.infinity,
-                    height: double.infinity,
-                    // child: CameraPreview(controller.cameraController),
-                    child: CameraKitView(
-                      doFaceAnalysis: true,
-                      scaleType: ScaleTypeMode.fit,
-                      onRecognized: (serachID) {
-                        print("-----serach id: " + serachID.toString());
-                      },
-                      previewFlashMode: CameraFlashMode.auto,
-                      cameraKitController: controller,
-                      androidCameraMode: AndroidCameraMode.API_X,
-                      cameraSelector: CameraSelector.front,
-                    ),
-                  ),
-                  /* <---- Verifier Button ----> */
-                  Positioned(
-                    bottom: 0,
-                    child: Column(
-                      children: const [
-                        _UseAsAVerifierButton(),
-                      ],
-                    ),
-                  ),
-                  /* <---- Camera Switch Button ----> */
-                  Positioned(
-                    top: 15,
-                    right: 10,
-                    child: Opacity(
-                      opacity: 0.5,
-                      child: FloatingActionButton(
-                        onPressed: controller.toggleCameraLens,
-                        child: const Icon(Icons.switch_camera_rounded),
-                        backgroundColor: AppColors.primaryColor,
-                      ),
-                    ),
-                  ),
-
-                  /// MESSAGE SHOWING
-                  Positioned(
-                    bottom: Get.height * 0.10,
-                    left: 0,
-                    right: 0,
-                    child: const _ShowMessage(),
-                  ),
-
-                  /// TEMPORARY
-                  const _TemporaryFunctionToCheckMethod(),
+        child: Stack(
+          children: [
+            SizedBox(
+              width: double.infinity,
+              height: double.infinity,
+              // child: CameraPreview(controller.cameraController),
+              child: CameraKitView(
+                doFaceAnalysis: true,
+                scaleType: ScaleTypeMode.fit,
+                onRecognized: (serachID) {
+                  print("Recognized");
+                  print("-----serach id: " + serachID.toString());
+                },
+                previewFlashMode: CameraFlashMode.auto,
+                cameraKitController: controller,
+                androidCameraMode: AndroidCameraMode.apiX,
+                cameraSelector: CameraSelector.front,
+              ),
+            ),
+            /* <---- Verifier Button ----> */
+            Positioned(
+              bottom: 0,
+              child: Column(
+                children: const [
+                  _UseAsAVerifierButton(),
                 ],
               ),
             ),
+            /* <---- Camera Switch Button ----> */
+            Positioned(
+              top: 15,
+              right: 10,
+              child: Opacity(
+                opacity: 0.5,
+                child: FloatingActionButton(
+                  onPressed: controller.toggleCameraLens,
+                  child: const Icon(Icons.switch_camera_rounded),
+                  backgroundColor: AppColors.primaryColor,
+                ),
+              ),
+            ),
+
+            /// MESSAGE SHOWING
+            Positioned(
+              bottom: Get.height * 0.10,
+              left: 0,
+              right: 0,
+              child: const _ShowMessage(),
+            ),
+
+            /// TEMPORARY
+            const TemporaryFunctionToCheckMethod(),
+          ],
+        ),
+      ),
     );
   }
 }
@@ -217,99 +209,6 @@ class _ShowMessage extends StatelessWidget {
           ),
         );
       },
-    );
-  }
-}
-
-class _TemporaryFunctionToCheckMethod extends GetView<AppCameraController> {
-  const _TemporaryFunctionToCheckMethod({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Positioned(
-      top: Get.height * 0.12,
-      child: Column(
-        children: [
-          FloatingActionButton.extended(
-            onPressed: () async {
-              XFile _image = await controller.cameraController.takePicture();
-              Uint8List _file = await _image.readAsBytes();
-
-              // bool _isPersonPresent = await Get.find<VerifyController>()
-              //     .isPersonDetected(capturedImage: _file);
-              //
-              // if (_isPersonPresent) {
-              //   Get.snackbar(
-              //     'A Face is detected',
-              //     'This is a dummy function, you should return the real value',
-              //     colorText: Colors.white,
-              //     backgroundColor: Colors.green,
-              //   );
-              // }
-            },
-            label: const Text('Detect Person'),
-            icon: const Icon(Icons.camera),
-            backgroundColor: AppColors.primaryColor,
-          ),
-          AppSizes.hGap20,
-          /* <----  -----> */
-          FloatingActionButton.extended(
-            onPressed: () async {
-              XFile _image = await controller.cameraController.takePicture();
-              Uint8List _uin8file = await _image.readAsBytes();
-              // File _file = File.fromRawPath(_uin8file);
-
-              String? user = await Get.find<VerifyController>()
-                  .verifyPersonList(memberToBeVerified: _uin8file);
-
-              if (user != null) {
-                Get.snackbar(
-                  'Person Verified: $user',
-                  'Verified Member',
-                  colorText: Colors.white,
-                  backgroundColor: Colors.green,
-                );
-              }
-            },
-            label: const Text('Verify From All'),
-            icon: const Icon(Icons.people_alt_rounded),
-            backgroundColor: AppColors.primaryColor,
-          ),
-          AppSizes.hGap20,
-          /* <----  -----> */
-          FloatingActionButton.extended(
-            onPressed: () async {
-              XFile _image = await controller.cameraController.takePicture();
-              Uint8List _file = await _image.readAsBytes();
-
-              String _currentUserImageUrl =
-                  Get.find<AppUserController>().currentUser.userProfilePicture!;
-              File _currentUserImage =
-                  await AppPhotoService.fileFromImageUrl(_currentUserImageUrl);
-
-              bool _isVerified =
-                  await Get.find<VerifyController>().verfiyPersonSingle(
-                capturedImage: _file,
-                personImage: _currentUserImage,
-              );
-
-              if (_isVerified) {
-                Get.snackbar(
-                  'Person Verified Successfull',
-                  'Verified Member',
-                  colorText: Colors.white,
-                  backgroundColor: Colors.green,
-                );
-              }
-            },
-            label: const Text('Verify Single'),
-            icon: const Icon(Icons.person),
-            backgroundColor: AppColors.primaryColor,
-          ),
-        ],
-      ),
     );
   }
 }

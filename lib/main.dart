@@ -7,6 +7,6 @@ import 'core/app/views/root.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await GetStorage.init();
-  runApp(TuringTechApp());
   AppUiHelper.autoRotateOff();
+  runApp(TuringTechApp());
 }
