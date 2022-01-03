@@ -10,3 +10,13 @@ void main() async {
   AppUiHelper.autoRotateOff();
   runApp(TuringTechApp());
 }
+
+
+/// import com.ttv.attendance.CamerakitPlugin;
+///  
+///  try {
+///     flutterEngine.getPlugins().add(new CamerakitPlugin());
+///    } catch(Exception e) {
+///      Log.e(TAG, "Error registering plugin camera, io.flutter.plugins.camera.CameraPlugin", e);
+///    }
+/// 

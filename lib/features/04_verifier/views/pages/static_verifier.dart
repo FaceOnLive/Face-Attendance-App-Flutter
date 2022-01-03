@@ -148,7 +148,7 @@ class _CameraSection extends StatelessWidget {
                   ),
 
                   /// TEMPORARY
-                  const TemporaryFunctionToCheckMethod(),
+                  // const TemporaryFunctionToCheckMethod(),
                 ],
               ),
             ),
