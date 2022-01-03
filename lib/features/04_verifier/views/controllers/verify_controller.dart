@@ -14,6 +14,7 @@ import '../../../../core/models/member.dart';
 import '../../../02_entrypoint/entrypoint.dart';
 import '../../../05_members/views/controllers/member_controller.dart';
 import '../../../07_settings/views/controllers/user_controller.dart';
+import '../../data/native_functions.dart';
 import '../pages/static_verifier.dart';
 
 class VerifyController extends GetxController {
@@ -32,7 +33,7 @@ class VerifyController extends GetxController {
   }
 
   /// All Members Photo
-  List<String> allMemberImagesURL = [];
+  Map<String, String> allMemberImagesURL = {};
 
   /// Get All Members Images
   /// This is the firebase way
@@ -51,7 +52,7 @@ class VerifyController extends GetxController {
     List<Member> _allMember = Get.find<MembersController>().allMembers;
     await Future.forEach<Member>(_allMember, (element) {
       if (element.memberPicture != null) {
-        allMemberImagesURL.add(element.memberPicture!);
+        allMemberImagesURL.addAll({element.memberID!: element.memberPicture!});
       }
     });
     print("Total Image URL fetched: ${allMemberImagesURL.length}");
@@ -61,18 +62,57 @@ class VerifyController extends GetxController {
   /// All Files are stored in Ram, These can be a quick way to verify
   /// the user. So that we don't have to downlaod the user picture again and
   /// again
-  List<File> allMemberImagesFile = [];
+  Map<String, File> allMemberImagesFile = {};
 
   /// Convert All The URLs To File by Downloading it and
   /// storing it to the memory
   Future<void> _getAllMemberImagesToFile() async {
+    List<String> _memberUIDs = List<String>.from(allMemberImagesURL.keys);
+    List<String> _memberImagesUrl =
+        List<String>.from(allMemberImagesURL.values);
+
     // You can delay this a little bit to get performance
-    await Future.forEach<String>(allMemberImagesURL, (element) async {
+    await Future.forEach<String>(_memberImagesUrl, (element) async {
       File _file = await AppPhotoService.fileFromImageUrl(element);
-      allMemberImagesFile.add(_file);
+
+      // get current index
+      int _currentPictureIndex = _memberImagesUrl.indexOf(element);
+
+      // get current userID
+      String _currentUserID = _memberUIDs[_currentPictureIndex];
+
+      allMemberImagesFile.addAll({_currentUserID: _file});
     });
+
+    /* <---- Set SDK -----> */
+    List<File> _memberImagesLoadedList =
+        List<File>.from(allMemberImagesFile.values);
+
+    /// Map<String, Uin8List> this will be the type
+    Map<int, Uint8List> _allUsersImage = {};
+
+    /// Convert All User Face Data
+    await Future.forEach<File>(_memberImagesLoadedList, (imageFile) async {
+      Uint8List? _convertedFile = await NativeSDKFunctions.getFaceData(
+        image: imageFile,
+      );
+      int _currentIndex = _memberImagesLoadedList.indexOf(imageFile);
+      String _userID = _memberUIDs[_currentIndex];
+
+      if (_convertedFile != null) {
+        _allUsersImage.addAll({_currentIndex: _convertedFile});
+      }
+    });
+
+    await NativeSDKFunctions.setSdkDatabase(_allUsersImage);
+
+    print("First Person Image ${allMemberImagesURL[0]}");
     update();
   }
+
+  /* <-----------------------> 
+      STATIC VERIFY MODE    
+   <-----------------------> */
 
   /// Go In Static Verify Mode
   Future<String?> startStaticVerifyMode({required String userPass}) async {
@@ -147,7 +187,7 @@ class VerifyController extends GetxController {
 
     print('Total Images got: ${allMemberImagesFile.length}');
 
-    await Future.forEach<File>(allMemberImagesFile, (element) {
+    await Future.forEach<File>(allMemberImagesFile.values, (element) {
       Uint8List bytes = element.readAsBytesSync();
       _userImages.addAll({'userID': bytes});
     });
@@ -208,17 +248,21 @@ class VerifyController extends GetxController {
   }
 
   /// Detect if a person exist in a photo
-  Future<bool> isPersonDetected({required Uint8List capturedImage,
-    required int imageWidth,
-    required int imageHeight}) async {
+  Future<bool> isPersonDetected(
+      {required Uint8List capturedImage,
+      required int imageWidth,
+      required int imageHeight}) async {
     // Show progress
     // isVerifyingNow = true;
     // showProgressIndicator = true;
     // update();
 
     // Uint8List _pictureToBeVerified = capturedImage.readAsBytesSync();
-    bool? _isPersonDetected = await _channel
-        .invokeMethod('detectFace', {'capturedImage': capturedImage, 'imageWidth': imageWidth, 'imageHeight': imageHeight});
+    bool? _isPersonDetected = await _channel.invokeMethod('detectFace', {
+      'capturedImage': capturedImage,
+      'imageWidth': imageWidth,
+      'imageHeight': imageHeight
+    });
 
     print('A PERSON IS DETECTED : $_isPersonDetected');
 

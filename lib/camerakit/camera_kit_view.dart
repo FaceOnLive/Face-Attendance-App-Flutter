@@ -1,20 +1,17 @@
 import 'dart:async';
 import 'dart:io';
-import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:visibility_detector/visibility_detector.dart';
-import 'package:http/http.dart' as http;
 
-import 'CameraKitController.dart';
+import 'camera_kit_controller.dart';
 
 enum CameraFlashMode { on, off, auto }
 enum ScaleTypeMode { fit, fill }
-enum AndroidCameraMode { API_1, API_2, API_X }
+enum AndroidCameraMode { api1, api2, apiX }
 enum CameraSelector { front, back }
-
 
 // ignore: must_be_immutable
 class CameraKitView extends StatefulWidget {
@@ -62,7 +59,7 @@ class CameraKitView extends StatefulWidget {
       this.previewFlashMode = CameraFlashMode.auto,
       this.cameraKitController,
       this.onPermissionDenied,
-      this.androidCameraMode = AndroidCameraMode.API_X,
+      this.androidCameraMode = AndroidCameraMode.apiX,
       this.cameraSelector = CameraSelector.back})
       : super(key: key);
 
@@ -71,6 +68,7 @@ class CameraKitView extends StatefulWidget {
   }
 
   @override
+  // ignore: no_logic_in_create_state
   State<StatefulWidget> createState() {
     if (cameraKitController != null) cameraKitController!.setView(this);
     viewState = _BarcodeScannerViewState();
@@ -89,13 +87,14 @@ class _BarcodeScannerViewState extends State<CameraKitView>
     WidgetsBinding.instance!.addObserver(this);
     if (defaultTargetPlatform == TargetPlatform.android) {
       visibilityDetector = VisibilityDetector(
-          key: Key('visible-camerakit-key-1'),
+          key: const Key('visible-camerakit-key-1'),
           onVisibilityChanged: (visibilityInfo) {
             if (controller != null) {
-              if (visibilityInfo.visibleFraction == 0)
+              if (visibilityInfo.visibleFraction == 0) {
                 controller!.setCameraVisible(false);
-              else
+              } else {
                 controller!.setCameraVisible(true);
+              }
             }
           },
           child: AndroidView(
@@ -104,12 +103,13 @@ class _BarcodeScannerViewState extends State<CameraKitView>
           ));
     } else {
       visibilityDetector = VisibilityDetector(
-          key: Key('visible-camerakit-key-1'),
+          key: const Key('visible-camerakit-key-1'),
           onVisibilityChanged: (visibilityInfo) {
-            if (visibilityInfo.visibleFraction == 0)
+            if (visibilityInfo.visibleFraction == 0) {
               controller!.setCameraVisible(false);
-            else
+            } else {
               controller!.setCameraVisible(true);
+            }
           },
           child: UiKitView(
             viewType: 'plugins/camera_kit',
@@ -152,8 +152,8 @@ class _BarcodeScannerViewState extends State<CameraKitView>
   }
 
   void _onPlatformViewCreated(int id) {
-    this.controller = new NativeCameraKitController._(id, context, widget);
-    this.controller!.initCamera();
+    controller = NativeCameraKitController._(id, context, widget);
+    controller!.initCamera();
   }
 
   void disposeView() {
@@ -168,7 +168,7 @@ class NativeCameraKitController {
   CameraKitView widget;
 
   NativeCameraKitController._(int id, this.context, this.widget)
-      : _channel = new MethodChannel('plugins/camera_kit_' + id.toString());
+      : _channel = MethodChannel('plugins/camera_kit_' + id.toString());
 
   final MethodChannel _channel;
 
@@ -183,10 +183,11 @@ class NativeCameraKitController {
   }
 
   bool _getScaleTypeMode(ScaleTypeMode scaleType) {
-    if (scaleType == ScaleTypeMode.fill)
+    if (scaleType == ScaleTypeMode.fill) {
       return true;
-    else
+    } else {
       return false;
+    }
   }
 
   String? _getCharFlashMode(CameraFlashMode cameraFlashMode) {
@@ -207,11 +208,11 @@ class NativeCameraKitController {
 
   _getAndroidCameraMode(AndroidCameraMode androidCameraMode) {
     switch (androidCameraMode) {
-      case AndroidCameraMode.API_1:
+      case AndroidCameraMode.api1:
         return 1;
-      case AndroidCameraMode.API_2:
+      case AndroidCameraMode.api2:
         return 2;
-      case AndroidCameraMode.API_X:
+      case AndroidCameraMode.apiX:
         return 3;
     }
   }

@@ -43,11 +43,8 @@ class MainActivity: FlutterActivity() {
         result.success(verifiedUserID);
       } else if(call.method == "setDatabase"){
         val memberList : HashMap<Int, ByteArray>? = call.argument("membersList");
-        // <-- IMPORTANT -->
-        // Compare and verify if the user is in the list, if he is then return the
-        //  user id associated with the map
-        //  something like this "0prLJklAKJdbQgb7FNyAxEor0Zs1"
-        // if there  is nothing you can return null
+        /// Should Call everytime the app starts
+        /// This will set the database of faces
 
         FaceEngine.getInstance(this).removeFaceFeature(-1);
         for ((key, value) in memberList!!) {

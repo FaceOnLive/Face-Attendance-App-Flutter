@@ -7,6 +7,16 @@ import 'core/app/views/root.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await GetStorage.init();
-  runApp(TuringTechApp());
   AppUiHelper.autoRotateOff();
+  runApp(TuringTechApp());
 }
+
+
+/// import com.ttv.attendance.CamerakitPlugin;
+///  
+///  try {
+///     flutterEngine.getPlugins().add(new CamerakitPlugin());
+///    } catch(Exception e) {
+///      Log.e(TAG, "Error registering plugin camera, io.flutter.plugins.camera.CameraPlugin", e);
+///    }
+/// 

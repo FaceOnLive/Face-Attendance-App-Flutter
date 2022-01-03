@@ -47,13 +47,11 @@ dependencies:
   visibility_detector: ^0.2.0
   dartz: ^0.10.0
 
-
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
   flutter_lints: ^1.0.0
-
 
 flutter:
   uses-material-design: true
@@ -65,6 +63,7 @@ flutter:
         pluginClass: CamerakitPlugin
       ios:
         pluginClass: CamerakitPlugin
+
   assets:
     - assets/images/intro/
     - assets/images/logos/

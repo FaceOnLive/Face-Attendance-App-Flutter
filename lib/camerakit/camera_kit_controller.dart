@@ -1,5 +1,6 @@
-import './CameraKitView.dart';
 import 'package:get/get.dart';
+
+import 'camera_kit_view.dart';
 
 ///This controller is used to control CameraKiView.dart
 class CameraKitController extends GetxController {
@@ -27,6 +28,7 @@ class CameraKitController extends GetxController {
   Future<String?> takePicture({String path = ""}) {
     return cameraKitView.viewState.controller!.takePicture(path);
   }
+
   ///Change flash mode between auto, on and off
   changeFlashMode(CameraFlashMode captureFlashMode) {
     cameraKitView.viewState.controller!.changeFlashMode(captureFlashMode);
@@ -38,7 +40,5 @@ class CameraKitController extends GetxController {
   }
 
   // Toggle The Camera Lense
-  void toggleCameraLens() {
-
-  }
+  void toggleCameraLens() {}
 }

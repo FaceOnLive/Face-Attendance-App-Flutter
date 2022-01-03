@@ -1,4 +1,6 @@
+import 'package:face_attendance/core/widgets/app_button.dart';
 import 'package:face_attendance/features/03_attendance/views/widgets/widgets.dart';
+import 'package:face_attendance/features/04_verifier/views/components/verifier_check.dart';
 import 'package:face_attendance/features/06_spaces/views/controllers/space_controller.dart';
 
 import 'package:flutter/material.dart';
@@ -18,6 +20,16 @@ class AttendanceScreen extends StatelessWidget {
       child: SafeArea(
         child: Column(
           children: [
+            AppButton(
+              label: 'Verifier SDK Check',
+              onTap: () => Get.to(() => const VerifierCheckScreen()),
+              suffixIcon: const Icon(
+                Icons.arrow_forward_ios_rounded,
+                color: Colors.white,
+              ),
+              disableBorderRadius: true,
+              margin: EdgeInsets.zero,
+            ),
             /* <---- Header ----> */
             const HeaderMainPage(),
             /* <---- Attendance List -----> */
