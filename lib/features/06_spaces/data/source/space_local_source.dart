@@ -11,7 +11,7 @@ class SpaceLocalSource {
     Space? space;
     String? savedSpaceID = getSavedSpaceID(userID: userID);
 
-    print("Got ${fetchedSpaces.length} ");
+    print("Total Fetched Space: ${fetchedSpaces.length} ");
 
     if (savedSpaceID != null) {
       // If we have the space id saved or not

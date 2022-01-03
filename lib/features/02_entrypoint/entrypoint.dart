@@ -1,19 +1,20 @@
-/* <-----------------------> 
-    This is where the user will come most of the time when he is logged in,
-    This works as a like foundation of all main screen. Other Screen will act like a tab;
- <-----------------------> */
-
 import 'package:animations/animations.dart';
-import 'package:face_attendance/core/app/controllers/settings_controller.dart';
-import 'package:face_attendance/features/07_settings/views/controllers/user_controller.dart';
-import 'package:face_attendance/features/04_verifier/views/controllers/verify_controller.dart';
-import 'package:face_attendance/core/themes/text.dart';
-import 'package:face_attendance/features/05_members/views/controllers/member_controller.dart';
-import 'package:face_attendance/features/06_spaces/views/controllers/space_controller.dart';
+import 'package:face_attendance/features/04_verifier/views/controllers/user_serial_keeper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../core/constants/constants.dart';
+import '../../core/app/controllers/settings_controller.dart';
+import '../../core/themes/text.dart';
+import '../04_verifier/views/controllers/verify_controller.dart';
+import '../05_members/views/controllers/member_controller.dart';
+import '../06_spaces/views/controllers/space_controller.dart';
+import '../07_settings/views/controllers/user_controller.dart';
+
+/* <-----------------------> 
+    This is where the user will come most of the time when he is logged in,
+    This works as a like foundation of all main screen. Other Screen will act like a tab;
+ <-----------------------> */
 
 class EntryPointUI extends StatelessWidget {
   /// Works as a foundation of all the other screen
@@ -32,6 +33,7 @@ class EntryPointUI extends StatelessWidget {
                 Get.put(MembersController());
                 Get.put(SpaceController());
                 Get.put(VerifyController());
+                Get.put(UserSerialKeeper());
               },
               builder: (controller) => PageTransitionSwitcher(
                 duration: AppDefaults.defaultDuration,
