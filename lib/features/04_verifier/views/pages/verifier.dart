@@ -1,3 +1,4 @@
+import 'package:face_attendance/features/04_verifier/views/controllers/user_serial_keeper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -8,7 +9,6 @@ import '../../../../core/themes/text.dart';
 import '../../../../core/widgets/member_image_leading.dart';
 import '../controllers/verify_controller.dart';
 import 'static_verifier_sheet_lock.dart';
-import '../components/temporary_functions.dart';
 
 class VerifierScreen extends StatefulWidget {
   const VerifierScreen({Key? key}) : super(key: key);
@@ -87,62 +87,68 @@ class _CameraSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<CameraKitController>(
-      builder: (controller) => Expanded(
-        child: Stack(
-          children: [
-            SizedBox(
-              width: double.infinity,
-              height: double.infinity,
-              // child: CameraPreview(controller.cameraController),
-              child: CameraKitView(
-                doFaceAnalysis: true,
-                scaleType: ScaleTypeMode.fit,
-                onRecognized: (serachID) {
-                  print("Recognized");
-                  print("-----serach id: " + serachID.toString());
-                },
-                previewFlashMode: CameraFlashMode.auto,
-                cameraKitController: controller,
-                androidCameraMode: AndroidCameraMode.apiX,
-                cameraSelector: CameraSelector.front,
-              ),
-            ),
-            /* <---- Verifier Button ----> */
-            Positioned(
-              bottom: 0,
-              child: Column(
-                children: const [
-                  _UseAsAVerifierButton(),
-                ],
-              ),
-            ),
-            /* <---- Camera Switch Button ----> */
-            Positioned(
-              top: 15,
-              right: 10,
-              child: Opacity(
-                opacity: 0.5,
-                child: FloatingActionButton(
-                  onPressed: controller.toggleCameraLens,
-                  child: const Icon(Icons.switch_camera_rounded),
-                  backgroundColor: AppColors.primaryColor,
+      builder: (controller) {
+        final _userTracker = Get.find<UserSerialKeeper>();
+
+        return Expanded(
+          child: Stack(
+            children: [
+              SizedBox(
+                width: double.infinity,
+                height: double.infinity,
+                // child: CameraPreview(controller.cameraController),
+                child: CameraKitView(
+                  doFaceAnalysis: true,
+                  scaleType: ScaleTypeMode.fit,
+                  onRecognized: (serachID) {
+                    print("Recognized");
+                    print("-----serach id: " + serachID.toString());
+                    Get.find<VerifyController>()
+                        .onRecognizedMember(verifiedUserIDint: serachID);
+                  },
+                  previewFlashMode: CameraFlashMode.auto,
+                  cameraKitController: controller,
+                  androidCameraMode: AndroidCameraMode.apiX,
+                  cameraSelector: CameraSelector.front,
                 ),
               ),
-            ),
+              /* <---- Verifier Button ----> */
+              Positioned(
+                bottom: 0,
+                child: Column(
+                  children: const [
+                    _UseAsAVerifierButton(),
+                  ],
+                ),
+              ),
+              /* <---- Camera Switch Button ----> */
+              Positioned(
+                top: 15,
+                right: 10,
+                child: Opacity(
+                  opacity: 0.5,
+                  child: FloatingActionButton(
+                    onPressed: controller.toggleCameraLens,
+                    child: const Icon(Icons.switch_camera_rounded),
+                    backgroundColor: AppColors.primaryColor,
+                  ),
+                ),
+              ),
 
-            /// MESSAGE SHOWING
-            Positioned(
-              bottom: Get.height * 0.10,
-              left: 0,
-              right: 0,
-              child: const _ShowMessage(),
-            ),
+              /// MESSAGE SHOWING
+              Positioned(
+                bottom: Get.height * 0.10,
+                left: 0,
+                right: 0,
+                child: const _ShowMessage(),
+              ),
 
-            /// TEMPORARY
-            // const TemporaryFunctionToCheckMethod(),
-          ],
-        ),
-      ),
+              /// TEMPORARY
+              // const TemporaryFunctionToCheckMethod(),
+            ],
+          ),
+        );
+      },
     );
   }
 }

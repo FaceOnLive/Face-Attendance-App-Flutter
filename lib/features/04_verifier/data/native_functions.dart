@@ -6,23 +6,11 @@ import 'package:flutter/services.dart';
 class NativeSDKFunctions {
   static const MethodChannel _channel = MethodChannel('turingtech');
 
-  /// Initiate Database
+  /// Initiate Database of Users to letter verify
   static Future<void> setSdkDatabase(Map<int, Uint8List> userLists) async {
-    ///
-    print('Starting set SDK Functions');
+    print('Initialzing setSDK function');
 
-    /// Map<int, uin8list> will be
-    Map<dynamic, dynamic> _userImages = {};
-
-    // // List<String> _userIDs = List<String>.from(userLists.entries);
-
-    // await Future.forEach<File>(_userImagesFile, (element) {
-    //   Uint8List bytes = element.readAsBytesSync();
-    //   int currentIndex = _userImagesFile.indexOf(element);
-    //   _userImages.addAll({currentIndex: bytes});
-    // });
-
-    print("All The Setted Database Are: ${_userImages.length}");
+    print("All The Setted Database Are: ${userLists.length}");
 
     await _channel.invokeMethod('setDatabase', {'membersList': userLists});
 

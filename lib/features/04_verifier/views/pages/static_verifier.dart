@@ -8,7 +8,6 @@ import '../../../../core/constants/constants.dart';
 import '../../../../core/themes/text.dart';
 import '../../../../core/widgets/member_image_leading.dart';
 import '../../../05_members/views/controllers/member_controller.dart';
-import '../components/temporary_functions.dart';
 import '../controllers/verify_controller.dart';
 import 'static_verifier_sheet_lock.dart';
 
