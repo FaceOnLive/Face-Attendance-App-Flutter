@@ -25,8 +25,11 @@ class NativeSDKFunctions {
     bool _isTheSamePerson = false;
 
     /// Convert Data
-    Uint8List _capturedImageBytes = capturedImage.readAsBytesSync();
-    Uint8List _personImageBytes = personImage.readAsBytesSync();
+    // Uint8List? _capturedImageBytes = await getFaceData(image: capturedImage);
+    // Uint8List? _personImageBytes = await getFaceData(image: personImage);
+
+    Uint8List? _capturedImageBytes = await capturedImage.readAsBytes();
+    Uint8List? _personImageBytes = await personImage.readAsBytes();
 
     // Invoke Method
     _isTheSamePerson = await _channel.invokeMethod('verifySinglePerson', {
@@ -38,7 +41,11 @@ class NativeSDKFunctions {
   }
 
   /// Get Feature or Uin8List
-  static Future<Uint8List?> getFaceData({required File image}) async {
+  /// [MODE] 1 -> enroll mode, 0 -> verify mode
+  static Future<Uint8List?> getFaceData({
+    required File image,
+    int mode = 0,
+  }) async {
     //convert
     Uint8List _unExtractedImage = await image.readAsBytes();
 
@@ -49,7 +56,7 @@ class NativeSDKFunctions {
       'getFeature',
       {
         'image': _unExtractedImage,
-        'mode': 0 //1 -> enroll mode, 0 -> verify mode
+        'mode': mode //1 -> enroll mode, 0 -> verify mode
       },
     );
 

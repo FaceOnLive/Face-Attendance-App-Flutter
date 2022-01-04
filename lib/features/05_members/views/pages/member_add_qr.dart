@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:face_attendance/features/05_members/views/controllers/member_controller.dart';
+import '../controllers/member_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/route_manager.dart';

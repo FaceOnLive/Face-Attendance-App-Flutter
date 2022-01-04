@@ -1,5 +1,5 @@
-import 'package:face_attendance/core/models/member.dart';
-import 'package:face_attendance/features/06_spaces/views/controllers/space_controller.dart';
+import '../../../../core/models/member.dart';
+import '../../../06_spaces/views/controllers/space_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';

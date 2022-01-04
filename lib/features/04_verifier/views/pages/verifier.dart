@@ -1,4 +1,3 @@
-import 'package:face_attendance/features/04_verifier/views/controllers/user_serial_keeper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -88,8 +87,6 @@ class _CameraSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetBuilder<CameraKitController>(
       builder: (controller) {
-        final _userTracker = Get.find<UserSerialKeeper>();
-
         return Expanded(
           child: Stack(
             children: [

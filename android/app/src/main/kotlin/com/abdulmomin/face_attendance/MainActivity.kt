@@ -73,11 +73,15 @@ class MainActivity: FlutterActivity() {
             FaceEngine.getInstance(this).extractFeature(image1, true, faceResults1)
 
             val image2 = BitmapFactory.decodeByteArray(capturedImage!!, 0, capturedImage!!.size)
-            val faceResults2:List<FaceResult> = FaceEngine.getInstance(this).detectFace(image1)
+            val faceResults2:List<FaceResult> = FaceEngine.getInstance(this).detectFace(image2)
             if(faceResults2.count() == 1) {
               FaceEngine.getInstance(this).extractFeature(image2, false, faceResults2)
-              val score = FaceEngine.getInstance(this).compareFeature(faceResults1.get(0).feature, faceResults1.get(1).feature)
+              val face1 = faceResults1[0].feature;
+              val face2 = faceResults2[0].feature;
+              val score = FaceEngine.getInstance(this).compareFeature(face1, face2);
               if(score > 0.82) {
+                Log.e("ddd", "The score is")
+                Log.e("ddd",score.toString())
                 isThisPersonVerified = true
               }
             }

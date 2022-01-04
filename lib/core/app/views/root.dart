@@ -1,4 +1,4 @@
-import 'package:face_attendance/features/04_verifier/views/pages/static_verifier.dart';
+import '../../../features/04_verifier/views/pages/static_verifier.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

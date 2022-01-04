@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
-import 'package:face_attendance/core/data/services/member_services.dart';
-import 'package:face_attendance/core/error/exceptions.dart';
-import 'package:face_attendance/core/error/failure.dart';
+import '../../../../core/data/services/member_services.dart';
+import '../../../../core/error/exceptions.dart';
+import '../../../../core/error/failure.dart';
 
-import 'package:face_attendance/core/models/member.dart';
+import '../../../../core/models/member.dart';
 
 abstract class MemberRepository {
   /// Get All The Custom Member That is Created by this User |

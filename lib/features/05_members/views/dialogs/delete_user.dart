@@ -1,6 +1,6 @@
-import 'package:face_attendance/core/constants/constants.dart';
-import 'package:face_attendance/features/02_entrypoint/entrypoint.dart';
-import 'package:face_attendance/features/05_members/views/controllers/member_controller.dart';
+import '../../../../core/constants/constants.dart';
+import '../../../02_entrypoint/entrypoint.dart';
+import '../controllers/member_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

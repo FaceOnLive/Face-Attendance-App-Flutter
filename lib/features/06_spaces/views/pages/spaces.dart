@@ -1,6 +1,6 @@
-import 'package:face_attendance/core/models/space.dart';
-import 'package:face_attendance/core/widgets/app_button.dart';
-import 'package:face_attendance/features/06_spaces/views/controllers/space_controller.dart';
+import '../../../../core/models/space.dart';
+import '../../../../core/widgets/app_button.dart';
+import '../controllers/space_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

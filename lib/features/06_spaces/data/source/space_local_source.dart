@@ -1,4 +1,4 @@
-import 'package:face_attendance/core/models/space.dart';
+import '../../../../core/models/space.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 class SpaceLocalSource {
