@@ -1,5 +1,5 @@
-import 'package:face_attendance/features_user/home/views/home.dart';
-import 'package:face_attendance/features_user/profile/pages/profile.dart';
+import '../../home/views/home.dart';
+import '../../profile/pages/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:get/state_manager.dart';
 

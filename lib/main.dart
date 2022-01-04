@@ -1,10 +1,8 @@
-import 'package:face_attendance/features/04_verifier/views/controllers/user_serial_keeper.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
-import 'core/utils/ui_helper.dart';
 import 'core/app/views/root.dart';
+import 'core/utils/ui_helper.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

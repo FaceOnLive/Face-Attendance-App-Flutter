@@ -1,4 +1,4 @@
-import 'package:face_attendance/features/01_onboarding/views/models/intro_model.dart';
+import '../views/models/intro_model.dart';
 
 class OnboardingRepository {
   // Add or remove intro from here

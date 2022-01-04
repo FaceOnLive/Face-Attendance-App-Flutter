@@ -1,7 +1,7 @@
 import 'package:animations/animations.dart';
-import 'package:face_attendance/features/06_spaces/views/controllers/app_member_space.dart';
-import 'package:face_attendance/features_user/core/controllers/app_member_user.dart';
-import 'package:face_attendance/features_user/core/controllers/app_member_verify.dart';
+import '../../../features/06_spaces/views/controllers/app_member_space.dart';
+import '../controllers/app_member_user.dart';
+import '../controllers/app_member_verify.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

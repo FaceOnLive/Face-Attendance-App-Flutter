@@ -1,4 +1,4 @@
-import 'package:face_attendance/features_user/core/controllers/app_member_verify.dart';
+import '../../core/controllers/app_member_verify.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';

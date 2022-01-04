@@ -1,7 +1,7 @@
-import 'package:face_attendance/core/models/space.dart';
-import 'package:face_attendance/features/06_spaces/views/controllers/space_controller.dart';
-import 'package:face_attendance/features/06_spaces/views/pages/space_add.dart';
-import 'package:face_attendance/features/06_spaces/views/pages/space_info.dart';
+import '../../../../core/models/space.dart';
+import '../../../06_spaces/views/controllers/space_controller.dart';
+import '../../../06_spaces/views/pages/space_add.dart';
+import '../../../06_spaces/views/pages/space_info.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

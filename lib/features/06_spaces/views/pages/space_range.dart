@@ -1,5 +1,5 @@
-import 'package:face_attendance/core/app/controllers/map_controller.dart';
-import 'package:face_attendance/core/widgets/app_button.dart';
+import '../../../../core/app/controllers/map_controller.dart';
+import '../../../../core/widgets/app_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';

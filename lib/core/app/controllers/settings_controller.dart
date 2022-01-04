@@ -1,4 +1,4 @@
-import 'package:face_attendance/features/06_spaces/data/source/space_local_source.dart';
+import '../../../features/06_spaces/data/source/space_local_source.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

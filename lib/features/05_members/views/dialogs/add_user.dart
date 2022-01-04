@@ -1,5 +1,5 @@
-import 'package:face_attendance/features/05_members/views/pages/member_add.dart';
-import 'package:face_attendance/features/05_members/views/pages/member_add_qr.dart';
+import '../pages/member_add.dart';
+import '../pages/member_add_qr.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

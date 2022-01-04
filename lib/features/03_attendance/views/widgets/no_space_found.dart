@@ -1,5 +1,5 @@
-import 'package:face_attendance/core/widgets/app_button.dart';
-import 'package:face_attendance/features/06_spaces/views/pages/space_add.dart';
+import '../../../../core/widgets/app_button.dart';
+import '../../../06_spaces/views/pages/space_add.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 import '../../../../core/constants/constants.dart';
