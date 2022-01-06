@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 
 import '../../../../core/app/controllers/settings_controller.dart';
 import '../../../../core/auth/controllers/login_controller.dart';
-import '../../../../core/auth/views/login_screen.dart';
+import '../../../../core/auth/views/pages/login_page.dart';
 import '../../../../core/constants/constants.dart';
 import '../../../../core/data/services/app_photo.dart';
 import '../../../../core/themes/text.dart';

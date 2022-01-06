@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../core/constants/constants.dart';
-import '../../../../core/data/providers/app_toast.dart';
+import '../../../../core/data/helpers/app_toast.dart';
 import '../../../../core/models/member.dart';
 import '../../../../core/models/space.dart';
 import '../../../../core/themes/text.dart';

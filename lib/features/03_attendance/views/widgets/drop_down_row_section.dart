@@ -1,3 +1,5 @@
+import 'package:face_attendance/features/03_attendance/views/pages/user_log_page.dart';
+
 import '../../../../core/models/space.dart';
 import '../../../06_spaces/views/controllers/space_controller.dart';
 import '../../../06_spaces/views/pages/space_add.dart';
@@ -7,10 +9,9 @@ import 'package:get/get.dart';
 
 import '../../../../core/constants/constants.dart';
 import '../../../../core/themes/text.dart';
-import 'log_screen.dart';
 
-class DropDownRow extends GetView<SpaceController> {
-  const DropDownRow({
+class DropDownRowSection extends GetView<SpaceController> {
+  const DropDownRowSection({
     Key? key,
   }) : super(key: key);
 

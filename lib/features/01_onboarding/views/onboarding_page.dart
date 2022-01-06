@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import '../../../core/app/controllers/settings_controller.dart';
 import '../../../../core/constants/constants.dart';
 import '../../../../core/themes/text.dart';
-import '../../../core/auth/views/login_screen.dart';
+import '../../../core/auth/views/pages/login_page.dart';
 import '../data/onboarding_repository.dart';
 import 'models/intro_model.dart';
 

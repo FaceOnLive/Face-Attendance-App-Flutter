@@ -46,6 +46,7 @@ dependencies:
   encrypt: ^5.0.1
   visibility_detector: ^0.2.0
   dartz: ^0.10.0
+  worker_manager: ^4.2.5
 
 dev_dependencies:
   flutter_test:

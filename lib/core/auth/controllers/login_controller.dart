@@ -10,7 +10,7 @@ import '../../../features_user/core/controllers/app_member_settings.dart';
 import '../../../features_user/core/controllers/app_member_user.dart';
 import '../../../features_user/core/views/entrypoint_member.dart';
 import '../../app/controllers/camera_controller.dart';
-import '../../data/providers/app_toast.dart';
+import '../../data/helpers/app_toast.dart';
 import '../../data/services/member_services.dart';
 
 class LoginController extends GetxService {
@@ -72,7 +72,6 @@ class LoginController extends GetxService {
     super.onInit();
     _firebaseUser.bindStream(_firebaseAuth.userChanges());
     await _checkIfAdmin(_firebaseAuth.currentUser);
-    // UserServices.getMemberByID(userID: 'gegeg');
   }
 
   @override

@@ -5,8 +5,8 @@ import 'package:get/get.dart';
 import '../../../../core/constants/constants.dart';
 import '../../../../core/themes/text.dart';
 import '../../../../core/widgets/app_button.dart';
-import '../../../core/data/providers/app_toast.dart';
-import '../../../core/data/providers/form_verify.dart';
+import '../../../core/data/helpers/app_toast.dart';
+import '../../../core/data/helpers/form_verify.dart';
 import '../../core/controllers/app_member_user.dart';
 
 class ChangeNameSheet extends StatefulWidget {

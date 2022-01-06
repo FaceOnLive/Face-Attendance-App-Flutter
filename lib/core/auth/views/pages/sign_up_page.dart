@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../core/constants/constants.dart';
-import '../../../core/utils/ui_helper.dart';
-import '../../data/providers/form_verify.dart';
-import '../../widgets/app_button.dart';
-import '../controllers/signup_controller.dart';
+import '../../../../core/constants/constants.dart';
+import '../../../../core/utils/ui_helper.dart';
+import '../../../data/helpers/form_verify.dart';
+import '../../../widgets/app_button.dart';
+import '../../controllers/signup_controller.dart';
 
-class SignUpScreen extends StatefulWidget {
-  const SignUpScreen({Key? key}) : super(key: key);
+class SignUpPage extends StatefulWidget {
+  const SignUpPage({Key? key}) : super(key: key);
 
   @override
-  _SignUpScreenState createState() => _SignUpScreenState();
+  _SignUpPageState createState() => _SignUpPageState();
 }
 
-class _SignUpScreenState extends State<SignUpScreen> {
+class _SignUpPageState extends State<SignUpPage> {
   /* <---- Dependency -----> */
   final SignUpController _controller = Get.put(SignUpController());
 

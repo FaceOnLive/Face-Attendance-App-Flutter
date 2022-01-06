@@ -28,20 +28,7 @@ class MainActivity: FlutterActivity() {
       call, result ->
 
       // <--- METHOD: Verify Against All Picture --->
-      if(call.method == "verify"){
-        val memberList : HashMap<String, ByteArray>? = call.argument("membersList");
-        val memberToBeVerified: ByteArray? = call.argument("memberToBeVerified");
-        // <-- IMPORTANT -->
-        // Compare and verify if the user is in the list, if he is then return the  
-        //  user id associated with the map
-        //  something like this "0prLJklAKJdbQgb7FNyAxEor0Zs1"
-        // if there  is nothing you can return null
-        
-        // Do verification and
-        // Put the verified user id in this variable 
-        val verifiedUserID :String? = "NcGJQ2QPQ1UqgsqeJVzSmGAHXga2";
-        result.success(verifiedUserID);
-      } else if(call.method == "setDatabase"){
+       if(call.method == "setDatabase"){
         val memberList : HashMap<Int, ByteArray>? = call.argument("membersList");
         /// Should Call everytime the app starts
         /// This will set the database of faces
@@ -49,7 +36,7 @@ class MainActivity: FlutterActivity() {
         FaceEngine.getInstance(this).removeFaceFeature(-1);
         for ((key, value) in memberList!!) {
           val faceFeatureInfo =
-            FaceFeatureInfo(key, value)
+             FaceFeatureInfo(key, value)
 
           FaceEngine.getInstance(this).registerFaceFeature(faceFeatureInfo)
         }
@@ -90,14 +77,7 @@ class MainActivity: FlutterActivity() {
 
         result.success(isThisPersonVerified);
 
-
-      /// <--- METHOD: If a photo has face in it --->
-      } else if(call.method == "detectFace"){
-
-        // Do the verification here
-        val isFaceDetecedInPhoto: Boolean = true;
-        result.success(isFaceDetecedInPhoto);
-      } else if(call.method == "initSDK") {
+      }  else if(call.method == "initSDK") {
         Log.e("ddd", "init SDK!!!!");
 
         FaceEngine.getInstance(this).setActivation("")

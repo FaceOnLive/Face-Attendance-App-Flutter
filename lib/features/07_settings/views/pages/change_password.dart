@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../../core/constants/constants.dart';
-import '../../../../core/data/providers/form_verify.dart';
+import '../../../../core/data/helpers/form_verify.dart';
 import '../../../../core/themes/text.dart';
 import '../../../../core/widgets/app_button.dart';
 import '../controllers/user_controller.dart';

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../../camerakit/camera_kit_controller.dart';
-import '../../../../camerakit/camera_kit_view.dart';
+import '../../../../core/camerakit/camera_kit_controller.dart';
+import '../../../../core/camerakit/camera_kit_view.dart';
 import '../../../../core/constants/constants.dart';
 import '../../../../core/themes/text.dart';
 import '../../../../core/widgets/member_image_leading.dart';

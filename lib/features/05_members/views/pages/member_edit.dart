@@ -6,7 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 import '../../../../core/constants/constants.dart';
-import '../../../../core/data/providers/form_verify.dart';
+import '../../../../core/data/helpers/form_verify.dart';
 import '../../../../core/models/member.dart';
 import '../../../../core/widgets/app_button.dart';
 import '../../../../core/widgets/picture_display.dart';

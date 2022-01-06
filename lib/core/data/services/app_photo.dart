@@ -1,5 +1,7 @@
 import 'dart:io';
+import 'dart:math';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:http/http.dart' as http;
@@ -7,6 +9,7 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:worker_manager/worker_manager.dart';
 
 import '../../../../core/constants/constants.dart';
 
@@ -62,10 +65,10 @@ class AppPhotoService {
   /// Gives a File From an url
   /// If the file is in cache it will priotize that
   static Future<File> fileFromImageUrl(String imageUrl) async {
+    File? _gotImage;
+
     // IF the file is available in cache
     File? _imageFromCache = await getImageFromCache(imageUrl);
-
-    File? _gotImage;
 
     if (_imageFromCache != null) {
       _gotImage = _imageFromCache;
@@ -74,14 +77,24 @@ class AppPhotoService {
 
       final documentDirectory = await getApplicationDocumentsDirectory();
 
-      final _file = File(join(documentDirectory.path, 'imagetest.png'));
+      final Map<String, dynamic> data = {
+        'path': documentDirectory.path,
+        'response': response.bodyBytes,
+      };
 
-      _file.writeAsBytesSync(response.bodyBytes);
+      File _file =
+          await Executor().execute(fun1: writeFileToDiskIsolated, arg1: data);
 
       _gotImage = _file;
     }
 
     return _gotImage;
+  }
+
+  static Future<File> writeFileToDiskIsolated(Map<String, dynamic> data) async {
+    File _theFile = File(data['path'] + 'imagetest');
+    _theFile.writeAsBytes(data['response']);
+    return _theFile;
   }
 
   /// Get Image From Cache

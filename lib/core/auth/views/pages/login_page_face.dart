@@ -1,20 +1,20 @@
-import '../../themes/text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 
-import '../../../core/constants/constants.dart';
-import 'login_screen.dart';
-import 'signup_screen.dart';
+import '../../../../core/constants/constants.dart';
+import '../../../themes/text.dart';
+import 'login_page.dart';
+import 'sign_up_page.dart';
 
-class LoginScreenAlt extends StatefulWidget {
-  const LoginScreenAlt({Key? key}) : super(key: key);
+class LoginPageFace extends StatefulWidget {
+  const LoginPageFace({Key? key}) : super(key: key);
 
   @override
-  _LoginScreenAltState createState() => _LoginScreenAltState();
+  _LoginPageFaceState createState() => _LoginPageFaceState();
 }
 
-class _LoginScreenAltState extends State<LoginScreenAlt>
+class _LoginPageFaceState extends State<LoginPageFace>
     with TickerProviderStateMixin {
   late final AnimationController _controller;
 
@@ -146,7 +146,7 @@ class _LoginScreenAltState extends State<LoginScreenAlt>
               ),
               TextButton(
                 onPressed: () {
-                  Get.to(() => const SignUpScreen());
+                  Get.to(() => const SignUpPage());
                 },
                 child: Text(
                   'New User ?',
