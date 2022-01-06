@@ -2,14 +2,13 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../core/constants/constants.dart';
-import '../../../core/utils/ui_helper.dart';
-import '../../data/providers/form_verify.dart';
-import '../../themes/text.dart';
-import '../../widgets/app_button.dart';
-import '../controllers/login_controller.dart';
-import 'login_screen_face.dart';
-import 'signup_screen.dart';
+import '../../../../core/constants/constants.dart';
+import '../../../../core/utils/ui_helper.dart';
+import '../../../data/helpers/form_verify.dart';
+import '../../../themes/text.dart';
+import '../../../widgets/app_button.dart';
+import '../../controllers/login_controller.dart';
+import 'sign_up_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -90,21 +89,21 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       appBar: AppBar(
         leading: const SizedBox(),
-        actions: [
-          InkWell(
-            onTap: () {
-              Get.to(() => const LoginScreenAlt());
-            },
-            borderRadius: AppDefaults.defaulBorderRadius,
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Image.asset(
-                AppImages.illustrationFaceID,
-                height: 24,
-                width: 24,
-              ),
-            ),
-          ),
+        actions: const [
+          // InkWell(
+          //   onTap: () {
+          //     Get.to(() => const LoginScreenAlt());
+          //   },
+          //   borderRadius: AppDefaults.defaulBorderRadius,
+          //   child: Padding(
+          //     padding: const EdgeInsets.all(16.0),
+          //     child: Image.asset(
+          //       AppImages.illustrationFaceID,
+          //       height: 24,
+          //       width: 24,
+          //     ),
+          //   ),
+          // ),
         ],
         backgroundColor: Colors.transparent,
       ),
@@ -203,7 +202,7 @@ class _LoginPageState extends State<LoginPage> {
                       const Text('Don\'t have an account?'),
                       TextButton(
                         onPressed: () {
-                          Get.to(() => const SignUpScreen());
+                          Get.to(() => const SignUpPage());
                         },
                         child: Text(
                           'Sign up',

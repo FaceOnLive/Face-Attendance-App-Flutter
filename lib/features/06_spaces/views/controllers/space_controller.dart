@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:retry/retry.dart';
 
 import '../../../../core/auth/controllers/login_controller.dart';
-import '../../../../core/data/providers/app_toast.dart';
+import '../../../../core/data/helpers/app_toast.dart';
 import '../../../../core/models/log_message.dart';
 import '../../../../core/models/member.dart';
 import '../../../../core/models/space.dart';

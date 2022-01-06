@@ -8,8 +8,8 @@ import '../../../../core/constants/constants.dart';
 import '../../../../core/themes/text.dart';
 import '../widgets/widgets.dart';
 
-class AttendedUserList extends StatelessWidget {
-  const AttendedUserList({
+class AttendedUserListSection extends StatelessWidget {
+  const AttendedUserListSection({
     Key? key,
   }) : super(key: key);
 

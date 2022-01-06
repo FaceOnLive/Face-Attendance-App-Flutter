@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:face_attendance/core/data/helpers/app_toast.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -10,13 +11,12 @@ import 'package:retry/retry.dart';
 
 import '../../../../core/app/controllers/settings_controller.dart';
 import '../../../../core/auth/controllers/login_controller.dart';
-import '../../../../core/data/providers/app_toast.dart';
 import '../../../../core/data/services/app_photo.dart';
 import '../../../../core/models/member.dart';
 import '../../../02_entrypoint/entrypoint.dart';
 import '../../../05_members/views/controllers/member_controller.dart';
 import '../../../07_settings/views/controllers/user_controller.dart';
-import '../../data/native_functions.dart';
+import '../../data/repository/native_functions.dart';
 import '../pages/static_verifier.dart';
 import 'user_serial_keeper.dart';
 
@@ -53,14 +53,12 @@ class VerifyController extends GetxController {
   /// Local Way of Getting Images URL
   Future<void> _getAllMembersImagesURL() async {
     final _membersController = Get.find<MembersController>();
-    await Future.delayed(const Duration(seconds: 10));
     List<Member> _allMember = [];
     await retry(
       () {
-        if (_membersController.isFetchingUser) throw Exception();
         return _allMember = _membersController.allMembers;
       },
-      retryIf: (e) => e == Exception(),
+      retryIf: (e) => _membersController.isFetchingUser,
       maxAttempts: 12,
     );
 
@@ -81,9 +79,6 @@ class VerifyController extends GetxController {
   /// Convert All The URLs To File by Downloading it and
   /// storing it to the memory
   Future<void> _getAllMemberImagesToFile() async {
-    AppToast.showDefaultToast('Setting Database');
-    print("All Member Images url are: ${allMemberImagesURL.length},");
-
     List<String> _memberUIDs = List<String>.from(allMemberImagesURL.keys);
     List<String> _memberImagesUrl =
         List<String>.from(allMemberImagesURL.values);
@@ -126,9 +121,7 @@ class VerifyController extends GetxController {
     await NativeSDKFunctions.setSdkDatabase(_allUsersImage);
     Get.find<UserSerialKeeper>().saveDatabase(_inTtoKeepTrackOfUsers);
 
-    print("First Person Image ${allMemberImagesURL[0]}");
     update();
-    AppToast.showDefaultToast('Database Set Done');
   }
 
   /* <-----------------------> 
@@ -306,6 +299,10 @@ class VerifyController extends GetxController {
   void onInit() async {
     super.onInit();
     _getCurrentUserID();
+    await onMemberListInitialized();
+  }
+
+  onMemberListInitialized() async {
     await _getAllMembersImagesURL();
     await _getAllMemberImagesToFile();
   }

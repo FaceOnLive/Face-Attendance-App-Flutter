@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../core/constants/constants.dart';
-import '../../../../core/data/providers/date_helper.dart';
+import '../../../../core/data/helpers/date_helper.dart';
 import '../../../../core/themes/text.dart';
 import '../../../../core/widgets/app_button.dart';
 import '../../../05_members/views/controllers/member_controller.dart';

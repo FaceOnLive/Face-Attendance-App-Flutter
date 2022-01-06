@@ -9,16 +9,17 @@ import '../../../../core/constants/app_sizes.dart';
 import '../../../../core/themes/text.dart';
 import '../../../../core/widgets/app_button.dart';
 import '../../../05_members/views/dialogs/camera_or_gallery.dart';
-import '../../data/native_functions.dart';
+import '../../data/repository/native_functions.dart';
 
-class VerifierCheckScreen extends StatefulWidget {
-  const VerifierCheckScreen({Key? key}) : super(key: key);
+class VerifierCheckPage extends StatefulWidget {
+  /// This page was used for testing the SDK
+  const VerifierCheckPage({Key? key}) : super(key: key);
 
   @override
-  State<VerifierCheckScreen> createState() => _VerifierCheckScreenState();
+  State<VerifierCheckPage> createState() => _VerifierCheckPageState();
 }
 
-class _VerifierCheckScreenState extends State<VerifierCheckScreen> {
+class _VerifierCheckPageState extends State<VerifierCheckPage> {
   final Rxn<File> _image1 = Rxn<File>();
   final Rxn<File> _image2 = Rxn<File>();
   final RxString _message = 'Not Initiated'.obs;

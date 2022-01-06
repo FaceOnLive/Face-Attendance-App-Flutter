@@ -1,13 +1,14 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:face_attendance/features/04_verifier/views/controllers/verify_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../core/auth/controllers/login_controller.dart';
-import '../../../../core/data/providers/app_toast.dart';
-import '../../../../core/data/providers/date_helper.dart';
+import '../../../../core/data/helpers/app_toast.dart';
+import '../../../../core/data/helpers/date_helper.dart';
 import '../../../../core/data/services/delete_picture.dart';
 import '../../../../core/data/services/upload_picture.dart';
 import '../../../../core/error/exceptions.dart';
@@ -349,11 +350,12 @@ class MembersController extends GetxController {
   }
 
   @override
-  void onInit() {
+  void onInit() async {
     super.onInit();
     _initializeRepositroy();
-    fetchMembersList();
+    await fetchMembersList();
     scrollController = ScrollController();
+    await Get.find<VerifyController>().onMemberListInitialized();
   }
 
   @override

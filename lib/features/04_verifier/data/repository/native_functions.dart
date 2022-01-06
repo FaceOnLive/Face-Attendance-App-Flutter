@@ -1,20 +1,22 @@
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:face_attendance/core/app/controllers/settings_controller.dart';
+import 'package:face_attendance/core/data/helpers/app_toast.dart';
 import 'package:flutter/services.dart';
+import 'package:get/instance_manager.dart';
 
 class NativeSDKFunctions {
   static const MethodChannel _channel = MethodChannel('turingtech');
 
   /// Initiate Database of Users to letter verify
-  static Future<void> setSdkDatabase(Map<int, Uint8List> userLists) async {
-    print('Initialzing setSDK function');
-
-    print("All The Setted Database Are: ${userLists.length}");
-
-    await _channel.invokeMethod('setDatabase', {'membersList': userLists});
-
-    print('Database Set Done');
+  static Future<bool> setSdkDatabase(Map<int, Uint8List> userLists) async {
+    Get.find<SettingsController>().updatingSDKinitiated();
+    bool isDone =
+        await _channel.invokeMethod('setDatabase', {'membersList': userLists});
+    Get.find<SettingsController>().updateSdkDone();
+    AppToast.showDefaultToast('Setting SDK Done');
+    return isDone;
   }
 
   /// Verify Single Person

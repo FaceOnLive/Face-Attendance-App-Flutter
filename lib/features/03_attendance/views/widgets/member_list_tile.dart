@@ -7,7 +7,7 @@ import 'package:shimmer/shimmer.dart';
 import '../../../../core/constants/constants.dart';
 import '../../../../core/models/member.dart';
 import '../../../../core/themes/text.dart';
-import '../pages/member_details.dart';
+import '../pages/member_details_page.dart';
 
 class MemberListTile extends StatelessWidget {
   const MemberListTile({

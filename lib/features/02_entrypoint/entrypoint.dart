@@ -1,4 +1,5 @@
 import 'package:animations/animations.dart';
+import 'package:face_attendance/core/data/services/app_photo.dart';
 import '../04_verifier/views/controllers/user_serial_keeper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

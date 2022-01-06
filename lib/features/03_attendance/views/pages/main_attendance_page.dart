@@ -1,16 +1,14 @@
-import '../../../../core/widgets/app_button.dart';
-import '../widgets/widgets.dart';
-import '../../../04_verifier/views/components/verifier_check.dart';
-import '../../../06_spaces/views/controllers/space_controller.dart';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'drop_down_row.dart';
-import 'user_list.dart';
+import '../../../06_spaces/views/controllers/space_controller.dart';
+import '../widgets/drop_down_row_section.dart';
+import '../widgets/settings_sdk_progressbar.dart';
+import '../widgets/user_list_section.dart';
+import '../widgets/widgets.dart';
 
-class AttendanceScreen extends StatelessWidget {
-  const AttendanceScreen({Key? key}) : super(key: key);
+class AttendancePage extends StatelessWidget {
+  const AttendancePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,16 +18,6 @@ class AttendanceScreen extends StatelessWidget {
       child: SafeArea(
         child: Column(
           children: [
-            AppButton(
-              label: 'Verifier SDK Check',
-              onTap: () => Get.to(() => const VerifierCheckScreen()),
-              suffixIcon: const Icon(
-                Icons.arrow_forward_ios_rounded,
-                color: Colors.white,
-              ),
-              disableBorderRadius: true,
-              margin: EdgeInsets.zero,
-            ),
             /* <---- Header ----> */
             const HeaderMainPage(),
             /* <---- Attendance List -----> */
@@ -44,16 +32,17 @@ class AttendanceScreen extends StatelessWidget {
                     child: Column(
                       children: const [
                         /* <---- DropDown and Date----> */
-                        DropDownRow(),
+                        DropDownRowSection(),
 
                         /* <---- User List ----> */
-                        AttendedUserList()
+                        AttendedUserListSection()
                       ],
                     ),
                   );
                 }
               },
             ),
+            const SettingSDKDatabase()
           ],
         ),
       ),

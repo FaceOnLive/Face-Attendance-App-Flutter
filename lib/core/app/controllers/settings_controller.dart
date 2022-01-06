@@ -1,3 +1,5 @@
+import 'package:face_attendance/core/data/helpers/app_toast.dart';
+
 import '../../../features/06_spaces/data/source/space_local_source.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -7,20 +9,21 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:flutter/services.dart';
 
 import '../../../features/01_onboarding/views/onboarding_page.dart';
-import '../../../features/03_attendance/views/pages/attendance_screen.dart';
+import '../../../features/03_attendance/views/pages/main_attendance_page.dart';
 import '../../../features/04_verifier/views/pages/verifier.dart';
 import '../../../features/05_members/views/pages/members.dart';
 import '../../auth/controllers/login_controller.dart';
-import '../../auth/views/login_screen.dart';
+import '../../auth/views/pages/login_page.dart';
 import '../../utils/check_internet.dart';
 import '../views/dialogs/no_internet.dart';
 
 class SettingsController extends GetxController {
   /// If All The Database And Firebase Loaded, so that we can show user something
-
   static const MethodChannel _channel = MethodChannel('turingtech');
 
   bool everyThingLoadedUp = false;
+  bool isSettingSdk = true;
+
   Future<void> _onAppStart() async {
     try {
       // STARTING THE APP
@@ -42,6 +45,19 @@ class SettingsController extends GetxController {
     }
   }
 
+  /// SDK Settings
+  /// When sdk is updating
+  void updatingSDKinitiated() {
+    isSettingSdk = true;
+    update();
+  }
+
+  /// When SDK Setting database is done
+  void updateSdkDone() {
+    isSettingSdk = false;
+    update();
+  }
+
   /* <---- Main App Navigation ----> */
   Widget introOrLogin() {
     if (isOnboardDone() == false) {
@@ -55,20 +71,26 @@ class SettingsController extends GetxController {
   /// Used For Home Navigation
   int currentIndex = 0;
   onNavTap(int index) {
-    currentIndex = index;
-    update();
+    if (isSettingSdk && index == 1) {
+      /// This means user is tapping verifier screen
+      /// when the SDK is not setted up
+      AppToast.showDefaultToast('Please wait for the SDK Loading');
+    } else {
+      currentIndex = index;
+      update();
+    }
   }
 
   /// Decides Which Page to return based on the nav index
   Widget currentSelectedPage() {
     if (currentIndex == 0) {
-      return const AttendanceScreen();
+      return const AttendancePage();
     } else if (currentIndex == 1) {
       return const VerifierScreen();
     } else if (currentIndex == 2) {
       return const MembersScreen();
     } else {
-      return const AttendanceScreen();
+      return const AttendancePage();
     }
   }
 
