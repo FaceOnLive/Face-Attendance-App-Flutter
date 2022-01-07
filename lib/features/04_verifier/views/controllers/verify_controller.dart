@@ -3,13 +3,11 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:face_attendance/core/data/helpers/app_toast.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:retry/retry.dart';
 
-import '../../../../core/app/controllers/settings_controller.dart';
+import '../../../../core/app/controllers/core_controller.dart';
 import '../../../../core/auth/controllers/login_controller.dart';
 import '../../../../core/data/services/app_photo.dart';
 import '../../../../core/models/member.dart';
@@ -38,20 +36,9 @@ class VerifyController extends GetxController {
   /// All Members Photo
   Map<String, String> allMemberImagesURL = {};
 
-  /// Get All Members Images
-  /// This is the firebase way
-  // Future<void> _getAllMembersImagesURL() async {
-  //   allMemberImagesURL = [];
-  //   _collectionReference.get().then((value) {
-  //     value.docs.forEach((element) {
-  //       Map<String, dynamic> map = element.data() as Map<String, dynamic>;
-  //       String imageURl = map['memberPicture'];
-  //       allMemberImagesURL.add(imageURl);
-  //     });
-  //   });
-  // }
   /// Local Way of Getting Images URL
   Future<void> _getAllMembersImagesURL() async {
+    allMemberImagesURL.clear();
     final _membersController = Get.find<MembersController>();
     List<Member> _allMember = [];
     await retry(
@@ -79,6 +66,7 @@ class VerifyController extends GetxController {
   /// Convert All The URLs To File by Downloading it and
   /// storing it to the memory
   Future<void> _getAllMemberImagesToFile() async {
+    allMemberImagesFile.clear();
     List<String> _memberUIDs = List<String>.from(allMemberImagesURL.keys);
     List<String> _memberImagesUrl =
         List<String>.from(allMemberImagesURL.values);
@@ -142,7 +130,7 @@ class VerifyController extends GetxController {
 
       print('Authenticated_successfully');
 
-      Get.find<SettingsController>().setAppInVerifyMode();
+      Get.find<CoreController>().setAppInVerifyMode();
       Get.offAll(() => const StaticVerifierScreen());
 
       return null;
@@ -169,7 +157,7 @@ class VerifyController extends GetxController {
 
       print('Authenticated_successfully');
 
-      Get.find<SettingsController>().setAppInUnverifyMode();
+      Get.find<CoreController>().setAppInUnverifyMode();
       Get.offAll(() => const EntryPointUI());
 
       return null;
@@ -183,7 +171,6 @@ class VerifyController extends GetxController {
   }
 
   /* <---- Method Channel -----> */
-  static const MethodChannel _channel = MethodChannel('turingtech');
   bool isVerifyingNow = false;
   bool showProgressIndicator = false;
   Member? verifiedMember;
@@ -219,7 +206,7 @@ class VerifyController extends GetxController {
 
   /// Verify Single Person
   Future<bool> verfiyPersonSingle({
-    required Uint8List capturedImage,
+    required File capturedImage,
     required File personImage,
   }) async {
     // Show progress
@@ -227,19 +214,17 @@ class VerifyController extends GetxController {
     showProgressIndicator = true;
     update();
 
-    Uint8List _personImageConverted = personImage.readAsBytesSync();
-
-    bool? _isThisIsThePerson =
-        await _channel.invokeMethod('verifySinglePerson', {
-      'personImage': _personImageConverted,
-      'capturedImage': capturedImage,
-    });
+    bool _isThisIsThePerson = false;
+    _isThisIsThePerson = await NativeSDKFunctions.verifyPerson(
+      capturedImage: capturedImage,
+      personImage: personImage,
+    );
 
     // Show progress
     isVerifyingNow = false;
     update();
     _disableCardAfterSomeTime();
-    return _isThisIsThePerson ?? false;
+    return _isThisIsThePerson;
   }
 
   /// Detect if a person exist in a photo
@@ -247,26 +232,9 @@ class VerifyController extends GetxController {
       {required Uint8List capturedImage,
       required int imageWidth,
       required int imageHeight}) async {
-    // Show progress
-    // isVerifyingNow = true;
-    // showProgressIndicator = true;
-    // update();
+    bool _isPersonDetected = false;
 
-    // Uint8List _pictureToBeVerified = capturedImage.readAsBytesSync();
-    bool? _isPersonDetected = await _channel.invokeMethod('detectFace', {
-      'capturedImage': capturedImage,
-      'imageWidth': imageWidth,
-      'imageHeight': imageHeight
-    });
-
-    print('A PERSON IS DETECTED : $_isPersonDetected');
-
-    // // Show progress
-    // isVerifyingNow = false;
-    // update();
-    // _disableCardAfterSomeTime();
-
-    return _isPersonDetected ?? false;
+    return _isPersonDetected;
   }
 
   /* <---- HELPER METHOD FOR VERIFYER -----> */

@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../constants/constants.dart';
-import 'settings_controller.dart';
+import 'core_controller.dart';
 
 class AppMapController extends GetxController {
   // Map Controller
@@ -39,7 +39,7 @@ class AppMapController extends GetxController {
   // If the app is in dark mode we will load dark version of google map
   Future<void> _setMapInDarkMode(
       GoogleMapController controller, BuildContext context) async {
-    bool _isDark = Get.find<SettingsController>().isAppInDarkMode;
+    bool _isDark = Get.find<CoreController>().isAppInDarkMode;
     if (_isDark) {
       String _darkModeStyle = await DefaultAssetBundle.of(context)
           .loadString('assets/mapstyle/dark_mode.json');

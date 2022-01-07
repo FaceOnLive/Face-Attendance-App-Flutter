@@ -1,9 +1,11 @@
+import 'package:face_attendance/core/auth/views/pages/email_address_not_verified.dart';
+
 import '../../../features/04_verifier/views/pages/static_verifier.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../../../../core/constants/constants.dart';
-import '../controllers/settings_controller.dart';
+import '../controllers/core_controller.dart';
 import '../../auth/controllers/login_controller.dart';
 import '../../themes/themes.dart';
 import '../../../features/02_entrypoint/entrypoint.dart';
@@ -14,7 +16,7 @@ import '../../../features_user/core/views/entrypoint_member.dart';
 // ignore: use_key_in_widget_constructors
 class TuringTechApp extends StatelessWidget {
   // Needed for themes
-  final settings = Get.put(SettingsController());
+  final settings = Get.put(CoreController());
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +39,7 @@ class AppRoot extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<SettingsController>(
+    return GetBuilder<CoreController>(
       builder: (controller) {
         // Loading Database, And Firebase
         if (controller.everyThingLoadedUp) {
@@ -50,7 +52,7 @@ class AppRoot extends StatelessWidget {
   }
 }
 
-class _MainUI extends GetView<SettingsController> {
+class _MainUI extends GetView<CoreController> {
   const _MainUI({
     Key? key,
   }) : super(key: key);
@@ -65,18 +67,31 @@ class _MainUI extends GetView<SettingsController> {
         // Intro Screen or Login Screen
         if (_login.user == null) {
           return controller.introOrLogin();
-        } else if (_login.isCheckingAdmin.value) {
+        }
+
+        /// If we are checking admin
+        else if (_login.currentAuthState.value == AuthState.isCheckingAdmin) {
           // are we checking user is admin
           return const _LoadingApp();
-        } else if (!_login.isAdmin) {
-          // is the user is admin
+        }
+
+        /// If the user is not admin but a app member
+        else if (_login.currentAuthState.value == AuthState.userLoggedIn) {
           return const AppMemberMainUi();
-        } else if (_login.user != null &&
-            _login.isCheckingAdmin.value == false &&
-            _login.isAdmin == true) {
-          // Home sweet home
+        }
+
+        /// If It is admin
+        else if (_login.currentAuthState.value == AuthState.adminLoggedIn) {
           return const EntryPointUI();
-        } else {
+        }
+
+        /// If the email is unverified
+        else if (_login.currentAuthState.value == AuthState.emailUnverified) {
+          return const EmailNotVerifiedScreen();
+        }
+
+        /// IF The app is in loading state
+        else {
           return const _LoadingApp();
         }
       });

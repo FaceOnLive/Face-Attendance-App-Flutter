@@ -9,7 +9,7 @@ import '../../../../core/themes/text.dart';
 import '../../../../core/utils/encrypt_decrypt.dart';
 import '../../../../core/widgets/app_button.dart';
 import '../../../../core/widgets/picture_display.dart';
-import '../../../core/app/controllers/settings_controller.dart';
+import '../../../core/app/controllers/core_controller.dart';
 import '../../../core/app/views/dialogs/error_dialog.dart';
 import '../../../core/app/views/dialogs/generated_qr.dart';
 import '../../../core/auth/controllers/login_controller.dart';
@@ -31,7 +31,7 @@ class AppMemberProfileScreen extends GetView<AppMemberUserController> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             // Dark Mode
-            GetBuilder<SettingsController>(
+            GetBuilder<CoreController>(
               builder: (_controller) {
                 return Container(
                   margin:

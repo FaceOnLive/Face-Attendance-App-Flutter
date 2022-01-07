@@ -1,9 +1,9 @@
-import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../../../core/app/controllers/camera_controller.dart';
+import '../../../../core/camerakit/camera_kit_controller.dart';
+import '../../../../core/camerakit/camera_kit_view.dart';
 import '../../../../core/constants/constants.dart';
 import '../../../../core/themes/text.dart';
 import '../../../../core/widgets/member_image_leading.dart';
@@ -30,7 +30,7 @@ class _StaticVerifierScreenState extends State<StaticVerifierScreen> {
     await Future.delayed(
       const Duration(seconds: 1),
     ).then((value) {
-      Get.put(AppCameraController());
+      Get.put(CameraKitController());
       Get.put(MembersController());
       Get.put(VerifyController());
     });
@@ -45,7 +45,7 @@ class _StaticVerifierScreenState extends State<StaticVerifierScreen> {
 
   @override
   void dispose() {
-    Get.delete<AppCameraController>(force: true);
+    Get.delete<CameraKitController>(force: true);
     _isScreenReady.close();
     super.dispose();
   }
@@ -106,51 +106,61 @@ class _CameraSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<AppCameraController>(
-      init: AppCameraController(),
-      builder: (controller) => controller.activatingCamera == true
-          ? const Expanded(child: Center(child: CircularProgressIndicator()))
-          : Expanded(
-              child: Stack(
-                alignment: Alignment.center,
-                children: [
-                  // CameraPreview(controller.controller),
-                  SizedBox(
-                    width: double.infinity,
-                    height: double.infinity,
-                    child: CameraPreview(controller.cameraController),
-                  ),
-
-                  /* <---- Verifier Button ----> */
-                  Positioned(
-                    width: Get.width * 0.9,
-                    bottom: Get.height * 0.04,
-                    child: const _UnlockButton(),
-                  ),
-                  /* <---- Camera Switch Button ----> */
-                  Positioned(
-                    top: Get.height * 0.1,
-                    right: 10,
-                    child: FloatingActionButton(
-                      onPressed: controller.toggleCameraLens,
-                      child: const Icon(Icons.switch_camera_rounded),
-                      backgroundColor: AppColors.primaryColor,
-                    ),
-                  ),
-
-                  /// MESSAGE SHOWING
-                  Positioned(
-                    bottom: Get.height * 0.15,
-                    left: 0,
-                    right: 0,
-                    child: const _ShowMessage(),
-                  ),
-
-                  /// TEMPORARY
-                  // const TemporaryFunctionToCheckMethod(),
-                ],
+    return GetBuilder<CameraKitController>(
+      init: CameraKitController(),
+      builder: (controller) => Expanded(
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            SizedBox(
+              width: double.infinity,
+              height: double.infinity,
+              // child: CameraPreview(controller.cameraController),
+              child: CameraKitView(
+                doFaceAnalysis: true,
+                scaleType: ScaleTypeMode.fit,
+                onRecognized: (serachID) {
+                  print("Recognized");
+                  print("-----serach id: " + serachID.toString());
+                  Get.find<VerifyController>()
+                      .onRecognizedMember(verifiedUserIDint: serachID);
+                },
+                previewFlashMode: CameraFlashMode.auto,
+                cameraKitController: controller,
+                androidCameraMode: AndroidCameraMode.apiX,
+                cameraSelector: CameraSelector.front,
               ),
             ),
+            /* <---- Verifier Button ----> */
+            Positioned(
+              width: Get.width * 0.9,
+              bottom: Get.height * 0.04,
+              child: const _UnlockButton(),
+            ),
+            /* <---- Camera Switch Button ----> */
+            Positioned(
+              top: Get.height * 0.1,
+              right: 10,
+              child: FloatingActionButton(
+                onPressed: controller.toggleCameraLens,
+                child: const Icon(Icons.switch_camera_rounded),
+                backgroundColor: AppColors.primaryColor,
+              ),
+            ),
+
+            /// MESSAGE SHOWING
+            Positioned(
+              bottom: Get.height * 0.15,
+              left: 0,
+              right: 0,
+              child: const _ShowMessage(),
+            ),
+
+            /// TEMPORARY
+            // const TemporaryFunctionToCheckMethod(),
+          ],
+        ),
+      ),
     );
   }
 }

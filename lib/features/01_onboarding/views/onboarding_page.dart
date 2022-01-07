@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../core/app/controllers/settings_controller.dart';
+import '../../../core/app/controllers/core_controller.dart';
 import '../../../../core/constants/constants.dart';
 import '../../../../core/themes/text.dart';
 import '../../../core/auth/views/pages/login_page.dart';
@@ -23,7 +23,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
   late PageController _pageController;
 
   // Navigation
-  final SettingsController _controller = Get.find();
+  final CoreController _controller = Get.find();
 
   @override
   void initState() {

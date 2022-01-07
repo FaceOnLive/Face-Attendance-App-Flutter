@@ -17,7 +17,7 @@ import '../../auth/views/pages/login_page.dart';
 import '../../utils/check_internet.dart';
 import '../views/dialogs/no_internet.dart';
 
-class SettingsController extends GetxController {
+class CoreController extends GetxController {
   /// If All The Database And Firebase Loaded, so that we can show user something
   static const MethodChannel _channel = MethodChannel('turingtech');
 

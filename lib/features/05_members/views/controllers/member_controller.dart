@@ -349,6 +349,12 @@ class MembersController extends GetxController {
     return _isMemberWasAttended;
   }
 
+  /// On Refresh
+  Future<void> onRefresh() async {
+    await fetchMembersList();
+    await Get.find<VerifyController>().onMemberListInitialized();
+  }
+
   @override
   void onInit() async {
     super.onInit();

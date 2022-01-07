@@ -44,6 +44,17 @@ class AppFormVerify {
     }
   }
 
+  /// [Full_Text] Returns Error Message based on inputs
+  static String? info({required String? info}) {
+    if (info == null) {
+      return 'Please enter some info';
+    } else if (info.isEmpty) {
+      return 'Please enter some info';
+    } else {
+      return null;
+    }
+  }
+
   /// [Space] Returns error message on inputs
   static String? spaceName({required String? spaceName}) {
     if (spaceName == null) {

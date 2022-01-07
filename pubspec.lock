@@ -64,27 +64,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.1"
-  camera:
-    dependency: "direct main"
-    description:
-      name: camera
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.9.4+5"
-  camera_platform_interface:
-    dependency: transitive
-    description:
-      name: camera_platform_interface
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.1.1"
-  camera_web:
-    dependency: transitive
-    description:
-      name: camera_web
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.2.1+1"
   characters:
     dependency: transitive
     description:
@@ -349,6 +328,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.3.0"
+  flutter_email_sender:
+    dependency: "direct main"
+    description:
+      name: flutter_email_sender
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "5.0.2"
   flutter_lints:
     dependency: "direct dev"
     description:
@@ -646,13 +632,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.0.0"
-  quiver:
-    dependency: transitive
-    description:
-      name: quiver
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "3.0.1+1"
   retry:
     dependency: "direct main"
     description:
