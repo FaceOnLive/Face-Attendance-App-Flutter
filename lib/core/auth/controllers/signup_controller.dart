@@ -3,9 +3,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get/get.dart';
 
-import '../../../features_user/core/views/entrypoint_member.dart';
 import '../../app/views/dialogs/email_sent.dart';
 import '../../models/user.dart';
+import '../views/pages/email_address_not_verified.dart';
 import 'login_controller.dart';
 
 class SignUpController extends GetxController {
@@ -29,6 +29,7 @@ class SignUpController extends GetxController {
         email: email,
         password: password,
       );
+
       String _newUserID = _credintial.user!.uid;
       await _collectionReference.doc(_newUserID).set(
             AppUser(
@@ -42,9 +43,12 @@ class SignUpController extends GetxController {
               deviceIDToken: _idTokenOfDevice,
             ).toMap(),
           );
+      await _credintial.user!.sendEmailVerification();
       await Get.dialog(const EmailSentSuccessfullDialog());
       Get.find<LoginController>().isAdmin = false;
-      Get.offAll(() => const AppMemberMainUi());
+      Get.find<LoginController>().currentAuthState.value ==
+          AuthState.emailUnverified;
+      Get.offAll(() => const EmailNotVerifiedScreen());
     } on FirebaseException catch (e) {
       print(e);
     }

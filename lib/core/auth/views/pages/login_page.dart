@@ -1,3 +1,4 @@
+import 'package:face_attendance/core/auth/views/pages/register_as_admin_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -214,6 +215,10 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ],
                   ),
+                ),
+                TextButton(
+                  onPressed: () => Get.to(() => const RegisterAsAdminPage()),
+                  child: const Text('Register as Admin'),
                 )
               ],
             ),

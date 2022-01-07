@@ -1,12 +1,11 @@
 import 'package:animations/animations.dart';
-import 'package:face_attendance/core/data/services/app_photo.dart';
-import '../04_verifier/views/controllers/user_serial_keeper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../core/constants/constants.dart';
-import '../../core/app/controllers/settings_controller.dart';
+import '../../core/app/controllers/core_controller.dart';
 import '../../core/themes/text.dart';
+import '../04_verifier/views/controllers/user_serial_keeper.dart';
 import '../04_verifier/views/controllers/verify_controller.dart';
 import '../05_members/views/controllers/member_controller.dart';
 import '../06_spaces/views/controllers/space_controller.dart';
@@ -28,7 +27,7 @@ class EntryPointUI extends StatelessWidget {
         children: [
           /* <---- Main Part ----> */
           Expanded(
-            child: GetBuilder<SettingsController>(
+            child: GetBuilder<CoreController>(
               initState: (val) {
                 Get.put(AppUserController());
                 Get.put(MembersController());
@@ -52,7 +51,7 @@ class EntryPointUI extends StatelessWidget {
           ),
 
           /* <---- Bottom Navigation Bar ----> */
-          GetBuilder<SettingsController>(
+          GetBuilder<CoreController>(
             builder: (controller) => BottomNavigationBar(
               onTap: controller.onNavTap,
               currentIndex: controller.currentIndex,

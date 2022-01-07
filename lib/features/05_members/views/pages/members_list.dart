@@ -23,19 +23,22 @@ class MembersList extends StatelessWidget {
           builder: (controller) => controller.isFetchingUser
               ? const _LoadingData()
               : controller.allMembers.isNotEmpty
-                  ? ListView.separated(
-                      itemCount: controller.allMembers.length,
-                      controller: controller.scrollController,
-                      itemBuilder: (context, index) {
-                        return _MemberListTile(
-                          member: controller.allMembers[index],
-                        );
-                      },
-                      separatorBuilder: (context, index) {
-                        return const Divider(
-                          height: 7,
-                        );
-                      },
+                  ? RefreshIndicator(
+                      onRefresh: controller.onRefresh,
+                      child: ListView.separated(
+                        itemCount: controller.allMembers.length,
+                        controller: controller.scrollController,
+                        itemBuilder: (context, index) {
+                          return _MemberListTile(
+                            member: controller.allMembers[index],
+                          );
+                        },
+                        separatorBuilder: (context, index) {
+                          return const Divider(
+                            height: 7,
+                          );
+                        },
+                      ),
                     )
                   : const _NoMemberFound(),
         ),

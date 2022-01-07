@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:face_attendance/core/app/controllers/settings_controller.dart';
+import 'package:face_attendance/core/app/controllers/core_controller.dart';
 import 'package:face_attendance/core/data/helpers/app_toast.dart';
 import 'package:flutter/services.dart';
 import 'package:get/instance_manager.dart';
@@ -11,10 +11,10 @@ class NativeSDKFunctions {
 
   /// Initiate Database of Users to letter verify
   static Future<bool> setSdkDatabase(Map<int, Uint8List> userLists) async {
-    Get.find<SettingsController>().updatingSDKinitiated();
+    Get.find<CoreController>().updatingSDKinitiated();
     bool isDone =
         await _channel.invokeMethod('setDatabase', {'membersList': userLists});
-    Get.find<SettingsController>().updateSdkDone();
+    Get.find<CoreController>().updateSdkDone();
     AppToast.showDefaultToast('Setting SDK Done');
     return isDone;
   }

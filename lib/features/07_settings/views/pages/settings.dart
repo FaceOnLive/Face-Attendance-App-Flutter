@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../../core/app/controllers/settings_controller.dart';
+import '../../../../core/app/controllers/core_controller.dart';
 import '../../../../core/auth/controllers/login_controller.dart';
 import '../../../../core/auth/views/pages/login_page.dart';
 import '../../../../core/constants/constants.dart';
@@ -89,7 +89,7 @@ class AdminSettingScreen extends StatelessWidget {
                           isUpdating: controller.isNotificationUpdating,
                         ),
                         // Dark Mode
-                        GetBuilder<SettingsController>(
+                        GetBuilder<CoreController>(
                           builder: (_controller) {
                             return AppCustomListTile(
                               onTap: () {},
