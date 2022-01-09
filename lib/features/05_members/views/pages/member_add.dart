@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:face_attendance/core/data/helpers/app_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -56,12 +57,16 @@ class _MemberAddScreenState extends State<MemberAddScreen> {
     bool _isFormOkay = _formKey.currentState!.validate();
     if (_isFormOkay) {
       AppUiHelper.dismissKeyboard(context: Get.context!);
-      await _controller.addMember(
-        name: _name.text,
-        memberPictureFile: _userImage!,
-        phoneNumber: int.parse(_phoneNumber.text),
-        fullAddress: _fullAddress.text,
-      );
+      if (_userImage != null) {
+        await _controller.addMember(
+          name: _name.text,
+          memberPictureFile: _userImage!,
+          phoneNumber: int.parse(_phoneNumber.text),
+          fullAddress: _fullAddress.text,
+        );
+      } else {
+        AppToast.showDefaultToast("Please add a picture");
+      }
       Get.back();
     }
     _addingMember.value = false;

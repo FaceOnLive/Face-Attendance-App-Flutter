@@ -9,7 +9,7 @@ import '../../../../core/data/helpers/app_toast.dart';
 import '../../../../core/data/services/upload_picture.dart';
 import '../../../../core/models/user.dart';
 
-class AppUserController extends GetxController {
+class AppAdminController extends GetxController {
   /* <---- Dependency ----> */
   final CollectionReference _collectionReference =
       FirebaseFirestore.instance.collection('users');

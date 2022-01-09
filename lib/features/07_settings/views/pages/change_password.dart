@@ -6,7 +6,7 @@ import '../../../../core/constants/constants.dart';
 import '../../../../core/data/helpers/form_verify.dart';
 import '../../../../core/themes/text.dart';
 import '../../../../core/widgets/app_button.dart';
-import '../controllers/user_controller.dart';
+import '../controllers/app_admin_controller.dart';
 
 class ChangePasswordSheet extends StatefulWidget {
   const ChangePasswordSheet({Key? key}) : super(key: key);
@@ -17,7 +17,7 @@ class ChangePasswordSheet extends StatefulWidget {
 
 class _ChangePasswordSheetState extends State<ChangePasswordSheet> {
   /// Dependency
-  final AppUserController _controller = Get.find();
+  final AppAdminController _controller = Get.find();
 
   /* <---- Text Editing Controller -----> */
   late TextEditingController _oldPassword;

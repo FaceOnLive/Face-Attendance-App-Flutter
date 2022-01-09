@@ -1,12 +1,13 @@
+import 'package:face_attendance/core/auth/controllers/signup_controller.dart';
+import 'package:face_attendance/core/auth/views/dialogs/we_received_your_request.dart';
+import 'package:face_attendance/core/auth/views/pages/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:flutter_email_sender/flutter_email_sender.dart';
 
 import '../../../../core/constants/constants.dart';
 import '../../../../core/utils/ui_helper.dart';
 import '../../../data/helpers/form_verify.dart';
 import '../../../widgets/app_button.dart';
-import '../../controllers/signup_controller.dart';
 
 class RegisterAsAdminPage extends StatefulWidget {
   const RegisterAsAdminPage({Key? key}) : super(key: key);
@@ -16,7 +17,6 @@ class RegisterAsAdminPage extends StatefulWidget {
 }
 
 class _RegisterAsAdminPageState extends State<RegisterAsAdminPage> {
-  /* <---- Dependency -----> */
   final SignUpController _controller = Get.put(SignUpController());
 
   /* <---- Text Editing Controllers ----> */
@@ -49,36 +49,22 @@ class _RegisterAsAdminPageState extends State<RegisterAsAdminPage> {
     if (_isFormOkay) {
       AppUiHelper.dismissKeyboard(context: context);
       _isSendingData.trigger(true);
-      prepareEmail();
+
       try {
-        await FlutterEmailSender.send(email);
+        await _controller.signUpAsAdmin(
+          email: emailController.text,
+          name: nameController.text,
+          companyName: companyName.text,
+          extraInfo: extrainfo.text,
+        );
         _isSendingData.trigger(false);
+        await Get.dialog(const RequestReceivedDialog());
+        Get.offAll(() => const LoginPage());
       } on Exception catch (e) {
         print(e);
         _isSendingData.trigger(false);
       }
     }
-  }
-
-  Email email = Email();
-
-  void prepareEmail() {
-    email = Email(
-      body: '''
-    Hello I am ${nameController.text},
-    I want to join FaceAttendance app as an Admin.
-
-    Email Address: ${emailController.text}
-    Company Name: ${companyName.text}
-    I heard about you: ${extrainfo.text}
-
-    Thank you.
-    Have a good day.
-    ''',
-      subject: 'Register as Admin at FaceAttendance App',
-      recipients: ['mdmomin322@gmail.com'],
-      isHTML: false,
-    );
   }
 
   /* <---- State ----> */

@@ -1,3 +1,4 @@
+import 'package:face_attendance/core/auth/views/pages/email_not_verified_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 
@@ -5,11 +6,11 @@ import '../../../features/02_entrypoint/entrypoint.dart';
 import '../../../features/04_verifier/views/controllers/verify_controller.dart';
 import '../../../features/05_members/views/controllers/member_controller.dart';
 import '../../../features/06_spaces/views/controllers/space_controller.dart';
-import '../../../features/07_settings/views/controllers/user_controller.dart';
+import '../../../features/07_settings/views/controllers/app_admin_controller.dart';
 import '../../../features_user/core/controllers/app_member_settings.dart';
 import '../../../features_user/core/controllers/app_member_user.dart';
 import '../../../features_user/core/views/entrypoint_member.dart';
-import '../../app/views/dialogs/email_sent.dart';
+import '../views/dialogs/email_sent.dart';
 import '../../app/views/dialogs/error_dialog.dart';
 import '../../camerakit/camera_kit_controller.dart';
 import '../../data/helpers/app_toast.dart';
@@ -35,29 +36,46 @@ class LoginController extends GetxController {
   /// Login User With Email
   Future<void> loginWithEmail(
       {required String email, required String password}) async {
+    /// Get user credintials
     UserCredential _userCredintial = await _firebaseAuth
         .signInWithEmailAndPassword(email: email, password: password);
+
+    // get user
     _firebaseUser.value = _userCredintial.user;
+    // if the user is admin
     isAdmin = await UserServices.isAnAdmin(_userCredintial.user!.uid);
+
+    // if the email is verified
     isEmailVerified = _userCredintial.user!.emailVerified;
+
+    // let's redirect 🚀
     if (isAdmin && isEmailVerified) {
+      // this is admin logging in
       currentAuthState.value = AuthState.adminLoggedIn;
       Get.offAll(() => const EntryPointUI());
+      AppToast.showDefaultToast('Login Successfull');
     } else if (isEmailVerified && !isAdmin) {
+      // this is a normal user of the app
       currentAuthState.value = AuthState.userLoggedIn;
       Get.offAll(() => const AppMemberMainUi());
+      AppToast.showDefaultToast('Login Successfull');
+    } else if (!isEmailVerified && !isAdmin) {
+      // this is a normal user of app whose email is unverified
+      currentAuthState.value = AuthState.emailUnverified;
+      Get.offAll(() => const EmailNotVerifiedPage());
+      AppToast.showDefaultToast("Unverified Email");
     } else {
+      // we are logged out
       currentAuthState.value = AuthState.loggedOut;
-      Get.offAll(const LoginPage());
+      Get.offAll(() => const LoginPage());
       await logOut();
     }
-    AppToast.showDefaultToast('Login Successfull');
   }
 
   /// Log out
   Future<void> logOut() async {
     // These Dependencies require a ADMIN USER
-    Get.delete<AppUserController>(force: true);
+    Get.delete<AppAdminController>(force: true);
     Get.delete<MembersController>(force: true);
     Get.delete<SpaceController>(force: true);
     Get.delete<VerifyController>(force: true);

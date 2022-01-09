@@ -9,7 +9,7 @@ import '../../../../core/data/helpers/app_toast.dart';
 import '../../../../core/data/helpers/form_verify.dart';
 import '../../../../core/themes/text.dart';
 import '../../../../core/widgets/app_button.dart';
-import '../controllers/user_controller.dart';
+import '../controllers/app_admin_controller.dart';
 
 class AdminDetailsSheet extends StatefulWidget {
   const AdminDetailsSheet({Key? key, required this.name}) : super(key: key);
@@ -22,7 +22,7 @@ class AdminDetailsSheet extends StatefulWidget {
 
 class _AdminDetailsSheetState extends State<AdminDetailsSheet> {
   /* <---- Dependency -----> */
-  final AppUserController _controller = Get.find();
+  final AppAdminController _controller = Get.find();
 
   // Text
   late TextEditingController _nameController;

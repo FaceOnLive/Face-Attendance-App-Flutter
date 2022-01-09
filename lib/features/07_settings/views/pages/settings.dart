@@ -15,7 +15,7 @@ import '../../../../core/widgets/app_custom_list_tile.dart';
 import '../../../../core/widgets/picture_display.dart';
 import '../../../05_members/views/dialogs/camera_or_gallery.dart';
 import '../../../06_spaces/views/pages/spaces.dart';
-import '../controllers/user_controller.dart';
+import '../controllers/app_admin_controller.dart';
 import 'admin_details.dart';
 import 'change_holiday.dart';
 import 'change_password.dart';
@@ -37,7 +37,7 @@ class AdminSettingScreen extends StatelessWidget {
         child: Column(
           children: [
             /* <---- All Setting ----> */
-            GetBuilder<AppUserController>(
+            GetBuilder<AppAdminController>(
               builder: (controller) {
                 return Expanded(
                   child: SingleChildScrollView(
@@ -57,7 +57,10 @@ class AdminSettingScreen extends StatelessWidget {
                               isScrollControlled: true,
                             );
                           },
-                          leading: const Icon(Icons.person),
+                          leading: const Icon(
+                            Icons.person,
+                            color: AppColors.primaryColor,
+                          ),
                         ),
                         AppCustomListTile(
                           label: 'Change Password',
@@ -67,19 +70,28 @@ class AdminSettingScreen extends StatelessWidget {
                               isScrollControlled: true,
                             );
                           },
-                          leading: const Icon(Icons.lock),
+                          leading: const Icon(
+                            Icons.lock,
+                            color: AppColors.primaryColor,
+                          ),
                         ),
                         AppCustomListTile(
                           label: 'Spaces',
                           onTap: () {
                             Get.to(() => const SpacesScreen());
                           },
-                          leading: const Icon(Icons.group_work),
+                          leading: const Icon(
+                            Icons.group_work,
+                            color: AppColors.primaryColor,
+                          ),
                         ),
                         AppCustomListTile(
                           label: 'Notfications',
                           onTap: () {},
-                          leading: const Icon(Icons.notifications_rounded),
+                          leading: const Icon(
+                            Icons.notifications_rounded,
+                            color: AppColors.primaryColor,
+                          ),
                           trailing: CupertinoSwitch(
                             onChanged: (val) {
                               controller.updateNotificationSetting(val);
@@ -94,7 +106,10 @@ class AdminSettingScreen extends StatelessWidget {
                             return AppCustomListTile(
                               onTap: () {},
                               label: 'Dark Mode',
-                              leading: const Icon(Icons.dark_mode_rounded),
+                              leading: const Icon(
+                                Icons.dark_mode_rounded,
+                                color: AppColors.primaryColor,
+                              ),
                               trailing: CupertinoSwitch(
                                 value: _controller.isAppInDarkMode,
                                 onChanged: (v) {
@@ -114,7 +129,10 @@ class AdminSettingScreen extends StatelessWidget {
                                 controller.updateUserFaceID(imageFile: _image);
                               }
                             },
-                            leading: const Icon(Icons.face_rounded),
+                            leading: const Icon(
+                              Icons.face_rounded,
+                              color: AppColors.primaryColor,
+                            ),
                             isUpdating: controller.isUpdatingFaceID,
                             updateMessage: 'Adding new face...',
                             subtitle: controller.currentUser.userFace != null
@@ -129,7 +147,10 @@ class AdminSettingScreen extends StatelessWidget {
                               isScrollControlled: true,
                             );
                           },
-                          leading: const Icon(Icons.emoji_food_beverage),
+                          leading: const Icon(
+                            Icons.emoji_food_beverage,
+                            color: AppColors.primaryColor,
+                          ),
                           subtitle: controller.getCurrentHoliday(),
                         ),
                       ],
@@ -178,7 +199,7 @@ class AdminSettingScreen extends StatelessWidget {
   }
 }
 
-class _UserInfo extends GetView<AppUserController> {
+class _UserInfo extends GetView<AppAdminController> {
   const _UserInfo({
     Key? key,
   }) : super(key: key);
@@ -187,7 +208,7 @@ class _UserInfo extends GetView<AppUserController> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        GetBuilder<AppUserController>(
+        GetBuilder<AppAdminController>(
           builder: (_) {
             return ProfilePictureWidget(
               heroTag: controller.currentUser.userID,

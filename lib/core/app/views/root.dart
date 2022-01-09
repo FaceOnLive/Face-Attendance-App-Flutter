@@ -1,6 +1,6 @@
-import 'package:face_attendance/core/auth/views/pages/email_address_not_verified.dart';
+import 'package:face_attendance/core/auth/views/pages/email_not_verified_page.dart';
 
-import '../../../features/04_verifier/views/pages/static_verifier.dart';
+import '../../../features/04_verifier/views/pages/static_verifier_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -87,7 +87,7 @@ class _MainUI extends GetView<CoreController> {
 
         /// If the email is unverified
         else if (_login.currentAuthState.value == AuthState.emailUnverified) {
-          return const EmailNotVerifiedScreen();
+          return const EmailNotVerifiedPage();
         }
 
         /// IF The app is in loading state

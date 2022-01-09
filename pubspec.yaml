@@ -46,7 +46,6 @@ dependencies:
   visibility_detector: ^0.2.0
   dartz: ^0.10.0
   worker_manager: ^4.2.5
-  flutter_email_sender: ^5.0.2
 
 dev_dependencies:
   flutter_test:

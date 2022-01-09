@@ -10,7 +10,7 @@ import 'package:flutter/services.dart';
 
 import '../../../features/01_onboarding/views/onboarding_page.dart';
 import '../../../features/03_attendance/views/pages/main_attendance_page.dart';
-import '../../../features/04_verifier/views/pages/verifier.dart';
+import '../../../features/04_verifier/views/pages/verifier_page.dart';
 import '../../../features/05_members/views/pages/members.dart';
 import '../../auth/controllers/login_controller.dart';
 import '../../auth/views/pages/login_page.dart';
@@ -47,13 +47,13 @@ class CoreController extends GetxController {
 
   /// SDK Settings
   /// When sdk is updating
-  void updatingSDKinitiated() {
+  void settingSDK() {
     isSettingSdk = true;
     update();
   }
 
   /// When SDK Setting database is done
-  void updateSdkDone() {
+  void settingSdkDone() {
     isSettingSdk = false;
     update();
   }

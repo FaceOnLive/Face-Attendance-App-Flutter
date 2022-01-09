@@ -2,10 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../06_spaces/views/controllers/space_controller.dart';
-import '../widgets/drop_down_row_section.dart';
-import '../widgets/settings_sdk_progressbar.dart';
-import '../widgets/user_list_section.dart';
-import '../widgets/widgets.dart';
+import '../components/components.dart';
 
 class AttendancePage extends StatelessWidget {
   const AttendancePage({Key? key}) : super(key: key);

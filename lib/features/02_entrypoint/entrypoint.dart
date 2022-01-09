@@ -9,7 +9,7 @@ import '../04_verifier/views/controllers/user_serial_keeper.dart';
 import '../04_verifier/views/controllers/verify_controller.dart';
 import '../05_members/views/controllers/member_controller.dart';
 import '../06_spaces/views/controllers/space_controller.dart';
-import '../07_settings/views/controllers/user_controller.dart';
+import '../07_settings/views/controllers/app_admin_controller.dart';
 
 /* <-----------------------> 
     This is where the user will come most of the time when he is logged in,
@@ -29,7 +29,7 @@ class EntryPointUI extends StatelessWidget {
           Expanded(
             child: GetBuilder<CoreController>(
               initState: (val) {
-                Get.put(AppUserController());
+                Get.put(AppAdminController());
                 Get.put(MembersController());
                 Get.put(SpaceController());
                 Get.put(VerifyController());

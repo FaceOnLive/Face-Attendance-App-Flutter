@@ -1,10 +1,8 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:face_attendance/features/04_verifier/views/controllers/verify_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 
 import '../../../../core/auth/controllers/login_controller.dart';
 import '../../../../core/data/helpers/app_toast.dart';
@@ -13,6 +11,7 @@ import '../../../../core/data/services/delete_picture.dart';
 import '../../../../core/data/services/upload_picture.dart';
 import '../../../../core/error/exceptions.dart';
 import '../../../../core/models/member.dart';
+import '../../../04_verifier/views/controllers/verify_controller.dart';
 import '../../../06_spaces/views/controllers/space_controller.dart';
 import '../../data/repository/attendance_repo.dart';
 import '../../data/repository/member_repo.dart';
@@ -212,68 +211,6 @@ class MembersController extends GetxController {
     **** Attendance Related ****
    -----------------------> */
 
-  Future<List<DateTime>> fetchThisYearAttendnce({
-    required String memberID,
-    required String spaceID,
-    required int year,
-  }) async {
-    String thisYear = year.toString();
-    List<DateTime> _unatttendedDate = [];
-    await _customMembersCollections
-        .doc(memberID)
-        .collection('attendance')
-        .doc(spaceID)
-        .collection('data')
-        .doc(thisYear)
-        .get()
-        .then((value) {
-      Map<String, dynamic>? _allDateMonth = value.data();
-      print(_allDateMonth ?? 'No Record Found');
-      List<dynamic> _unattendedDateInTimeStamp = [];
-      if (_allDateMonth != null && _allDateMonth['unattended_date'] != null) {
-        _unattendedDateInTimeStamp = _allDateMonth['unattended_date'];
-        for (var element in _unattendedDateInTimeStamp) {
-          DateTime _date = element.toDate();
-          _unatttendedDate.add(_date);
-        }
-      }
-    });
-
-    /// Dubugging Purpose
-    // _unatttendedDate.forEach((element) {
-    //   print("Unattended Dates are: [${DateFormat.MMMMd().format(element)}]");
-    //   print(element.day);
-    // });
-
-    return _unatttendedDate;
-  }
-
-  bool isMemberAttendedToday({required List<DateTime> unattendedDate}) {
-    // We should format this accoroding to this one
-    DateFormat _dateFormat = DateFormat.yMMMMd();
-
-    /// To compare if the date exist in the list
-    List<String> _allDateString = [];
-    for (var element in unattendedDate) {
-      String date = _dateFormat.format(element);
-      _allDateString.add(date);
-    }
-
-    String _todayDateInFormat = _dateFormat.format(DateTime.now());
-
-    bool _isMemberAttended = false;
-
-    if (_allDateString.contains(_todayDateInFormat)) {
-      print('Member is unattended today');
-      _isMemberAttended = false;
-    } else {
-      print('Member is attended today');
-      _isMemberAttended = true;
-    }
-
-    return _isMemberAttended;
-  }
-
   //// ATTENDANCE GIVE
   Future<void> attendanceAddMember({
     required String memberID,
@@ -335,7 +272,8 @@ class MembersController extends GetxController {
     required DateTime date,
   }) async {
     List<DateTime> _unattendedDate = [];
-    _unattendedDate = await fetchThisYearAttendnce(
+    _unattendedDate = await MemberAttendanceRepository(adminID: _currentAdminID)
+        .fetchThisYearAttendnce(
       memberID: memberID,
       spaceID: spaceID,
       year: date.year,
