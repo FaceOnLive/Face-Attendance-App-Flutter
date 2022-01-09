@@ -2,7 +2,7 @@ import '../../../../core/models/member.dart';
 import '../../../../core/models/space.dart';
 import '../../../../core/widgets/app_button.dart';
 import '../../../../core/widgets/member_image_leading.dart';
-import '../../../03_attendance/views/widgets/widgets.dart';
+import '../../../03_attendance/views/components/components.dart';
 import '../../../05_members/views/controllers/member_controller.dart';
 import '../controllers/space_controller.dart';
 import 'package:firebase_core/firebase_core.dart';

@@ -1,3 +1,4 @@
+import 'package:face_attendance/features/04_verifier/views/controllers/user_serial_keeper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -9,7 +10,7 @@ import '../../../../core/themes/text.dart';
 import '../../../../core/widgets/member_image_leading.dart';
 import '../../../05_members/views/controllers/member_controller.dart';
 import '../controllers/verify_controller.dart';
-import 'static_verifier_sheet_lock.dart';
+import '../dialogs/static_verifier_sheet_lock.dart';
 
 class StaticVerifierScreen extends StatefulWidget {
   const StaticVerifierScreen({Key? key}) : super(key: key);
@@ -33,6 +34,7 @@ class _StaticVerifierScreenState extends State<StaticVerifierScreen> {
       Get.put(CameraKitController());
       Get.put(MembersController());
       Get.put(VerifyController());
+      Get.put(UserSerialKeeper());
     });
     _isScreenReady.trigger(true);
   }

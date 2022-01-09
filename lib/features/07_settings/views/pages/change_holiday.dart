@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 
 import '../../../../core/constants/constants.dart';
 import '../../../../core/themes/text.dart';
-import '../controllers/user_controller.dart';
+import '../controllers/app_admin_controller.dart';
 
 class ChangeHolidaySheet extends StatefulWidget {
   const ChangeHolidaySheet({Key? key}) : super(key: key);
@@ -14,7 +14,7 @@ class ChangeHolidaySheet extends StatefulWidget {
 
 class _ChangeHolidaySheetState extends State<ChangeHolidaySheet> {
   /* <---- Dependency -----> */
-  final AppUserController _controller = Get.find();
+  final AppAdminController _controller = Get.find();
 
   /// List of days to show in option
   List<String> _days = [];
@@ -49,7 +49,7 @@ class _ChangeHolidaySheetState extends State<ChangeHolidaySheet> {
           const Divider(),
           AppSizes.hGap10,
           /* <---- Days List -----> */
-          GetBuilder<AppUserController>(builder: (controller) {
+          GetBuilder<AppAdminController>(builder: (controller) {
             return Column(
               mainAxisSize: MainAxisSize.min,
               children: List.generate(

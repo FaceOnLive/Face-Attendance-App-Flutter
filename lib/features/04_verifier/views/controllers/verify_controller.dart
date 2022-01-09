@@ -3,6 +3,8 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:face_attendance/features/05_members/data/repository/attendance_repo.dart';
+import 'package:face_attendance/features/06_spaces/views/controllers/space_controller.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:retry/retry.dart';
@@ -13,9 +15,9 @@ import '../../../../core/data/services/app_photo.dart';
 import '../../../../core/models/member.dart';
 import '../../../02_entrypoint/entrypoint.dart';
 import '../../../05_members/views/controllers/member_controller.dart';
-import '../../../07_settings/views/controllers/user_controller.dart';
+import '../../../07_settings/views/controllers/app_admin_controller.dart';
 import '../../data/repository/native_functions.dart';
-import '../pages/static_verifier.dart';
+import '../pages/static_verifier_page.dart';
 import 'user_serial_keeper.dart';
 
 class VerifyController extends GetxController {
@@ -119,7 +121,7 @@ class VerifyController extends GetxController {
   /// Go In Static Verify Mode
   Future<String?> startStaticVerifyMode({required String userPass}) async {
     try {
-      String email = Get.find<AppUserController>().currentUser.email;
+      String email = Get.find<AppAdminController>().currentUser.email;
       // Need to authenticate the user again to refresh token
       AuthCredential _credential = EmailAuthProvider.credential(
         email: email,
@@ -193,6 +195,11 @@ class VerifyController extends GetxController {
           Get.find<MembersController>().getMemberByIDLocal(memberID: userId);
       if (_fetchMember != null) {
         verifiedMember = _fetchMember;
+        await MemberAttendanceRepository(adminID: _currentUserID).addAttendance(
+          date: DateTime.now(),
+          memberID: _fetchMember.memberID!,
+          spaceID: Get.find<SpaceController>().currentSpace!.spaceID!,
+        );
         print(_fetchMember.memberName);
       }
     } else {

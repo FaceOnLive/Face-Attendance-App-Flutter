@@ -6,10 +6,14 @@ import 'camera_kit_view.dart';
 class CameraKitController extends GetxController {
   late CameraKitView cameraKitView;
 
+  bool isCameraPaused = false;
+
   ///pause camera while stop camera preview.
   ///Plugin manage automatically pause camera based android, iOS lifecycle and widget visibility
   pauseCamera() {
     cameraKitView.viewState.controller!.setCameraVisible(false);
+    isCameraPaused = true;
+    update();
   }
 
   ///Closing camera and dispose all resource
@@ -21,6 +25,8 @@ class CameraKitController extends GetxController {
   ///Plugin manage automatically resume camera based android, iOS lifecycle and widget visibility
   resumeCamera() {
     cameraKitView.viewState.controller!.setCameraVisible(true);
+    isCameraPaused = false;
+    update();
   }
 
   ///Use this method for taking picture in take picture mode

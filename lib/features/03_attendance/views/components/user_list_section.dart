@@ -6,7 +6,7 @@ import 'package:intl/intl.dart';
 
 import '../../../../core/constants/constants.dart';
 import '../../../../core/themes/text.dart';
-import '../widgets/widgets.dart';
+import 'components.dart';
 
 class AttendedUserListSection extends StatelessWidget {
   const AttendedUserListSection({
@@ -49,8 +49,9 @@ class AttendedUserListSection extends StatelessWidget {
                             value: MemberFilterList.attended,
                             groupValue: controller.selectedOption,
                             onChanged: (v) {
-                              controller
-                                  .onRadioSelection(MemberFilterList.attended);
+                              controller.onRadioSelection(
+                                MemberFilterList.attended,
+                              );
                             },
                           ),
                           const Text('Attended'),

@@ -1,3 +1,4 @@
+import 'package:face_attendance/features/05_members/data/repository/attendance_repo.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
@@ -11,7 +12,7 @@ import '../../../05_members/views/controllers/member_controller.dart';
 import '../../../05_members/views/pages/member_attendance.dart';
 import '../../../05_members/views/pages/member_edit.dart';
 import '../../../06_spaces/views/controllers/space_controller.dart';
-import '../../../07_settings/views/controllers/user_controller.dart';
+import '../../../07_settings/views/controllers/app_admin_controller.dart';
 import '../dialogs/date_dialog.dart';
 
 class MemberAttendanceDetails extends StatelessWidget {
@@ -117,9 +118,12 @@ class _MemberAttendanceState extends State<_MemberAttendance> {
   final RxBool _isAttendedToday = false.obs;
 
   Future<void> _fetchThisMemberAttendance() async {
+    String _currentAdminId = Get.find<AppAdminController>().currentUser.userID!;
+
     _unAttendedDate = [];
     _isFetchingUserData.trigger(true);
-    _unAttendedDate = await _membersController.fetchThisYearAttendnce(
+    _unAttendedDate = await MemberAttendanceRepository(adminID: _currentAdminId)
+        .fetchThisYearAttendnce(
       memberID: widget.memberID,
       spaceID: widget.spaceID,
       year: DateTime.now().year,
@@ -187,7 +191,7 @@ class _MemberAttendanceState extends State<_MemberAttendance> {
                         ),
                         blackoutDates: _unAttendedDate,
                         firstDayOfWeek:
-                            Get.find<AppUserController>().currentUser.holiday,
+                            Get.find<AppAdminController>().currentUser.holiday,
                         onTap: (v) async {
                           if (v.date != null) {
                             await Get.dialog(

@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../../../core/constants/constants.dart';
-import '../../../07_settings/views/controllers/user_controller.dart';
+import '../../../07_settings/views/controllers/app_admin_controller.dart';
 
 class UserProfilePicture extends StatelessWidget {
   const UserProfilePicture({
@@ -15,7 +15,7 @@ class UserProfilePicture extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<AppUserController>(
+    return GetBuilder<AppAdminController>(
       builder: (controller) {
         if (controller.isUserInitialized == false) {
           return Shimmer.fromColors(

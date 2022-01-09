@@ -5,28 +5,30 @@ import 'package:face_attendance/core/widgets/app_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class EmailNotVerifiedScreen extends StatelessWidget {
-  const EmailNotVerifiedScreen({Key? key}) : super(key: key);
+class EmailNotVerifiedPage extends StatelessWidget {
+  const EmailNotVerifiedPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
+      appBar: AppBar(
+        title: const CircleAvatar(
+          backgroundImage: AssetImage(AppImages.mainLogo),
+          backgroundColor: Colors.white,
+        ),
+        actions: [
+          IconButton(
+            onPressed: () => Get.find<LoginController>().logOut(),
+            icon: const Icon(Icons.logout_rounded, color: Colors.red),
+          )
+        ],
+      ),
       body: SafeArea(
         child: SizedBox(
           width: double.infinity,
           child: Column(
             children: [
-              /* <---- Header Logo ----> */
-              SizedBox(
-                width: Get.width * 0.2,
-                child: Hero(
-                  tag: AppImages.mainLogo,
-                  child: Image.asset(
-                    AppImages.mainLogo,
-                  ),
-                ),
-              ),
               const Divider(),
               const Spacer(),
               Image.asset(AppImages.illustrationNoAttend),

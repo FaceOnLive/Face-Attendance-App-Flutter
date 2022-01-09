@@ -1,11 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:face_attendance/core/data/helpers/app_toast.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get/get.dart';
 
-import '../../app/views/dialogs/email_sent.dart';
+import '../views/dialogs/email_sent.dart';
 import '../../models/user.dart';
-import '../views/pages/email_address_not_verified.dart';
+import '../views/pages/email_not_verified_page.dart';
 import 'login_controller.dart';
 
 class SignUpController extends GetxController {
@@ -48,9 +49,35 @@ class SignUpController extends GetxController {
       Get.find<LoginController>().isAdmin = false;
       Get.find<LoginController>().currentAuthState.value ==
           AuthState.emailUnverified;
-      Get.offAll(() => const EmailNotVerifiedScreen());
+      Get.offAll(() => const EmailNotVerifiedPage());
     } on FirebaseException catch (e) {
       print(e);
+    }
+  }
+
+  /// When user wants to request to sign up as admin
+  Future<void> signUpAsAdmin({
+    required String email,
+    required String name,
+    required String companyName,
+    required String extraInfo,
+  }) async {
+    final _metaData = FirebaseFirestore.instance
+        .collection('meta_data')
+        .doc('admin_requests')
+        .collection('the_requests');
+
+    try {
+      await _metaData.add({
+        'name': name,
+        'email': email,
+        'companyName': companyName,
+        'extraInfo': extraInfo,
+        'idToken': _idTokenOfDevice,
+      });
+    } on FirebaseException catch (e) {
+      AppToast.showDefaultToast(
+          e.message ?? 'Oops! Something error has happened');
     }
   }
 
