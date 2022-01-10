@@ -1,3 +1,4 @@
+import 'package:face_attendance/features/05_members/views/controllers/member_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -70,9 +71,23 @@ class MemberInfoScreen extends StatelessWidget {
                     Get.to(() => MemberEditScreen(member: member));
                   },
                 )
-              : Text(
-                  'Only this user can change his info',
-                  style: AppText.caption,
+              : Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      'Only this user can change his info',
+                      style: AppText.caption,
+                    ),
+                    AppButtonOutline(
+                      label: 'Delete This User',
+                      onTap: () {
+                        Get.find<MembersController>().deleteAppMember(
+                          userID: member.memberID!,
+                        );
+                      },
+                      color: Colors.red,
+                    ),
+                  ],
                 ),
           AppSizes.hGap20,
         ],

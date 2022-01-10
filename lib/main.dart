@@ -11,8 +11,8 @@ void main() async {
   AppUiHelper.autoRotateOff();
   runApp(TuringTechApp());
 
-  /// this is another thread used for image compilation
-  /// don't remove this, otherwise the app will crash or slow down
+  /// this is for an isolate (a kind of thread) used for image compilation
+  /// don't remove this, otherwise the app will crash
   await Executor().warmUp();
 }
 

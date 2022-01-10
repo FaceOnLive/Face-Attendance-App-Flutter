@@ -15,9 +15,9 @@ import '../../../core/app/views/dialogs/generated_qr.dart';
 import '../../../core/auth/controllers/login_controller.dart';
 import '../../../features/05_members/views/dialogs/camera_or_gallery.dart';
 import '../../core/controllers/app_member_user.dart';
-import 'change_address.dart';
-import 'change_name.dart';
-import 'change_number.dart';
+import '../components/change_address.dart';
+import '../components/change_name.dart';
+import '../components/change_number.dart';
 
 class AppMemberProfileScreen extends GetView<AppMemberUserController> {
   const AppMemberProfileScreen({Key? key}) : super(key: key);
@@ -83,68 +83,71 @@ class AppMemberProfileScreen extends GetView<AppMemberUserController> {
   }
 }
 
-class _UserSettings extends GetView<AppMemberUserController> {
+class _UserSettings extends StatelessWidget {
   const _UserSettings({
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: Get.width * 0.7,
-      child: Column(
-        children: [
-          AppSizes.hGap10,
-          AppButton(
-            label: 'Change Name',
-            onTap: () {
-              Get.bottomSheet(
-                const ChangeNameSheet(),
-                isScrollControlled: true,
-              );
-            },
-            prefixIcon: const Icon(
-              Icons.edit_rounded,
-              color: Colors.white,
+    return GetBuilder<AppMemberUserController>(builder: (controller) {
+      return SizedBox(
+        width: Get.width * 0.7,
+        child: Column(
+          children: [
+            AppSizes.hGap10,
+            AppButton(
+              label: 'Change Name',
+              onTap: () {
+                Get.bottomSheet(
+                  const ChangeNameSheet(),
+                  isScrollControlled: true,
+                );
+              },
+              prefixIcon: const Icon(
+                Icons.edit_rounded,
+                color: Colors.white,
+              ),
             ),
-          ),
-          AppButton(
-            label: 'Add/Edit Address',
-            onTap: () {
-              Get.bottomSheet(
-                const ChangeAddressSheet(),
-                isScrollControlled: true,
-              );
-            },
-            prefixIcon: Icon(
-              controller.currentUser.address == null
-                  ? Icons.warning_rounded
-                  : Icons.edit_location_rounded,
-              color: Colors.white,
-            ),
-            backgroundColor: controller.currentUser.address == null
-                ? AppColors.appRed
-                : null,
-          ),
-          AppButton(
-            label: 'Add/Edit Number',
-            onTap: () {
-              Get.bottomSheet(
-                const ChangeNumberSheet(),
-                isScrollControlled: true,
-              );
-            },
-            prefixIcon: Icon(
-                controller.currentUser.phone == null
+            AppButton(
+              label: 'Add/Edit Address',
+              onTap: () {
+                Get.bottomSheet(
+                  const ChangeAddressSheet(),
+                  isScrollControlled: true,
+                );
+              },
+              prefixIcon: Icon(
+                controller.currentUser.address == null
                     ? Icons.warning_rounded
-                    : Icons.phone_rounded,
-                color: Colors.white),
-            backgroundColor:
-                controller.currentUser.phone == null ? AppColors.appRed : null,
-          ),
-        ],
-      ),
-    );
+                    : Icons.edit_location_rounded,
+                color: Colors.white,
+              ),
+              backgroundColor: controller.currentUser.address == null
+                  ? AppColors.appRed
+                  : null,
+            ),
+            AppButton(
+              label: 'Add/Edit Number',
+              onTap: () {
+                Get.bottomSheet(
+                  const ChangeNumberSheet(),
+                  isScrollControlled: true,
+                );
+              },
+              prefixIcon: Icon(
+                  controller.currentUser.phone == null
+                      ? Icons.warning_rounded
+                      : Icons.phone_rounded,
+                  color: Colors.white),
+              backgroundColor: controller.currentUser.phone == null
+                  ? AppColors.appRed
+                  : null,
+            ),
+          ],
+        ),
+      );
+    });
   }
 }
 
@@ -167,7 +170,7 @@ class _ActionButtons extends GetView<AppMemberUserController> {
             suffixIcon: const Icon(Icons.qr_code_2_rounded),
             onTap: () {
               String userId = controller.currentUser.userID ?? 'no-user-id';
-              bool _isValidForShare = controller.isPhoneAndAddressFound();
+              bool _isValidForShare = controller.isUserDataAvailable();
               if (_isValidForShare) {
                 Get.dialog(
                   /// Returns an encrypted USER ID
@@ -178,7 +181,10 @@ class _ActionButtons extends GetView<AppMemberUserController> {
                 );
               } else {
                 Get.dialog(
-                  const ErrorDialog(message: 'Please Add Phone & Address'),
+                  const ErrorDialog(
+                    title: 'Info not found',
+                    message: 'Please Add a Picture, Phone, Address',
+                  ),
                 );
               }
             },

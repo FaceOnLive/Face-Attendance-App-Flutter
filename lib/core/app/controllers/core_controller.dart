@@ -1,19 +1,18 @@
-import 'package:face_attendance/core/data/helpers/app_toast.dart';
-
-import '../../../features/06_spaces/data/source/space_local_source.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:flutter/services.dart';
 
 import '../../../features/01_onboarding/views/onboarding_page.dart';
 import '../../../features/03_attendance/views/pages/main_attendance_page.dart';
 import '../../../features/04_verifier/views/pages/verifier_page.dart';
 import '../../../features/05_members/views/pages/members.dart';
+import '../../../features/06_spaces/data/source/space_local_source.dart';
 import '../../auth/controllers/login_controller.dart';
 import '../../auth/views/pages/login_page.dart';
+import '../../data/helpers/app_toast.dart';
 import '../../utils/check_internet.dart';
 import '../views/dialogs/no_internet.dart';
 
@@ -86,7 +85,7 @@ class CoreController extends GetxController {
     if (currentIndex == 0) {
       return const AttendancePage();
     } else if (currentIndex == 1) {
-      return const VerifierScreen();
+      return const VerifierPage();
     } else if (currentIndex == 2) {
       return const MembersScreen();
     } else {

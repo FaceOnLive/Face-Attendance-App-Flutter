@@ -1,4 +1,3 @@
-import 'package:face_attendance/features/05_members/data/repository/attendance_repo.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
@@ -8,7 +7,7 @@ import '../../../../core/models/member.dart';
 import '../../../../core/themes/text.dart';
 import '../../../../core/widgets/app_button.dart';
 import '../../../../core/widgets/picture_display.dart';
-import '../../../05_members/views/controllers/member_controller.dart';
+import '../../../05_members/data/repository/attendance_repo.dart';
 import '../../../05_members/views/pages/member_attendance.dart';
 import '../../../05_members/views/pages/member_edit.dart';
 import '../../../06_spaces/views/controllers/space_controller.dart';
@@ -79,7 +78,7 @@ class MemberAttendanceDetails extends StatelessWidget {
                   // Calendar
                   _MemberAttendance(
                       spaceID: spaceID!,
-                      memberID: member.memberID!,
+                      member: member,
                     ),
             ],
           ),
@@ -93,11 +92,11 @@ class _MemberAttendance extends StatefulWidget {
   const _MemberAttendance({
     Key? key,
     required this.spaceID,
-    required this.memberID,
+    required this.member,
   }) : super(key: key);
 
   final String spaceID;
-  final String memberID;
+  final Member member;
 
   @override
   State<_MemberAttendance> createState() => _MemberAttendanceState();
@@ -105,7 +104,6 @@ class _MemberAttendance extends StatefulWidget {
 
 class _MemberAttendanceState extends State<_MemberAttendance> {
   /* <---- Dependency -----> */
-  final MembersController _membersController = Get.find();
   final SpaceController _spaceController = Get.find();
 
   // Progress
@@ -123,20 +121,20 @@ class _MemberAttendanceState extends State<_MemberAttendance> {
     _unAttendedDate = [];
     _isFetchingUserData.trigger(true);
     _unAttendedDate = await MemberAttendanceRepository(adminID: _currentAdminId)
-        .fetchThisYearAttendnce(
-      memberID: widget.memberID,
+        .getAttendance(
+      memberID: widget.member.memberID!,
+      isCustom: widget.member.isCustom,
       spaceID: widget.spaceID,
-      year: DateTime.now().year,
     );
     // _isAttendedToday.value = _membersController.isMemberAttendedToday(
     //   unattendedDate: _unAttendedDate,
     // );
 
-    _isAttendedToday.value =
-        _spaceController.isMemberAttendedToday(memberID: widget.memberID) ==
-                null
-            ? false
-            : true;
+    _isAttendedToday.value = _spaceController.isMemberAttendedToday(
+                memberID: widget.member.memberID!) ==
+            null
+        ? false
+        : true;
 
     _isFetchingUserData.trigger(false);
   }
@@ -198,7 +196,7 @@ class _MemberAttendanceState extends State<_MemberAttendance> {
                               DateInfoDialog(
                                 dateTime: v.date!,
                                 spaceID: widget.spaceID,
-                                memberID: widget.memberID,
+                                member: widget.member,
                               ),
                             );
                             await _fetchThisMemberAttendance();
@@ -212,7 +210,7 @@ class _MemberAttendanceState extends State<_MemberAttendance> {
                         onTap: () {
                           Get.to(
                             () => MemberAttendanceEditScreen(
-                              memberID: widget.memberID,
+                              member: widget.member,
                               unattendedDates: _unAttendedDate,
                               spaceID: widget.spaceID,
                             ),

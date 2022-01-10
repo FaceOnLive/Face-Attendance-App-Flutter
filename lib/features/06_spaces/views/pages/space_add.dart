@@ -1,3 +1,4 @@
+import 'package:face_attendance/core/auth/controllers/login_controller.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -41,6 +42,7 @@ class _SpaceCreateScreenState extends State<SpaceCreateScreen> {
           memberList: [],
           appMembers: [],
           spaceID: '',
+          ownerUID: Get.find<LoginController>().user!.uid,
         ),
       );
       Get.back();

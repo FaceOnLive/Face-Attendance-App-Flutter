@@ -32,6 +32,7 @@ class _AppMemberJoinQRCODEState extends State<AppMemberJoinQRCODE> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(),
       body: Column(
         children: <Widget>[
           Expanded(

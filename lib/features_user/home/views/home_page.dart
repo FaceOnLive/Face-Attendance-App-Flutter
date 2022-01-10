@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:face_attendance/features_user/core/controllers/app_member_verify.dart';
 import '../../core/controllers/app_member_settings.dart';
 import '../../core/controllers/app_member_user.dart';
 import 'package:flutter/material.dart';
@@ -8,8 +9,8 @@ import 'package:shimmer/shimmer.dart';
 
 import '../../../../core/constants/constants.dart';
 import '../../../../core/themes/text.dart';
-import 'drop_down.dart';
-import 'verifier.dart';
+import '../components/drop_down.dart';
+import '../components/verifier.dart';
 
 class AppMemberHomeScreen extends StatelessWidget {
   const AppMemberHomeScreen({Key? key}) : super(key: key);
@@ -19,13 +20,23 @@ class AppMemberHomeScreen extends StatelessWidget {
     return Container(
       color: context.theme.scaffoldBackgroundColor,
       child: Column(
-        children: const [
-          _HeaderMainPage(),
-          _DateRow(),
-          // DropDown
-          AppMemberDropDown(),
+        children: [
+          const _HeaderMainPage(),
+          const _DateRow(),
           Expanded(
-            child: AppMemberVerifierWidget(),
+            child: GetBuilder<AppMemberVerifyController>(builder: (controller) {
+              return Column(
+                children: [
+                  // DropDown
+                  controller.verifyingState == VerifyingState.verifying
+                      ? const SizedBox()
+                      : const AppMemberDropDown(),
+                  const Expanded(
+                    child: AppMemberVerifierWidget(),
+                  ),
+                ],
+              );
+            }),
           )
         ],
       ),

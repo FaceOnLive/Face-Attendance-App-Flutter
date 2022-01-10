@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 
 import '../../../../core/constants/constants.dart';
 import '../../../../core/data/helpers/date_helper.dart';
+import '../../../../core/models/member.dart';
 import '../../../../core/themes/text.dart';
 import '../../../../core/widgets/app_button.dart';
 import '../../../05_members/views/controllers/member_controller.dart';
@@ -14,12 +15,12 @@ class DateInfoDialog extends StatelessWidget {
     Key? key,
     required this.dateTime,
     required this.spaceID,
-    required this.memberID,
+    required this.member,
   }) : super(key: key);
 
   final DateTime dateTime;
   final String spaceID;
-  final String memberID;
+  final Member member;
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +44,7 @@ class DateInfoDialog extends StatelessWidget {
             thickness: 0.3,
           ),
           _UpdateAttendane(
-            memberID: memberID,
+            member: member,
             spaceID: spaceID,
             date: dateTime,
           ),
@@ -57,11 +58,11 @@ class _UpdateAttendane extends StatefulWidget {
   const _UpdateAttendane({
     Key? key,
     required this.spaceID,
-    required this.memberID,
+    required this.member,
     required this.date,
   }) : super(key: key);
   final String spaceID;
-  final String memberID;
+  final Member member;
   final DateTime date;
 
   @override
@@ -86,9 +87,10 @@ class __UpdateAttendaneState extends State<_UpdateAttendane> {
     try {
       _isUpdatingAttendance.trigger(true);
       await _controller.attendanceAddMember(
-        memberID: widget.memberID,
+        memberID: widget.member.memberID!,
         spaceID: widget.spaceID,
         date: widget.date,
+        isCustom: widget.member.isCustom,
       );
       Get.back();
       _isUpdatingAttendance.trigger(false);
@@ -103,9 +105,10 @@ class __UpdateAttendaneState extends State<_UpdateAttendane> {
     try {
       _isUpdatingAttendance.trigger(true);
       await _controller.attendanceRemoveMember(
-        memberID: widget.memberID,
+        memberID: widget.member.memberID!,
         spaceID: widget.spaceID,
         date: widget.date,
+        isCustom: widget.member.isCustom,
       );
       Get.back();
       _isUpdatingAttendance.trigger(false);

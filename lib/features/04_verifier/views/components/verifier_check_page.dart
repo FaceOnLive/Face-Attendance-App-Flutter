@@ -9,7 +9,12 @@ import '../../../../core/constants/app_sizes.dart';
 import '../../../../core/themes/text.dart';
 import '../../../../core/widgets/app_button.dart';
 import '../../../05_members/views/dialogs/camera_or_gallery.dart';
-import '../../data/repository/native_functions.dart';
+import '../../../../core/native_bridge/native_functions.dart';
+
+/* <-----------------------> 
+    This page was used for testing the sdk 1:1 verification, 
+    it is no longer used now, but you can use it for your testing    
+ <-----------------------> */
 
 class VerifierCheckPage extends StatefulWidget {
   /// This page was used for testing the SDK

@@ -18,10 +18,8 @@ enum MemberFilterList { all, attended, unattended }
 
 class SpaceController extends GetxController {
   /* <---- Dependency ----> */
-  late final CollectionReference _spaceCollection = FirebaseFirestore.instance
-      .collection('spaces')
-      .doc(_currentUserID)
-      .collection('space_collection');
+  late final CollectionReference _spaceCollection =
+      FirebaseFirestore.instance.collection('spaces');
 
   /// User ID of Current Logged In user
   late String _currentUserID;
@@ -68,19 +66,21 @@ class SpaceController extends GetxController {
     if (shouldUpdate) update();
     allSpaces.clear();
 
-    final _fetchedData = await _repository.getAllSpaces();
+    final _fetchedData = await _repository.getAllSpaces(_currentUserID);
 
     _fetchedData.fold((l) {
       return AppToast.showDefaultToast(
         'Oops! There is an fatal error',
       );
-    }, (value) {
-      allSpaces = value;
-      currentSpace = SpaceLocalSource.getDefaultSpace(
-        fetchedSpaces: value,
-        userID: _currentUserID,
-      );
-      _addCurrentSpaceMemberToList(currentSpace!);
+    }, (fetchedSpacesVal) {
+      if (fetchedSpacesVal.isNotEmpty) {
+        allSpaces = fetchedSpacesVal;
+        currentSpace = SpaceLocalSource.getDefaultSpace(
+          fetchedSpaces: fetchedSpacesVal,
+          userID: _currentUserID,
+        );
+        _addCurrentSpaceMemberToList(currentSpace!);
+      }
     });
 
     isFetchingSpaces = false;
@@ -250,8 +250,10 @@ class SpaceController extends GetxController {
 
   /// Remove A Member from All Space
   /// This is useful if you are deleting a user
-  Future<void> removeAmemberFromAllSpace({required String userID}) async {
-    await _repository.removeThisMemberFromAll(userID: userID);
+  Future<void> removeAmemberFromAllSpace(
+      {required String userID, required bool isCustom}) async {
+    await _repository.removeThisMemberFromAll(
+        userID: userID, isCustom: isCustom);
 
     /// Remove locally
     _allMembersSpace.removeWhere((element) => element.memberID == userID);

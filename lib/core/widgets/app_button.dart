@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -72,12 +73,16 @@ class AppButton extends StatelessWidget {
                           margin: const EdgeInsets.only(right: 5),
                           child: prefixIcon)
                       : const SizedBox(),
-                  Text(
-                    label,
-                    style: AppText.b1.copyWith(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                      fontSize: fontSize,
+                  Expanded(
+                    child: AutoSizeText(
+                      label,
+                      style: AppText.b1.copyWith(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                        fontSize: fontSize,
+                      ),
+                      textAlign: TextAlign.center,
+                      maxLines: 1,
                     ),
                   ),
                   suffixIcon != null

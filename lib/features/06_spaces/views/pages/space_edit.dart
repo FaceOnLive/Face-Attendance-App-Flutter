@@ -1,3 +1,4 @@
+import 'package:face_attendance/core/auth/controllers/login_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -45,6 +46,7 @@ class _SpaceEditScreenState extends State<SpaceEditScreen> {
         spaceID: widget.space.spaceID,
         memberList: widget.space.memberList,
         appMembers: widget.space.appMembers,
+        ownerUID: Get.find<LoginController>().user!.uid,
       ),
     );
     _isUpdating.trigger(false);

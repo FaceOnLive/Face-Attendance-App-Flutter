@@ -4,6 +4,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 class SpaceLocalSource {
   /// Set Space ID to a Default Value or The one the user setted earlier
   /// If nothing is found then the first one will be setted as default
+  /// And Saves it locally
   static Space getDefaultSpace({
     required List<Space> fetchedSpaces,
     required String userID,

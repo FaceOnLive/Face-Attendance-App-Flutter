@@ -1,10 +1,11 @@
 import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:face_attendance/core/app/controllers/core_controller.dart';
-import 'package:face_attendance/core/data/helpers/app_toast.dart';
 import 'package:flutter/services.dart';
 import 'package:get/instance_manager.dart';
+
+import '../app/controllers/core_controller.dart';
+import '../data/helpers/app_toast.dart';
 
 class NativeSDKFunctions {
   static const MethodChannel _channel = MethodChannel('turingtech');
@@ -15,7 +16,7 @@ class NativeSDKFunctions {
     bool isDone =
         await _channel.invokeMethod('setDatabase', {'membersList': userLists});
     Get.find<CoreController>().settingSdkDone();
-    AppToast.showDefaultToast('Setting SDK Done');
+    AppToast.showDefaultToast('Face Data Updated');
     return isDone;
   }
 

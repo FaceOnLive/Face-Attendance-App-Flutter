@@ -1,14 +1,13 @@
 import 'package:animations/animations.dart';
-import '../../../features/06_spaces/views/controllers/app_member_space.dart';
-import '../controllers/app_member_user.dart';
-import '../controllers/app_member_verify.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../controllers/app_member_settings.dart';
-
 import '../../../../../core/constants/constants.dart';
 import '../../../../../core/themes/text.dart';
+import '../controllers/app_member_settings.dart';
+import '../controllers/app_member_space.dart';
+import '../controllers/app_member_user.dart';
+import '../controllers/app_member_verify.dart';
 
 /* <-----------------------> 
     This is kind of another app which is completely seperated from the main

@@ -151,11 +151,14 @@ class MembersController extends GetxController {
   }
 
   /// Remove or Delete A Member
-  Future<void> removeMember({required String memberID}) async {
+  Future<void> removeMember({
+    required String memberID,
+    required bool isCustom,
+  }) async {
     /// NEED TO DELETE THE USER PICTURE AS WELL WHEN REMOVING USER
     await _customMembersCollections.doc(memberID).delete();
     await Get.find<SpaceController>()
-        .removeAmemberFromAllSpace(userID: memberID);
+        .removeAmemberFromAllSpace(userID: memberID, isCustom: isCustom);
     await DeletePicture.ofMember(userID: _currentAdminID, memberID: memberID);
     await fetchMembersList();
     update();
@@ -178,11 +181,14 @@ class MembersController extends GetxController {
       userID: userID,
       adminID: _currentAdminID,
     );
+    await Get.find<SpaceController>()
+        .removeAmemberFromAllSpace(userID: userID, isCustom: false);
     _response.fold(
         (l) =>
             AppToast.showDefaultToast('There is an error Removing This Member'),
         (r) =>
             {Get.back(), AppToast.showDefaultToast('Member has been removed')});
+    await onRefresh();
   }
 
   /// Get Member by ID.
@@ -216,11 +222,13 @@ class MembersController extends GetxController {
     required String memberID,
     required String spaceID,
     required DateTime date,
+    required bool isCustom,
   }) async {
     await MemberAttendanceRepository(adminID: _currentAdminID).addAttendance(
       memberID: memberID,
       spaceID: spaceID,
       date: date,
+      isCustomMember: isCustom,
     );
   }
 
@@ -229,11 +237,13 @@ class MembersController extends GetxController {
     required String memberID,
     required String spaceID,
     required DateTime date,
+    required bool isCustom,
   }) async {
-    await MemberAttendanceRepository(adminID: _currentAdminID).attendanceRemove(
+    await MemberAttendanceRepository(adminID: _currentAdminID).removeAttendance(
       memberID: memberID,
       spaceID: spaceID,
       date: date,
+      isCustom: isCustom,
     );
   }
 
@@ -242,12 +252,14 @@ class MembersController extends GetxController {
     required String memberID,
     required String spaceID,
     required List<DateTime> dates,
+    required bool isCustom,
   }) async {
     await MemberAttendanceRepository(adminID: _currentAdminID)
         .multipleAttendanceDelete(
       memberID: memberID,
       spaceID: spaceID,
       dates: dates,
+      isCustom: isCustom,
     );
   }
 
@@ -256,12 +268,14 @@ class MembersController extends GetxController {
     required String memberID,
     required String spaceID,
     required List<DateTime> dates,
+    required bool isCustom,
   }) async {
     await MemberAttendanceRepository(adminID: _currentAdminID)
         .multipleAttendanceAdd(
       memberID: memberID,
       spaceID: spaceID,
       dates: dates,
+      isCustom: isCustom,
     );
   }
 
@@ -270,6 +284,7 @@ class MembersController extends GetxController {
     required String memberID,
     required String spaceID,
     required DateTime date,
+    required bool isCustom,
   }) async {
     List<DateTime> _unattendedDate = [];
     _unattendedDate = await MemberAttendanceRepository(adminID: _currentAdminID)
@@ -277,6 +292,7 @@ class MembersController extends GetxController {
       memberID: memberID,
       spaceID: spaceID,
       year: date.year,
+      isCustom: isCustom,
     );
 
     bool _isMemberWasAttended = false;

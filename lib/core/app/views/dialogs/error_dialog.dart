@@ -5,8 +5,9 @@ import '../../../constants/constants.dart';
 import '../../../themes/text.dart';
 
 class ErrorDialog extends StatelessWidget {
-  final String message;
-  const ErrorDialog({Key? key, required this.message}) : super(key: key);
+  final String message, title;
+  const ErrorDialog({Key? key, required this.title, required this.message})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +20,7 @@ class ErrorDialog extends StatelessWidget {
         children: [
           AppSizes.hGap10,
           Text(
-            'Error',
+            title,
             style: AppText.h6.copyWith(
               fontWeight: FontWeight.bold,
               color: AppColors.appRed,

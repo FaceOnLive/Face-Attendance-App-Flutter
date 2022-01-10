@@ -46,6 +46,7 @@ class _SpaceSearchScreenState extends State<SpaceSearchScreen> {
           memberID: _selectedMember.value!.memberID!,
           spaceID: widget.space.spaceID!,
           date: _selectedDate.value,
+          isCustom: _selectedMember.value!.isCustom,
         );
         _isSearching.trigger(false);
       } on FirebaseException catch (e) {

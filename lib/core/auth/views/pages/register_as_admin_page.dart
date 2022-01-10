@@ -1,6 +1,3 @@
-import 'package:face_attendance/core/auth/controllers/signup_controller.dart';
-import 'package:face_attendance/core/auth/views/dialogs/we_received_your_request.dart';
-import 'package:face_attendance/core/auth/views/pages/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -8,6 +5,9 @@ import '../../../../core/constants/constants.dart';
 import '../../../../core/utils/ui_helper.dart';
 import '../../../data/helpers/form_verify.dart';
 import '../../../widgets/app_button.dart';
+import '../../controllers/signup_controller.dart';
+import '../dialogs/we_received_your_request.dart';
+import 'login_page.dart';
 
 class RegisterAsAdminPage extends StatefulWidget {
   const RegisterAsAdminPage({Key? key}) : super(key: key);
