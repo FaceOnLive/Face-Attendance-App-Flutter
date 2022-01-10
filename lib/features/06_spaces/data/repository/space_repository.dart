@@ -5,7 +5,7 @@ import '../../../../core/models/space.dart';
 
 abstract class SpaceRepository {
   /// Get All Spaces for this user
-  Future<Either<ServerFailure, List<Space>>> getAllSpaces();
+  Future<Either<ServerFailure, List<Space>>> getAllSpaces(String ownerUID);
 
   /// Get a Single Space by Space ID
   Future<Either<ServerFailure, Space>> getSpace({required String spaceID});
@@ -44,5 +44,6 @@ abstract class SpaceRepository {
   });
 
   /// Remove A Single Member From [ALL] of the spaces. And Remove his data
-  Future<void> removeThisMemberFromAll({required String userID});
+  Future<void> removeThisMemberFromAll(
+      {required String userID, required bool isCustom});
 }

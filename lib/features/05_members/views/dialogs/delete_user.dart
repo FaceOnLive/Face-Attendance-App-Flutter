@@ -10,9 +10,11 @@ class DeleteUserDialog extends StatefulWidget {
   const DeleteUserDialog({
     Key? key,
     required this.memberID,
+    required this.isCustom,
   }) : super(key: key);
 
   final String memberID;
+  final bool isCustom;
 
   @override
   State<DeleteUserDialog> createState() => _DeleteUserDialogState();
@@ -79,7 +81,10 @@ class _DeleteUserDialogState extends State<DeleteUserDialog> {
                               onTap: () async {
                                 _deletingUser.trigger(true);
                                 await Get.find<MembersController>()
-                                    .removeMember(memberID: widget.memberID);
+                                    .removeMember(
+                                  memberID: widget.memberID,
+                                  isCustom: widget.isCustom,
+                                );
                                 Get.offAll(() => const EntryPointUI());
                                 _deletingUser.trigger(false);
                               },

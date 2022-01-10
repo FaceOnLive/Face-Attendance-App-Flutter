@@ -1,4 +1,4 @@
-import 'package:face_attendance/core/auth/views/pages/email_not_verified_page.dart';
+import 'package:face_attendance/features_user/core/controllers/app_member_space.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 
@@ -10,11 +10,12 @@ import '../../../features/07_settings/views/controllers/app_admin_controller.dar
 import '../../../features_user/core/controllers/app_member_settings.dart';
 import '../../../features_user/core/controllers/app_member_user.dart';
 import '../../../features_user/core/views/entrypoint_member.dart';
-import '../views/dialogs/email_sent.dart';
 import '../../app/views/dialogs/error_dialog.dart';
 import '../../camerakit/camera_kit_controller.dart';
 import '../../data/helpers/app_toast.dart';
 import '../../data/services/member_services.dart';
+import '../views/dialogs/email_sent.dart';
+import '../views/pages/email_not_verified_page.dart';
 import '../views/pages/login_page.dart';
 
 enum AuthState {
@@ -81,9 +82,10 @@ class LoginController extends GetxController {
     Get.delete<VerifyController>(force: true);
     Get.delete<CameraKitController>(force: true);
 
-    // Members dependencies, if is not initialized the app won't crash
+    // Members dependencies
     Get.delete<AppMemberSettingsController>(force: true);
     Get.delete<AppMemberUserController>(force: true);
+    Get.delete<AppMemberSpaceController>(force: true);
     await _firebaseAuth.signOut();
     currentAuthState.value = AuthState.loggedOut;
   }
@@ -135,6 +137,7 @@ class LoginController extends GetxController {
       if (!_isAdmin) Get.offAll(() => const AppMemberMainUi());
     } else {
       Get.dialog(const ErrorDialog(
+        title: 'Email not verified',
         message: 'Email has not been verified',
       ));
     }

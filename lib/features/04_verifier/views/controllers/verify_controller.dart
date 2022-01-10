@@ -2,9 +2,8 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:face_attendance/features/05_members/data/repository/attendance_repo.dart';
-import 'package:face_attendance/features/06_spaces/views/controllers/space_controller.dart';
+import '../../../05_members/data/repository/attendance_repo.dart';
+import '../../../06_spaces/views/controllers/space_controller.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:retry/retry.dart';
@@ -16,18 +15,12 @@ import '../../../../core/models/member.dart';
 import '../../../02_entrypoint/entrypoint.dart';
 import '../../../05_members/views/controllers/member_controller.dart';
 import '../../../07_settings/views/controllers/app_admin_controller.dart';
-import '../../data/repository/native_functions.dart';
+import '../../../../core/native_bridge/native_functions.dart';
 import '../pages/static_verifier_page.dart';
 import 'user_serial_keeper.dart';
 
 class VerifyController extends GetxController {
   /* <---- Dependency -----> */
-  // ignore: unused_field
-  late final CollectionReference _collectionReference = FirebaseFirestore
-      .instance
-      .collection('members')
-      .doc(_currentUserID)
-      .collection('members_collection');
 
   /// User ID of Current Logged In user
   late String _currentUserID;
@@ -199,6 +192,7 @@ class VerifyController extends GetxController {
           date: DateTime.now(),
           memberID: _fetchMember.memberID!,
           spaceID: Get.find<SpaceController>().currentSpace!.spaceID!,
+          isCustomMember: _fetchMember.isCustom,
         );
         print(_fetchMember.memberName);
       }

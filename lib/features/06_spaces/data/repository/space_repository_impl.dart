@@ -65,15 +65,22 @@ class SpaceRepositoryImpl extends SpaceRepository {
   }
 
   @override
-  Future<Either<ServerFailure, List<Space>>> getAllSpaces() async {
+  Future<Either<ServerFailure, List<Space>>> getAllSpaces(
+      String ownerUID) async {
     try {
       List<Space> _fethcedSpaces = [];
 
       // Get All Spaces
-      await spaceCollection.get().then((spaces) => {
-            for (var space in spaces.docs)
-              {_fethcedSpaces.add(Space.fromDocumentSnap(space))}
-          });
+      await spaceCollection
+          .where(
+            "ownerUID",
+            isEqualTo: ownerUID,
+          )
+          .get()
+          .then((spaces) => {
+                for (var space in spaces.docs)
+                  {_fethcedSpaces.add(Space.fromDocumentSnap(space))}
+              });
 
       return Right(_fethcedSpaces);
     } catch (e) {
@@ -129,17 +136,31 @@ class SpaceRepositoryImpl extends SpaceRepository {
   }
 
   @override
-  Future<void> removeThisMemberFromAll({required String userID}) async {
-    return await spaceCollection
-        .where('memberList', arrayContains: userID)
-        .get()
-        .then((value) async {
-      await Future.forEach<DocumentSnapshot>(value.docs, (element) async {
-        await element.reference.update({
-          'memberList': FieldValue.arrayRemove([userID])
+  Future<void> removeThisMemberFromAll(
+      {required String userID, required bool isCustom}) async {
+    if (isCustom) {
+      await spaceCollection
+          .where('memberList', arrayContains: userID)
+          .get()
+          .then((value) async {
+        await Future.forEach<DocumentSnapshot>(value.docs, (element) async {
+          await element.reference.update({
+            'memberList': FieldValue.arrayRemove([userID])
+          });
         });
       });
-    });
+    } else {
+      await spaceCollection
+          .where('appMembers', arrayContains: userID)
+          .get()
+          .then((value) async {
+        await Future.forEach<DocumentSnapshot>(value.docs, (element) async {
+          await element.reference.update({
+            'appMembers': FieldValue.arrayRemove([userID])
+          });
+        });
+      });
+    }
   }
 
   @override

@@ -10,12 +10,14 @@ class Space {
   String? spaceID;
   List<String> memberList;
   List<String> appMembers;
+  String ownerUID;
   Space({
     required this.name,
     required this.icon,
     required this.spaceID,
     required this.memberList,
     required this.appMembers,
+    required this.ownerUID,
   });
 
   Map<String, dynamic> toMap() {
@@ -25,6 +27,7 @@ class Space {
       'spaceID': spaceID,
       'memberList': memberList,
       'appMembers': appMembers,
+      'ownerUID': ownerUID,
     };
   }
 
@@ -36,6 +39,7 @@ class Space {
       memberList: List<String>.from(map['memberList'] ?? []),
       appMembers: List<String>.from(map['appMembers'] ?? []),
       spaceID: documentSnap.id,
+      ownerUID: map['ownerUID'],
     );
   }
 
@@ -44,6 +48,7 @@ class Space {
       name: map['name'],
       icon: map['icon'],
       spaceID: map['spaceID'],
+      ownerUID: map['ownerUID'],
       memberList: List<String>.from(map['memberList']),
       appMembers: List<String>.from(map['appMembers'] ?? []),
     );

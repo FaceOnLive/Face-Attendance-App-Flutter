@@ -109,6 +109,7 @@ class _MemberEditScreenState extends State<MemberEditScreen> {
             onPressed: () {
               Get.dialog(DeleteUserDialog(
                 memberID: widget.member.memberID!,
+                isCustom: widget.member.isCustom,
               ));
             },
           ),

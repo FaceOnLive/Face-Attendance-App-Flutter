@@ -1,10 +1,10 @@
-import '../../../../core/models/space.dart';
-import '../../../06_spaces/views/pages/space_member_add.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 
 import '../../../../core/constants/constants.dart';
+import '../../../../core/models/space.dart';
 import '../../../../core/widgets/app_button.dart';
+import '../../../06_spaces/views/pages/space_member_add.dart';
 
 /// When No Members are found on List
 /// This widgets are used on other parts of the UI where there is a user List

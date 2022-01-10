@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
+import '../../../../core/models/member.dart';
 import '../../../../core/widgets/app_button.dart';
 import '../../../03_attendance/views/dialogs/date_attend_dialog.dart';
 import '../controllers/member_controller.dart';
@@ -9,12 +10,12 @@ import '../controllers/member_controller.dart';
 class MemberAttendanceEditScreen extends StatefulWidget {
   const MemberAttendanceEditScreen({
     Key? key,
-    required this.memberID,
+    required this.member,
     required this.spaceID,
     required this.unattendedDates,
   }) : super(key: key);
 
-  final String memberID;
+  final Member member;
   final String spaceID;
   final List<DateTime> unattendedDates;
 
@@ -51,9 +52,11 @@ class _MemberAttendanceEditScreenState
     if (_confirmDelete) {
       _addingAttendance.trigger(true);
       await _controller.attendanceAddMultiple(
-          memberID: widget.memberID,
-          spaceID: widget.spaceID,
-          dates: _selectedDate);
+        memberID: widget.member.memberID!,
+        isCustom: widget.member.isCustom,
+        spaceID: widget.spaceID,
+        dates: _selectedDate,
+      );
       _addingAttendance.trigger(false);
       Get.back();
       Get.back();

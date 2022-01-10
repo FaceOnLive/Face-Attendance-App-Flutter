@@ -46,6 +46,8 @@ dependencies:
   visibility_detector: ^0.2.0
   dartz: ^0.10.0
   worker_manager: ^4.2.5
+  persistent_bottom_nav_bar: ^4.0.2
+  auto_size_text: ^3.0.0
 
 dev_dependencies:
   flutter_test:

@@ -1,24 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'package:face_attendance/core/widgets/app_button.dart';
-
 import '../../../../core/camerakit/camera_kit_controller.dart';
 import '../../../../core/camerakit/camera_kit_view.dart';
 import '../../../../core/constants/constants.dart';
 import '../../../../core/themes/text.dart';
+import '../../../../core/widgets/app_button.dart';
 import '../components/message_pop_up.dart';
 import '../components/use_as_a_verifier_button.dart';
 import '../controllers/verify_controller.dart';
 
-class VerifierScreen extends StatefulWidget {
-  const VerifierScreen({Key? key}) : super(key: key);
+class VerifierPage extends StatefulWidget {
+  const VerifierPage({Key? key}) : super(key: key);
 
   @override
-  State<VerifierScreen> createState() => _VerifierScreenState();
+  State<VerifierPage> createState() => _VerifierPageState();
 }
 
-class _VerifierScreenState extends State<VerifierScreen> {
+class _VerifierPageState extends State<VerifierPage> {
   /* <---- We should wait a little bit to finish the build,
   because on lower end device it takes time to start the device,
   so the controller doesn't start immedietly.Then we see some white screen, that's why we should wait a little bit.
@@ -30,9 +29,7 @@ class _VerifierScreenState extends State<VerifierScreen> {
   Future<void> _waitABit() async {
     await Future.delayed(
       const Duration(seconds: 1),
-    ).then((value) {
-      _cameraController = Get.put(CameraKitController());
-    });
+    ).then((value) {});
     _isScreenReady.trigger(true);
   }
 
@@ -40,6 +37,7 @@ class _VerifierScreenState extends State<VerifierScreen> {
   @override
   void initState() {
     super.initState();
+    _cameraController = Get.put(CameraKitController());
     _waitABit();
   }
 
@@ -99,8 +97,9 @@ class _CameraSection extends StatelessWidget {
                 height: double.infinity,
                 // child: CameraPreview(controller.cameraController),
                 child: controller.isCameraPaused
-                    ? CameraPausedWidget(
-                        onResume: () => controller.resumeCamera)
+                    ? CameraPausedWidget(onResume: () {
+                        controller.resumeCamera();
+                      })
                     : CameraKitView(
                         doFaceAnalysis: true,
                         scaleType: ScaleTypeMode.fit,

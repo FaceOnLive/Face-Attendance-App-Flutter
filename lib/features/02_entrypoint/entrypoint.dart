@@ -13,7 +13,8 @@ import '../07_settings/views/controllers/app_admin_controller.dart';
 
 /* <-----------------------> 
     This is where the user will come most of the time when he is logged in,
-    This works as a like foundation of all main screen. Other Screen will act like a tab;
+    This works as a like foundation of all main screen. 
+    Other Screen will act like a tab;
  <-----------------------> */
 
 class EntryPointUI extends StatelessWidget {

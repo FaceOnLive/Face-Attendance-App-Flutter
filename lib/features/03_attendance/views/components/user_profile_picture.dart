@@ -1,12 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import '../../../07_settings/views/pages/settings.dart';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../../../core/constants/constants.dart';
 import '../../../07_settings/views/controllers/app_admin_controller.dart';
+import '../../../07_settings/views/pages/settings.dart';
 
 class UserProfilePicture extends StatelessWidget {
   const UserProfilePicture({

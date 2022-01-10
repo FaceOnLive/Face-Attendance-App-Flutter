@@ -1,4 +1,3 @@
-import 'package:face_attendance/core/auth/views/pages/register_as_admin_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -9,6 +8,7 @@ import '../../../data/helpers/form_verify.dart';
 import '../../../themes/text.dart';
 import '../../../widgets/app_button.dart';
 import '../../controllers/login_controller.dart';
+import 'register_as_admin_page.dart';
 import 'sign_up_page.dart';
 
 class LoginPage extends StatefulWidget {

@@ -1,5 +1,5 @@
-import '../../home/views/home.dart';
-import '../../profile/pages/profile.dart';
+import '../../home/views/home_page.dart';
+import '../../profile/pages/profile_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:get/state_manager.dart';
 

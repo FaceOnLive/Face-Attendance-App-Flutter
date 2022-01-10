@@ -1,16 +1,14 @@
-import 'package:face_attendance/core/auth/views/pages/email_not_verified_page.dart';
-
-import '../../../features/04_verifier/views/pages/static_verifier_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../../../../core/constants/constants.dart';
-import '../controllers/core_controller.dart';
-import '../../auth/controllers/login_controller.dart';
-import '../../themes/themes.dart';
 import '../../../features/02_entrypoint/entrypoint.dart';
-
+import '../../../features/04_verifier/views/pages/static_verifier_page.dart';
 import '../../../features_user/core/views/entrypoint_member.dart';
+import '../../auth/controllers/login_controller.dart';
+import '../../auth/views/pages/email_not_verified_page.dart';
+import '../../themes/themes.dart';
+import '../controllers/core_controller.dart';
+import 'components/loading_app.dart';
 
 //// APP STARTS HERE 💙
 // ignore: use_key_in_widget_constructors
@@ -45,7 +43,7 @@ class AppRoot extends StatelessWidget {
         if (controller.everyThingLoadedUp) {
           return const _MainUI();
         } else {
-          return const _LoadingApp();
+          return const LoadingApp();
         }
       },
     );
@@ -61,6 +59,7 @@ class _MainUI extends GetView<CoreController> {
   Widget build(BuildContext context) {
     LoginController _login = Get.find();
     if (controller.isInVerifierMode()) {
+      /// When the app has been locked into static verifier mode
       return const StaticVerifierScreen();
     } else {
       return Obx(() {
@@ -72,7 +71,7 @@ class _MainUI extends GetView<CoreController> {
         /// If we are checking admin
         else if (_login.currentAuthState.value == AuthState.isCheckingAdmin) {
           // are we checking user is admin
-          return const _LoadingApp();
+          return const LoadingApp();
         }
 
         /// If the user is not admin but a app member
@@ -92,41 +91,9 @@ class _MainUI extends GetView<CoreController> {
 
         /// IF The app is in loading state
         else {
-          return const _LoadingApp();
+          return const LoadingApp();
         }
       });
     }
-  }
-}
-
-class _LoadingApp extends StatelessWidget {
-  /// When Starting the database and other services which is asynchronise,
-  /// this will give a user a feedback, so that user won't see a black screen.
-  const _LoadingApp({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: SizedBox(
-          width: Get.width,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SizedBox(
-                width: Get.width * 0.5,
-                child: Hero(
-                  tag: AppImages.mainLogo,
-                  child: Image.asset(AppImages.mainLogo),
-                ),
-              ),
-              const CircularProgressIndicator(),
-            ],
-          ),
-        ),
-      ),
-    );
   }
 }

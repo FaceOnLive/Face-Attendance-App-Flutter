@@ -4,8 +4,8 @@ import 'package:get/get.dart';
 import '../../../../core/constants/constants.dart';
 import '../../../../core/themes/text.dart';
 import '../../../core/models/space.dart';
-import '../../../features/06_spaces/views/controllers/app_member_space.dart';
 import '../../../features/06_spaces/views/pages/space_info.dart';
+import '../../core/controllers/app_member_space.dart';
 import 'join_qr_code.dart';
 
 class AppMemberDropDown extends StatefulWidget {
@@ -78,7 +78,7 @@ class _AppMemberDropDownState extends State<AppMemberDropDown> {
                         },
                       ),
                       value: controller.currentSpace!.name.toLowerCase(),
-                      onChanged: controller.onSpaceDropDownTap,
+                      onChanged: (String? s) {},
                     );
                   }
                 },
@@ -86,11 +86,8 @@ class _AppMemberDropDownState extends State<AppMemberDropDown> {
             ),
           ),
           AppSizes.wGap10,
-          // DATE COLUMN
-          Column(
-            children: const [],
-          ),
-          // Space Log Button
+
+          // Space Join QR Button
           IconButton(
             onPressed: () {
               Get.to(() => const AppMemberJoinQRCODE());
@@ -114,9 +111,7 @@ class _JoinNewSpaceButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {
-        // Get.to(() => SpaceCreateScreen());
-      },
+      onTap: () => Get.to(() => const AppMemberJoinQRCODE()),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [

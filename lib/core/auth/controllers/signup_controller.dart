@@ -1,11 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:face_attendance/core/data/helpers/app_toast.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get/get.dart';
 
-import '../views/dialogs/email_sent.dart';
+import '../../data/helpers/app_toast.dart';
 import '../../models/user.dart';
+import '../views/dialogs/email_sent.dart';
 import '../views/pages/email_not_verified_page.dart';
 import 'login_controller.dart';
 

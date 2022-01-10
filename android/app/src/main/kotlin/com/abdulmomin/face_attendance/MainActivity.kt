@@ -12,6 +12,7 @@ import java.util.concurrent.TimeUnit
 import java.util.concurrent.ExecutorService
 import android.content.Context
 import android.graphics.BitmapFactory
+import io.flutter.embedding.engine.plugins.util.GeneratedPluginRegister
 
 class MainActivity: FlutterActivity() {
 

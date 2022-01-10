@@ -23,6 +23,7 @@ import java.util.HashMap;
 
 import io.flutter.embedding.engine.dart.DartExecutor;
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding;
+import io.flutter.plugin.common.BinaryMessenger;
 import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugin.common.PluginRegistry;
@@ -108,8 +109,8 @@ public class CameraKitFlutterView implements PlatformView, MethodChannel.MethodC
         return cameraView;
     }
 
-    public CameraKitFlutterView(ActivityPluginBinding activityPluginBinding, DartExecutor dartExecutor, int viewId) {
-        this.channel = new MethodChannel(dartExecutor, "plugins/camera_kit_" + viewId);
+    public CameraKitFlutterView(ActivityPluginBinding activityPluginBinding, BinaryMessenger binaryMessenger, int viewId) {
+        this.channel = new MethodChannel(binaryMessenger, "plugins/camera_kit_" + viewId);
         this.activityPluginBinding = activityPluginBinding;
         this.channel.setMethodCallHandler(this);
         if (getCameraView() == null) {

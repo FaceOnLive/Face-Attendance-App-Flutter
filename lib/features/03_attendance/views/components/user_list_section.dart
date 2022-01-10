@@ -1,11 +1,11 @@
-import '../../../../core/models/member.dart';
-import '../../../06_spaces/views/controllers/space_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../core/constants/constants.dart';
+import '../../../../core/models/member.dart';
 import '../../../../core/themes/text.dart';
+import '../../../06_spaces/views/controllers/space_controller.dart';
 import 'components.dart';
 
 class AttendedUserListSection extends StatelessWidget {
