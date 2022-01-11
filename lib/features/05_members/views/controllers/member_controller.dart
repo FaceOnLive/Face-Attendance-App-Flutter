@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../../core/auth/controllers/login_controller.dart';
-import '../../../../core/data/helpers/app_toast.dart';
-import '../../../../core/data/helpers/date_helper.dart';
+import '../../../../core/utils/app_toast.dart';
+import '../../../../core/utils/date_util.dart';
 import '../../../../core/data/services/delete_picture.dart';
 import '../../../../core/data/services/upload_picture.dart';
 import '../../../../core/error/exceptions.dart';
@@ -118,16 +118,16 @@ class MembersController extends GetxController {
     required bool isCustom,
   }) async {
     try {
-      String? _downloadUrl;
+      String? _imagePictureUrl;
       // If user has picked an image
       if (memberPicture != null) {
-        _downloadUrl = await UploadPicture.ofMember(
+        _imagePictureUrl = await UploadPicture.ofMember(
           memberID: member.memberID!,
           imageFile: memberPicture,
           userID: _currentAdminID,
         );
       } else {
-        _downloadUrl = member.memberPicture;
+        _imagePictureUrl = member.memberPicture;
       }
 
       await _customMembersCollections.doc(member.memberID!).get().then(
@@ -135,7 +135,7 @@ class MembersController extends GetxController {
           value.reference.update(
             Member(
               memberName: name,
-              memberPicture: _downloadUrl!,
+              memberPicture: _imagePictureUrl!,
               memberNumber: phoneNumber,
               memberFullAdress: fullAddress,
               isCustom: isCustom,
@@ -296,7 +296,7 @@ class MembersController extends GetxController {
     );
 
     bool _isMemberWasAttended = false;
-    _isMemberWasAttended = !DateHelper.doesContainThisDate(
+    _isMemberWasAttended = !DateUtil.doesContainThisDate(
       date: date,
       allDates: _unattendedDate,
     );

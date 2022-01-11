@@ -35,7 +35,7 @@ class AppMemberMainUi extends StatelessWidget {
                   Get.put(AppMemberVerifyController());
                 },
                 builder: (controller) => PageTransitionSwitcher(
-                  duration: AppDefaults.defaultDuration,
+                  duration: AppDefaults.duration,
                   transitionBuilder: (child, animation, secondAnimation) {
                     return SharedAxisTransition(
                       child: child,

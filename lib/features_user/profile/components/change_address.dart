@@ -5,8 +5,8 @@ import 'package:get/get.dart';
 import '../../../../core/constants/constants.dart';
 import '../../../../core/themes/text.dart';
 import '../../../../core/widgets/app_button.dart';
-import '../../../core/data/helpers/app_toast.dart';
-import '../../../core/data/helpers/form_verify.dart';
+import '../../../core/utils/app_toast.dart';
+import '../../../core/utils/form_verify.dart';
 import '../../core/controllers/app_member_user.dart';
 
 class ChangeAddressSheet extends StatefulWidget {
@@ -65,10 +65,10 @@ class _ChangeAddressSheetState extends State<ChangeAddressSheet> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(AppSizes.defaultPadding),
+      padding: const EdgeInsets.all(AppDefaults.padding),
       decoration: BoxDecoration(
         color: context.theme.scaffoldBackgroundColor,
-        borderRadius: AppDefaults.defaultBottomSheetRadius,
+        borderRadius: AppDefaults.bottomSheetRadius,
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,

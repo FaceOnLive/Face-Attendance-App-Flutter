@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 
-import '../../../../core/data/helpers/date_helper.dart';
+import '../../../../core/utils/date_util.dart';
 
 class MemberAttendanceRepository {
   String adminID;
@@ -545,7 +545,7 @@ class MemberAttendanceRepository {
             List<Timestamp> _unattendedList =
                 List<Timestamp>.from(map['unattended_date']);
 
-            bool _doesContain = DateHelper.doesContainThisDateInTimeStamp(
+            bool _doesContain = DateUtil.doesContainThisDateInTimeStamp(
               date: todayDate,
               allDates: _unattendedList,
             );

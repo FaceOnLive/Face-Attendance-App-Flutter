@@ -11,7 +11,7 @@ class AppColors {
   static Color shimmerHighlightColor = const Color(0xFF845EC2).withOpacity(0.6);
   static Color shimmerBaseColor = const Color(0xFFC1BDCA);
 
-  // Error Warning Success Color
+  // Error Warning Success Color used for effect
   // RED
   static const Color appRed = Color(0xFFFF6584);
   // Green

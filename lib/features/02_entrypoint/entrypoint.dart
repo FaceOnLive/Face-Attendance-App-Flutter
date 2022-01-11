@@ -37,7 +37,7 @@ class EntryPointUI extends StatelessWidget {
                 Get.put(UserSerialKeeper());
               },
               builder: (controller) => PageTransitionSwitcher(
-                duration: AppDefaults.defaultDuration,
+                duration: AppDefaults.duration,
                 transitionBuilder: (child, animation, secondAnimation) {
                   return SharedAxisTransition(
                     child: child,

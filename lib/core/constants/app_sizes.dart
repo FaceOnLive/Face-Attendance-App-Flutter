@@ -2,9 +2,6 @@ import 'package:flutter/material.dart';
 
 /// Contains Default Values With Sizedbox Static
 class AppSizes {
-  static const double defaultRadius = 20.00;
-  static const double defaultPadding = 20.00;
-  static const double defaultMargin = 20.00;
   /* <----------- Height Gap ------------> */
   static const hGap5 = SizedBox(height: 5);
   static const hGap10 = SizedBox(height: 10);

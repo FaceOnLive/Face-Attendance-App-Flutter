@@ -2,6 +2,8 @@ package com.ttv.attendance;
 
 import androidx.annotation.NonNull;
 
+
+import io.flutter.embedding.android.FlutterActivity;
 import io.flutter.embedding.engine.plugins.FlutterPlugin;
 import io.flutter.embedding.engine.plugins.activity.ActivityAware;
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding;
@@ -18,8 +20,6 @@ import android.util.Log;
  */
 public class CamerakitPlugin implements FlutterPlugin, MethodCallHandler, ActivityAware {
 
-    public CamerakitPlugin(){};
-
     /// The MethodChannel that will the communication between Flutter and native Android
     ///
     /// This local reference serves to register the plugin with the Flutter Engine and unregister it
@@ -32,6 +32,10 @@ public class CamerakitPlugin implements FlutterPlugin, MethodCallHandler, Activi
     public void onAttachedToEngine(@NonNull FlutterPluginBinding flutterPluginBinding) {
         registry = flutterPluginBinding.getPlatformViewRegistry();
         binaryMessenger = flutterPluginBinding.getBinaryMessenger();
+    }
+
+    public static void registerWith(){
+        CamerakitPlugin cameraKitPlugin = new CamerakitPlugin();
     }
 
     // This static function is optional and equivalent to onAttachedToEngine. It supports the old

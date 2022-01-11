@@ -113,7 +113,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                     ),
                   ),
                   InkWell(
-                    borderRadius: AppDefaults.defaulBorderRadius,
+                    borderRadius: AppDefaults.borderRadius,
                     onTap: () {
                       if (_currentPage.value == _allIntros.length - 1) {
                         _controller.onboardingDone();
@@ -121,7 +121,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                       } else {
                         _pageController.animateToPage(
                           _currentPage.value + 1,
-                          duration: AppDefaults.defaultDuration,
+                          duration: AppDefaults.duration,
                           curve: Curves.bounceInOut,
                         );
                       }
@@ -161,7 +161,7 @@ class _IntroDots extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AnimatedContainer(
-      duration: AppDefaults.defaultDuration,
+      duration: AppDefaults.duration,
       width: 15,
       height: 15,
       margin: const EdgeInsets.symmetric(horizontal: 5),

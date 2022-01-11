@@ -112,7 +112,7 @@ class _SpaceMemberAddScreenState extends State<SpaceMemberAddScreen> {
               () => AppButton(
                 disableBorderRadius: true,
                 margin: const EdgeInsets.all(0),
-                padding: const EdgeInsets.all(AppSizes.defaultPadding),
+                padding: const EdgeInsets.all(AppDefaults.padding),
                 label: 'Add',
                 isLoading: _isAddingMember.value,
                 isButtonDisabled: _selectedMember.isEmpty,

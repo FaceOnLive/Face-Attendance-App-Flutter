@@ -12,8 +12,8 @@ import '../../../features/05_members/views/pages/members.dart';
 import '../../../features/06_spaces/data/source/space_local_source.dart';
 import '../../auth/controllers/login_controller.dart';
 import '../../auth/views/pages/login_page.dart';
-import '../../data/helpers/app_toast.dart';
-import '../../utils/check_internet.dart';
+import '../../utils/app_toast.dart';
+import '../../utils/internet_util.dart';
 import '../views/dialogs/no_internet.dart';
 
 class CoreController extends GetxController {
@@ -214,7 +214,7 @@ class CoreController extends GetxController {
 
   /// Internet Check
   Future<void> _checkInternetOnStart() async {
-    bool _isAvailable = await Internet.isAvailable();
+    bool _isAvailable = await InternetUtil.isAvailable();
     if (_isAvailable) {
       // do nothing
     } else {

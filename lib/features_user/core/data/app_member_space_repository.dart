@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:face_attendance/core/data/helpers/app_toast.dart';
+import 'package:face_attendance/core/utils/app_toast.dart';
 import 'package:face_attendance/core/models/space.dart';
 
 abstract class AppMemberSpaceRepository {

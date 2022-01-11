@@ -19,16 +19,16 @@ class ShowMessagePopUP extends StatelessWidget {
           child: AnimatedOpacity(
             // IF We Should show the card
             opacity: controller.showProgressIndicator ? 1.0 : 0.0,
-            duration: AppDefaults.defaultDuration,
+            duration: AppDefaults.duration,
             child: AnimatedContainer(
-              duration: AppDefaults.defaultDuration,
-              margin: const EdgeInsets.all(AppSizes.defaultMargin),
+              duration: AppDefaults.duration,
+              margin: const EdgeInsets.all(AppDefaults.margin),
               padding: const EdgeInsets.all(10),
               width: Get.width,
               decoration: BoxDecoration(
                 color: Colors.white,
-                borderRadius: AppDefaults.defaulBorderRadius,
-                boxShadow: AppDefaults.defaultBoxShadow,
+                borderRadius: AppDefaults.borderRadius,
+                boxShadow: AppDefaults.boxShadow,
               ),
               child: controller.isVerifyingNow
                   ? Padding(

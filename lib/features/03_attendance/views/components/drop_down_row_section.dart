@@ -29,7 +29,7 @@ class DropDownRowSection extends GetView<SpaceController> {
                 border: Border.all(
                   color: context.theme.primaryColor,
                 ),
-                borderRadius: AppDefaults.defaulBorderRadius,
+                borderRadius: AppDefaults.borderRadius,
               ),
               child: GetBuilder<SpaceController>(builder: (controller) {
                 return controller.isFetchingSpaces

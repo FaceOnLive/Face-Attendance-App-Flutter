@@ -17,7 +17,7 @@ void main() async {
 }
 
 /// IF you face plugin error:
-/// STEP_1: Comment custom camera kit plugin and run flutter pub get
+/// STEP_1: Comment custom camera kit plugin from pubspec.yaml and run flutter pub get
 /// STEP_2: Add These lines in android/app/src/main/java/io/flutter/plugins/GeneratedPluginRegistrant.java
 /// 
 // import com.ttv.attendance.CamerakitPlugin;

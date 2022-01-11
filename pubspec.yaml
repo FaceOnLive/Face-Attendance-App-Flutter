@@ -58,14 +58,6 @@ dev_dependencies:
 flutter:
   uses-material-design: true
 
-  plugin:
-    platforms:
-      android:
-        package: com.ttv.attendance
-        pluginClass: CamerakitPlugin
-      ios:
-        pluginClass: CamerakitPlugin
-
   assets:
     - assets/images/intro/
     - assets/images/logos/

@@ -12,7 +12,9 @@ import java.util.concurrent.TimeUnit
 import java.util.concurrent.ExecutorService
 import android.content.Context
 import android.graphics.BitmapFactory
+import com.ttv.attendance.CamerakitPlugin
 import io.flutter.embedding.engine.plugins.util.GeneratedPluginRegister
+import io.flutter.plugins.GeneratedPluginRegistrant
 
 class MainActivity: FlutterActivity() {
 
@@ -25,6 +27,7 @@ class MainActivity: FlutterActivity() {
 
   override fun configureFlutterEngine(@NonNull flutterEngine: FlutterEngine) {
     super.configureFlutterEngine(flutterEngine)
+    flutterEngine.plugins.add(CamerakitPlugin());
     MethodChannel(flutterEngine.dartExecutor.binaryMessenger, CHANNEL).setMethodCallHandler {
       call, result ->
 

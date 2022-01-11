@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../models/member.dart';
 import '../../models/user.dart';
 
-import '../helpers/app_toast.dart';
+import '../../utils/app_toast.dart';
 
 class UserServices {
   /// If the USER is an Admin

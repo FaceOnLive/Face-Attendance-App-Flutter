@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 
 import '../../../../core/constants/constants.dart';
 import '../../../../core/utils/ui_helper.dart';
-import '../../../data/helpers/form_verify.dart';
+import '../../../utils/form_verify.dart';
 import '../../../themes/text.dart';
 import '../../../widgets/app_button.dart';
 import '../../controllers/login_controller.dart';
@@ -45,26 +45,27 @@ class _LoginPageState extends State<LoginPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   /* <---- Login Click Button ----> */
-  final RxBool _loginProgress = false.obs;
 
   Rxn<String> errorMessage = Rxn<String>();
 
-  _onLoginButtonPressed() async {
+  Future<void> _onLoginButtonPressed() async {
     bool _isFormOkay = _formKey.currentState!.validate();
     if (_isFormOkay) {
       // Dismiss Keyboard
       AppUiHelper.dismissKeyboard(context: context);
-      // Start Progress Loading
-      _loginProgress.trigger(true);
       try {
+        _controller.isLoggingIn = true;
+        _controller.update();
         await _controller.loginWithEmail(
           email: emailController.text,
           password: passController.text,
         );
-        _loginProgress.trigger(false);
+        _controller.isLoggingIn = false;
+        _controller.update();
       } on FirebaseException catch (e) {
         errorMessage.value = e.message;
-        _loginProgress.trigger(false);
+        _controller.isLoggingIn = false;
+        _controller.update();
       }
     }
   }
@@ -80,7 +81,6 @@ class _LoginPageState extends State<LoginPage> {
   void dispose() {
     _disposeControllers();
     _showPass.close();
-    _loginProgress.close();
     errorMessage.close();
     super.dispose();
   }
@@ -112,7 +112,7 @@ class _LoginPageState extends State<LoginPage> {
       body: Center(
         child: SingleChildScrollView(
           child: Container(
-            padding: const EdgeInsets.all(AppSizes.defaultPadding),
+            padding: const EdgeInsets.all(AppDefaults.padding),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -121,9 +121,9 @@ class _LoginPageState extends State<LoginPage> {
                   width: Get.width * 0.5,
                   margin: const EdgeInsets.symmetric(vertical: 30),
                   child: Hero(
-                    tag: AppImages.mainLogo,
+                    tag: AppImages.logo,
                     child: Image.asset(
-                      AppImages.mainLogo,
+                      AppImages.logo,
                     ),
                   ),
                 ),
@@ -181,19 +181,24 @@ class _LoginPageState extends State<LoginPage> {
                             textInputAction: TextInputAction.done,
                           ),
                         ),
-                        /* <---- Login Button ----> */
-                        Obx(
-                          () => AppButton(
-                            margin: const EdgeInsets.symmetric(vertical: 30),
-                            label: 'Login',
-                            isLoading: _loginProgress.value,
-                            onTap: _onLoginButtonPressed,
-                          ),
-                        ),
                       ],
                     ),
                   ),
                 ),
+                /* <---- Login Button ----> */
+                GetBuilder<LoginController>(builder: (loginController) {
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: AppDefaults.padding),
+                    child: AppButton(
+                      margin: const EdgeInsets.symmetric(vertical: 30),
+                      label: 'Login',
+                      isLoading: loginController.isLoggingIn,
+                      onTap: _onLoginButtonPressed,
+                    ),
+                  );
+                }),
+
                 /* <---- Sign UP BUTTON ----> */
                 Container(
                   margin: const EdgeInsets.symmetric(vertical: 20),

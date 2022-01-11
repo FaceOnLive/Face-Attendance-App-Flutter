@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../../core/constants/constants.dart';
-import '../../../../core/data/helpers/form_verify.dart';
+import '../../../../core/utils/form_verify.dart';
 import '../../../../core/themes/text.dart';
 import '../../../../core/widgets/app_button.dart';
 import '../controllers/verify_controller.dart';
@@ -95,11 +95,11 @@ class _StaticVerifierLockUnlockState extends State<StaticVerifierLockUnlock> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(AppSizes.defaultPadding),
+      padding: const EdgeInsets.all(AppDefaults.padding),
       decoration: BoxDecoration(
         color: Colors.white,
-        boxShadow: AppDefaults.defaultBoxShadow,
-        borderRadius: AppDefaults.defaultBottomSheetRadius,
+        boxShadow: AppDefaults.boxShadow,
+        borderRadius: AppDefaults.bottomSheetRadius,
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,

@@ -1,11 +1,11 @@
 import 'dart:io';
 
-import 'package:face_attendance/core/data/helpers/app_toast.dart';
+import 'package:face_attendance/core/utils/app_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../../core/constants/constants.dart';
-import '../../../../core/data/helpers/form_verify.dart';
+import '../../../../core/utils/form_verify.dart';
 import '../../../../core/utils/ui_helper.dart';
 import '../../../../core/widgets/app_button.dart';
 import '../../../../core/widgets/picture_display.dart';
@@ -98,7 +98,7 @@ class _MemberAddScreenState extends State<MemberAddScreen> {
         child: SingleChildScrollView(
           child: Container(
             padding:
-                const EdgeInsets.symmetric(horizontal: AppSizes.defaultPadding),
+                const EdgeInsets.symmetric(horizontal: AppDefaults.padding),
             width: Get.width,
             child: Column(
               children: [

@@ -20,11 +20,11 @@ class MemberInfoScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: AppSizes.defaultPadding),
+      padding: const EdgeInsets.symmetric(horizontal: AppDefaults.padding),
       width: Get.width,
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: AppDefaults.defaulBorderRadius,
+        borderRadius: AppDefaults.borderRadius,
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,

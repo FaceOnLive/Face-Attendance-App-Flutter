@@ -89,9 +89,8 @@ class _LoadingCamera extends StatelessWidget {
           children: [
             SizedBox(
               width: Get.width * 0.5,
-              child: Hero(
-                  tag: AppImages.mainLogo,
-                  child: Image.asset(AppImages.mainLogo)),
+              child:
+                  Hero(tag: AppImages.logo, child: Image.asset(AppImages.logo)),
             ),
             const CircularProgressIndicator(),
           ],
@@ -178,8 +177,8 @@ class _UnlockButton extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: AppDefaults.defaulBorderRadius,
-        boxShadow: AppDefaults.defaultBoxShadow,
+        borderRadius: AppDefaults.borderRadius,
+        boxShadow: AppDefaults.boxShadow,
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -195,7 +194,7 @@ class _UnlockButton extends StatelessWidget {
             child: const CircleAvatar(
               backgroundColor: Colors.transparent,
               backgroundImage: AssetImage(
-                AppImages.mainLogo,
+                AppImages.logo,
               ),
             ),
           ),
@@ -233,16 +232,16 @@ class _ShowMessage extends StatelessWidget {
           child: AnimatedOpacity(
             // IF We Should show the card
             opacity: controller.showProgressIndicator ? 1.0 : 0.0,
-            duration: AppDefaults.defaultDuration,
+            duration: AppDefaults.duration,
             child: AnimatedContainer(
-              duration: AppDefaults.defaultDuration,
-              margin: const EdgeInsets.all(AppSizes.defaultMargin),
+              duration: AppDefaults.duration,
+              margin: const EdgeInsets.all(AppDefaults.margin),
               padding: const EdgeInsets.all(10),
               width: Get.width,
               decoration: BoxDecoration(
                 color: Colors.white,
-                borderRadius: AppDefaults.defaulBorderRadius,
-                boxShadow: AppDefaults.defaultBoxShadow,
+                borderRadius: AppDefaults.borderRadius,
+                boxShadow: AppDefaults.boxShadow,
               ),
               child: controller.isVerifyingNow
                   ? Container(

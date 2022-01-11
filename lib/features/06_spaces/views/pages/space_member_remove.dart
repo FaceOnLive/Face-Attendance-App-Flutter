@@ -116,7 +116,7 @@ class _SpaceMemberRemoveScreenState extends State<SpaceMemberRemoveScreen> {
               Obx(() => AppButton(
                     disableBorderRadius: true,
                     margin: const EdgeInsets.all(0),
-                    padding: const EdgeInsets.all(AppSizes.defaultPadding),
+                    padding: const EdgeInsets.all(AppDefaults.padding),
                     label: 'Remove',
                     isLoading: _isRemovingMember.value,
                     backgroundColor: AppColors.appRed,

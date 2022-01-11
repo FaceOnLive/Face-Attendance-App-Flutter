@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../core/constants/constants.dart';
-import '../../../../core/data/helpers/app_toast.dart';
+import '../../../../core/utils/app_toast.dart';
 import '../../../../core/models/log_message.dart';
 import '../../../../core/themes/text.dart';
 import '../../../06_spaces/views/controllers/space_controller.dart';
@@ -72,7 +72,7 @@ class _SpaceLogScreenState extends State<SpaceLogScreen> {
       body: Container(
         width: Get.width,
         margin: const EdgeInsets.symmetric(
-          horizontal: AppSizes.defaultMargin,
+          horizontal: AppDefaults.margin,
         ),
         child: Obx(
           () => _isFetching.isTrue

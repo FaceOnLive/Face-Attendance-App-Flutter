@@ -6,9 +6,7 @@ import '../../core/utils/ui_helper.dart';
 import 'text.dart';
 
 class AppThemes {
-  /* <-----------------------> 
-      Light Theme    
-   <-----------------------> */
+  /// The light theme that is used for this app
   static ThemeData lightTheme = ThemeData(
     primaryColor: AppColors.primaryColor,
     brightness: Brightness.light,
@@ -30,13 +28,13 @@ class AppThemes {
     ),
     inputDecorationTheme: InputDecorationTheme(
       enabledBorder: OutlineInputBorder(
-        borderRadius: AppDefaults.defaulBorderRadius,
+        borderRadius: AppDefaults.borderRadius,
         borderSide: const BorderSide(
           color: AppColors.placeholderColor,
         ),
       ),
       focusedBorder: OutlineInputBorder(
-        borderRadius: AppDefaults.defaulBorderRadius,
+        borderRadius: AppDefaults.borderRadius,
         borderSide: const BorderSide(
           color: AppColors.accentColor,
         ),
@@ -47,12 +45,12 @@ class AppThemes {
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
-        padding: const EdgeInsets.all(AppSizes.defaultPadding),
+        padding: const EdgeInsets.all(AppDefaults.padding),
       ),
     ),
     outlinedButtonTheme: OutlinedButtonThemeData(
       style: OutlinedButton.styleFrom(
-        padding: const EdgeInsets.all(AppSizes.defaultPadding),
+        padding: const EdgeInsets.all(AppDefaults.padding),
       ),
     ),
     colorScheme: ColorScheme.fromSwatch(
@@ -65,6 +63,7 @@ class AppThemes {
       Dark Themes For this app    
    <-----------------------> */
 
+  /// The dark theme that is used for this app
   static ThemeData darkTheme = ThemeData(
     primaryColor: AppColors.primaryColor,
     primaryColorDark: AppColors.accentColor,
@@ -91,13 +90,13 @@ class AppThemes {
     ),
     inputDecorationTheme: InputDecorationTheme(
       enabledBorder: OutlineInputBorder(
-        borderRadius: AppDefaults.defaulBorderRadius,
+        borderRadius: AppDefaults.borderRadius,
         borderSide: const BorderSide(
           color: AppColors.placeholderColor,
         ),
       ),
       focusedBorder: OutlineInputBorder(
-        borderRadius: AppDefaults.defaulBorderRadius,
+        borderRadius: AppDefaults.borderRadius,
         borderSide: const BorderSide(
           color: AppColors.accentColor,
         ),
@@ -108,12 +107,12 @@ class AppThemes {
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
-        padding: const EdgeInsets.all(AppSizes.defaultPadding),
+        padding: const EdgeInsets.all(AppDefaults.padding),
       ),
     ),
     outlinedButtonTheme: OutlinedButtonThemeData(
       style: OutlinedButton.styleFrom(
-        padding: const EdgeInsets.all(AppSizes.defaultPadding),
+        padding: const EdgeInsets.all(AppDefaults.padding),
         side: const BorderSide(
           color: AppColors.primaryColor,
         ),

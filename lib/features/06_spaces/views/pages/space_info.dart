@@ -42,7 +42,7 @@ class SpaceInfoScreen extends StatelessWidget {
               margin: EdgeInsets.symmetric(horizontal: Get.width * 0.3),
               decoration: BoxDecoration(
                 color: AppColors.primaryColor,
-                borderRadius: AppDefaults.defaulBorderRadius,
+                borderRadius: AppDefaults.borderRadius,
               ),
               child: AspectRatio(
                 aspectRatio: 1 / 1,

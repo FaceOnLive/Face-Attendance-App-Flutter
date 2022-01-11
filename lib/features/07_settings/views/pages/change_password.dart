@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../../core/constants/constants.dart';
-import '../../../../core/data/helpers/form_verify.dart';
+import '../../../../core/utils/form_verify.dart';
 import '../../../../core/themes/text.dart';
 import '../../../../core/widgets/app_button.dart';
 import '../controllers/app_admin_controller.dart';
@@ -90,10 +90,10 @@ class _ChangePasswordSheetState extends State<ChangePasswordSheet> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(AppSizes.defaultPadding),
+      padding: const EdgeInsets.all(AppDefaults.padding),
       decoration: BoxDecoration(
         color: Get.theme.canvasColor,
-        borderRadius: AppDefaults.defaultBottomSheetRadius,
+        borderRadius: AppDefaults.bottomSheetRadius,
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,

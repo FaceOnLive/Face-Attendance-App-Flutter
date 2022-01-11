@@ -1,8 +1,3 @@
-import 'package:face_attendance/core/camerakit/camera_kit_controller.dart';
-import 'package:face_attendance/core/camerakit/camera_kit_view.dart';
-import 'package:face_attendance/features/04_verifier/views/pages/verifier_page.dart';
-
-import '../../core/controllers/app_member_verify.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
@@ -10,6 +5,9 @@ import 'package:lottie/lottie.dart';
 import '../../../../core/constants/constants.dart';
 import '../../../../core/themes/text.dart';
 import '../../../../core/widgets/app_button.dart';
+import '../../../core/camerakit/camera_kit_controller.dart';
+import '../../../core/camerakit/camera_kit_view.dart';
+import '../../core/controllers/app_member_verify.dart';
 
 class AppMemberVerifierWidget extends GetView<AppMemberVerifyController> {
   const AppMemberVerifierWidget({Key? key}) : super(key: key);

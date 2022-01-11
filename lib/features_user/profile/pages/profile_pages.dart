@@ -175,7 +175,7 @@ class _ActionButtons extends GetView<AppMemberUserController> {
                 Get.dialog(
                   /// Returns an encrypted USER ID
                   GenerateQRDialog(
-                    data: AppAlgo.encrypt(userId),
+                    data: AppAlgorithmUtil.encrypt(userId),
                     title: 'Share User',
                   ),
                 );

@@ -12,7 +12,7 @@ import '../../../features_user/core/controllers/app_member_user.dart';
 import '../../../features_user/core/views/entrypoint_member.dart';
 import '../../app/views/dialogs/error_dialog.dart';
 import '../../camerakit/camera_kit_controller.dart';
-import '../../data/helpers/app_toast.dart';
+import '../../utils/app_toast.dart';
 import '../../data/services/member_services.dart';
 import '../views/dialogs/email_sent.dart';
 import '../views/pages/email_not_verified_page.dart';
@@ -33,6 +33,9 @@ class LoginController extends GetxController {
   User? get user => _firebaseUser.value;
   bool isAdmin = false;
   bool isEmailVerified = false;
+
+  /// Used for loading indicator on login button
+  bool isLoggingIn = false;
 
   /// Login User With Email
   Future<void> loginWithEmail(

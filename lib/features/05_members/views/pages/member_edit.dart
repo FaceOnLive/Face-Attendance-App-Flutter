@@ -1,13 +1,13 @@
-import 'dart:typed_data';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 import '../../../../core/constants/constants.dart';
-import '../../../../core/data/helpers/form_verify.dart';
+import '../../../../core/data/services/app_photo.dart';
 import '../../../../core/models/member.dart';
+import '../../../../core/native_bridge/native_functions.dart';
+import '../../../../core/utils/form_verify.dart';
 import '../../../../core/widgets/app_button.dart';
 import '../../../../core/widgets/picture_display.dart';
 import '../controllers/member_controller.dart';
@@ -26,7 +26,6 @@ class MemberEditScreen extends StatefulWidget {
 class _MemberEditScreenState extends State<MemberEditScreen> {
   /* <---- Dependency ----> */
   final MembersController _controller = Get.find();
-  static const MethodChannel _channel = MethodChannel('turingtech');
 
   _addDataToFields() {
     _name.text = widget.member.memberName;
@@ -38,6 +37,7 @@ class _MemberEditScreenState extends State<MemberEditScreen> {
   late TextEditingController _name;
   late TextEditingController _phoneNumber;
   late TextEditingController _fullAddress;
+
   // Initailize
   void _initializeTextController() {
     _name = TextEditingController();
@@ -66,6 +66,7 @@ class _MemberEditScreenState extends State<MemberEditScreen> {
   /// When user clicks update button
   Future<void> _onUserUpdate() async {
     bool _isFormOkay = _formKey.currentState!.validate();
+    // bool _isSamePerson = _userImage == null ? true : await isSameUserFace();
     if (_isFormOkay) {
       _updatingMember.value = true;
       await _controller.updateMember(
@@ -79,6 +80,26 @@ class _MemberEditScreenState extends State<MemberEditScreen> {
       _updatingMember.value = false;
       Get.back();
     }
+  }
+
+  /// Is same face
+  Future<bool> isSameUserFace() async {
+    bool _isSamePerson = false;
+
+    String? _memberImageUrl = widget.member.memberPicture;
+
+    // if user has picked an image and user has an image
+    if (_memberImageUrl != null && _userImage != null) {
+      File _memberImageFile =
+          await AppPhotoService.fileFromImageUrl(_memberImageUrl);
+
+      print("Member image file path: ${_memberImageFile.path}");
+      print("User image path :${_userImage!.path}");
+
+      _isSamePerson = await NativeSDKFunctions.verifyPerson(
+          capturedImage: _userImage!, personImage: _memberImageFile);
+    }
+    return _isSamePerson;
   }
 
   @override
@@ -119,7 +140,7 @@ class _MemberEditScreenState extends State<MemberEditScreen> {
         child: SingleChildScrollView(
           child: Container(
             padding:
-                const EdgeInsets.symmetric(horizontal: AppSizes.defaultPadding),
+                const EdgeInsets.symmetric(horizontal: AppDefaults.padding),
             width: Get.width,
             child: Column(
               children: [
@@ -132,19 +153,11 @@ class _MemberEditScreenState extends State<MemberEditScreen> {
                         // the file user has picked
                         if (_userImage != null) {
                           _userPickedImage.trigger(true);
-
-                          Uint8List _capturedImage =
-                              _userImage!.readAsBytesSync();
-                          Uint8List? _feats =
-                              await _channel.invokeMethod('getFeature', {
-                            'image': _capturedImage,
-                            'mode': 1 //1 -> enroll mode, 0 -> verify mode
-                          });
-                          if (_feats != null) {
-                            print("get feature feat: " +
-                                _feats.length.toString());
+                          bool _isSamePerosn = await isSameUserFace();
+                          if (_isSamePerosn) {
+                            print("Same person");
                           } else {
-                            //failed getFeature process
+                            print("not same person");
                           }
                         }
                       },

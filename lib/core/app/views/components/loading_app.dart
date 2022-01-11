@@ -21,8 +21,8 @@ class LoadingApp extends StatelessWidget {
               SizedBox(
                 width: Get.width * 0.5,
                 child: Hero(
-                  tag: AppImages.mainLogo,
-                  child: Image.asset(AppImages.mainLogo),
+                  tag: AppImages.logo,
+                  child: Image.asset(AppImages.logo),
                 ),
               ),
               const CircularProgressIndicator(),

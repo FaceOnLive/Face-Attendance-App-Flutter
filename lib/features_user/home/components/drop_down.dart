@@ -33,7 +33,7 @@ class _AppMemberDropDownState extends State<AppMemberDropDown> {
                 border: Border.all(
                   color: context.theme.primaryColor,
                 ),
-                borderRadius: AppDefaults.defaulBorderRadius,
+                borderRadius: AppDefaults.borderRadius,
               ),
               child: GetBuilder<AppMemberSpaceController>(
                 builder: (controller) {

@@ -31,6 +31,7 @@ class Space {
     };
   }
 
+  /// Use it when you fetch data from firebase. it returns a SPACE objects
   factory Space.fromDocumentSnap(DocumentSnapshot documentSnap) {
     Map<String, dynamic> map = documentSnap.data() as Map<String, dynamic>;
     return Space(

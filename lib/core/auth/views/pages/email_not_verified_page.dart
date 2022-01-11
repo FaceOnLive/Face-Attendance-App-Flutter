@@ -1,9 +1,10 @@
-import 'package:face_attendance/core/auth/controllers/login_controller.dart';
-import 'package:face_attendance/core/constants/constants.dart';
-import 'package:face_attendance/core/themes/text.dart';
-import 'package:face_attendance/core/widgets/app_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+import '../../../constants/constants.dart';
+import '../../../themes/text.dart';
+import '../../../widgets/app_button.dart';
+import '../../controllers/login_controller.dart';
 
 class EmailNotVerifiedPage extends StatelessWidget {
   const EmailNotVerifiedPage({Key? key}) : super(key: key);
@@ -14,7 +15,7 @@ class EmailNotVerifiedPage extends StatelessWidget {
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: const CircleAvatar(
-          backgroundImage: AssetImage(AppImages.mainLogo),
+          backgroundImage: AssetImage(AppImages.logo),
           backgroundColor: Colors.white,
         ),
         actions: [

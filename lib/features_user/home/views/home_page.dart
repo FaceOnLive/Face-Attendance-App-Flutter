@@ -83,7 +83,7 @@ class _HeaderMainPage extends GetView<AppMemberUserController> {
       height: Get.height * 0.1,
       decoration: BoxDecoration(
         color: context.theme.scaffoldBackgroundColor,
-        boxShadow: AppDefaults.defaultBoxShadow,
+        boxShadow: AppDefaults.boxShadow,
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -92,9 +92,9 @@ class _HeaderMainPage extends GetView<AppMemberUserController> {
           Row(
             children: [
               Hero(
-                tag: AppImages.mainLogo,
+                tag: AppImages.logo,
                 child: Image.asset(
-                  AppImages.mainLogo2,
+                  AppImages.logo2,
                   width: Get.width * 0.13,
                 ),
               ),

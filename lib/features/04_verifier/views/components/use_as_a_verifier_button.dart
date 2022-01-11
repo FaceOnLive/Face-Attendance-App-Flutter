@@ -25,15 +25,15 @@ class UseAsAVerifierButton extends StatelessWidget {
       },
       child: Container(
         width: Get.width,
-        padding: const EdgeInsets.all(AppSizes.defaultPadding),
+        padding: const EdgeInsets.all(AppDefaults.padding),
         margin: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
         decoration: BoxDecoration(
           color: AppColors.primaryColor,
           borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(AppSizes.defaultRadius),
-            topRight: Radius.circular(AppSizes.defaultRadius),
+            topLeft: Radius.circular(AppDefaults.radius),
+            topRight: Radius.circular(AppDefaults.radius),
           ),
-          boxShadow: AppDefaults.defaultBoxShadow,
+          boxShadow: AppDefaults.boxShadow,
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,

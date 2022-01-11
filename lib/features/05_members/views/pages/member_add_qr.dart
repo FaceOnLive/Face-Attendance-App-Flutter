@@ -75,7 +75,8 @@ class _MemberAddQrScreenState extends State<MemberAddQrScreen> {
     await this.controller.flipCamera();
     controller.scannedDataStream.listen((scanData) {
       controller.stopCamera();
-      String decryptedData = AppAlgo.decrypt(scanData.code ?? 'Nothing');
+      String decryptedData =
+          AppAlgorithmUtil.decrypt(scanData.code ?? 'Nothing');
       Get.dialog(
         _AddingUserQRCodeDialog(userID: decryptedData),
         barrierDismissible: false,
@@ -128,7 +129,7 @@ class _AddingUserQRCodeDialogState extends State<_AddingUserQRCodeDialog> {
   Widget build(BuildContext context) {
     return Dialog(
       shape: RoundedRectangleBorder(
-        borderRadius: AppDefaults.defaulBorderRadius,
+        borderRadius: AppDefaults.borderRadius,
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -147,7 +148,7 @@ class _AddingUserQRCodeDialogState extends State<_AddingUserQRCodeDialog> {
           ),
           Container(
             padding: const EdgeInsets.all(
-              AppSizes.defaultPadding,
+              AppDefaults.padding,
             ),
             child: Column(
               children: [

@@ -92,7 +92,7 @@ class _SpaceEditScreenState extends State<SpaceEditScreen> {
         children: [
           /* <---- Field ----> */
           Container(
-            margin: const EdgeInsets.all(AppSizes.defaultMargin),
+            margin: const EdgeInsets.all(AppDefaults.margin),
             child: TextField(
               controller: _spaceName,
               decoration: const InputDecoration(
@@ -105,7 +105,7 @@ class _SpaceEditScreenState extends State<SpaceEditScreen> {
           /* <---- Icon Selector ----> */
           Container(
             margin: const EdgeInsets.symmetric(
-              horizontal: AppSizes.defaultMargin,
+              horizontal: AppDefaults.margin,
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -159,7 +159,7 @@ class _CustomBottomActionButton extends StatelessWidget {
         alignment: Alignment.center,
         decoration: BoxDecoration(
           color: AppColors.appGreen,
-          borderRadius: AppDefaults.defaultBottomSheetRadius,
+          borderRadius: AppDefaults.bottomSheetRadius,
         ),
         height: Get.height * 0.1,
         child: isLoading
@@ -195,12 +195,12 @@ class _SelectIconWidget extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: AnimatedContainer(
-        duration: AppDefaults.defaultDuration,
+        duration: AppDefaults.duration,
         margin: const EdgeInsets.symmetric(horizontal: 5),
-        padding: const EdgeInsets.all(AppSizes.defaultPadding),
+        padding: const EdgeInsets.all(AppDefaults.padding),
         decoration: BoxDecoration(
             color: active ? AppColors.primaryColor : Get.theme.canvasColor,
-            borderRadius: AppDefaults.defaulBorderRadius,
+            borderRadius: AppDefaults.borderRadius,
             border: Border.all(
               color: AppColors.primaryColor,
             )),

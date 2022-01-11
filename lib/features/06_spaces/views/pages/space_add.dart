@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../../core/constants/constants.dart';
-import '../../../../core/data/helpers/form_verify.dart';
+import '../../../../core/utils/form_verify.dart';
 import '../../../../core/models/space.dart';
 import '../../../../core/themes/text.dart';
 import '../controllers/space_controller.dart';
@@ -88,7 +88,7 @@ class _SpaceCreateScreenState extends State<SpaceCreateScreen> {
           GetBuilder<SpaceController>(
             builder: (_) {
               return Container(
-                margin: const EdgeInsets.all(AppSizes.defaultMargin),
+                margin: const EdgeInsets.all(AppDefaults.margin),
                 child: TextField(
                   decoration: InputDecoration(
                     prefixIcon: const Icon(Icons.assignment),
@@ -108,7 +108,7 @@ class _SpaceCreateScreenState extends State<SpaceCreateScreen> {
           /* <---- Icon Selector ----> */
           Container(
             margin: const EdgeInsets.symmetric(
-              horizontal: AppSizes.defaultMargin,
+              horizontal: AppDefaults.margin,
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -190,7 +190,7 @@ class _CustomBottomActionButton extends StatelessWidget {
         alignment: Alignment.center,
         decoration: BoxDecoration(
           color: AppColors.primaryColor,
-          borderRadius: AppDefaults.defaultBottomSheetRadius,
+          borderRadius: AppDefaults.bottomSheetRadius,
         ),
         height: Get.height * 0.1,
         child: isLoading
@@ -226,12 +226,12 @@ class _SelectIconWidget extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: AnimatedContainer(
-        duration: AppDefaults.defaultDuration,
+        duration: AppDefaults.duration,
         margin: const EdgeInsets.symmetric(horizontal: 5),
-        padding: const EdgeInsets.all(AppSizes.defaultPadding),
+        padding: const EdgeInsets.all(AppDefaults.padding),
         decoration: BoxDecoration(
             color: active ? AppColors.primaryColor : Get.theme.canvasColor,
-            borderRadius: AppDefaults.defaulBorderRadius,
+            borderRadius: AppDefaults.borderRadius,
             border: Border.all(
               color: AppColors.primaryColor,
             )),

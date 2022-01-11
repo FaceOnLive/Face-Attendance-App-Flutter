@@ -59,16 +59,16 @@ class _LoginPageFaceState extends State<LoginPageFace>
         child: Container(
           height: Get.height,
           width: Get.width,
-          padding: const EdgeInsets.all(AppSizes.defaultPadding),
+          padding: const EdgeInsets.all(AppDefaults.padding),
           child: Column(
             children: [
               Container(
                 width: Get.width * 0.3,
                 margin: const EdgeInsets.symmetric(vertical: 20),
                 child: Hero(
-                  tag: AppImages.mainLogo,
+                  tag: AppImages.logo,
                   child: Image.asset(
-                    AppImages.mainLogo,
+                    AppImages.logo,
                   ),
                 ),
               ),
