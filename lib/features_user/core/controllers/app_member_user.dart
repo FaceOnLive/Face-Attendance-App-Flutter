@@ -1,15 +1,16 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:face_attendance/features/05_members/data/repository/attendance_repo.dart';
-import 'package:face_attendance/features_user/core/controllers/app_member_space.dart';
-import 'package:face_attendance/features_user/core/controllers/app_member_verify.dart';
 import 'package:get/get.dart';
 
 import '../../../core/auth/controllers/login_controller.dart';
-import '../../../core/utils/app_toast.dart';
 import '../../../core/data/services/upload_picture.dart';
 import '../../../core/models/user.dart';
+import '../../../core/utils/app_toast.dart';
+import '../../../features/05_members/data/repository/attendance_repo.dart';
+import '../data/app_member_attendance_repository.dart';
+import 'app_member_space.dart';
+import 'app_member_verify.dart';
 
 /// A User which is a member of this app.
 ///
@@ -19,10 +20,14 @@ class AppMemberUserController extends GetxController {
   final CollectionReference _collectionReference =
       FirebaseFirestore.instance.collection('users');
 
+  /// Attendance repoistory
+  late AppMemberAttendanceRepository attendanceRepository;
+
   /// User ID of Current Logged In user
   late String _currentUserID;
-  void _getCurrentUserID() {
+  void _initializeData() {
     _currentUserID = Get.find<LoginController>().user!.uid;
+    attendanceRepository = AppMemberAttendanceRepository(_collectionReference);
   }
 
   /// Currently Logged in User
@@ -133,6 +138,10 @@ class AppMemberUserController extends GetxController {
     );
   }
 
+  /* <-----------------------> 
+          Attendance
+   <-----------------------> */
+
   /// Add Attendance
   Future<void> addAttendanceToday() async {
     final _spaceController = Get.find<AppMemberSpaceController>();
@@ -141,7 +150,7 @@ class AppMemberUserController extends GetxController {
 
     if (_currentSpaceID != null) {
       try {
-        await addAttendanceAppMember(
+        await attendanceRepository.addAttendanceAppMember(
           memberID: currentUser.userID!,
           spaceID: _currentSpaceID,
           date: DateTime.now(),
@@ -150,30 +159,6 @@ class AppMemberUserController extends GetxController {
       } on FirebaseException catch (e) {
         AppToast.showDefaultToast(e.code);
       }
-    }
-  }
-
-  /// Attendance Give [App_Member]
-  Future<void> addAttendanceAppMember({
-    required String memberID,
-    required String spaceID,
-    required DateTime date,
-  }) async {
-    final _reference = _collectionReference
-        .doc(memberID)
-        .collection('attendance')
-        .doc(spaceID)
-        .collection('data');
-
-    final _attendenceDoc = await _reference.doc(date.year.toString()).get();
-    if (_attendenceDoc.exists) {
-      _attendenceDoc.reference.update({
-        'unattended_date': FieldValue.arrayRemove([Timestamp.fromDate(date)])
-      });
-    } else {
-      _reference.doc(date.year.toString()).set({
-        'unattended_date': FieldValue.arrayRemove([Timestamp.fromDate(date)])
-      });
     }
   }
 
@@ -187,35 +172,10 @@ class AppMemberUserController extends GetxController {
     required String spaceID,
     DateTime? userDate,
   }) async {
-    final _reference = _collectionReference
-        .doc(memberID)
-        .collection('attendance')
-        .doc(spaceID)
-        .collection('data');
-
-    final String _thisYear = DateTime.now().year.toString();
-
-    final _attendenceDoc = await _reference
-        .doc(userDate == null ? _thisYear : userDate.year.toString())
-        .get();
-
-    /// Where the firebase data will be stored
-    List<Timestamp> _unAttendedDate = [];
-
-    if (_attendenceDoc.exists) {
-      Map<String, dynamic>? _theDates = _attendenceDoc.data();
-      _unAttendedDate = List.from(_theDates!['unattended_date']);
-    } else {}
-
-    /// Return Type
-    List<DateTime> _unattendedDateInDateTime = [];
-
-    /// Convert the data
-    for (Timestamp dateInTimeStamp in _unAttendedDate) {
-      _unattendedDateInDateTime.add(dateInTimeStamp.toDate());
-    }
-
-    return _unattendedDateInDateTime;
+    return await attendanceRepository.getAttendanceAppMember(
+      memberID: memberID,
+      spaceID: spaceID,
+    );
   }
 
   /// Set Space and SDK when the app starts
@@ -235,16 +195,24 @@ class AppMemberUserController extends GetxController {
               unattendedDate: unAttendedDate);
 
       if (isMemberAttendedToday) {
-        _verifyController.verifyingState = VerifyingState.attended;
+        _verifyController.verifyingState = VerifyState.attended;
+        _verifyController.update();
+      } else {
+        _verifyController.verifyingState = VerifyState.unverified;
         _verifyController.update();
       }
+    }
+    // if there is no space
+    else {
+      _verifyController.verifyingState = VerifyState.noSpaceFound;
+      _verifyController.update();
     }
   }
 
   @override
   void onInit() async {
     super.onInit();
-    _getCurrentUserID();
+    _initializeData();
     await _fetchUserData();
     setSpaceAndSDK();
   }

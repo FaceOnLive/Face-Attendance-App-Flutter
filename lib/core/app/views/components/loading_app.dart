@@ -1,6 +1,7 @@
-import 'package:face_attendance/core/constants/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+import '../../../constants/constants.dart';
 
 class LoadingApp extends StatelessWidget {
   /// When Starting the database and other services which is asynchronise,
@@ -25,6 +26,7 @@ class LoadingApp extends StatelessWidget {
                   child: Image.asset(AppImages.logo),
                 ),
               ),
+              AppSizes.hGap15,
               const CircularProgressIndicator(),
             ],
           ),

@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
-import '../../../features/01_onboarding/views/onboarding_page.dart';
+import '../../../features/01_onboarding/views/pages/onboarding_page.dart';
 import '../../../features/03_attendance/views/pages/main_attendance_page.dart';
 import '../../../features/04_verifier/views/pages/verifier_page.dart';
 import '../../../features/05_members/views/pages/members.dart';

@@ -1,4 +1,3 @@
-import 'package:face_attendance/features_user/core/controllers/app_member_space.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 
@@ -8,12 +7,13 @@ import '../../../features/05_members/views/controllers/member_controller.dart';
 import '../../../features/06_spaces/views/controllers/space_controller.dart';
 import '../../../features/07_settings/views/controllers/app_admin_controller.dart';
 import '../../../features_user/core/controllers/app_member_settings.dart';
+import '../../../features_user/core/controllers/app_member_space.dart';
 import '../../../features_user/core/controllers/app_member_user.dart';
 import '../../../features_user/core/views/entrypoint_member.dart';
 import '../../app/views/dialogs/error_dialog.dart';
 import '../../camerakit/camera_kit_controller.dart';
-import '../../utils/app_toast.dart';
 import '../../data/services/member_services.dart';
+import '../../utils/app_toast.dart';
 import '../views/dialogs/email_sent.dart';
 import '../views/pages/email_not_verified_page.dart';
 import '../views/pages/login_page.dart';

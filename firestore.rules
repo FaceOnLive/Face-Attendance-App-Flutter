@@ -1,0 +1,27 @@
+rules_version = '2';
+service cloud.firestore {
+
+	function isSignedIn(){
+    return request.auth != null;
+  }
+  
+  // If the requests match the request of Admin request
+  function isRequestsFieldValid(){
+    return request.resource.data.keys().hasOnly(
+      ['name', 'companyName', 'extraInfo', 'email', 'idToken']);
+  }
+
+  match /databases/{database}/documents {
+    match /{document=**} {
+    /// This is only for debugging the final version will contain all the security rules;
+      allow read, write: if isSignedIn();
+    }
+    
+
+    
+    match /meta_data/admin_requests/the_requests/{requests}{
+    allow write: if isRequestsFieldValid();
+    }
+    
+  }
+}

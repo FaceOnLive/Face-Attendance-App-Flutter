@@ -1,18 +1,21 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 import '../../../../core/constants/constants.dart';
+import '../../core/controllers/app_member_space.dart';
 
-class AppMemberJoinQRCODE extends StatefulWidget {
-  const AppMemberJoinQRCODE({Key? key}) : super(key: key);
+class AppMemberJoinQRCODEPage extends StatefulWidget {
+  const AppMemberJoinQRCODEPage({Key? key}) : super(key: key);
 
   @override
-  _AppMemberJoinQRCODEState createState() => _AppMemberJoinQRCODEState();
+  _AppMemberJoinQRCODEPageState createState() =>
+      _AppMemberJoinQRCODEPageState();
 }
 
-class _AppMemberJoinQRCODEState extends State<AppMemberJoinQRCODE> {
+class _AppMemberJoinQRCODEPageState extends State<AppMemberJoinQRCODEPage> {
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
   Barcode? result;
   late QRViewController controller;
@@ -46,12 +49,10 @@ class _AppMemberJoinQRCODEState extends State<AppMemberJoinQRCODE> {
               ),
             ),
           ),
-          Expanded(
+          const Expanded(
             flex: 1,
             child: Center(
-              child: (result != null)
-                  ? Text('Space ID: ${result!.code}')
-                  : const Text('Scan A Space to add'),
+              child: Text('Scan A Space to add'),
             ),
           )
         ],
@@ -62,9 +63,9 @@ class _AppMemberJoinQRCODEState extends State<AppMemberJoinQRCODE> {
   void _onQRViewCreated(QRViewController controller) {
     this.controller = controller;
     controller.scannedDataStream.listen((scanData) {
-      setState(() {
-        result = scanData;
-      });
+      Get.find<AppMemberSpaceController>().joinNewSpaceByScan(
+        spaceIdEncrypted: scanData.code,
+      );
     });
   }
 

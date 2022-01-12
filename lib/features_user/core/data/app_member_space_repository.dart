@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:face_attendance/core/utils/app_toast.dart';
-import 'package:face_attendance/core/models/space.dart';
+
+import '../../../core/models/space.dart';
+import '../../../core/utils/app_toast.dart';
 
 abstract class AppMemberSpaceRepository {
   /// Get all the spaces details the user is in

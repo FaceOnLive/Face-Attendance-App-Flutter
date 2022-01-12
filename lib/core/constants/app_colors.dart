@@ -1,7 +1,9 @@
 import 'dart:ui';
 
+import 'package:face_attendance/config/config.dart';
+
 class AppColors {
-  static const Color primaryColor = Color(0xFF845EC2);
+  static const Color primaryColor = AppConfig.primaryColor;
   static const Color accentColor = Color(0xFF0CA3E1);
   static const Color darkColor = Color(0xFF2A2A2A);
   static const Color placeholderColor = Color(0xFFE4E4E4);

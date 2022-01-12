@@ -47,7 +47,7 @@ class _RegisterAsAdminPageState extends State<RegisterAsAdminPage> {
   Future<void> _onCreateUser() async {
     bool _isFormOkay = _formKey.currentState!.validate();
     if (_isFormOkay) {
-      AppUiHelper.dismissKeyboard(context: context);
+      AppUiUtil.dismissKeyboard(context: context);
       _isSendingData.trigger(true);
 
       try {

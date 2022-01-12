@@ -5,7 +5,7 @@ import '../../../../core/constants/constants.dart';
 import '../../../../core/models/space.dart';
 import '../../../../core/themes/text.dart';
 import '../../../06_spaces/views/controllers/space_controller.dart';
-import '../../../06_spaces/views/pages/space_add.dart';
+import '../../../06_spaces/views/pages/space_create_page.dart';
 import '../../../06_spaces/views/pages/space_info.dart';
 import '../pages/user_log_page.dart';
 
@@ -111,7 +111,7 @@ class _CreateNewSpaceButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Get.to(() => const SpaceCreateScreen());
+        Get.to(() => const SpaceCreatePage());
       },
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,

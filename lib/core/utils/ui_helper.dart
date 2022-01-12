@@ -3,7 +3,10 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class AppUiHelper {
+/// [AppUiUtil] is used for reducing the boilerplate of the codebase
+/// and increase convienency thoroughout the development experiences.
+///
+class AppUiUtil {
   /// Dismissises Keyboard From Anywhere
   static void dismissKeyboard({required BuildContext context}) {
     FocusScopeNode currentFocus = FocusScope.of(context);
@@ -13,12 +16,12 @@ class AppUiHelper {
   }
 
   /// Set The Portrait as Default Orientation
-  static void autoRotateOff() async {
+  static Future<void> autoRotateOff() async {
     await SystemChrome.setPreferredOrientations(
         [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   }
 
-  /// Generate Material COLOR for the whole app
+  /// Generate a MaterialColor object for the whole app
   static MaterialColor generateMaterialColor(Color color) {
     return MaterialColor(color.value, {
       50: _tintColor(color, 0.9),

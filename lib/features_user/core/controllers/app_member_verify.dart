@@ -2,14 +2,22 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:face_attendance/core/app/views/dialogs/error_dialog.dart';
-import 'package:face_attendance/core/data/services/app_photo.dart';
-import 'package:face_attendance/core/native_bridge/native_functions.dart';
 import 'package:get/get.dart';
 
+import '../../../core/app/views/dialogs/error_dialog.dart';
+import '../../../core/data/services/app_photo.dart';
+import '../../../core/native_bridge/native_functions.dart';
 import 'app_member_user.dart';
 
-enum VerifyingState { verifying, verified, unverified, cameraOpen, attended }
+enum VerifyState {
+  verifying,
+  verified,
+  unverified,
+  cameraOpen,
+  attended,
+  noSpaceFound,
+  initializing,
+}
 
 class AppMemberVerifyController extends GetxController {
   /// SET SDK of the user picture so we can verify user later
@@ -35,7 +43,7 @@ class AppMemberVerifyController extends GetxController {
   }
 
   /// Our Verfier State
-  VerifyingState verifyingState = VerifyingState.unverified;
+  VerifyState verifyingState = VerifyState.initializing;
 
   /// Verify User
   Future<void> verifyUser() async {
@@ -45,16 +53,16 @@ class AppMemberVerifyController extends GetxController {
 
   /// Start Camera Verifying to close the camera
   Future<void> startCameraVerifying() async {
-    verifyingState = VerifyingState.verifying;
+    verifyingState = VerifyState.verifying;
     update();
     Timer(const Duration(seconds: 10), () {
       // If we are still verifying
-      if (verifyingState == VerifyingState.verifying) {
+      if (verifyingState == VerifyState.verifying) {
         Get.dialog(const ErrorDialog(
           title: 'Unverified',
           message: 'User Coudn\'t be verified',
         ));
-        verifyingState = VerifyingState.unverified;
+        verifyingState = VerifyState.unverified;
         update();
       }
     });
@@ -66,13 +74,13 @@ class AppMemberVerifyController extends GetxController {
   void onRecognizedUser() async {
     if (_isAddingAttendance.isFalse) {
       _isAddingAttendance.value = true;
-      verifyingState = VerifyingState.verified;
+      verifyingState = VerifyState.verified;
       update();
 
       /// Add Attendance here
       await Get.find<AppMemberUserController>().addAttendanceToday();
 
-      verifyingState = VerifyingState.attended;
+      verifyingState = VerifyState.attended;
       update();
       _isAddingAttendance.value = false;
     } else {}

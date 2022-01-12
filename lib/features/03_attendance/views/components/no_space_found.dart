@@ -3,7 +3,7 @@ import 'package:get/route_manager.dart';
 
 import '../../../../core/constants/constants.dart';
 import '../../../../core/widgets/app_button.dart';
-import '../../../06_spaces/views/pages/space_add.dart';
+import '../../../06_spaces/views/pages/space_create_page.dart';
 
 class NoSpaceFound extends StatelessWidget {
   const NoSpaceFound({
@@ -33,7 +33,7 @@ class NoSpaceFound extends StatelessWidget {
               ),
               label: 'Create Space',
               onTap: () {
-                Get.to(() => const SpaceCreateScreen());
+                Get.to(() => const SpaceCreatePage());
               },
             ),
           ],

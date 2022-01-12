@@ -1,4 +1,4 @@
-import '../views/models/intro_model.dart';
+import '../models/intro_model.dart';
 
 class OnboardingRepository {
   // Add or remove intro from here

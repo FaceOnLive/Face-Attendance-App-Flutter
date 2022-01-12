@@ -76,7 +76,7 @@ class _ChangeNumberSheetState extends State<ChangeNumberSheet> {
         children: [
           /// HEADLINE
           Text(
-            'Update Your Name',
+            'Update Your Number',
             style: AppText.h6,
           ),
 

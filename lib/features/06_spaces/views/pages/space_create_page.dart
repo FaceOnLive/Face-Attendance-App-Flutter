@@ -1,23 +1,23 @@
-import 'package:face_attendance/core/auth/controllers/login_controller.dart';
+import 'package:face_attendance/features/02_entrypoint/entrypoint.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../../core/auth/controllers/login_controller.dart';
 import '../../../../core/constants/constants.dart';
-import '../../../../core/utils/form_verify.dart';
 import '../../../../core/models/space.dart';
 import '../../../../core/themes/text.dart';
+import '../../../../core/utils/form_verify.dart';
 import '../controllers/space_controller.dart';
-import 'spaces.dart';
 
-class SpaceCreateScreen extends StatefulWidget {
-  const SpaceCreateScreen({Key? key}) : super(key: key);
+class SpaceCreatePage extends StatefulWidget {
+  const SpaceCreatePage({Key? key}) : super(key: key);
 
   @override
-  _SpaceCreateScreenState createState() => _SpaceCreateScreenState();
+  _SpaceCreatePageState createState() => _SpaceCreatePageState();
 }
 
-class _SpaceCreateScreenState extends State<SpaceCreateScreen> {
+class _SpaceCreatePageState extends State<SpaceCreatePage> {
   /* <---- Dependecny -----> */
   final SpaceController _controller = Get.find();
 
@@ -32,7 +32,7 @@ class _SpaceCreateScreenState extends State<SpaceCreateScreen> {
   final RxBool _isAdding = false.obs;
 
   /// When user Clicks Create Button
-  _onSubmitButtonClicked() async {
+  Future<void> _onSubmitButtonClicked() async {
     try {
       _isAdding.trigger(true);
       await _controller.addSpace(
@@ -45,8 +45,7 @@ class _SpaceCreateScreenState extends State<SpaceCreateScreen> {
           ownerUID: Get.find<LoginController>().user!.uid,
         ),
       );
-      Get.back();
-      Get.to(() => const SpacesScreen());
+      Get.offAll(() => const EntryPointUI());
       _isAdding.trigger(false);
     } on FirebaseException catch (e) {
       _isAdding.trigger(false);
@@ -67,6 +66,7 @@ class _SpaceCreateScreenState extends State<SpaceCreateScreen> {
   void dispose() {
     _nameController.dispose();
     _selectedIcon.close();
+    _isAdding.close();
     super.dispose();
   }
 

@@ -1,10 +1,10 @@
 import 'dart:io';
 
-import 'package:face_attendance/core/utils/app_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../../core/constants/constants.dart';
+import '../../../../core/utils/app_toast.dart';
 import '../../../../core/utils/form_verify.dart';
 import '../../../../core/utils/ui_helper.dart';
 import '../../../../core/widgets/app_button.dart';
@@ -56,7 +56,7 @@ class _MemberAddScreenState extends State<MemberAddScreen> {
     _addingMember.value = true;
     bool _isFormOkay = _formKey.currentState!.validate();
     if (_isFormOkay) {
-      AppUiHelper.dismissKeyboard(context: Get.context!);
+      AppUiUtil.dismissKeyboard(context: Get.context!);
       if (_userImage != null) {
         await _controller.addMember(
           name: _name.text,

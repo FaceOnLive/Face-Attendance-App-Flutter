@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:face_attendance/core/models/member.dart';
+import '../../../../core/models/member.dart';
 
 abstract class VerfierRepository {
   /// Get All Member Images url of this List into a string

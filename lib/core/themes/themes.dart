@@ -55,7 +55,7 @@ class AppThemes {
     ),
     colorScheme: ColorScheme.fromSwatch(
             primarySwatch:
-                AppUiHelper.generateMaterialColor(AppColors.primaryColor))
+                AppUiUtil.generateMaterialColor(AppColors.primaryColor))
         .copyWith(secondary: AppColors.accentColor),
   );
 
@@ -120,7 +120,7 @@ class AppThemes {
     ),
     colorScheme: ColorScheme.fromSwatch(
       primaryColorDark: AppColors.primaryColor,
-      primarySwatch: AppUiHelper.generateMaterialColor(AppColors.primaryColor),
+      primarySwatch: AppUiUtil.generateMaterialColor(AppColors.primaryColor),
       accentColor: AppColors.accentColor,
       brightness: Brightness.dark,
     ),

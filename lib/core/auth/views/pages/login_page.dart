@@ -52,7 +52,7 @@ class _LoginPageState extends State<LoginPage> {
     bool _isFormOkay = _formKey.currentState!.validate();
     if (_isFormOkay) {
       // Dismiss Keyboard
-      AppUiHelper.dismissKeyboard(context: context);
+      AppUiUtil.dismissKeyboard(context: context);
       try {
         _controller.isLoggingIn = true;
         _controller.update();
@@ -117,16 +117,25 @@ class _LoginPageState extends State<LoginPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 /* <---- Header Logo ----> */
-                Container(
+                SizedBox(
                   width: Get.width * 0.5,
-                  margin: const EdgeInsets.symmetric(vertical: 30),
                   child: Hero(
                     tag: AppImages.logo,
                     child: Image.asset(
-                      AppImages.logo,
+                      AppImages.logo2,
                     ),
                   ),
                 ),
+                AppSizes.hGap15,
+                Text(
+                  'Face Attendance',
+                  style: AppText.h6.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.primaryColor,
+                  ),
+                ),
+                AppSizes.hGap15,
+                AppSizes.hGap15,
                 /* <---- Input ----> */
                 Form(
                   key: _formKey,
@@ -198,33 +207,35 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   );
                 }),
-
+                AppSizes.hGap15,
                 /* <---- Sign UP BUTTON ----> */
-                Container(
-                  margin: const EdgeInsets.symmetric(vertical: 20),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Text('Don\'t have an account?'),
-                      TextButton(
-                        onPressed: () {
-                          Get.to(() => const SignUpPage());
-                        },
-                        child: Text(
-                          'Sign up',
-                          style: AppText.b1.copyWith(
-                            fontWeight: FontWeight.bold,
-                            color: AppColors.primaryColor,
+                Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Text('Don\'t have an account?'),
+                        TextButton(
+                          onPressed: () {
+                            Get.to(() => const SignUpPage());
+                          },
+                          child: Text(
+                            'Sign up',
+                            style: AppText.b1.copyWith(
+                              fontWeight: FontWeight.bold,
+                              color: AppColors.primaryColor,
+                            ),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
+                      ],
+                    ),
+                    TextButton(
+                      onPressed: () =>
+                          Get.to(() => const RegisterAsAdminPage()),
+                      child: const Text('Register as Admin'),
+                    )
+                  ],
                 ),
-                TextButton(
-                  onPressed: () => Get.to(() => const RegisterAsAdminPage()),
-                  child: const Text('Register as Admin'),
-                )
               ],
             ),
           ),

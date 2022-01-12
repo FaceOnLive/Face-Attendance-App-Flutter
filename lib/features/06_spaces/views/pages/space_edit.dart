@@ -1,7 +1,7 @@
-import 'package:face_attendance/core/auth/controllers/login_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../../core/auth/controllers/login_controller.dart';
 import '../../../../core/constants/constants.dart';
 import '../../../../core/models/space.dart';
 import '../../../../core/themes/text.dart';

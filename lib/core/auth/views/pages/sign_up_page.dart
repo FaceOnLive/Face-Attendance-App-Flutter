@@ -56,7 +56,7 @@ class _SignUpPageState extends State<SignUpPage> {
     bool _isFormOkay =
         _formKey.currentState!.validate() && _isPasswordMatching();
     if (_isFormOkay) {
-      AppUiHelper.dismissKeyboard(context: context);
+      AppUiUtil.dismissKeyboard(context: context);
       _isAddingUser.trigger(true);
       try {
         await _controller.registerUsers(

@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -14,17 +15,16 @@ class Space {
   Space({
     required this.name,
     required this.icon,
-    required this.spaceID,
     required this.memberList,
     required this.appMembers,
     required this.ownerUID,
+    this.spaceID,
   });
 
   Map<String, dynamic> toMap() {
     return {
       'name': name,
       'icon': _iconToString(icon),
-      'spaceID': spaceID,
       'memberList': memberList,
       'appMembers': appMembers,
       'ownerUID': ownerUID,

@@ -1,8 +1,9 @@
-import 'package:face_attendance/core/constants/constants.dart';
-import 'package:face_attendance/core/themes/text.dart';
-import 'package:face_attendance/features/04_verifier/views/dialogs/static_verifier_sheet_lock.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+import '../../../../core/constants/constants.dart';
+import '../../../../core/themes/text.dart';
+import '../dialogs/static_verifier_sheet_lock.dart';
 
 class UseAsAVerifierButton extends StatelessWidget {
   const UseAsAVerifierButton({

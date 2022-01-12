@@ -1,4 +1,3 @@
-import 'package:face_attendance/features/05_members/views/controllers/member_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -7,6 +6,7 @@ import '../../../../core/models/member.dart';
 import '../../../../core/themes/text.dart';
 import '../../../../core/widgets/app_button.dart';
 import '../../../../core/widgets/picture_display.dart';
+import '../controllers/member_controller.dart';
 import 'member_edit.dart';
 
 class MemberInfoScreen extends StatelessWidget {

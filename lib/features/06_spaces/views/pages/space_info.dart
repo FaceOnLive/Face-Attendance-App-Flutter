@@ -1,3 +1,4 @@
+import 'package:face_attendance/core/utils/encrypt_decrypt.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -140,7 +141,7 @@ class SpaceInfoScreen extends StatelessWidget {
               onTap: () {
                 Get.dialog(
                   GenerateQRDialog(
-                    data: 'Space: ${space.spaceID}',
+                    data: AppAlgorithmUtil.encrypt(space.spaceID!),
                     title: 'Share Space',
                   ),
                 );

@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 
 import '../../../../core/constants/constants.dart';
 
-import 'space_add.dart';
+import 'space_create_page.dart';
 import 'space_info.dart';
 
 class SpacesScreen extends StatelessWidget {
@@ -54,7 +54,7 @@ class SpacesScreen extends StatelessWidget {
                 color: Colors.white,
               ),
               onTap: () {
-                Get.to(() => const SpaceCreateScreen());
+                Get.to(() => const SpaceCreatePage());
               },
               disableBorderRadius: true,
               margin: const EdgeInsets.all(0),
