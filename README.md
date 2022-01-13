@@ -5,6 +5,9 @@ An App Made with Face SDK
 <img src="cover_image.png">
 
 ## Getting Started
+- Step-1: Clone This Project
+- Step-2: Get a Google Map SDK key from Google API [*if you want geolocatio based verification]
+- Step-3: Open a firebase account, create a project.
 
 ## Features
 - Attendance management with ease
@@ -24,7 +27,7 @@ An App Made with Face SDK
 - ~~Face Login in the app~~ [Coming Soon]
 - ~~Daily log and notification~~ [Can be added with cloud functions]
 - Space Range Selection [Admin Side]
-- ~~ Geolocation based verification ~~ [Coming Soon]
+- ~~Geolocation based verification~~ [Coming Soon]
 
 ### IF you face plugin error:
 - STEP_1: Comment custom camera kit plugin from pubspec.yaml and run flutter pub get

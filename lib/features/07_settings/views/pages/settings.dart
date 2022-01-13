@@ -5,20 +5,16 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../../core/app/controllers/core_controller.dart';
-import '../../../../core/auth/controllers/login_controller.dart';
-import '../../../../core/auth/views/pages/login_page.dart';
 import '../../../../core/constants/constants.dart';
 import '../../../../core/data/services/app_photo.dart';
-import '../../../../core/themes/text.dart';
-import '../../../../core/widgets/app_button.dart';
 import '../../../../core/widgets/app_custom_list_tile.dart';
-import '../../../../core/widgets/picture_display.dart';
-import '../../../05_members/views/dialogs/camera_or_gallery.dart';
 import '../../../06_spaces/views/pages/spaces.dart';
+import '../components/bottom_logout_botton.dart';
+import '../components/change_holiday.dart';
+import '../components/change_password.dart';
+import '../components/user_info_section.dart';
 import '../controllers/app_admin_controller.dart';
-import 'admin_details.dart';
-import 'change_holiday.dart';
-import 'change_password.dart';
+import '../components/change_admin_details.dart';
 
 class AdminSettingScreen extends StatelessWidget {
   const AdminSettingScreen({Key? key}) : super(key: key);
@@ -27,10 +23,7 @@ class AdminSettingScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          'Admin Setting',
-          style: AppText.bBOLD,
-        ),
+        title: Text('Admin Setting', style: context.textTheme.headline6),
       ),
       body: SizedBox(
         width: Get.width,
@@ -45,7 +38,7 @@ class AdminSettingScreen extends StatelessWidget {
                       children: [
                         AppSizes.hGap10,
                         // ADMIN PROFILE PICTURE
-                        const _UserInfo(),
+                        const UserInfoSection(),
                         /* <---- Settings -----> */
                         AppCustomListTile(
                           label: 'Admin Details',
@@ -160,83 +153,10 @@ class AdminSettingScreen extends StatelessWidget {
               },
             ),
             /* <---- Bottom Logout Button ----> */
-            Container(
-              width: Get.width,
-              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 50),
-              decoration: BoxDecoration(
-                color: context.theme.scaffoldBackgroundColor,
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(20),
-                  topRight: Radius.circular(20),
-                ),
-                boxShadow: const [
-                  BoxShadow(
-                    offset: Offset(3, 4),
-                    color: Colors.black12,
-                    spreadRadius: 4,
-                    blurRadius: 20,
-                  )
-                ],
-              ),
-              child: AppButton(
-                label: 'Logout',
-                onTap: () {
-                  Get.offAll(() => const LoginPage());
-                  Get.find<LoginController>().logOut();
-                },
-                width: Get.width * 0.5,
-                backgroundColor: AppColors.appRed,
-                suffixIcon: const Icon(
-                  Icons.logout_rounded,
-                  color: Colors.white,
-                ),
-              ),
-            ),
+            const BottomLogoutButton(),
           ],
         ),
       ),
-    );
-  }
-}
-
-class _UserInfo extends GetView<AppAdminController> {
-  const _UserInfo({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        GetBuilder<AppAdminController>(
-          builder: (_) {
-            return ProfilePictureWidget(
-              heroTag: controller.currentUser.userID,
-              profileLink: controller.currentUser.userProfilePicture,
-              isUpdating: controller.isUpdatingPicture,
-              onTap: () async {
-                File? _userImage =
-                    await Get.dialog(const CameraGallerySelectDialog());
-                if (_userImage != null) {
-                  await controller.updateUserProfilePicture(_userImage);
-                }
-              },
-            );
-          },
-        ),
-        AppSizes.hGap10,
-        Text(
-          controller.currentUser.name,
-          style: AppText.h6.copyWith(
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        Text(
-          controller.currentUser.email,
-          style: AppText.b1,
-        ),
-        AppSizes.hGap10,
-      ],
     );
   }
 }

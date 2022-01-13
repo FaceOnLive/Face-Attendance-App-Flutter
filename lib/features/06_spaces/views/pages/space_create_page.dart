@@ -33,6 +33,7 @@ class _SpaceCreatePageState extends State<SpaceCreatePage> {
 
   /// When user Clicks Create Button
   Future<void> _onSubmitButtonClicked() async {
+    String _ownerID = Get.find<LoginController>().user!.uid;
     try {
       _isAdding.trigger(true);
       await _controller.addSpace(
@@ -42,7 +43,7 @@ class _SpaceCreatePageState extends State<SpaceCreatePage> {
           memberList: [],
           appMembers: [],
           spaceID: '',
-          ownerUID: Get.find<LoginController>().user!.uid,
+          ownerUID: _ownerID,
         ),
       );
       Get.offAll(() => const EntryPointUI());

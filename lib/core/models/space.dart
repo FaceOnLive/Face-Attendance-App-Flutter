@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -12,6 +10,9 @@ class Space {
   List<String> memberList;
   List<String> appMembers;
   String ownerUID;
+  double? spaceLat;
+  double? spaceLon;
+  double? spaceRadius;
   Space({
     required this.name,
     required this.icon,
@@ -19,6 +20,9 @@ class Space {
     required this.appMembers,
     required this.ownerUID,
     this.spaceID,
+    this.spaceLat,
+    this.spaceLon,
+    this.spaceRadius,
   });
 
   Map<String, dynamic> toMap() {
@@ -28,6 +32,9 @@ class Space {
       'memberList': memberList,
       'appMembers': appMembers,
       'ownerUID': ownerUID,
+      'spaceLat': spaceLat,
+      'spaceLon': spaceLon,
+      'spaceRadius': spaceRadius,
     };
   }
 
@@ -41,23 +48,11 @@ class Space {
       appMembers: List<String>.from(map['appMembers'] ?? []),
       spaceID: documentSnap.id,
       ownerUID: map['ownerUID'],
+      spaceLat: map['spaceLat'],
+      spaceLon: map['spaceLon'],
+      spaceRadius: map['spaceRadius'],
     );
   }
-
-  factory Space.fromMap(Map<String, dynamic> map) {
-    return Space(
-      name: map['name'],
-      icon: map['icon'],
-      spaceID: map['spaceID'],
-      ownerUID: map['ownerUID'],
-      memberList: List<String>.from(map['memberList']),
-      appMembers: List<String>.from(map['appMembers'] ?? []),
-    );
-  }
-
-  String toJson() => json.encode(toMap());
-
-  factory Space.fromJson(String source) => Space.fromMap(json.decode(source));
 
   static List<IconData> get availableIcons => [
         Icons.home_rounded,

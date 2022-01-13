@@ -8,6 +8,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import '../../../features/01_onboarding/views/pages/onboarding_page.dart';
 import '../../../features/03_attendance/views/pages/main_attendance_page.dart';
 import '../../../features/04_verifier/views/pages/verifier_page.dart';
+import '../../../features/05_members/views/controllers/member_controller.dart';
 import '../../../features/05_members/views/pages/members.dart';
 import '../../../features/06_spaces/data/source/space_local_source.dart';
 import '../../auth/controllers/login_controller.dart';
@@ -70,10 +71,14 @@ class CoreController extends GetxController {
   /// Used For Home Navigation
   int currentIndex = 0;
   onNavTap(int index) {
+    int _totalMembers = Get.find<MembersController>().allMembers.length;
+
     if (isSettingSdk && index == 1) {
       /// This means user is tapping verifier screen
       /// when the SDK is not setted up
       AppToast.showDefaultToast('Please wait for the SDK Loading');
+    } else if (_totalMembers <= 0 && index == 1) {
+      AppToast.showDefaultToast('Please add some member first');
     } else {
       currentIndex = index;
       update();
@@ -152,12 +157,10 @@ class CoreController extends GetxController {
     if (value == true) {
       Get.changeThemeMode(ThemeMode.dark);
       isAppInDarkMode = true;
-      update();
       _writeThemeStateToStorage(ThemeMode.dark);
     } else {
       Get.changeThemeMode(ThemeMode.light);
       isAppInDarkMode = false;
-      update();
       _writeThemeStateToStorage(ThemeMode.light);
     }
   }
@@ -211,6 +214,10 @@ class CoreController extends GetxController {
     _theme = _convertToThemeMode(_data);
     return _theme;
   }
+
+  /* <-----------------------> 
+      Internet Check    
+   <-----------------------> */
 
   /// Internet Check
   Future<void> _checkInternetOnStart() async {

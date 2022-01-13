@@ -23,7 +23,7 @@ class MemberInfoScreen extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: AppDefaults.padding),
       width: Get.width,
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: context.theme.scaffoldBackgroundColor,
         borderRadius: AppDefaults.borderRadius,
       ),
       child: Column(

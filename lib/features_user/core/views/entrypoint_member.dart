@@ -65,6 +65,7 @@ class AppMemberMainUi extends StatelessWidget {
                 selectedIconTheme: IconThemeData(
                   color: context.theme.primaryColor,
                 ),
+                selectedItemColor: AppColors.primaryColor,
                 iconSize: 32,
                 items: const [
                   BottomNavigationBarItem(

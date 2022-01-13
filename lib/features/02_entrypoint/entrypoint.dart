@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 
 import '../../../core/constants/constants.dart';
 import '../../core/app/controllers/core_controller.dart';
-import '../../core/themes/text.dart';
 import '../04_verifier/views/controllers/user_serial_keeper.dart';
 import '../04_verifier/views/controllers/verify_controller.dart';
 import '../05_members/views/controllers/member_controller.dart';
@@ -59,8 +58,11 @@ class EntryPointUI extends StatelessWidget {
               backgroundColor: context.theme.cardColor,
               selectedLabelStyle: TextStyle(
                 fontWeight: FontWeight.bold,
-                fontSize: AppText.b1.fontSize,
+                fontSize: context.textTheme.bodyText1!.fontSize,
               ),
+              selectedItemColor: AppColors.primaryColor,
+              // unselectedLabelStyle: TextStyle(color: Colors.grey),
+              unselectedItemColor: Colors.grey,
               unselectedIconTheme: IconThemeData(
                 color: context.theme.unselectedWidgetColor.withOpacity(0.4),
                 size: 25,

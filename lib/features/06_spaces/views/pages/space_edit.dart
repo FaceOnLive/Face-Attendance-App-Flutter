@@ -5,6 +5,7 @@ import '../../../../core/auth/controllers/login_controller.dart';
 import '../../../../core/constants/constants.dart';
 import '../../../../core/models/space.dart';
 import '../../../../core/themes/text.dart';
+import '../../../02_entrypoint/entrypoint.dart';
 import '../controllers/space_controller.dart';
 import '../dialogs/delete_space.dart';
 
@@ -49,6 +50,7 @@ class _SpaceEditScreenState extends State<SpaceEditScreen> {
         ownerUID: Get.find<LoginController>().user!.uid,
       ),
     );
+    Get.offAll(() => const EntryPointUI());
     _isUpdating.trigger(false);
   }
 

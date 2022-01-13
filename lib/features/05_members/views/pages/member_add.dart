@@ -64,12 +64,13 @@ class _MemberAddScreenState extends State<MemberAddScreen> {
           phoneNumber: int.parse(_phoneNumber.text),
           fullAddress: _fullAddress.text,
         );
+        Get.back();
+        _addingMember.value = false;
       } else {
         AppToast.showDefaultToast("Please add a picture");
+        _addingMember.value = false;
       }
-      Get.back();
     }
-    _addingMember.value = false;
   }
 
   @override

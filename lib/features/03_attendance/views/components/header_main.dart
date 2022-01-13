@@ -5,7 +5,6 @@ import 'package:url_launcher/url_launcher.dart' as url;
 
 import '../../../../config/config.dart';
 import '../../../../core/constants/constants.dart';
-import '../../../../core/themes/text.dart';
 import 'user_profile_picture.dart';
 
 class HeaderMainPage extends StatelessWidget {
@@ -73,13 +72,13 @@ class TitleAndSubtitle extends StatelessWidget {
         children: [
           Text(
             AppConfig.appName,
-            style: AppText.b2.copyWith(
+            style: context.textTheme.bodyText2!.copyWith(
               fontWeight: FontWeight.bold,
             ),
           ),
           Text(
             AppConfig.appSubtitle,
-            style: AppText.caption,
+            style: context.textTheme.caption,
           )
         ],
       ),

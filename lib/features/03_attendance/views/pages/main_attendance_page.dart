@@ -20,9 +20,11 @@ class AttendancePage extends StatelessWidget {
             /* <---- Attendance List -----> */
             GetBuilder<SpaceController>(
               builder: (controller) {
-                if (controller.isFetchingSpaces) {
+                if (controller.spaceViewState ==
+                    SpaceViewState.isInitializing) {
                   return const LoadingMembers();
-                } else if (controller.allSpaces.isEmpty) {
+                } else if (controller.spaceViewState ==
+                    SpaceViewState.isNoSpaceFound) {
                   return const NoSpaceFound();
                 } else {
                   return Expanded(
@@ -39,6 +41,8 @@ class AttendancePage extends StatelessWidget {
                 }
               },
             ),
+
+            /// If sdk is still setting up
             const SettingSDKDatabase()
           ],
         ),

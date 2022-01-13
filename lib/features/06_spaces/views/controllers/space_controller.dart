@@ -4,10 +4,10 @@ import 'package:get/get.dart';
 import 'package:retry/retry.dart';
 
 import '../../../../core/auth/controllers/login_controller.dart';
-import '../../../../core/utils/app_toast.dart';
 import '../../../../core/models/log_message.dart';
 import '../../../../core/models/member.dart';
 import '../../../../core/models/space.dart';
+import '../../../../core/utils/app_toast.dart';
 import '../../../02_entrypoint/entrypoint.dart';
 import '../../../05_members/views/controllers/member_controller.dart';
 import '../../data/repository/space_repository_impl.dart';
@@ -15,6 +15,14 @@ import '../../data/source/space_local_source.dart';
 
 /// Used in the main home screen
 enum MemberFilterList { all, attended, unattended }
+enum SpaceViewState {
+  isInitializing,
+  isMemberEmpty,
+  isNoSpaceFound,
+  isFetching,
+  isFilterdListEmpty,
+  isFetched
+}
 
 class SpaceController extends GetxController {
   /* <---- Dependency ----> */
@@ -41,7 +49,7 @@ class SpaceController extends GetxController {
   List<IconData> allIconsOptions = Space.availableIcons;
 
   /// IS Everything Ready for UI
-  bool isEverythingFetched = false;
+  SpaceViewState spaceViewState = SpaceViewState.isInitializing;
 
   /// Space List
   List<Space> allSpaces = [];
@@ -57,16 +65,13 @@ class SpaceController extends GetxController {
   // }
 
   /// To show progress indicator
-  bool isFetchingSpaces = false;
 
   /// Fetch All Spaces of This User ID
   /// On initial startup we don't want to show the empty illustration
-  Future<void> _fetchAllSpaces({bool shouldUpdate = true}) async {
-    isFetchingSpaces = true;
-    if (shouldUpdate) update();
+  Future<int> _fetchAllSpaces() async {
     allSpaces.clear();
-
     final _fetchedData = await _repository.getAllSpaces(_currentUserID);
+    int _totalSpaceFetched = 0;
 
     _fetchedData.fold((l) {
       return AppToast.showDefaultToast(
@@ -74,17 +79,19 @@ class SpaceController extends GetxController {
       );
     }, (fetchedSpacesVal) {
       if (fetchedSpacesVal.isNotEmpty) {
+        _totalSpaceFetched = fetchedSpacesVal.length;
         allSpaces = fetchedSpacesVal;
         currentSpace = SpaceLocalSource.getDefaultSpace(
           fetchedSpaces: fetchedSpacesVal,
           userID: _currentUserID,
         );
         _addCurrentSpaceMemberToList(currentSpace!);
+        spaceViewState = SpaceViewState.isFetched;
+      } else {
+        spaceViewState = SpaceViewState.isNoSpaceFound;
       }
     });
-
-    isFetchingSpaces = false;
-    if (shouldUpdate) update();
+    return _totalSpaceFetched;
   }
 
   /// When user tap on a space in dropdown
@@ -121,10 +128,9 @@ class SpaceController extends GetxController {
     await retry<List>(
       () {
         fetchedMembers = _memberController.allMembers;
-        if (fetchedMembers.isEmpty) throw Exception();
         return fetchedMembers;
       },
-      retryIf: (v) => _memberController.isFetchingUser == true,
+      retryIf: (_) => _memberController.isFetchingUser == true,
     );
 
     for (var element in fetchedMembers) {
@@ -134,6 +140,12 @@ class SpaceController extends GetxController {
       } else {
         // print('${element.memberName} does not belong to ${currentSpace!.name}');
       }
+    }
+
+    if (_allMembersSpace.isEmpty) {
+      spaceViewState = SpaceViewState.isMemberEmpty;
+    } else {
+      spaceViewState = SpaceViewState.isFetched;
     }
     if (shouldUpdate) update();
   }
@@ -176,8 +188,6 @@ class SpaceController extends GetxController {
   Future<void> editSpace({required Space space}) async {
     await _repository.updateSpace(space: space);
     await _fetchAllSpaces();
-    Get.back();
-    Get.back();
     AppToast.showDefaultToast('Update Successfull');
   }
 
@@ -283,6 +293,9 @@ class SpaceController extends GetxController {
           .where((element) => element.memberID == member)
           .toList();
     }
+    if (filteredListMember.isEmpty) {
+      spaceViewState = SpaceViewState.isFilterdListEmpty;
+    }
     update();
   }
 
@@ -294,6 +307,9 @@ class SpaceController extends GetxController {
           .where((element) => element.memberID != member)
           .toList();
     }
+    if (filteredListMember.isEmpty) {
+      spaceViewState = SpaceViewState.isFilterdListEmpty;
+    }
     update();
   }
 
@@ -301,6 +317,11 @@ class SpaceController extends GetxController {
   void _onBothButtonSelection() {
     filteredListMember = [];
     filteredListMember = _allMembersSpace;
+    if (filteredListMember.isEmpty) {
+      spaceViewState = SpaceViewState.isMemberEmpty;
+    } else {
+      spaceViewState = SpaceViewState.isFetched;
+    }
     update();
   }
 
@@ -346,30 +367,30 @@ class SpaceController extends GetxController {
   bool fetchingTodaysLog = true;
 
   /// Todays Log of Current Space
-  Future<void> _fetchTodaysLogCurrentSpace({bool shouldUpdate = true}) async {
-    if (currentSpace != null) {
-      fetchingTodaysLog = true;
-      todayAttended = {};
-      if (shouldUpdate) update();
-      await _spaceCollection
-          .doc(currentSpace!.spaceID)
-          .collection('log_data')
-          .get()
-          .then((value) {
-        for (var element in value.docs) {
-          // Individual doc contains a timestamp
-          Timestamp _timeInStamp = element.data()['attended_at'];
-          DateTime _timeInDate = _timeInStamp.toDate();
-          todayAttended.addAll(
-            {element.id: _timeInDate},
-          );
-        }
-        // print(todayAttended.toString());
-      });
-      fetchingTodaysLog = false;
-      if (shouldUpdate) update();
-    }
-  }
+  // Future<void> _fetchTodaysLogCurrentSpace({bool shouldUpdate = true}) async {
+  //   if (currentSpace != null) {
+  //     fetchingTodaysLog = true;
+  //     todayAttended = {};
+  //     if (shouldUpdate) update();
+  //     await _spaceCollection
+  //         .doc(currentSpace!.spaceID)
+  //         .collection('log_data')
+  //         .get()
+  //         .then((value) {
+  //       for (var element in value.docs) {
+  //         // Individual doc contains a timestamp
+  //         Timestamp _timeInStamp = element.data()['attended_at'];
+  //         DateTime _timeInDate = _timeInStamp.toDate();
+  //         todayAttended.addAll(
+  //           {element.id: _timeInDate},
+  //         );
+  //       }
+  //       // print(todayAttended.toString());
+  //     });
+  //     fetchingTodaysLog = false;
+  //     if (shouldUpdate) update();
+  //   }
+  // }
 
   /// Is this member Attended Today
   DateTime? isMemberAttendedToday({required String memberID}) {
@@ -403,12 +424,13 @@ class SpaceController extends GetxController {
   /// Refreshes Everything from Start
   /// Everything goes in order
   Future<void> refreshAll() async {
-    isEverythingFetched = false;
+    spaceViewState = SpaceViewState.isInitializing;
     update();
-    await _fetchAllSpaces(shouldUpdate: false);
+    int _spaceFetched = await _fetchAllSpaces();
     filteredListMember = _allMembersSpace;
-    isEverythingFetched = true;
-    await _fetchTodaysLogCurrentSpace();
+    spaceViewState = SpaceViewState.isFetched;
+    if (_spaceFetched <= 0) spaceViewState = SpaceViewState.isNoSpaceFound;
+    // await _fetchTodaysLogCurrentSpace();
     update();
   }
 

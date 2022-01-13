@@ -1,4 +1,4 @@
-import 'package:face_attendance/core/utils/encrypt_decrypt.dart';
+import 'package:face_attendance/features/05_members/views/pages/member_add_qr.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -6,6 +6,7 @@ import '../../../../core/app/views/dialogs/generated_qr.dart';
 import '../../../../core/constants/constants.dart';
 import '../../../../core/models/space.dart';
 import '../../../../core/themes/text.dart';
+import '../../../../core/utils/encrypt_decrypt.dart';
 import '../../../../core/widgets/app_button.dart';
 import 'space_add_qr.dart';
 import 'space_edit.dart';
@@ -113,9 +114,9 @@ class SpaceInfoScreen extends StatelessWidget {
                       Icons.edit_location_alt_rounded,
                       color: Colors.white,
                     ),
-                    label: 'Edit Office Range',
+                    label: 'Add/Edit Office Range',
                     onTap: () {
-                      Get.to(() => const SpaceRangeScreen());
+                      Get.to(() => SpaceRangeScreen(space));
                     },
                   ),
                   AppButton(
@@ -125,7 +126,7 @@ class SpaceInfoScreen extends StatelessWidget {
                     ),
                     label: 'Add Person From QR',
                     onTap: () {
-                      Get.to(() => const SpaceAddQrPersonScreen());
+                      Get.to(() => const MemberAddQrScreen());
                     },
                   ),
                 ],

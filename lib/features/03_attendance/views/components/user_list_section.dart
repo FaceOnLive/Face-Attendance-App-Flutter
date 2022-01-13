@@ -4,7 +4,6 @@ import 'package:intl/intl.dart';
 
 import '../../../../core/constants/constants.dart';
 import '../../../../core/models/member.dart';
-import '../../../../core/themes/text.dart';
 import '../../../06_spaces/views/controllers/space_controller.dart';
 import 'components.dart';
 
@@ -22,7 +21,7 @@ class AttendedUserListSection extends StatelessWidget {
           children: [
             Text(
               DateFormat.yMMMEd().format(DateTime.now()),
-              style: AppText.caption,
+              style: context.textTheme.caption,
             ),
             // Header
             GetBuilder<SpaceController>(
@@ -79,13 +78,34 @@ class AttendedUserListSection extends StatelessWidget {
             /* <---- USER LIST -----> */
             GetBuilder<SpaceController>(
               builder: (controller) {
-                if (!controller.isEverythingFetched) {
-                  // Loading Members
-                  return const LoadingMembers();
-                } else if (controller.isEverythingFetched) {
-                  // There is no member
-                  if (controller.filteredListMember.isNotEmpty &&
-                      controller.allMembersSpace.isNotEmpty) {
+                switch (controller.spaceViewState) {
+
+                  /// Initializing
+                  case SpaceViewState.isInitializing:
+                    return const LoadingMembers();
+
+                  /// Fetching Member
+                  case SpaceViewState.isFetching:
+                    return const LoadingMembers();
+
+                  /// No Space Found
+                  // case SpaceViewState.isMemberEmpty:
+                  //   return NoMemberFound(
+                  //     currentSpace: controller.currentSpace!,
+                  //   );
+
+                  /// No Member Found
+                  case SpaceViewState.isMemberEmpty:
+                    return NoMemberFound(
+                      currentSpace: controller.currentSpace!,
+                    );
+
+                  /// Filtered list is empty
+                  case SpaceViewState.isFilterdListEmpty:
+                    return const AttendanceIsClearWidget();
+
+                  /// Everything is alright
+                  case SpaceViewState.isFetched:
                     return Expanded(
                       child: RefreshIndicator(
                         onRefresh: () async {
@@ -113,22 +133,9 @@ class AttendedUserListSection extends StatelessWidget {
                             }),
                       ),
                     );
-                  } else if (controller.allMembersSpace.isNotEmpty &&
-                      controller.filteredListMember.isEmpty) {
-                    return const AttendanceIsClearWidget();
-                  } else if (controller.allMembersSpace.isEmpty &&
-                      controller.filteredListMember.isEmpty &&
-                      controller.isEverythingFetched) {
-                    return NoMemberFound(
-                      currentSpace: controller.currentSpace!,
-                    );
-                  } else {
-                    return const Center(
-                      child: Text('There is an error'),
-                    );
-                  }
-                } else {
-                  return const LoadingMembers();
+
+                  default:
+                    return const Text("Something error happened");
                 }
               },
             )

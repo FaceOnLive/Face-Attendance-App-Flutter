@@ -97,7 +97,7 @@ class _StaticVerifierLockUnlockState extends State<StaticVerifierLockUnlock> {
     return Container(
       padding: const EdgeInsets.all(AppDefaults.padding),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: context.theme.scaffoldBackgroundColor,
         boxShadow: AppDefaults.boxShadow,
         borderRadius: AppDefaults.bottomSheetRadius,
       ),

@@ -14,10 +14,10 @@ dependencies:
   flutter:
     sdk: flutter
 
-  get: ^4.3.8
-  google_fonts: ^2.1.0
+  get: ^4.6.1
+  google_fonts: ^2.2.0
   intl: ^0.17.0
-  lottie: ^1.1.0
+  lottie: ^1.2.1
   shimmer: ^2.0.0
   image_picker: ^0.8.4
   image_cropper: ^1.4.1

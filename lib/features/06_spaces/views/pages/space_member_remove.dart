@@ -169,7 +169,7 @@ class _EmptyMemberList extends StatelessWidget {
             child: Image.asset(AppImages.illustrationMemberEmpty),
           ),
           AppSizes.hGap20,
-          const Text('There is no one to add'),
+          const Text('There is no one to remove'),
         ],
       ),
     );
