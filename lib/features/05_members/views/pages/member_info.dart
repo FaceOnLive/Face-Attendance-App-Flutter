@@ -1,4 +1,3 @@
-import 'package:face_attendance/features/05_members/views/controllers/member_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -7,6 +6,7 @@ import '../../../../core/models/member.dart';
 import '../../../../core/themes/text.dart';
 import '../../../../core/widgets/app_button.dart';
 import '../../../../core/widgets/picture_display.dart';
+import '../controllers/member_controller.dart';
 import 'member_edit.dart';
 
 class MemberInfoScreen extends StatelessWidget {
@@ -20,11 +20,11 @@ class MemberInfoScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: AppSizes.defaultPadding),
+      padding: const EdgeInsets.symmetric(horizontal: AppDefaults.padding),
       width: Get.width,
       decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: AppDefaults.defaulBorderRadius,
+        color: context.theme.scaffoldBackgroundColor,
+        borderRadius: AppDefaults.borderRadius,
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,

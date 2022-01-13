@@ -19,8 +19,8 @@ class SettingSDKDatabase extends StatelessWidget {
             AnimatedContainer(
               alignment: Alignment.center,
               width: double.infinity,
-              duration: AppDefaults.defaultDuration,
-              padding: const EdgeInsets.all(AppSizes.defaultPadding / 2),
+              duration: AppDefaults.duration,
+              padding: const EdgeInsets.all(AppDefaults.padding / 2),
               decoration: const BoxDecoration(
                 color: AppColors.primaryColor,
               ),

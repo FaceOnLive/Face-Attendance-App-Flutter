@@ -5,9 +5,8 @@ import '../../../../core/constants/constants.dart';
 import '../../../../core/models/space.dart';
 import '../../../../core/themes/text.dart';
 import '../../../06_spaces/views/controllers/space_controller.dart';
-import '../../../06_spaces/views/pages/space_add.dart';
+import '../../../06_spaces/views/pages/space_create_page.dart';
 import '../../../06_spaces/views/pages/space_info.dart';
-import '../pages/user_log_page.dart';
 
 class DropDownRowSection extends GetView<SpaceController> {
   const DropDownRowSection({
@@ -29,75 +28,88 @@ class DropDownRowSection extends GetView<SpaceController> {
                 border: Border.all(
                   color: context.theme.primaryColor,
                 ),
-                borderRadius: AppDefaults.defaulBorderRadius,
+                borderRadius: AppDefaults.borderRadius,
               ),
               child: GetBuilder<SpaceController>(builder: (controller) {
-                return controller.isFetchingSpaces
-                    ? const SizedBox(
-                        height: 50,
-                        child: LinearProgressIndicator(),
-                      )
-                    : DropdownButton<String>(
-                        isExpanded: true,
-                        underline: const SizedBox(),
-                        dropdownColor: context.theme.canvasColor,
-                        items: List.generate(
-                          controller.allSpaces.length + 1,
-                          (index) {
-                            // Create button
-                            if (index == controller.allSpaces.length) {
-                              return const DropdownMenuItem(
-                                child: _CreateNewSpaceButton(),
-                                value: 'create',
-                              );
-                            }
+                switch (controller.spaceViewState) {
+                  case SpaceViewState.isInitializing:
+                    return const SizedBox(
+                      height: 50,
+                      child: LinearProgressIndicator(),
+                    );
 
-                            /// List
-                            Space _currentSpace = controller.allSpaces[index];
-                            return DropdownMenuItem(
-                              child: _DropDownSpaceItem(
-                                active: true,
-                                iconData: _currentSpace.icon,
-                                label: _currentSpace.name,
-                                onTap: () {
-                                  Get.to(
-                                    () => SpaceInfoScreen(space: _currentSpace),
-                                  );
-                                },
-                              ),
-                              value: _currentSpace.name.toLowerCase(),
-                            );
-                          },
-                        ),
-                        value: controller.currentSpace!.name.toLowerCase(),
-                        onChanged: controller.onDropDownUpdate,
-                      );
+                  case SpaceViewState.isNoSpaceFound:
+                    return const SizedBox();
+
+                  case SpaceViewState.isFetched:
+                    return const _TheDropDown();
+
+                  case SpaceViewState.isMemberEmpty:
+                    return const _TheDropDown();
+
+                  default:
+                    return const _TheDropDown();
+                }
               }),
             ),
           ),
           AppSizes.wGap10,
-          // DATE COLUMN
-          // Column(
-          //   children: [
-          //     Text(
-          //       DateFormat.EEEE().format(DateTime.now()),
-          //       style: AppText.caption,
-          //     ),
-          //     Text(
-          //       DateFormat.yMMMMd().format(DateTime.now()),
-          //       style: AppText.caption,
-          //     ),
-          //   ],
-          // ),
+
+          /// This is deprecated and no longer used
           // Space Log Button
-          IconButton(
-            onPressed: () {
-              Get.to(() => const SpaceLogScreen());
-            },
-            icon: const Icon(Icons.assignment_outlined),
-          ),
+          // IconButton(
+          //   onPressed: () {
+          //     Get.to(() => const SpaceLogScreen());
+          //   },
+          //   icon: const Icon(Icons.assignment_outlined),
+          // ),
         ],
       ),
+    );
+  }
+}
+
+class _TheDropDown extends GetView<SpaceController> {
+  const _TheDropDown({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return DropdownButton<String>(
+      isExpanded: true,
+      underline: const SizedBox(),
+      dropdownColor: context.theme.canvasColor,
+      items: List.generate(
+        controller.allSpaces.length + 1,
+        (index) {
+          // Create button
+          if (index == controller.allSpaces.length) {
+            return const DropdownMenuItem(
+              child: _CreateNewSpaceButton(),
+              value: 'create',
+            );
+          }
+
+          /// List
+          Space _indexedSpace = controller.allSpaces[index];
+          return DropdownMenuItem(
+            child: _DropDownSpaceItem(
+              active: true,
+              iconData: _indexedSpace.icon,
+              label: _indexedSpace.name,
+              onTap: () {
+                Get.to(
+                  () => SpaceInfoScreen(space: _indexedSpace),
+                );
+              },
+            ),
+            value: _indexedSpace.name.toLowerCase(),
+          );
+        },
+      ),
+      value: controller.currentSpace!.name.toLowerCase(),
+      onChanged: controller.onDropDownUpdate,
     );
   }
 }
@@ -111,7 +123,7 @@ class _CreateNewSpaceButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Get.to(() => const SpaceCreateScreen());
+        Get.to(() => const SpaceCreatePage());
       },
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,

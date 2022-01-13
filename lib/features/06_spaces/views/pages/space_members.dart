@@ -49,52 +49,58 @@ class _SpaceMembersScreenState extends State<SpaceMembersScreen> {
       body: Column(
         children: [
           Expanded(
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: ListView.builder(
-                itemCount: _allSpacesMember.length,
-                itemBuilder: (context, index) {
-                  Member _currentMember = _allSpacesMember[index];
-                  return _MemberListTile(member: _currentMember);
-                },
-              ),
-            ),
+            child: _allSpacesMember.isEmpty
+                ? const Center(
+                    child: Text('No Member Found'),
+                  )
+                : Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: ListView.builder(
+                      itemCount: _allSpacesMember.length,
+                      itemBuilder: (context, index) {
+                        Member _currentMember = _allSpacesMember[index];
+                        return _MemberListTile(member: _currentMember);
+                      },
+                    ),
+                  ),
           ),
-          Row(
-            children: [
-              Expanded(
-                child: AppButton(
-                  label: 'Add Member',
-                  onTap: () {
-                    Get.to(() => SpaceMemberAddScreen(space: widget.space));
-                  },
-                  disableBorderRadius: true,
-                  margin: const EdgeInsets.all(0),
-                  padding: const EdgeInsets.all(20),
-                  prefixIcon: const Icon(
-                    Icons.person_add_alt_1_rounded,
-                    color: Colors.white,
+          if (_allSpacesMember.isNotEmpty)
+            Row(
+              children: [
+                Expanded(
+                  child: AppButton(
+                    label: 'Add Member',
+                    onTap: () {
+                      Get.to(() => SpaceMemberAddScreen(space: widget.space));
+                    },
+                    disableBorderRadius: true,
+                    margin: const EdgeInsets.all(0),
+                    padding: const EdgeInsets.all(20),
+                    prefixIcon: const Icon(
+                      Icons.person_add_alt_1_rounded,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
-              ),
-              Expanded(
-                child: AppButton(
-                  label: 'Remove Member',
-                  onTap: () {
-                    Get.to(() => SpaceMemberRemoveScreen(space: widget.space));
-                  },
-                  disableBorderRadius: true,
-                  backgroundColor: AppColors.appRed,
-                  margin: const EdgeInsets.all(0),
-                  padding: const EdgeInsets.all(20),
-                  prefixIcon: const Icon(
-                    Icons.person_remove_alt_1_rounded,
-                    color: Colors.white,
+                Expanded(
+                  child: AppButton(
+                    label: 'Remove Member',
+                    onTap: () {
+                      Get.to(
+                          () => SpaceMemberRemoveScreen(space: widget.space));
+                    },
+                    disableBorderRadius: true,
+                    backgroundColor: AppColors.appRed,
+                    margin: const EdgeInsets.all(0),
+                    padding: const EdgeInsets.all(20),
+                    prefixIcon: const Icon(
+                      Icons.person_remove_alt_1_rounded,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
-              ),
-            ],
-          )
+              ],
+            )
         ],
       ),
     );

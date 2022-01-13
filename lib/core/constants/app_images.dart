@@ -1,7 +1,9 @@
 class AppImages {
-  static const String mainLogo = 'assets/images/logos/logo.png';
-  static const String mainLogo2 = 'assets/images/logos/logo_without_title.png';
+  static const String logo = 'assets/images/logos/logo.png';
+  static const String logo2 = 'assets/images/logos/logo_without_title.png';
   static const String googleLogo = 'assets/images/logos/google_logo.png';
+
+  /// Other illustrations
   static const String illustrationFaceID =
       'assets/images/illustration/face_id_logo.png';
 

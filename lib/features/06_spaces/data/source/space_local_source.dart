@@ -15,11 +15,23 @@ class SpaceLocalSource {
     print("Total Fetched Space: ${fetchedSpaces.length} ");
 
     if (savedSpaceID != null) {
+      List<String> _spacesIDs = [];
+      for (var item in fetchedSpaces) {
+        _spacesIDs.add(item.spaceID!);
+      }
       // If we have the space id saved or not
-      Space _space = fetchedSpaces.singleWhere(
-        (element) => element.spaceID == savedSpaceID,
-      );
-      space = _space;
+      bool isAvailable = _spacesIDs.contains(savedSpaceID);
+
+      if (isAvailable) {
+        Space _space = fetchedSpaces
+            .singleWhere((element) => element.spaceID == savedSpaceID);
+        space = _space;
+      } else {
+        // if not then the default is the first one
+        space = fetchedSpaces[0];
+        saveToLocal(space: space, userID: userID);
+      }
+
       print("Saved space $savedSpaceID");
     } else {
       // if not then the default is the first one

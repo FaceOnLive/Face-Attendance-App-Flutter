@@ -42,6 +42,7 @@ class AppUser {
     };
   }
 
+  /// Use it when you fetch data from firebase. it returns a APPUSER objects
   factory AppUser.fromDocumentSnap(DocumentSnapshot documentSnapshot) {
     Map<String, dynamic> map = documentSnapshot.data() as Map<String, dynamic>;
     return AppUser(

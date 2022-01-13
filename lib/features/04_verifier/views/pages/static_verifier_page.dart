@@ -1,4 +1,3 @@
-import 'package:face_attendance/features/04_verifier/views/controllers/user_serial_keeper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -9,6 +8,7 @@ import '../../../../core/constants/constants.dart';
 import '../../../../core/themes/text.dart';
 import '../../../../core/widgets/member_image_leading.dart';
 import '../../../05_members/views/controllers/member_controller.dart';
+import '../controllers/user_serial_keeper.dart';
 import '../controllers/verify_controller.dart';
 import '../dialogs/static_verifier_sheet_lock.dart';
 
@@ -89,9 +89,8 @@ class _LoadingCamera extends StatelessWidget {
           children: [
             SizedBox(
               width: Get.width * 0.5,
-              child: Hero(
-                  tag: AppImages.mainLogo,
-                  child: Image.asset(AppImages.mainLogo)),
+              child:
+                  Hero(tag: AppImages.logo, child: Image.asset(AppImages.logo)),
             ),
             const CircularProgressIndicator(),
           ],
@@ -178,8 +177,8 @@ class _UnlockButton extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: AppDefaults.defaulBorderRadius,
-        boxShadow: AppDefaults.defaultBoxShadow,
+        borderRadius: AppDefaults.borderRadius,
+        boxShadow: AppDefaults.boxShadow,
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -195,7 +194,7 @@ class _UnlockButton extends StatelessWidget {
             child: const CircleAvatar(
               backgroundColor: Colors.transparent,
               backgroundImage: AssetImage(
-                AppImages.mainLogo,
+                AppImages.logo,
               ),
             ),
           ),
@@ -233,16 +232,16 @@ class _ShowMessage extends StatelessWidget {
           child: AnimatedOpacity(
             // IF We Should show the card
             opacity: controller.showProgressIndicator ? 1.0 : 0.0,
-            duration: AppDefaults.defaultDuration,
+            duration: AppDefaults.duration,
             child: AnimatedContainer(
-              duration: AppDefaults.defaultDuration,
-              margin: const EdgeInsets.all(AppSizes.defaultMargin),
+              duration: AppDefaults.duration,
+              margin: const EdgeInsets.all(AppDefaults.margin),
               padding: const EdgeInsets.all(10),
               width: Get.width,
               decoration: BoxDecoration(
                 color: Colors.white,
-                borderRadius: AppDefaults.defaulBorderRadius,
-                boxShadow: AppDefaults.defaultBoxShadow,
+                borderRadius: AppDefaults.borderRadius,
+                boxShadow: AppDefaults.boxShadow,
               ),
               child: controller.isVerifyingNow
                   ? Container(

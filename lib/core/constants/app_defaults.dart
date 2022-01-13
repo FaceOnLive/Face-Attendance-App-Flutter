@@ -1,26 +1,32 @@
 import 'package:flutter/material.dart';
 
-import 'app_sizes.dart';
-
 class AppDefaults {
-  /// Used For Border Radius
-  static BorderRadius defaulBorderRadius =
-      BorderRadius.circular(AppSizes.defaultRadius);
+  /// Default Radius
+  static const double radius = 20.00;
+
+  /// Default Padding
+  static const double padding = 20.00;
+
+  /// Default Margin
+  static const double margin = 20.00;
+
+  /// Used For Border Radius Default
+  static BorderRadius borderRadius = BorderRadius.circular(radius);
 
   /// Used For Bottom Sheet
-  static BorderRadius defaultBottomSheetRadius = const BorderRadius.only(
-    topLeft: Radius.circular(AppSizes.defaultRadius),
-    topRight: Radius.circular(AppSizes.defaultRadius),
+  static BorderRadius bottomSheetRadius = const BorderRadius.only(
+    topLeft: Radius.circular(radius),
+    topRight: Radius.circular(radius),
   );
 
   /// Used For Top Sheet
-  static BorderRadius defaultTopSheetRadius = const BorderRadius.only(
-    bottomLeft: Radius.circular(AppSizes.defaultRadius),
-    bottomRight: Radius.circular(AppSizes.defaultRadius),
+  static BorderRadius topSheetRadius = const BorderRadius.only(
+    bottomLeft: Radius.circular(radius),
+    bottomRight: Radius.circular(radius),
   );
 
   /// Default Box Shadow used for containers
-  static List<BoxShadow> defaultBoxShadow = [
+  static List<BoxShadow> boxShadow = [
     BoxShadow(
       blurRadius: 10,
       spreadRadius: 0,
@@ -29,5 +35,5 @@ class AppDefaults {
     ),
   ];
 
-  static Duration defaultDuration = const Duration(milliseconds: 250);
+  static Duration duration = const Duration(milliseconds: 250);
 }

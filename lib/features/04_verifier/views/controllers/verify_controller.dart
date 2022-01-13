@@ -2,8 +2,6 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:typed_data';
 
-import '../../../05_members/data/repository/attendance_repo.dart';
-import '../../../06_spaces/views/controllers/space_controller.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:retry/retry.dart';
@@ -12,10 +10,12 @@ import '../../../../core/app/controllers/core_controller.dart';
 import '../../../../core/auth/controllers/login_controller.dart';
 import '../../../../core/data/services/app_photo.dart';
 import '../../../../core/models/member.dart';
-import '../../../02_entrypoint/entrypoint.dart';
-import '../../../05_members/views/controllers/member_controller.dart';
-import '../../../07_settings/views/controllers/app_admin_controller.dart';
 import '../../../../core/native_bridge/native_functions.dart';
+import '../../../02_entrypoint/entrypoint.dart';
+import '../../../05_members/data/repository/attendance_repo.dart';
+import '../../../05_members/views/controllers/member_controller.dart';
+import '../../../06_spaces/views/controllers/space_controller.dart';
+import '../../../07_settings/views/controllers/app_admin_controller.dart';
 import '../pages/static_verifier_page.dart';
 import 'user_serial_keeper.dart';
 

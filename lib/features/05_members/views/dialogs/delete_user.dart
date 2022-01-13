@@ -33,7 +33,7 @@ class _DeleteUserDialogState extends State<DeleteUserDialog> {
   Widget build(BuildContext context) {
     return Dialog(
       shape: RoundedRectangleBorder(
-        borderRadius: AppDefaults.defaulBorderRadius,
+        borderRadius: AppDefaults.borderRadius,
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -52,7 +52,7 @@ class _DeleteUserDialogState extends State<DeleteUserDialog> {
           ),
           Container(
             padding: const EdgeInsets.all(
-              AppSizes.defaultPadding,
+              AppDefaults.padding,
             ),
             child: Column(
               children: [

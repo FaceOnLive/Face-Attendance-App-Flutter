@@ -5,7 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 
 import '../../../../core/auth/controllers/login_controller.dart';
-import '../../../../core/data/helpers/app_toast.dart';
+import '../../../../core/utils/app_toast.dart';
 import '../../../../core/data/services/upload_picture.dart';
 import '../../../../core/models/user.dart';
 

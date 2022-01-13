@@ -108,14 +108,11 @@ class MemberRepositoryImpl extends MemberRepository {
       DocumentSnapshot _docSnapShot =
           await appMemberCollection.doc(adminID).get();
 
-      // Convert it
-      Map<String, dynamic> _allMemberIDs =
-          _docSnapShot.data() as Map<String, dynamic>;
+      if (_docSnapShot.exists) {
+        // Convert it
+        Map<String, dynamic> _allMemberIDs =
+            _docSnapShot.data() as Map<String, dynamic>;
 
-      // Check for null
-      if (_allMemberIDs.isEmpty) {
-        throw Exception();
-      } else {
         /// Member ID in String
         List<String> _memberIDs =
             List<String>.from(_allMemberIDs['appMembers']);

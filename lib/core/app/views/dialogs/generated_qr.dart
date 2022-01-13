@@ -20,11 +20,11 @@ class GenerateQRDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return Dialog(
       shape: RoundedRectangleBorder(
-        borderRadius: AppDefaults.defaulBorderRadius,
+        borderRadius: AppDefaults.borderRadius,
       ),
       backgroundColor: context.theme.scaffoldBackgroundColor,
       child: Container(
-        padding: const EdgeInsets.all(AppSizes.defaultPadding / 2),
+        padding: const EdgeInsets.all(AppDefaults.padding / 2),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [

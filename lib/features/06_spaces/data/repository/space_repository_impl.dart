@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 
-import '../../../../core/data/helpers/app_toast.dart';
 import '../../../../core/error/failure.dart';
 import '../../../../core/models/space.dart';
+import '../../../../core/utils/app_toast.dart';
 import 'space_repository.dart';
 
 class SpaceRepositoryImpl extends SpaceRepository {

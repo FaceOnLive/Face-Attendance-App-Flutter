@@ -5,7 +5,16 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../../constants/constants.dart';
 import 'core_controller.dart';
 
+/// The map is bound to hongkong only
+/// so user can't select outside of hongkong boundaries
+/// you can give your desired location on the bound property.
 class AppMapController extends GetxController {
+  final double? spaceLat;
+  final double? spaceLon;
+  final double? spaceRadius;
+
+  AppMapController({this.spaceLat, this.spaceLon, this.spaceRadius});
+
   // Map Controller
   late GoogleMapController _googleMapController;
 
@@ -18,10 +27,17 @@ class AppMapController extends GetxController {
   // When map is created
   onMapCreated(GoogleMapController controller, BuildContext context) async {
     _googleMapController = controller;
-    currentLon = initialCameraPostion.target.longitude;
-    currentLat = initialCameraPostion.target.latitude;
+    if (spaceLat != null && spaceLon != null && spaceRadius != null) {
+      currentLat = spaceLat!;
+      currentLon = spaceLon!;
+      updateCircleRadius(spaceRadius! / 200);
+    } else {
+      currentLon = initialCameraPostion.target.longitude;
+      currentLat = initialCameraPostion.target.latitude;
+      updateCircleRadius(0.5);
+    }
     await _setMapInDarkMode(controller, context);
-    updateCircleRadius(0.5);
+
     update();
   }
 
@@ -110,12 +126,6 @@ class AppMapController extends GetxController {
   changeMapType(MapType _value) {
     mapType = _value;
     update();
-  }
-
-  /// On Forward Button
-  onForward() {
-    print("Radius: ${allCircles.first.radius}");
-    print("Center: ${allCircles.first.center.toString()}");
   }
 
   @override

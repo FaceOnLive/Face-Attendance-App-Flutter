@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+/// Used in main page to see user log, this is also responsible for
+/// today attendance maintanance
 class LogMessage {
   String message;
   bool isAnError;

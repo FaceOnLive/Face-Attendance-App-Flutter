@@ -1,26 +1,19 @@
 {
   "project_info": {
     "project_number": "806724864097",
+    "firebase_url": "https://face-attendance-dcec9-default-rtdb.firebaseio.com",
     "project_id": "face-attendance-dcec9",
     "storage_bucket": "face-attendance-dcec9.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:806724864097:android:18f53fce2aa9ad83c90220",
+        "mobilesdk_app_id": "1:806724864097:android:b8bac05c56fda859c90220",
         "android_client_info": {
-          "package_name": "com.abdulmomin.face_attendance"
+          "package_name": "com.ttv.faceattendance"
         }
       },
       "oauth_client": [
-        {
-          "client_id": "806724864097-b7gpf62kd0jiqfvv0f8uuqi2jgqbq2g5.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.abdulmomin.face_attendance",
-            "certificate_hash": "aba0cf0e4e81e65bc6931db76e321d3974e42218"
-          }
-        },
         {
           "client_id": "806724864097-3tuidlb9q49d1dt7fugeo1ueu0t15h8u.apps.googleusercontent.com",
           "client_type": 3

@@ -1,23 +1,23 @@
-import 'package:face_attendance/core/auth/controllers/login_controller.dart';
+import 'package:face_attendance/features/02_entrypoint/entrypoint.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../../core/auth/controllers/login_controller.dart';
 import '../../../../core/constants/constants.dart';
-import '../../../../core/data/helpers/form_verify.dart';
 import '../../../../core/models/space.dart';
 import '../../../../core/themes/text.dart';
+import '../../../../core/utils/form_verify.dart';
 import '../controllers/space_controller.dart';
-import 'spaces.dart';
 
-class SpaceCreateScreen extends StatefulWidget {
-  const SpaceCreateScreen({Key? key}) : super(key: key);
+class SpaceCreatePage extends StatefulWidget {
+  const SpaceCreatePage({Key? key}) : super(key: key);
 
   @override
-  _SpaceCreateScreenState createState() => _SpaceCreateScreenState();
+  _SpaceCreatePageState createState() => _SpaceCreatePageState();
 }
 
-class _SpaceCreateScreenState extends State<SpaceCreateScreen> {
+class _SpaceCreatePageState extends State<SpaceCreatePage> {
   /* <---- Dependecny -----> */
   final SpaceController _controller = Get.find();
 
@@ -32,7 +32,8 @@ class _SpaceCreateScreenState extends State<SpaceCreateScreen> {
   final RxBool _isAdding = false.obs;
 
   /// When user Clicks Create Button
-  _onSubmitButtonClicked() async {
+  Future<void> _onSubmitButtonClicked() async {
+    String _ownerID = Get.find<LoginController>().user!.uid;
     try {
       _isAdding.trigger(true);
       await _controller.addSpace(
@@ -42,11 +43,10 @@ class _SpaceCreateScreenState extends State<SpaceCreateScreen> {
           memberList: [],
           appMembers: [],
           spaceID: '',
-          ownerUID: Get.find<LoginController>().user!.uid,
+          ownerUID: _ownerID,
         ),
       );
-      Get.back();
-      Get.to(() => const SpacesScreen());
+      Get.offAll(() => const EntryPointUI());
       _isAdding.trigger(false);
     } on FirebaseException catch (e) {
       _isAdding.trigger(false);
@@ -67,6 +67,7 @@ class _SpaceCreateScreenState extends State<SpaceCreateScreen> {
   void dispose() {
     _nameController.dispose();
     _selectedIcon.close();
+    _isAdding.close();
     super.dispose();
   }
 
@@ -88,7 +89,7 @@ class _SpaceCreateScreenState extends State<SpaceCreateScreen> {
           GetBuilder<SpaceController>(
             builder: (_) {
               return Container(
-                margin: const EdgeInsets.all(AppSizes.defaultMargin),
+                margin: const EdgeInsets.all(AppDefaults.margin),
                 child: TextField(
                   decoration: InputDecoration(
                     prefixIcon: const Icon(Icons.assignment),
@@ -108,7 +109,7 @@ class _SpaceCreateScreenState extends State<SpaceCreateScreen> {
           /* <---- Icon Selector ----> */
           Container(
             margin: const EdgeInsets.symmetric(
-              horizontal: AppSizes.defaultMargin,
+              horizontal: AppDefaults.margin,
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -190,7 +191,7 @@ class _CustomBottomActionButton extends StatelessWidget {
         alignment: Alignment.center,
         decoration: BoxDecoration(
           color: AppColors.primaryColor,
-          borderRadius: AppDefaults.defaultBottomSheetRadius,
+          borderRadius: AppDefaults.bottomSheetRadius,
         ),
         height: Get.height * 0.1,
         child: isLoading
@@ -226,12 +227,12 @@ class _SelectIconWidget extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: AnimatedContainer(
-        duration: AppDefaults.defaultDuration,
+        duration: AppDefaults.duration,
         margin: const EdgeInsets.symmetric(horizontal: 5),
-        padding: const EdgeInsets.all(AppSizes.defaultPadding),
+        padding: const EdgeInsets.all(AppDefaults.padding),
         decoration: BoxDecoration(
             color: active ? AppColors.primaryColor : Get.theme.canvasColor,
-            borderRadius: AppDefaults.defaulBorderRadius,
+            borderRadius: AppDefaults.borderRadius,
             border: Border.all(
               color: AppColors.primaryColor,
             )),

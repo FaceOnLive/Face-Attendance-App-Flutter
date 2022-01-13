@@ -1,3 +1,8 @@
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+import '../../../../core/constants/constants.dart';
 import '../../../../core/models/member.dart';
 import '../../../../core/models/space.dart';
 import '../../../../core/widgets/app_button.dart';
@@ -5,11 +10,6 @@ import '../../../../core/widgets/member_image_leading.dart';
 import '../../../03_attendance/views/components/components.dart';
 import '../../../05_members/views/controllers/member_controller.dart';
 import '../controllers/space_controller.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-
-import '../../../../core/constants/constants.dart';
 
 class SpaceMemberRemoveScreen extends StatefulWidget {
   const SpaceMemberRemoveScreen({Key? key, required this.space})
@@ -116,7 +116,7 @@ class _SpaceMemberRemoveScreenState extends State<SpaceMemberRemoveScreen> {
               Obx(() => AppButton(
                     disableBorderRadius: true,
                     margin: const EdgeInsets.all(0),
-                    padding: const EdgeInsets.all(AppSizes.defaultPadding),
+                    padding: const EdgeInsets.all(AppDefaults.padding),
                     label: 'Remove',
                     isLoading: _isRemovingMember.value,
                     backgroundColor: AppColors.appRed,
@@ -169,7 +169,7 @@ class _EmptyMemberList extends StatelessWidget {
             child: Image.asset(AppImages.illustrationMemberEmpty),
           ),
           AppSizes.hGap20,
-          const Text('There is no one to add'),
+          const Text('There is no one to remove'),
         ],
       ),
     );

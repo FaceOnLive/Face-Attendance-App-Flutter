@@ -6,18 +6,13 @@ import '../../../../core/themes/text.dart';
 import '../../../core/models/space.dart';
 import '../../../features/06_spaces/views/pages/space_info.dart';
 import '../../core/controllers/app_member_space.dart';
-import 'join_qr_code.dart';
+import '../views/join_qr_code_page.dart';
 
-class AppMemberDropDown extends StatefulWidget {
+class AppMemberDropDown extends StatelessWidget {
   const AppMemberDropDown({
     Key? key,
   }) : super(key: key);
 
-  @override
-  State<AppMemberDropDown> createState() => _AppMemberDropDownState();
-}
-
-class _AppMemberDropDownState extends State<AppMemberDropDown> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -33,17 +28,17 @@ class _AppMemberDropDownState extends State<AppMemberDropDown> {
                 border: Border.all(
                   color: context.theme.primaryColor,
                 ),
-                borderRadius: AppDefaults.defaulBorderRadius,
+                borderRadius: AppDefaults.borderRadius,
               ),
               child: GetBuilder<AppMemberSpaceController>(
                 builder: (controller) {
                   if (controller.isFetchingSpaces) {
                     return const SizedBox(
-                      height: 50,
+                      height: 30,
                       child: LinearProgressIndicator(),
                     );
                   } else if (controller.allSpaces.isEmpty) {
-                    return const SizedBox();
+                    return const _JoinNewSpaceButton();
                   } else {
                     return DropdownButton<String>(
                       isExpanded: true,
@@ -78,7 +73,7 @@ class _AppMemberDropDownState extends State<AppMemberDropDown> {
                         },
                       ),
                       value: controller.currentSpace!.name.toLowerCase(),
-                      onChanged: (String? s) {},
+                      onChanged: controller.onSpaceDropDownChange,
                     );
                   }
                 },
@@ -90,7 +85,7 @@ class _AppMemberDropDownState extends State<AppMemberDropDown> {
           // Space Join QR Button
           IconButton(
             onPressed: () {
-              Get.to(() => const AppMemberJoinQRCODE());
+              Get.to(() => const AppMemberJoinQRCODEPage());
             },
             icon: const Icon(
               Icons.qr_code_scanner_rounded,
@@ -111,7 +106,7 @@ class _JoinNewSpaceButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => Get.to(() => const AppMemberJoinQRCODE()),
+      onTap: () => Get.to(() => const AppMemberJoinQRCODEPage()),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [

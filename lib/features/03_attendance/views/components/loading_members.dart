@@ -30,7 +30,7 @@ class LoadingMembers extends StatelessWidget {
                   Container(
                     decoration: BoxDecoration(
                       color: Colors.white,
-                      borderRadius: AppDefaults.defaulBorderRadius,
+                      borderRadius: AppDefaults.borderRadius,
                     ),
                     child: Text(
                       'Hello Testge g',
@@ -46,7 +46,7 @@ class LoadingMembers extends StatelessWidget {
                   Container(
                     decoration: BoxDecoration(
                       color: Colors.white,
-                      borderRadius: AppDefaults.defaulBorderRadius,
+                      borderRadius: AppDefaults.borderRadius,
                     ),
                     child: const Text('+852 XXXX XXXXgegege g'),
                   ),

@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get/get.dart';
 
-import '../../data/helpers/app_toast.dart';
+import '../../utils/app_toast.dart';
 import '../../models/user.dart';
 import '../views/dialogs/email_sent.dart';
 import '../views/pages/email_not_verified_page.dart';

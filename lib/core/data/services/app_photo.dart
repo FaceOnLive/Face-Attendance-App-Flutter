@@ -15,7 +15,10 @@ class AppPhotoService {
     File? _image;
     final picker = ImagePicker();
 
-    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    final pickedFile = await picker.pickImage(
+      source: ImageSource.gallery,
+      imageQuality: 50,
+    );
 
     if (pickedFile != null) {
       _image = await _goToImageCropper(File(pickedFile.path));
@@ -30,7 +33,10 @@ class AppPhotoService {
     File? _image;
     final picker = ImagePicker();
 
-    final pickedFile = await picker.pickImage(source: ImageSource.camera);
+    final pickedFile = await picker.pickImage(
+      source: ImageSource.camera,
+      imageQuality: 50,
+    );
 
     if (pickedFile != null) {
       _image = await _goToImageCropper(File(pickedFile.path));
@@ -60,7 +66,7 @@ class AppPhotoService {
   }
 
   /// Gives a File From an url
-  /// If the file is in cache it will priotize that
+  /// If the file is in cache you will get the cached file
   static Future<File> fileFromImageUrl(String imageUrl) async {
     File? _gotImage;
 
@@ -80,7 +86,7 @@ class AppPhotoService {
       };
 
       File _file =
-          await Executor().execute(fun1: writeFileToDiskIsolated, arg1: data);
+          await Executor().execute(fun1: _writeFileToDiskIsolated, arg1: data);
 
       _gotImage = _file;
     }
@@ -88,7 +94,8 @@ class AppPhotoService {
     return _gotImage;
   }
 
-  static Future<File> writeFileToDiskIsolated(Map<String, dynamic> data) async {
+  static Future<File> _writeFileToDiskIsolated(
+      Map<String, dynamic> data) async {
     File _theFile = File(data['path'] + 'imagetest');
     _theFile.writeAsBytes(data['response']);
     return _theFile;

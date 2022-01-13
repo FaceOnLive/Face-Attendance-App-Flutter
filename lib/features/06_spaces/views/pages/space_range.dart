@@ -1,3 +1,8 @@
+import 'package:face_attendance/core/models/space.dart';
+import 'package:face_attendance/core/utils/app_toast.dart';
+import 'package:face_attendance/features/02_entrypoint/entrypoint.dart';
+import 'package:face_attendance/features/06_spaces/views/controllers/space_controller.dart';
+
 import '../../../../core/app/controllers/map_controller.dart';
 import '../../../../core/widgets/app_button.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +12,9 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../../../../core/constants/constants.dart';
 
 class SpaceRangeScreen extends StatelessWidget {
-  const SpaceRangeScreen({Key? key}) : super(key: key);
+  const SpaceRangeScreen(this.space, {Key? key}) : super(key: key);
+
+  final Space space;
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +24,11 @@ class SpaceRangeScreen extends StatelessWidget {
       ),
       // extendBodyBehindAppBar: true,
       body: GetBuilder<AppMapController>(
-        init: AppMapController(),
+        init: AppMapController(
+          spaceLat: space.spaceLat,
+          spaceLon: space.spaceLon,
+          spaceRadius: space.spaceRadius,
+        ),
         builder: (controller) {
           return Column(
             children: [
@@ -94,7 +105,34 @@ class SpaceRangeScreen extends StatelessWidget {
               _BottomLatLn(
                 currentLat: controller.currentLat,
                 currentLon: controller.currentLon,
-                onForwardButton: () {},
+                onForwardButton: () async {
+                  double _selectedLat = controller.currentLat;
+                  double _selectedLon = controller.currentLon;
+                  double _selectedRadius = controller.defaultRadius;
+                  final spaceController = Get.find<SpaceController>();
+
+                  Get.showOverlay(
+                    asyncFunction: () async {
+                      await spaceController.editSpace(
+                        space: Space(
+                          name: space.name,
+                          icon: space.icon,
+                          memberList: space.memberList,
+                          appMembers: space.appMembers,
+                          ownerUID: space.ownerUID,
+                          spaceID: space.spaceID,
+                          spaceLat: _selectedLat,
+                          spaceLon: _selectedLon,
+                          spaceRadius: _selectedRadius,
+                        ),
+                      );
+                    },
+                    loadingWidget:
+                        const Center(child: CircularProgressIndicator()),
+                  );
+                  AppToast.showDefaultToast("Range is updated");
+                  Get.offAll(() => const EntryPointUI());
+                },
               ),
             ],
           );

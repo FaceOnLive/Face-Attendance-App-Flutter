@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 
 import '../../../../core/constants/constants.dart';
 import '../../../../core/utils/ui_helper.dart';
-import '../../../data/helpers/form_verify.dart';
+import '../../../utils/form_verify.dart';
 import '../../../widgets/app_button.dart';
 import '../../controllers/signup_controller.dart';
 import '../dialogs/we_received_your_request.dart';
@@ -47,7 +47,7 @@ class _RegisterAsAdminPageState extends State<RegisterAsAdminPage> {
   Future<void> _onCreateUser() async {
     bool _isFormOkay = _formKey.currentState!.validate();
     if (_isFormOkay) {
-      AppUiHelper.dismissKeyboard(context: context);
+      AppUiUtil.dismissKeyboard(context: context);
       _isSendingData.trigger(true);
 
       try {
@@ -98,8 +98,8 @@ class _RegisterAsAdminPageState extends State<RegisterAsAdminPage> {
               Form(
                 key: _formKey,
                 child: Container(
-                  margin: const EdgeInsets.all(AppSizes.defaultMargin),
-                  padding: const EdgeInsets.all(AppSizes.defaultMargin),
+                  margin: const EdgeInsets.all(AppDefaults.margin),
+                  padding: const EdgeInsets.all(AppDefaults.margin),
                   child: Column(
                     children: [
                       // Full Name

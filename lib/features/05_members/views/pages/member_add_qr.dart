@@ -24,6 +24,17 @@ class _MemberAddQrScreenState extends State<MemberAddQrScreen> {
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
   Barcode? result;
   late QRViewController controller;
+  CameraFacing _currentCameraFace = CameraFacing.back;
+
+  void changeCameraFace() {
+    setState(() {
+      if (_currentCameraFace == CameraFacing.back) {
+        _currentCameraFace = CameraFacing.front;
+      } else {
+        _currentCameraFace = CameraFacing.back;
+      }
+    });
+  }
 
   // In order to get hot reload to work we need to pause the camera if the platform
   // is android, or resume the camera if the platform is iOS.
@@ -47,13 +58,28 @@ class _MemberAddQrScreenState extends State<MemberAddQrScreen> {
         children: <Widget>[
           Expanded(
             flex: 6,
-            child: QRView(
-              key: qrKey,
-              onQRViewCreated: _onQRViewCreated,
-              overlay: QrScannerOverlayShape(
-                borderColor: AppColors.primaryColor,
-                borderWidth: 3.0,
-              ),
+            child: Stack(
+              children: [
+                QRView(
+                  key: qrKey,
+                  onQRViewCreated: _onQRViewCreated,
+                  overlay: QrScannerOverlayShape(
+                    borderColor: AppColors.primaryColor,
+                    borderWidth: 3.0,
+                  ),
+                  cameraFacing: _currentCameraFace,
+                ),
+                Positioned(
+                  top: 16,
+                  right: 16,
+                  child: FloatingActionButton(
+                    onPressed: () {},
+                    child: const Icon(Icons.switch_camera_rounded),
+                    backgroundColor: AppColors.primaryColor,
+                    foregroundColor: Colors.white,
+                  ),
+                )
+              ],
             ),
           ),
           Expanded(
@@ -75,7 +101,8 @@ class _MemberAddQrScreenState extends State<MemberAddQrScreen> {
     await this.controller.flipCamera();
     controller.scannedDataStream.listen((scanData) {
       controller.stopCamera();
-      String decryptedData = AppAlgo.decrypt(scanData.code ?? 'Nothing');
+      String decryptedData =
+          AppAlgorithmUtil.decrypt(scanData.code ?? 'Nothing');
       Get.dialog(
         _AddingUserQRCodeDialog(userID: decryptedData),
         barrierDismissible: false,
@@ -128,7 +155,7 @@ class _AddingUserQRCodeDialogState extends State<_AddingUserQRCodeDialog> {
   Widget build(BuildContext context) {
     return Dialog(
       shape: RoundedRectangleBorder(
-        borderRadius: AppDefaults.defaulBorderRadius,
+        borderRadius: AppDefaults.borderRadius,
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -147,7 +174,7 @@ class _AddingUserQRCodeDialogState extends State<_AddingUserQRCodeDialog> {
           ),
           Container(
             padding: const EdgeInsets.all(
-              AppSizes.defaultPadding,
+              AppDefaults.padding,
             ),
             child: Column(
               children: [

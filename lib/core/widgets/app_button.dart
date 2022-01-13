@@ -43,10 +43,10 @@ class AppButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: isLoading || isButtonDisabled ? null : onTap,
-      borderRadius: AppDefaults.defaulBorderRadius,
+      borderRadius: AppDefaults.borderRadius,
       child: AnimatedContainer(
         height: height,
-        duration: AppDefaults.defaultDuration,
+        duration: AppDefaults.duration,
         margin: margin ?? const EdgeInsets.all(8),
         alignment: Alignment.center,
         padding:
@@ -55,8 +55,7 @@ class AppButton extends StatelessWidget {
           color: isButtonDisabled
               ? Colors.grey
               : backgroundColor ?? context.theme.primaryColor,
-          borderRadius:
-              disableBorderRadius ? null : AppDefaults.defaulBorderRadius,
+          borderRadius: disableBorderRadius ? null : AppDefaults.borderRadius,
         ),
         width: width,
         child: isLoading
@@ -128,10 +127,10 @@ class AppButtonOutline extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onTap,
-      borderRadius: AppDefaults.defaulBorderRadius,
+      borderRadius: AppDefaults.borderRadius,
       child: AnimatedContainer(
         height: height,
-        duration: AppDefaults.defaultDuration,
+        duration: AppDefaults.duration,
         margin: margin ?? const EdgeInsets.all(8),
         alignment: Alignment.center,
         padding: padding ??
@@ -141,7 +140,7 @@ class AppButtonOutline extends StatelessWidget {
             ),
         decoration: BoxDecoration(
           color: Get.theme.canvasColor,
-          borderRadius: AppDefaults.defaulBorderRadius,
+          borderRadius: AppDefaults.borderRadius,
           border: Border.all(
             color: color ?? context.theme.primaryColor,
           ),
@@ -198,7 +197,7 @@ class CircleIconButton extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.all(AppSizes.defaultPadding - 8),
+        padding: const EdgeInsets.all(AppDefaults.padding - 8),
         decoration: const BoxDecoration(
           shape: BoxShape.circle,
           color: AppColors.primaryColor,

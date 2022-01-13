@@ -31,7 +31,7 @@ class _DeleteSpaceDialog extends State<DeleteSpaceDialog> {
   Widget build(BuildContext context) {
     return Dialog(
       shape: RoundedRectangleBorder(
-        borderRadius: AppDefaults.defaulBorderRadius,
+        borderRadius: AppDefaults.borderRadius,
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -50,7 +50,7 @@ class _DeleteSpaceDialog extends State<DeleteSpaceDialog> {
           ),
           Container(
             padding: const EdgeInsets.all(
-              AppSizes.defaultPadding,
+              AppDefaults.padding,
             ),
             child: Column(
               children: [

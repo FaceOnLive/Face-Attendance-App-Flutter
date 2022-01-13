@@ -1,9 +1,11 @@
-import 'package:face_attendance/core/auth/controllers/login_controller.dart';
-import 'package:face_attendance/core/constants/constants.dart';
-import 'package:face_attendance/core/themes/text.dart';
-import 'package:face_attendance/core/widgets/app_button.dart';
+import 'package:face_attendance/core/auth/views/pages/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+import '../../../constants/constants.dart';
+import '../../../themes/text.dart';
+import '../../../widgets/app_button.dart';
+import '../../controllers/login_controller.dart';
 
 class EmailNotVerifiedPage extends StatelessWidget {
   const EmailNotVerifiedPage({Key? key}) : super(key: key);
@@ -14,12 +16,15 @@ class EmailNotVerifiedPage extends StatelessWidget {
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: const CircleAvatar(
-          backgroundImage: AssetImage(AppImages.mainLogo),
+          backgroundImage: AssetImage(AppImages.logo2),
           backgroundColor: Colors.white,
         ),
         actions: [
           IconButton(
-            onPressed: () => Get.find<LoginController>().logOut(),
+            onPressed: () {
+              Get.find<LoginController>().logOut();
+              Get.offAll(() => const LoginPage());
+            },
             icon: const Icon(Icons.logout_rounded, color: Colors.red),
           )
         ],
@@ -34,7 +39,7 @@ class EmailNotVerifiedPage extends StatelessWidget {
               Image.asset(AppImages.illustrationNoAttend),
               AppSizes.hGap15,
               Text(
-                'Your email has not been verified',
+                'Please verify your email',
                 style: AppText.h6.copyWith(
                   fontWeight: FontWeight.bold,
                   color: Colors.red,
@@ -42,7 +47,7 @@ class EmailNotVerifiedPage extends StatelessWidget {
               ),
               AppSizes.hGap15,
               Text(
-                'Please check your email inbox or spam folder',
+                'Check your email inbox or spam folder',
                 style: AppText.caption,
               ),
               const Spacer(),

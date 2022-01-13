@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 
-/// To Make a clean look at code. These are all theme specific style
+/// TextTheme used for the whole app
 class AppText {
-  // For easy access on the code
-
   static TextStyle get b1 => Get.theme.textTheme.bodyText1!;
   static TextStyle get b2 => Get.textTheme.bodyText2!;
 

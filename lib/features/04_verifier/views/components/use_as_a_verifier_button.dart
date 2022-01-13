@@ -1,8 +1,9 @@
-import 'package:face_attendance/core/constants/constants.dart';
-import 'package:face_attendance/core/themes/text.dart';
-import 'package:face_attendance/features/04_verifier/views/dialogs/static_verifier_sheet_lock.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+import '../../../../core/constants/constants.dart';
+import '../../../../core/themes/text.dart';
+import '../dialogs/static_verifier_sheet_lock.dart';
 
 class UseAsAVerifierButton extends StatelessWidget {
   const UseAsAVerifierButton({
@@ -25,15 +26,15 @@ class UseAsAVerifierButton extends StatelessWidget {
       },
       child: Container(
         width: Get.width,
-        padding: const EdgeInsets.all(AppSizes.defaultPadding),
+        padding: const EdgeInsets.all(AppDefaults.padding),
         margin: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
         decoration: BoxDecoration(
           color: AppColors.primaryColor,
           borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(AppSizes.defaultRadius),
-            topRight: Radius.circular(AppSizes.defaultRadius),
+            topLeft: Radius.circular(AppDefaults.radius),
+            topRight: Radius.circular(AppDefaults.radius),
           ),
-          boxShadow: AppDefaults.defaultBoxShadow,
+          boxShadow: AppDefaults.boxShadow,
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,

@@ -29,11 +29,11 @@ class _ChangeHolidaySheetState extends State<ChangeHolidaySheet> {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(
-        AppSizes.defaultPadding,
+        AppDefaults.padding,
       ),
       decoration: BoxDecoration(
         color: Get.theme.canvasColor,
-        borderRadius: AppDefaults.defaultBottomSheetRadius,
+        borderRadius: AppDefaults.bottomSheetRadius,
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,

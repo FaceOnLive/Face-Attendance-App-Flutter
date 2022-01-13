@@ -29,20 +29,19 @@ class AppCustomListTile extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
       child: InkWell(
-        borderRadius: AppDefaults.defaulBorderRadius,
+        borderRadius: AppDefaults.borderRadius,
         splashColor: AppColors.shimmerHighlightColor,
         onTap: onTap,
         child: Container(
           margin: const EdgeInsets.symmetric(
-              horizontal: AppSizes.defaultMargin,
-              vertical: AppSizes.defaultMargin / 2),
+              horizontal: AppDefaults.margin, vertical: AppDefaults.margin / 2),
           decoration: BoxDecoration(
-            boxShadow: AppDefaults.defaultBoxShadow,
+            boxShadow: AppDefaults.boxShadow,
             color: context.theme.cardColor,
-            borderRadius: AppDefaults.defaulBorderRadius,
+            borderRadius: AppDefaults.borderRadius,
           ),
           child: ListTile(
-            contentPadding: const EdgeInsets.all(AppSizes.defaultPadding / 2),
+            contentPadding: const EdgeInsets.all(AppDefaults.padding / 2),
             enabled: true,
             leading: leading ?? const Icon(Icons.person_rounded),
             title: Text(

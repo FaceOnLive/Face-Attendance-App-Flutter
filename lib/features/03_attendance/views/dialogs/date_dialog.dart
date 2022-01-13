@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../core/constants/constants.dart';
-import '../../../../core/data/helpers/date_helper.dart';
+import '../../../../core/utils/date_util.dart';
 import '../../../../core/models/member.dart';
 import '../../../../core/themes/text.dart';
 import '../../../../core/widgets/app_button.dart';
@@ -26,7 +26,7 @@ class DateInfoDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return Dialog(
       shape: RoundedRectangleBorder(
-        borderRadius: AppDefaults.defaulBorderRadius,
+        borderRadius: AppDefaults.borderRadius,
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -122,7 +122,7 @@ class __UpdateAttendaneState extends State<_UpdateAttendane> {
   @override
   void initState() {
     super.initState();
-    _isToday = DateHelper.compareDays(
+    _isToday = DateUtil.compareDays(
       date1: DateTime.now(),
       date2: widget.date,
     );
@@ -139,7 +139,7 @@ class __UpdateAttendaneState extends State<_UpdateAttendane> {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(
-        AppSizes.defaultPadding,
+        AppDefaults.padding,
       ),
       child: Column(
         children: [

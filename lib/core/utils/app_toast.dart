@@ -1,6 +1,8 @@
 import 'package:fluttertoast/fluttertoast.dart';
 
+/// Shows a toast in android
 class AppToast {
+  /// Shows a toast with the message in android
   static void showDefaultToast(String shortMessage) {
     Fluttertoast.showToast(
         msg: shortMessage,

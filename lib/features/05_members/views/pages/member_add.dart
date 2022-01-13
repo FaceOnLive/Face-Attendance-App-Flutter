@@ -1,11 +1,11 @@
 import 'dart:io';
 
-import 'package:face_attendance/core/data/helpers/app_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../../core/constants/constants.dart';
-import '../../../../core/data/helpers/form_verify.dart';
+import '../../../../core/utils/app_toast.dart';
+import '../../../../core/utils/form_verify.dart';
 import '../../../../core/utils/ui_helper.dart';
 import '../../../../core/widgets/app_button.dart';
 import '../../../../core/widgets/picture_display.dart';
@@ -56,7 +56,7 @@ class _MemberAddScreenState extends State<MemberAddScreen> {
     _addingMember.value = true;
     bool _isFormOkay = _formKey.currentState!.validate();
     if (_isFormOkay) {
-      AppUiHelper.dismissKeyboard(context: Get.context!);
+      AppUiUtil.dismissKeyboard(context: Get.context!);
       if (_userImage != null) {
         await _controller.addMember(
           name: _name.text,
@@ -64,12 +64,13 @@ class _MemberAddScreenState extends State<MemberAddScreen> {
           phoneNumber: int.parse(_phoneNumber.text),
           fullAddress: _fullAddress.text,
         );
+        Get.back();
+        _addingMember.value = false;
       } else {
         AppToast.showDefaultToast("Please add a picture");
+        _addingMember.value = false;
       }
-      Get.back();
     }
-    _addingMember.value = false;
   }
 
   @override
@@ -98,7 +99,7 @@ class _MemberAddScreenState extends State<MemberAddScreen> {
         child: SingleChildScrollView(
           child: Container(
             padding:
-                const EdgeInsets.symmetric(horizontal: AppSizes.defaultPadding),
+                const EdgeInsets.symmetric(horizontal: AppDefaults.padding),
             width: Get.width,
             child: Column(
               children: [

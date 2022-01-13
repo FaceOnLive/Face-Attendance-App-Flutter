@@ -14,7 +14,7 @@ import 'components/loading_app.dart';
 // ignore: use_key_in_widget_constructors
 class TuringTechApp extends StatelessWidget {
   // Needed for themes
-  final settings = Get.put(CoreController());
+  final core = Get.put(CoreController());
 
   @override
   Widget build(BuildContext context) {
@@ -22,11 +22,11 @@ class TuringTechApp extends StatelessWidget {
       title: 'Turing Tech',
       theme: AppThemes.lightTheme,
       darkTheme: AppThemes.darkTheme,
-      themeMode: settings.appThemeMode(),
+      themeMode: core.appThemeMode(),
       home: const AppRoot(),
       debugShowCheckedModeBanner: false,
       defaultTransition: Transition.cupertino,
-      // enableLog: false,
+      enableLog: false,
     );
   }
 }

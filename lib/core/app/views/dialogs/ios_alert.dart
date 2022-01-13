@@ -10,7 +10,7 @@ class IosAlertDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return Dialog(
       shape: RoundedRectangleBorder(
-        borderRadius: AppDefaults.defaulBorderRadius,
+        borderRadius: AppDefaults.borderRadius,
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -29,7 +29,7 @@ class IosAlertDialog extends StatelessWidget {
           ),
           Container(
             padding: const EdgeInsets.all(
-              AppSizes.defaultPadding,
+              AppDefaults.padding,
             ),
             child: Column(
               children: [

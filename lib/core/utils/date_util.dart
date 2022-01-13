@@ -1,6 +1,7 @@
 import 'package:intl/intl.dart';
 
-class DateHelper {
+/// Used for quick helping in datetime class
+class DateUtil {
   /// IF a date is same
   static bool compareDays({
     required DateTime date1,

@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:get/instance_manager.dart';
 
 import '../app/controllers/core_controller.dart';
-import '../data/helpers/app_toast.dart';
+import '../utils/app_toast.dart';
 
 class NativeSDKFunctions {
   static const MethodChannel _channel = MethodChannel('turingtech');

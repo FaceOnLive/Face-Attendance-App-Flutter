@@ -180,7 +180,7 @@ class CameraPausedWidget extends StatelessWidget {
         AppButton(
           label: 'Resume Camera',
           onTap: onResume,
-          margin: const EdgeInsets.all(AppSizes.defaultMargin),
+          margin: const EdgeInsets.all(AppDefaults.margin),
         )
       ],
     );
