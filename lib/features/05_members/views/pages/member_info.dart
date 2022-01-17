@@ -60,8 +60,7 @@ class MemberInfoScreen extends StatelessWidget {
             ],
           ),
           Chip(
-            label: Text(
-                member.isCustom ? 'Member is Custom' : 'A User of this app'),
+            label: Text(member.isCustom ? 'Custom Member' : 'App User'),
           ),
           member.isCustom
               ? AppButtonOutline(

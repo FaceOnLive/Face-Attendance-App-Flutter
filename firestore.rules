@@ -115,6 +115,7 @@ service cloud.firestore {
     
     /// Attendance Modification
     match /users/{userID}/attendance/{spaceID}/data/{year}{
+    allow create:  if isSpaceOwnerAttendance(spaceID, request.auth.uid) ||isAttendanceOwner(userID);
     allow read: if isSpaceOwnerAttendance(spaceID, request.auth.uid) ||isAttendanceOwner(userID);
     allow update: if isSpaceOwnerAttendance(spaceID, request.auth.uid) ||isAttendanceOwner(userID);
     allow delete: if isSpaceOwnerAttendance(spaceID, request.auth.uid);

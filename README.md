@@ -2,7 +2,7 @@
 
 An App Made with Face SDK
 
-<img src="cover_image.png">
+![cover_image](docs/github_cover.png)
 
 ## Before we get started
 - 👉  For now, Our app does support only Android platform (arm64).
@@ -10,7 +10,7 @@ An App Made with Face SDK
 - 👉  You will need a new AAR Library if you are creating this app on your own or changning the package name.
 
 - 🚀 If you are looking the code in a code editor.You can hover over it to see the info of a particular function or classes. 👇
-<img src="docs/hovering_over_class_or_functions.png">
+![hovering_over_functions](docs/hovering_over_class_or_functions.png)
 - 🙋🏽‍♂️ We are improving the codebase and trying to make it better,but you may see some legacy codes. 🔥
 
 
@@ -38,10 +38,10 @@ An App Made with Face SDK
 
 - Step-5: Get a Google Map SDK key from Google API [*if you want geolocatio based verification]
    - Follow the below steps [In Order]:<br>
-    <img src="docs/android_map_sdk.png" alignment="left"><br>
-    <img src="docs/tap_on_credentials.png"><br>
+    ![map_doc_1](docs/android_map_sdk.png)
+    ![map_doc_2](docs/tap_on_credentials.png)<br>
    - Tap on Create Credintials, after creating you will see something like this.
-    <img src="docs/map_api_key.png"><br>
+    ![map_doc_3](docs/map_api_key.png)<br>
    - Now add the google map api key *"android/app/src/main/AndroidManifest.xml"* in application tag
      ``` xml
      <meta-data android:name="com.google.android.geo.API_KEY"
@@ -57,7 +57,14 @@ An App Made with Face SDK
   
 - Step-7: Now open a emulator or connect a device with your development machine and open the code editor of your choice and You will see a run button on the **main.dart** file if you have installed flutter extension on vscode. if not then go to your project root directory and run **_flutter run_** from the terminal. It will build the apk and install the app on the device or emulator.
 
-### Common Errors :
+- Step-8: After everything has been setted up, copy and paste the code from **firestore.rules** to the Firebase firestore security rules. This file is included with the project.
+
+### How the data is structured: 
+![data_1](docs/database_visualization/face_attendance_data_1.png)
+![data_2](docs/database_visualization/face_attendance_data_2.png)
+![data_3](docs/database_visualization/face_attendance_data_3.png)
+
+### Common Errors you can get :
 - Error_1: If you see red lines or a lot problems in the debug/problems tab, just run **flutter pub get** in the terminal. This happens because on initial stage your projects doesn't have reference to the cached plugin.
 - Error_2: If you see init SDK (number) error (on debugging). just uninstall and reinstall the app. it will fix the issue.
 - Error_3: If you see some weird plugin errors run this command in terminal it will reset the plugin cache.
@@ -99,7 +106,7 @@ You can learn more about our sdk here **[faceonlive.com]**. We always encourage 
 > [Follow] this repo ❤️
 
 If you liked our project you can give a star to let us know. Thank you for your time. Have a great day. ❤️
-   
+
 
 <!-- REFERENCES -->
 [flutter]:https://docs.flutter.dev/get-started/install

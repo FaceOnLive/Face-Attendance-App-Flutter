@@ -8,6 +8,7 @@ import '../../../utils/form_verify.dart';
 import '../../../themes/text.dart';
 import '../../../widgets/app_button.dart';
 import '../../controllers/login_controller.dart';
+import 'login_page_face.dart';
 import 'register_as_admin_page.dart';
 import 'sign_up_page.dart';
 
@@ -91,11 +92,12 @@ class _LoginPageState extends State<LoginPage> {
       appBar: AppBar(
         leading: const SizedBox(),
         actions: const [
+          // Face Login Button
           // InkWell(
           //   onTap: () {
-          //     Get.to(() => const LoginScreenAlt());
+          //     Get.to(() => const LoginPageFace());
           //   },
-          //   borderRadius: AppDefaults.defaulBorderRadius,
+          //   borderRadius: AppDefaults.borderRadius,
           //   child: Padding(
           //     padding: const EdgeInsets.all(16.0),
           //     child: Image.asset(

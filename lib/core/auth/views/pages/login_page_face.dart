@@ -112,7 +112,7 @@ class _LoginPageFaceState extends State<LoginPageFace>
                       Column(
                         children: [
                           Text(
-                            'Login With Face Verification',
+                            'Face Login',
                             style: AppText.h5.copyWith(
                               fontWeight: FontWeight.bold,
                               color: AppColors.primaryColor,
