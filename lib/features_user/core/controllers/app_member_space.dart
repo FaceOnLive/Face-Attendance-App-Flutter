@@ -43,7 +43,7 @@ class AppMemberSpaceController extends GetxController {
     allSpaces = await _repository.getAllSpaces(userID: _currentUserID);
     print("Got ${allSpaces.length} spaces");
     if (allSpaces.isNotEmpty) {
-      currentSpace = SpaceLocalSource.getDefaultSpace(
+      currentSpace = await SpaceLocalSource.getDefaultSpace(
         fetchedSpaces: allSpaces,
         userID: _currentUserID,
       );

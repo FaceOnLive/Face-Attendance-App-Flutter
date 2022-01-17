@@ -315,6 +315,7 @@ class MembersController extends GetxController {
     _initializeRepositroy();
     await fetchMembersList();
     scrollController = ScrollController();
+    await Get.find<SpaceController>().refreshData();
     await Get.find<VerifyController>().onMemberListInitialized();
   }
 

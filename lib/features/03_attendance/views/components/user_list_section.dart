@@ -106,33 +106,7 @@ class AttendedUserListSection extends StatelessWidget {
 
                   /// Everything is alright
                   case SpaceViewState.isFetched:
-                    return Expanded(
-                      child: RefreshIndicator(
-                        onRefresh: () async {
-                          return await controller.refreshAll();
-                        },
-                        child: ListView.separated(
-                            itemCount: controller.filteredListMember.length,
-                            itemBuilder: (context, index) {
-                              Member _currentMember =
-                                  controller.filteredListMember[index];
-                              return MemberListTile(
-                                member: _currentMember,
-                                currentSpaceID:
-                                    controller.currentSpace!.spaceID!,
-                                attendedTime: controller.isMemberAttendedToday(
-                                  memberID: _currentMember.memberID!,
-                                ),
-                                fetchingTodaysLog: controller.fetchingTodaysLog,
-                              );
-                            },
-                            separatorBuilder: (context, index) {
-                              return const Divider(
-                                height: 7,
-                              );
-                            }),
-                      ),
-                    );
+                    return const UserListFetched();
 
                   default:
                     return const Text("Something error happened");
@@ -141,6 +115,41 @@ class AttendedUserListSection extends StatelessWidget {
             )
           ],
         ),
+      ),
+    );
+  }
+}
+
+class UserListFetched extends GetView<SpaceController> {
+  const UserListFetched({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: RefreshIndicator(
+        onRefresh: () async {
+          return await controller.refreshData();
+        },
+        child: ListView.separated(
+            itemCount: controller.filteredListMember.length,
+            itemBuilder: (context, index) {
+              Member _currentMember = controller.filteredListMember[index];
+              return MemberListTile(
+                member: _currentMember,
+                currentSpaceID: controller.currentSpace!.spaceID!,
+                attendedTime: controller.isMemberAttendedToday(
+                  memberID: _currentMember.memberID!,
+                ),
+                fetchingTodaysLog: controller.fetchingTodaysLog,
+              );
+            },
+            separatorBuilder: (context, index) {
+              return const Divider(
+                height: 7,
+              );
+            }),
       ),
     );
   }

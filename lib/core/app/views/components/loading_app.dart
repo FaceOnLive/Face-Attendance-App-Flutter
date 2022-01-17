@@ -4,8 +4,9 @@ import 'package:get/get.dart';
 import '../../../constants/constants.dart';
 
 class LoadingApp extends StatelessWidget {
-  /// When Starting the database and other services which is asynchronise,
-  /// this will give a user a feedback, so that user won't see a black screen.
+  /// When Starting the database and other services which is asynchronous,
+  /// this will give a user a full loading screen. Great way to let user know
+  /// somthing is happening behind the scene.
   const LoadingApp({
     Key? key,
   }) : super(key: key);

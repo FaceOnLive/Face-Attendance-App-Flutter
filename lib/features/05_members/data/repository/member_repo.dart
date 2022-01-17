@@ -204,9 +204,14 @@ class MemberRepositoryImpl extends MemberRepository {
   Future<Either<ServerFailure, void>> addAppMember(
       {required String userID, required String adminID}) async {
     try {
-      await appMemberCollection.doc(adminID).update({
-        'appMembers': FieldValue.arrayUnion([userID])
-      });
+      final _docRef = await appMemberCollection.doc(adminID).get();
+      if (_docRef.exists) {
+        _docRef.reference.update({});
+      } else {
+        _docRef.reference.set({
+          'appMembers': FieldValue.arrayUnion([userID])
+        });
+      }
       return const Right(null);
     } on FirebaseException catch (_) {
       return Left(ServerFailure(errorMessage: 'Failed To Add App Member'));

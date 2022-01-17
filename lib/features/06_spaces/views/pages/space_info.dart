@@ -1,4 +1,4 @@
-import 'package:face_attendance/features/05_members/views/pages/member_add_qr.dart';
+import '../../../05_members/views/pages/member_add_qr.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -8,7 +8,6 @@ import '../../../../core/models/space.dart';
 import '../../../../core/themes/text.dart';
 import '../../../../core/utils/encrypt_decrypt.dart';
 import '../../../../core/widgets/app_button.dart';
-import 'space_add_qr.dart';
 import 'space_edit.dart';
 import 'space_members.dart';
 import 'space_range.dart';

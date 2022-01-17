@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:face_attendance/core/utils/app_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
@@ -19,17 +20,6 @@ class _AppMemberJoinQRCODEPageState extends State<AppMemberJoinQRCODEPage> {
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
   Barcode? result;
   late QRViewController controller;
-  CameraFacing _currentCameraFace = CameraFacing.back;
-
-  void changeCameraFace() {
-    setState(() {
-      if (_currentCameraFace == CameraFacing.back) {
-        _currentCameraFace = CameraFacing.front;
-      } else {
-        _currentCameraFace = CameraFacing.back;
-      }
-    });
-  }
 
   // In order to get hot reload to work we need to pause the camera if the platform
   // is android, or resume the camera if the platform is iOS.
@@ -60,13 +50,14 @@ class _AppMemberJoinQRCODEPageState extends State<AppMemberJoinQRCODEPage> {
                     borderColor: AppColors.primaryColor,
                     borderWidth: 3.0,
                   ),
-                  cameraFacing: _currentCameraFace,
                 ),
                 Positioned(
                   top: 16,
                   right: 16,
                   child: FloatingActionButton(
-                    onPressed: () {},
+                    onPressed: () async {
+                      await controller.flipCamera();
+                    },
                     child: const Icon(Icons.switch_camera_rounded),
                     backgroundColor: AppColors.primaryColor,
                     foregroundColor: Colors.white,
@@ -89,9 +80,15 @@ class _AppMemberJoinQRCODEPageState extends State<AppMemberJoinQRCODEPage> {
   void _onQRViewCreated(QRViewController controller) {
     this.controller = controller;
     controller.scannedDataStream.listen((scanData) {
-      Get.find<AppMemberSpaceController>().joinNewSpaceByScan(
-        spaceIdEncrypted: scanData.code,
-      );
+      controller.stopCamera();
+      try {
+        Get.find<AppMemberSpaceController>().joinNewSpaceByScan(
+          spaceIdEncrypted: scanData.code,
+        );
+      } on Exception catch (_) {
+        AppToast.showDefaultToast(
+            "Oops! something error happened [QRVIEWCREATED]");
+      }
     });
   }
 

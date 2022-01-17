@@ -5,12 +5,12 @@ class SpaceLocalSource {
   /// Set Space ID to a Default Value or The one the user setted earlier
   /// If nothing is found then the first one will be setted as default
   /// And Saves it locally
-  static Space getDefaultSpace({
+  static Future<Space> getDefaultSpace({
     required List<Space> fetchedSpaces,
     required String userID,
-  }) {
+  }) async {
     Space? space;
-    String? savedSpaceID = getSavedSpaceID(userID: userID);
+    String? savedSpaceID = await getSavedSpaceID(userID: userID);
 
     print("Total Fetched Space: ${fetchedSpaces.length} ");
 
@@ -55,9 +55,9 @@ class SpaceLocalSource {
   /// Get Current Saved Space, IF there is nothing null will be returned
   /// We are saving the spaces in a key that also contains the user ID
   /// currentSpace + userID is the key, not the value
-  static String? getSavedSpaceID({required String userID}) {
+  static Future<String?> getSavedSpaceID({required String userID}) async {
     Box box = Hive.box(spaceBoxName);
-    String? _space = box.get(currentSpace + userID);
+    String? _space = await box.get(currentSpace + userID);
     return _space;
   }
 }

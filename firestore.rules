@@ -1,9 +1,56 @@
 rules_version = '2';
 service cloud.firestore {
 
+  ///////
+  // Global Functions
+  ///////
+  
+	// if this request is coming from super admin
+  function isSuperAdmin(){
+  	return request.auth.uid == 'super_admin_uid_here' && request.auth != null;
+  }
+	
+  // if the user is signed in
 	function isSignedIn(){
     return request.auth != null;
   }
+  
+  ///////
+  // Space
+  ///////
+  	
+  // if the request is coming from the space owner
+  function isSpaceOwner(){
+  	return request.auth.uid == request.resource.data.ownerUID && isSignedIn();
+  }
+  	
+  // if a space request is valid
+  function isValidSpace(){
+  return request.resource.data.keys().hasOnly(['appMembers', 'memberList', 'icon', 'name','ownerUID', 'spaceLat', 'spaceLon', 'spaceRadius']);
+  }
+  	
+  // When the users joins using QR Code
+  function isAddingTheUsersIDToSpace(){
+  return request.resource.data.diff(resource.data).affectedKeys().
+  hasOnly(['appMembers']) && isSignedIn();
+  }
+  
+  // This occurs when a space owner is modifying a users attendance data
+	
+	
+
+  ///////
+  // Users
+  ///////
+  
+  function isIdOwner(){
+  return request.resource.id == request.auth.uid;
+  }
+  
+  
+  ///////
+  // MetaData
+  ///////
   
   // If the requests match the request of Admin request
   function isRequestsFieldValid(){
@@ -11,14 +58,71 @@ service cloud.firestore {
       ['name', 'companyName', 'extraInfo', 'email', 'idToken']);
   }
 
+	
+  ///////
+  // Execution Starts HERE
+  ///////
+
   match /databases/{database}/documents {
+  
+  	// We are restricting the database here
     match /{document=**} {
     /// This is only for debugging the final version will contain all the security rules;
-      allow read, write: if isSignedIn();
+      allow read, write: if isSuperAdmin();
+    }
+  	
+    // Custom Member access to Admin users
+    match /members/{ownerID}{
+    allow read,write: if ownerID == request.auth.uid;
     }
     
-
+    match /members/{ownerID}/members_collection/{memberID}{
+    allow read,write: if ownerID == request.auth.uid;
+    }
     
+    ///////
+    // SPACE
+    ///////
+    
+    // Space Modification and Creation
+    match /spaces/{spaceID}{
+    allow read;
+    allow create: if isValidSpace();
+    allow update: if isSpaceOwner() || isAddingTheUsersIDToSpace() ;
+    allow delete : if isSpaceOwner();
+    }
+    
+    ///////
+    // USERS
+    ///////
+    
+    /// Account Modificaiton and Creation
+    match /users/{userID}{
+    allow read: if isSignedIn();
+    allow update: if isIdOwner();
+    allow delete: if isSuperAdmin();
+    }
+    
+    /// Helper function for the below matching
+    function isSpaceOwnerAttendance(spaceID, ownerUID){
+    return get(/databases/$(database)/documents/spaces/$(spaceID)).data.ownerUID == ownerUID;
+    }
+    
+    // 
+    function isAttendanceOwner(userID){
+    return request.auth.uid == userID;
+    }
+    
+    /// Attendance Modification
+    match /users/{userID}/attendance/{spaceID}/data/{year}{
+    allow read: if isSpaceOwnerAttendance(spaceID, request.auth.uid) ||isAttendanceOwner(userID);
+    allow update: if isSpaceOwnerAttendance(spaceID, request.auth.uid) ||isAttendanceOwner(userID);
+    allow delete: if isSpaceOwnerAttendance(spaceID, request.auth.uid);
+    }
+    
+    
+    
+    // User request for to be an admin users
     match /meta_data/admin_requests/the_requests/{requests}{
     allow write: if isRequestsFieldValid();
     }

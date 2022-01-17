@@ -1,3 +1,4 @@
+import 'package:face_attendance/core/auth/views/pages/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -57,6 +58,7 @@ class UserActionButtonSection extends GetView<AppMemberUserController> {
             backgroundColor: AppColors.appRed,
             onTap: () {
               Get.find<LoginController>().logOut();
+              Get.offAll(() => const LoginPage());
             },
           ),
         ],

@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:face_attendance/core/utils/app_toast.dart';
+
 import '../controllers/member_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
@@ -24,16 +26,9 @@ class _MemberAddQrScreenState extends State<MemberAddQrScreen> {
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
   Barcode? result;
   late QRViewController controller;
-  CameraFacing _currentCameraFace = CameraFacing.back;
 
-  void changeCameraFace() {
-    setState(() {
-      if (_currentCameraFace == CameraFacing.back) {
-        _currentCameraFace = CameraFacing.front;
-      } else {
-        _currentCameraFace = CameraFacing.back;
-      }
-    });
+  void changeCameraFace() async {
+    await controller.flipCamera();
   }
 
   // In order to get hot reload to work we need to pause the camera if the platform
@@ -67,13 +62,12 @@ class _MemberAddQrScreenState extends State<MemberAddQrScreen> {
                     borderColor: AppColors.primaryColor,
                     borderWidth: 3.0,
                   ),
-                  cameraFacing: _currentCameraFace,
                 ),
                 Positioned(
                   top: 16,
                   right: 16,
                   child: FloatingActionButton(
-                    onPressed: () {},
+                    onPressed: changeCameraFace,
                     child: const Icon(Icons.switch_camera_rounded),
                     backgroundColor: AppColors.primaryColor,
                     foregroundColor: Colors.white,
@@ -97,16 +91,21 @@ class _MemberAddQrScreenState extends State<MemberAddQrScreen> {
 
   void _onQRViewCreated(QRViewController controller) async {
     this.controller = controller;
-    // Used for debugging
-    await this.controller.flipCamera();
     controller.scannedDataStream.listen((scanData) {
       controller.stopCamera();
-      String decryptedData =
-          AppAlgorithmUtil.decrypt(scanData.code ?? 'Nothing');
-      Get.dialog(
-        _AddingUserQRCodeDialog(userID: decryptedData),
-        barrierDismissible: false,
-      );
+      try {
+        String decryptedData =
+            AppAlgorithmUtil.decrypt(scanData.code ?? 'Nothing');
+        Get.dialog(
+          _AddingUserQRCodeDialog(userID: decryptedData),
+          barrierDismissible: false,
+        );
+      } on Exception catch (_) {
+        AppToast.showDefaultToast(
+          "Oops! Something gone wrong on QRVIEWCREATED",
+        );
+        Get.back();
+      }
     });
   }
 

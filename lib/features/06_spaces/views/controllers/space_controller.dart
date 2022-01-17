@@ -77,16 +77,16 @@ class SpaceController extends GetxController {
       return AppToast.showDefaultToast(
         'Oops! There is an fatal error',
       );
-    }, (fetchedSpacesVal) {
+    }, (fetchedSpacesVal) async {
       if (fetchedSpacesVal.isNotEmpty) {
         _totalSpaceFetched = fetchedSpacesVal.length;
         allSpaces = fetchedSpacesVal;
-        currentSpace = SpaceLocalSource.getDefaultSpace(
+        currentSpace = await SpaceLocalSource.getDefaultSpace(
           fetchedSpaces: fetchedSpacesVal,
           userID: _currentUserID,
         );
-        _addCurrentSpaceMemberToList(currentSpace!);
-        spaceViewState = SpaceViewState.isFetched;
+        await _addCurrentSpaceMemberToList(currentSpace!);
+        onDropDownUpdate(currentSpace!.name.toLowerCase());
       } else {
         spaceViewState = SpaceViewState.isNoSpaceFound;
       }
@@ -102,7 +102,7 @@ class SpaceController extends GetxController {
       );
       currentSpace = _space;
       _addCurrentSpaceMemberToList(_space);
-      _onBothButtonSelection();
+      _onAllRadioSelection();
       selectedOption = MemberFilterList.all;
       SpaceLocalSource.saveToLocal(space: _space, userID: _currentUserID);
       update();
@@ -117,21 +117,23 @@ class SpaceController extends GetxController {
   List<Member> filteredListMember = [];
 
   /// Add Current Space Members To List
-  void _addCurrentSpaceMemberToList(Space theSpace,
-      {bool shouldUpdate = true}) async {
+  Future<void> _addCurrentSpaceMemberToList(Space theSpace) async {
     final _memberController = Get.find<MembersController>();
 
     _allMembersSpace.clear();
 
     List<Member> fetchedMembers = [];
 
-    await retry<List>(
+    await retry(
       () {
         fetchedMembers = _memberController.allMembers;
         return fetchedMembers;
       },
       retryIf: (_) => _memberController.isFetchingUser == true,
     );
+
+    print(
+        "Total member fetched from MemberController: ${fetchedMembers.length}");
 
     for (var element in fetchedMembers) {
       if (theSpace.memberList.contains(element.memberID) ||
@@ -147,7 +149,7 @@ class SpaceController extends GetxController {
     } else {
       spaceViewState = SpaceViewState.isFetched;
     }
-    if (shouldUpdate) update();
+    update();
   }
 
   /// Get Member List By Space
@@ -228,7 +230,7 @@ class SpaceController extends GetxController {
       userIDs: appMemberIDs,
     );
 
-    await refreshAll();
+    await refreshData();
   }
 
   /// Remove Custom Members From A Space
@@ -255,7 +257,7 @@ class SpaceController extends GetxController {
       userIDs: appMemberIDs,
     );
 
-    await refreshAll();
+    await refreshData();
   }
 
   /// Remove A Member from All Space
@@ -314,7 +316,7 @@ class SpaceController extends GetxController {
   }
 
   /// When Both Are Selected
-  void _onBothButtonSelection() {
+  void _onAllRadioSelection() {
     filteredListMember = [];
     filteredListMember = _allMembersSpace;
     if (filteredListMember.isEmpty) {
@@ -332,7 +334,7 @@ class SpaceController extends GetxController {
     switch (filter) {
       case MemberFilterList.all:
         selectedOption = MemberFilterList.all;
-        _onBothButtonSelection();
+        _onAllRadioSelection();
         break;
       case MemberFilterList.attended:
         selectedOption = MemberFilterList.attended;
@@ -344,7 +346,7 @@ class SpaceController extends GetxController {
         break;
       default:
         selectedOption = MemberFilterList.all;
-        _onBothButtonSelection();
+        _onAllRadioSelection();
     }
   }
 
@@ -423,21 +425,20 @@ class SpaceController extends GetxController {
 
   /// Refreshes Everything from Start
   /// Everything goes in order
-  Future<void> refreshAll() async {
-    spaceViewState = SpaceViewState.isInitializing;
-    update();
+  Future<void> refreshData() async {
     int _spaceFetched = await _fetchAllSpaces();
     filteredListMember = _allMembersSpace;
-    spaceViewState = SpaceViewState.isFetched;
-    if (_spaceFetched <= 0) spaceViewState = SpaceViewState.isNoSpaceFound;
+
+    if (_spaceFetched <= 0) {
+      spaceViewState = SpaceViewState.isNoSpaceFound;
+    }
     // await _fetchTodaysLogCurrentSpace();
     update();
   }
 
   @override
-  void onInit() async {
+  void onInit() {
     super.onInit();
     _initializeRepository();
-    await refreshAll();
   }
 }
