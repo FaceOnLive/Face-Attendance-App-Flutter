@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:face_attendance/core/utils/app_toast.dart';
+import 'package:face_attendance/core/utils/date_util.dart';
 
 class AppMemberAttendanceRepository {
   final CollectionReference collectionReference;
@@ -59,8 +60,7 @@ class AppMemberAttendanceRepository {
         .doc(spaceID)
         .collection('data');
 
-    Timestamp theDate = Timestamp.fromDate(
-        DateTime(date.year, date.month, date.day, 0, 0, 0, 0, 0));
+    Timestamp theDate = DateUtil.convertDate(date);
 
     print("The date is $theDate");
 

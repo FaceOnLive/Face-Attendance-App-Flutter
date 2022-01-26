@@ -90,6 +90,7 @@ class AdminSettingScreen extends StatelessWidget {
                               controller.updateNotificationSetting(val);
                             },
                             value: controller.currentUser.notification,
+                            activeColor: AppColors.primaryColor,
                           ),
                           isUpdating: controller.isNotificationUpdating,
                         ),

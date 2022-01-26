@@ -11,10 +11,10 @@ import '../controllers/core_controller.dart';
 import 'components/loading_app.dart';
 
 //// APP STARTS HERE 💙
-// ignore: use_key_in_widget_constructors
 class TuringTechApp extends StatelessWidget {
-  // Needed for themes
-  final core = Get.put(CoreController());
+  final CoreController core;
+
+  const TuringTechApp({Key? key, required this.core}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +26,7 @@ class TuringTechApp extends StatelessWidget {
       home: const AppRoot(),
       debugShowCheckedModeBanner: false,
       defaultTransition: Transition.cupertino,
-      enableLog: false,
+      enableLog: true,
     );
   }
 }

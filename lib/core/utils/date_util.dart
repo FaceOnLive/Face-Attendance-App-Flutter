@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 
 /// Used for quick helping in datetime class
@@ -75,5 +76,14 @@ class DateUtil {
       _isPresent = false;
     }
     return _isPresent;
+  }
+
+  /// Match the date of server
+  /// the server supports 00:00 in date or Timestamp format, so
+  /// we need to convert the input and output it to this format
+  static Timestamp convertDate(DateTime date) {
+    return Timestamp.fromDate(
+      DateTime(date.year, date.month, date.day, 0, 0, 0, 0, 0),
+    );
   }
 }

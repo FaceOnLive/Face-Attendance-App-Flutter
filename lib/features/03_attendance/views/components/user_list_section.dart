@@ -136,7 +136,7 @@ class UserListFetched extends GetView<SpaceController> {
             itemCount: controller.filteredListMember.length,
             itemBuilder: (context, index) {
               Member _currentMember = controller.filteredListMember[index];
-              return MemberListTile(
+              return MemberListTileSpace(
                 member: _currentMember,
                 currentSpaceID: controller.currentSpace!.spaceID!,
                 attendedTime: controller.isMemberAttendedToday(

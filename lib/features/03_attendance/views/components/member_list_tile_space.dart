@@ -9,8 +9,8 @@ import '../../../../core/models/member.dart';
 import '../../../../core/themes/text.dart';
 import '../pages/member_details_page.dart';
 
-class MemberListTile extends StatelessWidget {
-  const MemberListTile({
+class MemberListTileSpace extends StatelessWidget {
+  const MemberListTileSpace({
     Key? key,
     required this.member,
     required this.currentSpaceID,

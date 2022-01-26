@@ -160,11 +160,11 @@ class MemberAttendanceRepository {
 
     if (docSnap.exists) {
       await docSnap.reference.update({
-        'unattended_date': FieldValue.arrayRemove([Timestamp.fromDate(date)])
+        'unattended_date': FieldValue.arrayRemove([DateUtil.convertDate(date)])
       });
     } else {
       await _memberDocReference.set({
-        'unattended_date': FieldValue.arrayRemove([Timestamp.fromDate(date)])
+        'unattended_date': FieldValue.arrayRemove([DateUtil.convertDate(date)])
       });
     }
   }
@@ -193,11 +193,11 @@ class MemberAttendanceRepository {
 
     if (docSnap.exists) {
       await docSnap.reference.update({
-        'unattended_date': FieldValue.arrayUnion([Timestamp.fromDate(date)])
+        'unattended_date': FieldValue.arrayUnion([DateUtil.convertDate(date)])
       });
     } else {
       await _memberDocReference.set({
-        'unattended_date': FieldValue.arrayUnion([Timestamp.fromDate(date)])
+        'unattended_date': FieldValue.arrayUnion([DateUtil.convertDate(date)])
       });
     }
   }
@@ -249,7 +249,7 @@ class MemberAttendanceRepository {
     List<Timestamp> _dateInTimeStamp = [];
 
     await Future.forEach<DateTime>(dates, (element) {
-      _dateInTimeStamp.add(Timestamp.fromDate(element));
+      _dateInTimeStamp.add(DateUtil.convertDate(element));
     });
 
     final String _thisYear = DateTime.now().year.toString();
@@ -281,7 +281,7 @@ class MemberAttendanceRepository {
     List<Timestamp> _dateInTimeStamp = [];
 
     await Future.forEach<DateTime>(dates, (element) {
-      _dateInTimeStamp.add(Timestamp.fromDate(element));
+      _dateInTimeStamp.add(DateUtil.convertDate(element));
     });
 
     final String _thisYear = DateTime.now().year.toString();
@@ -323,11 +323,11 @@ class MemberAttendanceRepository {
     final _attendenceDoc = await _reference.doc(date.year.toString()).get();
     if (_attendenceDoc.exists) {
       _attendenceDoc.reference.update({
-        'unattended_date': FieldValue.arrayRemove([Timestamp.fromDate(date)])
+        'unattended_date': FieldValue.arrayRemove([DateUtil.convertDate(date)])
       });
     } else {
       _reference.doc(date.year.toString()).set({
-        'unattended_date': FieldValue.arrayRemove([Timestamp.fromDate(date)])
+        'unattended_date': FieldValue.arrayRemove([DateUtil.convertDate(date)])
       });
     }
   }
@@ -347,11 +347,11 @@ class MemberAttendanceRepository {
     final _attendenceDoc = await _reference.doc(date.year.toString()).get();
     if (_attendenceDoc.exists) {
       _attendenceDoc.reference.update({
-        'unattended_date': FieldValue.arrayUnion([Timestamp.fromDate(date)])
+        'unattended_date': FieldValue.arrayUnion([DateUtil.convertDate(date)])
       });
     } else {
       _reference.doc(date.year.toString()).set({
-        'unattended_date': FieldValue.arrayUnion([Timestamp.fromDate(date)])
+        'unattended_date': FieldValue.arrayUnion([DateUtil.convertDate(date)])
       });
     }
   }
@@ -402,7 +402,7 @@ class MemberAttendanceRepository {
     List<Timestamp> _dateInTimeStamp = [];
 
     await Future.forEach<DateTime>(dates, (element) {
-      _dateInTimeStamp.add(Timestamp.fromDate(element));
+      _dateInTimeStamp.add(DateUtil.convertDate(element));
     });
 
     final String _thisYear = DateTime.now().year.toString();
@@ -433,7 +433,7 @@ class MemberAttendanceRepository {
     List<Timestamp> _dateInTimeStamp = [];
 
     await Future.forEach<DateTime>(dates, (element) {
-      _dateInTimeStamp.add(Timestamp.fromDate(element));
+      _dateInTimeStamp.add(DateUtil.convertDate(element));
     });
 
     final String _thisYear = DateTime.now().year.toString();
@@ -468,7 +468,7 @@ class MemberAttendanceRepository {
     required bool isCustom,
   }) async {
     String thisYear = year.toString();
-    List<DateTime> _unatttendedDate = [];
+    List<DateTime> _unatttendedDates = [];
     await _customMemberCollection
         .doc(memberID)
         .collection('attendance')
@@ -484,13 +484,13 @@ class MemberAttendanceRepository {
           _unattendedDateInTimeStamp = _allDateMonth['unattended_date'];
           for (var element in _unattendedDateInTimeStamp) {
             DateTime _date = element.toDate();
-            _unatttendedDate.add(_date);
+            _unatttendedDates.add(_date);
           }
         }
       },
     );
 
-    return _unatttendedDate;
+    return _unatttendedDates;
   }
 
   /// Is Member Present Today
