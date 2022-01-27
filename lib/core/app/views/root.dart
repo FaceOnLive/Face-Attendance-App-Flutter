@@ -26,6 +26,8 @@ class TuringTechApp extends StatelessWidget {
       home: const AppRoot(),
       debugShowCheckedModeBanner: false,
       defaultTransition: Transition.cupertino,
+
+      /// TODO: Turn Off Logging
       enableLog: true,
     );
   }
