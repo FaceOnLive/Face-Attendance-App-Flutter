@@ -41,57 +41,59 @@ class AppButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: isLoading || isButtonDisabled ? null : onTap,
-      borderRadius: AppDefaults.borderRadius,
-      child: AnimatedContainer(
-        height: height,
-        duration: AppDefaults.duration,
-        margin: margin ?? const EdgeInsets.all(8),
-        alignment: Alignment.center,
-        padding:
-            padding ?? const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
-        decoration: BoxDecoration(
-          color: isButtonDisabled
-              ? Colors.grey
-              : backgroundColor ?? context.theme.primaryColor,
+    return Padding(
+      padding: margin ?? const EdgeInsets.all(8),
+      child: Material(
+        color: isButtonDisabled
+            ? Colors.grey
+            : backgroundColor ?? context.theme.primaryColor,
+        borderRadius: disableBorderRadius ? null : AppDefaults.borderRadius,
+        child: InkWell(
+          onTap: isLoading || isButtonDisabled ? null : onTap,
           borderRadius: disableBorderRadius ? null : AppDefaults.borderRadius,
-        ),
-        width: width,
-        child: isLoading
-            ? const CircularProgressIndicator(
-                color: Colors.white,
-                strokeWidth: 3,
-              )
-            : Row(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: mainAxisAlignment,
-                children: [
-                  prefixIcon != null
-                      ? Container(
-                          margin: const EdgeInsets.only(right: 5),
-                          child: prefixIcon)
-                      : const SizedBox(),
-                  Expanded(
-                    child: AutoSizeText(
-                      label,
-                      style: AppText.b1.copyWith(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                        fontSize: fontSize,
+          child: AnimatedContainer(
+            height: height,
+            duration: AppDefaults.duration,
+            alignment: Alignment.center,
+            padding: padding ??
+                const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
+            width: width,
+            child: isLoading
+                ? const CircularProgressIndicator(
+                    color: Colors.white,
+                    strokeWidth: 3,
+                  )
+                : Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: mainAxisAlignment,
+                    children: [
+                      prefixIcon != null
+                          ? Container(
+                              margin: const EdgeInsets.only(right: 5),
+                              child: prefixIcon)
+                          : const SizedBox(),
+                      Expanded(
+                        child: AutoSizeText(
+                          label,
+                          style: AppText.b1.copyWith(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                            fontSize: fontSize,
+                          ),
+                          textAlign: TextAlign.center,
+                          maxLines: 1,
+                        ),
                       ),
-                      textAlign: TextAlign.center,
-                      maxLines: 1,
-                    ),
+                      suffixIcon != null
+                          ? Container(
+                              margin: const EdgeInsets.only(left: 5),
+                              child: suffixIcon,
+                            )
+                          : const SizedBox(),
+                    ],
                   ),
-                  suffixIcon != null
-                      ? Container(
-                          margin: const EdgeInsets.only(left: 5),
-                          child: suffixIcon,
-                        )
-                      : const SizedBox(),
-                ],
-              ),
+          ),
+        ),
       ),
     );
   }
@@ -125,56 +127,54 @@ class AppButtonOutline extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
-      borderRadius: AppDefaults.borderRadius,
-      child: AnimatedContainer(
-        height: height,
-        duration: AppDefaults.duration,
-        margin: margin ?? const EdgeInsets.all(8),
-        alignment: Alignment.center,
-        padding: padding ??
-            const EdgeInsets.symmetric(
-              horizontal: 14,
-              vertical: 14,
-            ),
-        decoration: BoxDecoration(
-          color: Get.theme.canvasColor,
+    return Padding(
+      padding: margin ?? const EdgeInsets.all(8),
+      child: Material(
+        color: context.theme.canvasColor,
+        shape: RoundedRectangleBorder(
           borderRadius: AppDefaults.borderRadius,
-          border: Border.all(
-            color: color ?? context.theme.primaryColor,
+          side: BorderSide(color: color ?? context.theme.primaryColor),
+        ),
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: AppDefaults.borderRadius,
+          child: AnimatedContainer(
+            height: height,
+            duration: AppDefaults.duration,
+            padding: padding ?? const EdgeInsets.all(AppDefaults.padding),
+            alignment: Alignment.center,
+            width: width,
+            child: isLoading
+                ? const AspectRatio(
+                    aspectRatio: 1 / 1,
+                    child: CircularProgressIndicator(
+                      color: Colors.white,
+                    ),
+                  )
+                : Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      prefixIcon != null
+                          ? Container(
+                              margin: const EdgeInsets.only(right: 5),
+                              child: prefixIcon)
+                          : const SizedBox(),
+                      Text(
+                        label,
+                        style: AppText.b1.copyWith(
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.primaryColor,
+                        ),
+                      ),
+                      suffixIcon != null
+                          ? Container(
+                              margin: const EdgeInsets.only(left: 5),
+                              child: suffixIcon)
+                          : const SizedBox(),
+                    ],
+                  ),
           ),
         ),
-        width: width,
-        child: isLoading
-            ? const AspectRatio(
-                aspectRatio: 1 / 1,
-                child: CircularProgressIndicator(
-                  color: Colors.white,
-                ),
-              )
-            : Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  prefixIcon != null
-                      ? Container(
-                          margin: const EdgeInsets.only(right: 5),
-                          child: prefixIcon)
-                      : const SizedBox(),
-                  Text(
-                    label,
-                    style: AppText.b1.copyWith(
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.primaryColor,
-                    ),
-                  ),
-                  suffixIcon != null
-                      ? Container(
-                          margin: const EdgeInsets.only(left: 5),
-                          child: suffixIcon)
-                      : const SizedBox(),
-                ],
-              ),
       ),
     );
   }

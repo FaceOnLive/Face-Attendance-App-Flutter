@@ -28,7 +28,7 @@ class AppMemberSpaceRepostitoryImpl implements AppMemberSpaceRepository {
                   {_fetchedSpace.add(Space.fromDocumentSnap(item))}
               });
     } on FirebaseException catch (e) {
-      AppToast.showDefaultToast(e.message ?? "Something Error happened");
+      AppToast.show(e.message ?? "Something Error happened");
     }
 
     return _fetchedSpace;

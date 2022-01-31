@@ -51,7 +51,7 @@ class _SpaceSearchScreenState extends State<SpaceSearchScreen> {
         _isSearching.trigger(false);
       } on FirebaseException catch (e) {
         _isSearching.trigger(false);
-        AppToast.showDefaultToast(e.message ?? 'Something Error Happened');
+        AppToast.show(e.message ?? 'Something Error Happened');
       }
     }
   }

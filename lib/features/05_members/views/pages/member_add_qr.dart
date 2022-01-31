@@ -101,7 +101,7 @@ class _MemberAddQrScreenState extends State<MemberAddQrScreen> {
           barrierDismissible: false,
         );
       } on Exception catch (_) {
-        AppToast.showDefaultToast(
+        AppToast.show(
           "Oops! Something gone wrong on QRVIEWCREATED",
         );
         Get.back();

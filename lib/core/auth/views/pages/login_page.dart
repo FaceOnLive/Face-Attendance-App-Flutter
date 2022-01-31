@@ -9,9 +9,8 @@ import '../../../themes/text.dart';
 import '../../../widgets/app_button.dart';
 import '../../controllers/login_controller.dart';
 
-/// TODO: SAVE FACE REPOSITORY
-/// TODO: ADD FACE LOGIN IMPLEMENTATION
-/// TODO: LOGIN UI CREATION
+import 'login_page_face.dart';
+
 // import 'login_page_face.dart';
 import 'register_as_admin_page.dart';
 import 'sign_up_page.dart';
@@ -95,22 +94,28 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       appBar: AppBar(
         leading: const SizedBox(),
-        actions: const [
+        actions: [
           // Face Login Button
-          // InkWell(
-          //   onTap: () {
-          //     Get.to(() => const LoginPageFace());
-          //   },
-          //   borderRadius: AppDefaults.borderRadius,
-          //   child: Padding(
-          //     padding: const EdgeInsets.all(16.0),
-          //     child: Image.asset(
-          //       AppImages.illustrationFaceID,
-          //       height: 24,
-          //       width: 24,
-          //     ),
-          //   ),
-          // ),
+          GetBuilder<LoginController>(builder: (controller) {
+            if (controller.isFaceLoginAvailable) {
+              return InkWell(
+                onTap: () {
+                  Get.to(() => const LoginPageFace());
+                },
+                borderRadius: AppDefaults.borderRadius,
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Image.asset(
+                    AppImages.illustrationFaceID,
+                    height: 24,
+                    width: 24,
+                  ),
+                ),
+              );
+            } else {
+              return const SizedBox();
+            }
+          }),
         ],
         backgroundColor: Colors.transparent,
       ),

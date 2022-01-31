@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../../core/widgets/app_button.dart';
+import '../../../04_verifier/views/components/verifier_face_login_test.dart';
 import '../../../06_spaces/views/controllers/space_controller.dart';
 import '../components/components.dart';
 
@@ -15,6 +17,16 @@ class AttendancePage extends StatelessWidget {
       child: SafeArea(
         child: Column(
           children: [
+            AppButton(
+              label: 'Test Face Login',
+              onTap: () => Get.to(() => const VerifierTestFaceLoginPage()),
+              margin: EdgeInsets.zero,
+              suffixIcon: const Icon(
+                Icons.arrow_forward_ios_rounded,
+                color: Colors.white,
+              ),
+              disableBorderRadius: true,
+            ),
             /* <---- Header ----> */
             const HeaderMainPage(),
             /* <---- Attendance List -----> */

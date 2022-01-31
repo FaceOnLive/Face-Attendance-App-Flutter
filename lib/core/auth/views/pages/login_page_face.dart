@@ -1,3 +1,6 @@
+import 'package:face_attendance/core/camerakit/camera_kit_controller.dart';
+import 'package:face_attendance/core/camerakit/camera_kit_view.dart';
+import 'package:face_attendance/core/utils/app_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
@@ -20,22 +23,23 @@ class _LoginPageFaceState extends State<LoginPageFace>
 
   /* <---- Trigger the animation on face detection ----> */
   late LottieComposition _composition;
-  _onFaceVerified() async {
-    await Future.delayed(const Duration(seconds: 2)).then((value) {
-      _controller
-        ..duration = _composition.duration
-        ..forward();
-      _controller.addStatusListener((status) {
-        if (status == AnimationStatus.completed) {
-          // Get.offAll(() => EntryPointUI());
-        }
-      });
+  _onFaceVerified() {
+    _controller
+      ..duration = _composition.duration
+      ..forward();
+    _controller.addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+        // Get.offAll(() => EntryPointUI());
+      }
     });
   }
 
-  _onFaceUnverified() async {
-    print("NEED TO IMPLEMENT UNVERIFIED STATUS ON FACE");
+  _onFaceUnverified() {
+    AppToast.show('Oops! Your Face Coudn\'t be verfied');
+    Get.back();
   }
+
+  bool isVerificationOn = false;
 
   @override
   void initState() {
@@ -80,16 +84,7 @@ class _LoginPageFaceState extends State<LoginPageFace>
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       /* <---- FaceLOGO ----> */
-                      // This one is static
-                      // Container(
-                      //   width: Get.width * 0.5,
-                      //   child: AspectRatio(
-                      //     aspectRatio: 1 / 1,
-                      //     child: Image.asset(
-                      //       AppImages.ILLUSTRATION_FACE,
-                      //     ),
-                      //   ),
-                      // ),
+
                       SizedBox(
                         width: Get.width * 0.5,
                         child: AspectRatio(

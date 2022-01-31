@@ -16,7 +16,7 @@ class NativeSDKFunctions {
     bool isDone =
         await _channel.invokeMethod('setDatabase', {'membersList': userLists});
     Get.find<CoreController>().settingSdkDone();
-    AppToast.showDefaultToast('Face Data Updated');
+    AppToast.show('Face Data Updated');
     return isDone;
   }
 

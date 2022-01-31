@@ -23,7 +23,7 @@ class SpaceRepositoryImpl extends SpaceRepository {
         });
       });
     } on FirebaseException catch (e) {
-      AppToast.showDefaultToast(e.message.toString());
+      AppToast.show(e.message.toString());
     }
   }
 
@@ -39,7 +39,7 @@ class SpaceRepositoryImpl extends SpaceRepository {
         });
       });
     } on FirebaseException catch (e) {
-      AppToast.showDefaultToast(e.message.toString());
+      AppToast.show(e.message.toString());
     }
   }
 
@@ -60,7 +60,7 @@ class SpaceRepositoryImpl extends SpaceRepository {
     try {
       await spaceCollection.doc(spaceID).delete();
     } on Exception catch (_) {
-      AppToast.showDefaultToast('Something error happened');
+      AppToast.show('Something error happened');
     }
   }
 
@@ -115,7 +115,7 @@ class SpaceRepositoryImpl extends SpaceRepository {
         });
       });
     } on FirebaseException catch (e) {
-      AppToast.showDefaultToast(e.message.toString());
+      AppToast.show(e.message.toString());
     }
   }
 
@@ -131,7 +131,7 @@ class SpaceRepositoryImpl extends SpaceRepository {
         });
       });
     } on FirebaseException catch (e) {
-      AppToast.showDefaultToast(e.message.toString());
+      AppToast.show(e.message.toString());
     }
   }
 
@@ -170,7 +170,7 @@ class SpaceRepositoryImpl extends SpaceRepository {
             value.reference.update(space.toMap()),
           });
     } on Exception catch (_) {
-      AppToast.showDefaultToast('Something error happened');
+      AppToast.show('Something error happened');
     }
   }
 }

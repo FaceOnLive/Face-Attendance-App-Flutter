@@ -42,7 +42,7 @@ class SignUpController extends GetxController {
               userProfilePicture: null,
               userFace: null,
               deviceIDToken: _idTokenOfDevice,
-            ).toMap(),
+            ).toMap,
           );
       await _credintial.user!.sendEmailVerification();
       await Get.dialog(const EmailSentSuccessfullDialog());
@@ -76,8 +76,7 @@ class SignUpController extends GetxController {
         'idToken': _idTokenOfDevice,
       });
     } on FirebaseException catch (e) {
-      AppToast.showDefaultToast(
-          e.message ?? 'Oops! Something error has happened');
+      AppToast.show(e.message ?? 'Oops! Something error has happened');
     }
   }
 

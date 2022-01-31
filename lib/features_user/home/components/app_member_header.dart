@@ -63,7 +63,7 @@ class TitleAndSubtitle extends StatelessWidget {
         if (_canLaunch) {
           await url.launch(_websiteURL);
         } else {
-          AppToast.showDefaultToast(
+          AppToast.show(
             "Oops! Faceonlive is not available",
           );
         }

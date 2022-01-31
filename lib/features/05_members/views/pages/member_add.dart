@@ -67,7 +67,7 @@ class _MemberAddScreenState extends State<MemberAddScreen> {
         Get.back();
         _addingMember.value = false;
       } else {
-        AppToast.showDefaultToast("Please add a picture");
+        AppToast.show("Please add a picture");
         _addingMember.value = false;
       }
     }

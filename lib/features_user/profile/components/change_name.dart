@@ -39,7 +39,7 @@ class _ChangeNameSheetState extends State<ChangeNameSheet> {
         _isUpdating.trigger(false);
         Get.back();
       } on FirebaseException catch (e) {
-        AppToast.showDefaultToast(e.message ?? "Something error happened");
+        AppToast.show(e.message ?? "Something error happened");
         _isUpdating.trigger(false);
         Get.back();
       }

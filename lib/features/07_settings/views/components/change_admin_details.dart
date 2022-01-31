@@ -45,7 +45,7 @@ class _AdminDetailsSheetState extends State<AdminDetailsSheet> {
         _isUpdating.trigger(false);
         Get.back();
       } on FirebaseException catch (e) {
-        AppToast.showDefaultToast(e.code);
+        AppToast.show(e.code);
         _isUpdating.trigger(false);
       }
     }

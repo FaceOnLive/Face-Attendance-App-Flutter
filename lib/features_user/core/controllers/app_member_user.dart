@@ -43,7 +43,7 @@ class AppMemberUserController extends GetxController {
         update();
       });
     } catch (e) {
-      AppToast.showDefaultToast(e.toString());
+      AppToast.show(e.toString());
     }
   }
 
@@ -155,9 +155,9 @@ class AppMemberUserController extends GetxController {
           spaceID: _currentSpaceID,
           date: DateTime.now(),
         );
-        AppToast.showDefaultToast('Attendance Added');
+        AppToast.show('Attendance Added');
       } on FirebaseException catch (e) {
-        AppToast.showDefaultToast(e.code);
+        AppToast.show(e.code);
       }
     }
   }

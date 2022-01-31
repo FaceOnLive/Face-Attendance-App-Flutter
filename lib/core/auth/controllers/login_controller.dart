@@ -1,3 +1,4 @@
+import 'package:face_attendance/core/data/repository/face_repo.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 
@@ -57,17 +58,17 @@ class LoginController extends GetxController {
       // this is admin logging in
       currentAuthState.value = AuthState.adminLoggedIn;
       Get.offAll(() => const EntryPointUI());
-      AppToast.showDefaultToast('Login Successfull');
+      AppToast.show('Login Successfull');
     } else if (isEmailVerified && !isAdmin) {
       // this is a normal user of the app
       currentAuthState.value = AuthState.userLoggedIn;
       Get.offAll(() => const AppMemberMainUi());
-      AppToast.showDefaultToast('Login Successfull');
+      AppToast.show('Login Successfull');
     } else if (!isEmailVerified && !isAdmin) {
       // this is a normal user of app whose email is unverified
       currentAuthState.value = AuthState.emailUnverified;
       Get.offAll(() => const EmailNotVerifiedPage());
-      AppToast.showDefaultToast("Unverified Email");
+      AppToast.show("Unverified Email");
     } else {
       // we are logged out
       currentAuthState.value = AuthState.loggedOut;
@@ -147,11 +148,16 @@ class LoginController extends GetxController {
     isVerifiyingEmail.trigger(false);
   }
 
+  /// Is Face Login Available
+  bool isFaceLoginAvailable = false;
+
   @override
   void onInit() async {
     super.onInit();
     _firebaseUser.bindStream(_firebaseAuth.userChanges());
     await _checkNeceassaryMetaData(_firebaseAuth.currentUser);
+    isFaceLoginAvailable = await FaceRepoImpl().isFaceDataAvailable();
+    update();
   }
 
   @override

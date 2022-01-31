@@ -76,9 +76,9 @@ class CoreController extends GetxController {
     if (isSettingSdk && index == 1) {
       /// This means user is tapping verifier screen
       /// when the SDK is not setted up
-      AppToast.showDefaultToast('Please wait for the SDK Loading');
+      AppToast.show('Please wait for the SDK Loading');
     } else if (_totalMembers <= 0 && index == 1) {
-      AppToast.showDefaultToast('Please add some member first');
+      AppToast.show('Please add some member first');
     } else {
       currentIndex = index;
       update();

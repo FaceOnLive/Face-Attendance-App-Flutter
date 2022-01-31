@@ -86,8 +86,7 @@ class _AppMemberJoinQRCODEPageState extends State<AppMemberJoinQRCODEPage> {
           spaceIdEncrypted: scanData.code,
         );
       } on Exception catch (_) {
-        AppToast.showDefaultToast(
-            "Oops! something error happened [QRVIEWCREATED]");
+        AppToast.show("Oops! something error happened [QRVIEWCREATED]");
       }
     });
   }

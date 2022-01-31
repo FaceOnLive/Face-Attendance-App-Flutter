@@ -34,7 +34,7 @@ class _SpaceLogScreenState extends State<SpaceLogScreen> {
         _isFetching.trigger(false);
       } on Exception catch (e) {
         _isFetching.trigger(false);
-        AppToast.showDefaultToast(e.toString());
+        AppToast.show(e.toString());
       }
     }
   }

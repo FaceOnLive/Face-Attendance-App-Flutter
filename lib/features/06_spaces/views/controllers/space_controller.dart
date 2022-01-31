@@ -74,7 +74,7 @@ class SpaceController extends GetxController {
     int _totalSpaceFetched = 0;
 
     _fetchedData.fold((l) {
-      return AppToast.showDefaultToast(
+      return AppToast.show(
         'Oops! There is an fatal error',
       );
     }, (fetchedSpacesVal) async {
@@ -190,7 +190,7 @@ class SpaceController extends GetxController {
   Future<void> editSpace({required Space space}) async {
     await _repository.updateSpace(space: space);
     await _fetchAllSpaces();
-    AppToast.showDefaultToast('Update Successfull');
+    AppToast.show('Update Successfull');
   }
 
   /// Remove Space

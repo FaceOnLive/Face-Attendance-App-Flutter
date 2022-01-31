@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:face_attendance/features/07_settings/views/components/add_user_face.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -117,11 +118,10 @@ class AdminSettingScreen extends StatelessWidget {
                         AppCustomListTile(
                             label: 'Update Face Data',
                             onTap: () async {
-                              File? _image =
-                                  await AppPhotoService.getImageFromCamera();
-                              if (_image != null) {
-                                controller.updateUserFaceID(imageFile: _image);
-                              }
+                              Get.bottomSheet(
+                                const AddUserFaceDialog(),
+                                isScrollControlled: true,
+                              );
                             },
                             leading: const Icon(
                               Icons.face_rounded,

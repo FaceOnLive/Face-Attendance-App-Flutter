@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:face_attendance/core/data/repository/face_repo.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 
@@ -33,7 +34,7 @@ class AppAdminController extends GetxController {
         update();
       });
     } catch (e) {
-      AppToast.showDefaultToast(e.toString());
+      AppToast.show(e.toString());
     }
   }
 
@@ -86,7 +87,11 @@ class AppAdminController extends GetxController {
   bool isUpdatingFaceID = false;
 
   /// This is used for face verification on Unlock
-  Future<void> updateUserFaceID({required File imageFile}) async {
+  Future<void> updateUserFaceID({
+    required File imageFile,
+    required String email,
+    required String password,
+  }) async {
     try {
       isUpdatingFaceID = true;
       update();
@@ -98,6 +103,13 @@ class AppAdminController extends GetxController {
         'userFace': _downloadURL,
       });
       await _fetchUserData();
+
+      await FaceRepoImpl().saveFaceData(
+        userPass: password,
+        email: email,
+        userPic: imageFile,
+      );
+
       isUpdatingFaceID = false;
       update();
     } on FirebaseException catch (e) {
@@ -105,6 +117,19 @@ class AppAdminController extends GetxController {
       isUpdatingFaceID = false;
       update();
     }
+  }
+
+  /// Deletes User Asscioted Face ID
+  Future<void> deleteFaceData() async {
+    isUpdatingFaceID = true;
+    update();
+    await _collectionReference.doc(_currentUserID).update({
+      'userFace': null,
+    });
+    await _fetchUserData();
+    await FaceRepoImpl().deleteFaceData();
+    isUpdatingFaceID = false;
+    update();
   }
 
   /// Change Password
@@ -121,6 +146,24 @@ class AppAdminController extends GetxController {
     await FirebaseAuth.instance.currentUser!
         .reauthenticateWithCredential(_credential);
     await FirebaseAuth.instance.currentUser!.updatePassword(newPassword);
+  }
+
+  /// Reauthenticate Users
+  Future<bool> reauthenticateUser({required String password}) async {
+    String _email = currentUser.email;
+    // Need to authenticate the user again to refresh token
+    try {
+      AuthCredential _credential = EmailAuthProvider.credential(
+        email: _email,
+        password: password,
+      );
+      await FirebaseAuth.instance.currentUser!
+          .reauthenticateWithCredential(_credential);
+
+      return true;
+    } on FirebaseAuthException catch (_) {
+      return false;
+    }
   }
 
   /* <---- Holiday -----> */

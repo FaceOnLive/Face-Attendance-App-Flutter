@@ -39,7 +39,7 @@ class _ChangeAddressSheetState extends State<ChangeAddressSheet> {
         _isUpdating.trigger(false);
         Get.back();
       } on FirebaseException catch (e) {
-        AppToast.showDefaultToast(e.message ?? "Something error happened");
+        AppToast.show(e.message ?? "Something error happened");
         _isUpdating.trigger(false);
         Get.back();
       }

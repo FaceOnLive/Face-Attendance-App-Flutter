@@ -76,7 +76,7 @@ class AppMemberAttendanceRepository {
         });
       }
     } on FirebaseException catch (e) {
-      AppToast.showDefaultToast(e.code);
+      AppToast.show(e.code);
     }
   }
 }

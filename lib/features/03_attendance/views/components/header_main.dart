@@ -15,8 +15,7 @@ class HeaderMainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
-      height: Get.height * 0.1,
+      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: context.theme.scaffoldBackgroundColor,
         boxShadow: AppDefaults.boxShadow,
@@ -61,7 +60,7 @@ class TitleAndSubtitle extends StatelessWidget {
         if (_canLaunch) {
           await url.launch(_websiteURL);
         } else {
-          AppToast.showDefaultToast(
+          AppToast.show(
             "Oops! Faceonlive is not available",
           );
         }

@@ -59,7 +59,7 @@ class MembersController extends GetxController {
 
     _fetchedData.fold(
       (l) => {
-        AppToast.showDefaultToast('There is an error with fetching Members'),
+        AppToast.show('There is an error with fetching Members'),
       },
       (fetchedList) => allMembers = fetchedList,
     );
@@ -168,11 +168,8 @@ class MembersController extends GetxController {
   Future<void> addAppMembersFromQRCode({required String userID}) async {
     final _response = await _repository.addAppMember(
         userID: userID, adminID: _currentAdminID);
-    _response.fold(
-        (l) =>
-            AppToast.showDefaultToast('There is an error Adding This Member'),
-        (r) =>
-            {Get.back(), AppToast.showDefaultToast('Member has been added')});
+    _response.fold((l) => AppToast.show('There is an error Adding This Member'),
+        (r) => {Get.back(), AppToast.show('Member has been added')});
   }
 
   /// Delete App Member by QR Code
@@ -184,10 +181,8 @@ class MembersController extends GetxController {
     await Get.find<SpaceController>()
         .removeAmemberFromAllSpace(userID: userID, isCustom: false);
     _response.fold(
-        (l) =>
-            AppToast.showDefaultToast('There is an error Removing This Member'),
-        (r) =>
-            {Get.back(), AppToast.showDefaultToast('Member has been removed')});
+        (l) => AppToast.show('There is an error Removing This Member'),
+        (r) => {Get.back(), AppToast.show('Member has been removed')});
     await onRefresh();
   }
 

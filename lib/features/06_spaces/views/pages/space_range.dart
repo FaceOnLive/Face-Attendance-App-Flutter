@@ -130,7 +130,7 @@ class SpaceRangeScreen extends StatelessWidget {
                     loadingWidget:
                         const Center(child: CircularProgressIndicator()),
                   );
-                  AppToast.showDefaultToast("Range is updated");
+                  AppToast.show("Range is updated");
                   Get.offAll(() => const EntryPointUI());
                 },
               ),

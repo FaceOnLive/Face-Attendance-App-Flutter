@@ -1,3 +1,4 @@
+import 'package:face_attendance/core/widgets/bottom_sheet_top_divider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -98,6 +99,7 @@ class _ChangePasswordSheetState extends State<ChangePasswordSheet> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
+          const BottomSheetTopDivider(),
           Text(
             'Change Password',
             style: AppText.h6.copyWith(

@@ -28,7 +28,7 @@ class AppUser {
     this.address,
   });
 
-  Map<String, dynamic> toMap() {
+  Map<String, dynamic> toMap({bool isAdmin = false}) {
     return {
       'name': name,
       'email': email,
@@ -39,6 +39,7 @@ class AppUser {
       'userFace': userFace,
       'deviceIDToken': deviceIDToken,
       'address': address,
+      'isAdmin': isAdmin,
     };
   }
 
