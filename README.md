@@ -4,10 +4,16 @@ An App Made with Face SDK
 
 ![cover_image](docs/github_cover.png)
 
+
+
+https://user-images.githubusercontent.com/91896009/164498733-955df7c1-71d6-42e4-8cdc-7e6b7e30e460.mp4
+
+
+
 ## Before we get started
 - 👉  For now, Our app does support only Android platform (arm64).
 
-- 👉  You will need a new AAR Library if you are creating this app on your own or changning the package name.
+- 👉  You will need a new AAR Library if you are creating this app on your own or changing the package name.
 
 - 🚀 If you are looking the code in a code editor.You can hover over it to see the info of a particular function or classes. 👇
 ![hovering_over_functions](docs/hovering_over_class_or_functions.png)
