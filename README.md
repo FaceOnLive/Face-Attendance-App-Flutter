@@ -118,9 +118,9 @@ If you liked our project you can give a star to let us know. Thank you for your 
 [flutter]:https://docs.flutter.dev/get-started/install
 [androidstudio]:https://developer.android.com/studio
 
-[follow]: https://github.com/Turing311/FaceAttendance/subscription
+[follow]: https://github.com/FaceOnLive/Mask-Face-Attendance-App-Flutter/subscription
 
-[Fork]: https://github.com/Turing311/FaceAttendance/fork
+[Fork]: https://github.com/FaceOnLive/Mask-Face-Attendance-App-Flutter/fork
 
 [faceonlive.com]:https://faceonlive.com
 [Super Fast Face SDK]: https://faceonlive.com
