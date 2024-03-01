@@ -1,3 +1,6 @@
+✨ _**Update (Mar 1, 2024):**_
+Introduce **OpenKYC Community Project**, build your own eKYC solution and contribute at this [Github Repo](https://github.com/FaceOnLive/OpenKYC), try at [HuggingFace Space](https://huggingface.co/spaces/FaceOnLive/OpenKYC).
+
 # Face Attendance
 
 An App Made with Face SDK
