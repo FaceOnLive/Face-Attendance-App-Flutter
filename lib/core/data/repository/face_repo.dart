@@ -44,24 +44,24 @@ class FaceRepoImpl extends FaceRepository {
     /// convert captured image
 
     /// initiate the database
-    final _imagebox = await Hive.openBox(_userImageBox);
+    final imagebox = await Hive.openBox(_userImageBox);
 
-    final _userImage = _imagebox.get(_imageKey) as Uint8List;
+    final userImage = imagebox.get(_imageKey) as Uint8List;
     final tempDir = await getTemporaryDirectory();
-    File _userImageFile = await File('${tempDir.path}/image.png').create();
-    _userImageFile.writeAsBytesSync(_userImage);
+    File userImageFile = await File('${tempDir.path}/image.png').create();
+    userImageFile.writeAsBytesSync(userImage);
 
-    bool _isSameUser = await NativeSDKFunctions.verifyPerson(
+    bool isSameUser = await NativeSDKFunctions.verifyPerson(
       capturedImage: capturedImage,
-      personImage: _userImageFile,
+      personImage: userImageFile,
     );
 
-    if (_isSameUser) {
-      final _dataBox = await Hive.openBox(_userDataBox);
-      final _data = await _dataBox.get(_dataKey) as Map;
-      String _decryptedEmail = AppAlgorithmUtil.decrypt(_data.values.first);
-      String _decryptedPass = AppAlgorithmUtil.decrypt(_data.values.last);
-      print("User email is: $_decryptedEmail And User Pass is $_decryptedPass");
+    if (isSameUser) {
+      final dataBox = await Hive.openBox(_userDataBox);
+      final data = await dataBox.get(_dataKey) as Map;
+      String decryptedEmail = AppAlgorithmUtil.decrypt(data.values.first);
+      String decryptedPass = AppAlgorithmUtil.decrypt(data.values.last);
+      print("User email is: $decryptedEmail And User Pass is $decryptedPass");
     } else {
       AppToast.show('Not the same user');
     }
@@ -74,37 +74,37 @@ class FaceRepoImpl extends FaceRepository {
     required File userPic,
   }) async {
     // convert the image into bytes
-    Uint8List _userImage = await userPic.readAsBytes();
+    Uint8List userImage = await userPic.readAsBytes();
     // open database
-    final _imagebox = await Hive.openBox(_userImageBox);
-    final _dataBox = await Hive.openBox(_userDataBox);
+    final imagebox = await Hive.openBox(_userImageBox);
+    final dataBox = await Hive.openBox(_userDataBox);
 
     /// Save the image for verification
-    await _imagebox.put(_imageKey, _userImage);
+    await imagebox.put(_imageKey, userImage);
 
     /// Encrypt the user Data
-    String _encryptedMail = AppAlgorithmUtil.encrypt(email);
-    String _encryptedPass = AppAlgorithmUtil.encrypt(userPass);
+    String encryptedMail = AppAlgorithmUtil.encrypt(email);
+    String encryptedPass = AppAlgorithmUtil.encrypt(userPass);
 
-    Map<String, dynamic> _data = {'a': _encryptedMail, 'b': _encryptedPass};
-    print("Saved Data :${_data.toString()}");
-    await _dataBox.put(_dataKey, _data);
+    Map<String, dynamic> data = {'a': encryptedMail, 'b': encryptedPass};
+    print("Saved Data :${data.toString()}");
+    await dataBox.put(_dataKey, data);
     AppToast.show('User Picture Has Been Saved');
   }
 
   @override
   Future<void> deleteFaceData() async {
-    final _imagebox = await Hive.openBox(_userImageBox);
-    final _dataBox = await Hive.openBox(_userDataBox);
-    await _imagebox.delete(_imageKey);
-    await _dataBox.delete(_dataKey);
+    final imagebox = await Hive.openBox(_userImageBox);
+    final dataBox = await Hive.openBox(_userDataBox);
+    await imagebox.delete(_imageKey);
+    await dataBox.delete(_dataKey);
   }
 
   @override
   Future<bool> isFaceDataAvailable() async {
-    final _imagebox = await Hive.openBox(_userImageBox);
-    final _theImage = _imagebox.get(_imageKey);
-    if (_theImage != null) {
+    final imagebox = await Hive.openBox(_userImageBox);
+    final theImage = imagebox.get(_imageKey);
+    if (theImage != null) {
       return true;
     } else {
       return false;

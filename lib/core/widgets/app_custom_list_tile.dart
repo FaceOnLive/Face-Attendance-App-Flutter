@@ -6,7 +6,7 @@ import '../../core/themes/text.dart';
 
 class AppCustomListTile extends StatelessWidget {
   const AppCustomListTile({
-    Key? key,
+    super.key,
     required this.onTap,
     this.label,
     this.leading,
@@ -14,7 +14,7 @@ class AppCustomListTile extends StatelessWidget {
     this.isUpdating = false,
     this.updateMessage,
     this.subtitle,
-  }) : super(key: key);
+  });
 
   final void Function() onTap;
   final String? label;
@@ -46,7 +46,7 @@ class AppCustomListTile extends StatelessWidget {
             leading: leading ?? const Icon(Icons.person_rounded),
             title: Text(
               label ?? 'Add Text Here',
-              style: context.textTheme.bodyText1,
+              style: context.textTheme.bodySmall,
             ),
             subtitle: isUpdating
                 ? Text(

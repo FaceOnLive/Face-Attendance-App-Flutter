@@ -10,8 +10,8 @@ import '../views/join_qr_code_page.dart';
 
 class AppMemberDropDown extends StatelessWidget {
   const AppMemberDropDown({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -50,25 +50,25 @@ class AppMemberDropDown extends StatelessWidget {
                           // Create button
                           if (index == controller.allSpaces.length) {
                             return const DropdownMenuItem(
-                              child: _JoinNewSpaceButton(),
                               value: 'Join',
+                              child: _JoinNewSpaceButton(),
                             );
                           }
 
                           /// List
-                          Space _currentSpace = controller.allSpaces[index];
+                          Space currentSpace = controller.allSpaces[index];
                           return DropdownMenuItem(
+                            value: currentSpace.name.toLowerCase(),
                             child: _DropDownSpaceItem(
                               active: true,
-                              iconData: _currentSpace.icon,
-                              label: _currentSpace.name,
+                              iconData: currentSpace.icon,
+                              label: currentSpace.name,
                               onTap: () {
                                 Get.to(
-                                  () => SpaceInfoScreen(space: _currentSpace),
+                                  () => SpaceInfoScreen(space: currentSpace),
                                 );
                               },
                             ),
-                            value: _currentSpace.name.toLowerCase(),
                           );
                         },
                       ),
@@ -99,9 +99,7 @@ class AppMemberDropDown extends StatelessWidget {
 }
 
 class _JoinNewSpaceButton extends StatelessWidget {
-  const _JoinNewSpaceButton({
-    Key? key,
-  }) : super(key: key);
+  const _JoinNewSpaceButton();
 
   @override
   Widget build(BuildContext context) {
@@ -127,12 +125,11 @@ class _JoinNewSpaceButton extends StatelessWidget {
 
 class _DropDownSpaceItem extends StatelessWidget {
   const _DropDownSpaceItem({
-    Key? key,
     required this.label,
     required this.active,
     required this.iconData,
     required this.onTap,
-  }) : super(key: key);
+  });
 
   final String label;
   final bool active;

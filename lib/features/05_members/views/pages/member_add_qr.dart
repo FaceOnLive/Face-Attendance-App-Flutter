@@ -1,13 +1,13 @@
 import 'dart:io';
 
 import 'package:face_attendance/core/utils/app_toast.dart';
+import 'package:qr_code_scanner_plus/qr_code_scanner_plus.dart';
 
 import '../controllers/member_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/route_manager.dart';
 import 'package:get/state_manager.dart';
-import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 import '../../../../core/constants/constants.dart';
 import '../../../../core/themes/text.dart';
@@ -16,7 +16,7 @@ import '../../../../core/widgets/app_button.dart';
 import '../../../02_entrypoint/entrypoint.dart';
 
 class MemberAddQrScreen extends StatefulWidget {
-  const MemberAddQrScreen({Key? key}) : super(key: key);
+  const MemberAddQrScreen({super.key});
 
   @override
   _MemberAddQrScreenState createState() => _MemberAddQrScreenState();
@@ -68,9 +68,9 @@ class _MemberAddQrScreenState extends State<MemberAddQrScreen> {
                   right: 16,
                   child: FloatingActionButton(
                     onPressed: changeCameraFace,
-                    child: const Icon(Icons.switch_camera_rounded),
                     backgroundColor: AppColors.primaryColor,
                     foregroundColor: Colors.white,
+                    child: const Icon(Icons.switch_camera_rounded),
                   ),
                 )
               ],
@@ -117,8 +117,7 @@ class _MemberAddQrScreenState extends State<MemberAddQrScreen> {
 }
 
 class _AddingUserQRCodeDialog extends StatefulWidget {
-  const _AddingUserQRCodeDialog({Key? key, required this.userID})
-      : super(key: key);
+  const _AddingUserQRCodeDialog({required this.userID});
 
   final String userID;
 

@@ -15,7 +15,7 @@ import '../dialogs/camera_or_gallery.dart';
 import '../dialogs/delete_user.dart';
 
 class MemberEditScreen extends StatefulWidget {
-  const MemberEditScreen({Key? key, required this.member}) : super(key: key);
+  const MemberEditScreen({super.key, required this.member});
 
   final Member member;
 
@@ -65,9 +65,9 @@ class _MemberEditScreenState extends State<MemberEditScreen> {
 
   /// When user clicks update button
   Future<void> _onUserUpdate() async {
-    bool _isFormOkay = _formKey.currentState!.validate();
+    bool isFormOkay = _formKey.currentState!.validate();
     // bool _isSamePerson = _userImage == null ? true : await isSameUserFace();
-    if (_isFormOkay) {
+    if (isFormOkay) {
       _updatingMember.value = true;
       await _controller.updateMember(
         name: _name.text,
@@ -84,22 +84,22 @@ class _MemberEditScreenState extends State<MemberEditScreen> {
 
   /// Is same face
   Future<bool> isSameUserFace() async {
-    bool _isSamePerson = false;
+    bool isSamePerson = false;
 
-    String? _memberImageUrl = widget.member.memberPicture;
+    String? memberImageUrl = widget.member.memberPicture;
 
     // if user has picked an image and user has an image
-    if (_memberImageUrl != null && _userImage != null) {
-      File _memberImageFile =
-          await AppPhotoService.fileFromImageUrl(_memberImageUrl);
+    if (memberImageUrl != null && _userImage != null) {
+      File memberImageFile =
+          await AppPhotoService.fileFromImageUrl(memberImageUrl);
 
-      print("Member image file path: ${_memberImageFile.path}");
+      print("Member image file path: ${memberImageFile.path}");
       print("User image path :${_userImage!.path}");
 
-      _isSamePerson = await NativeSDKFunctions.verifyPerson(
-          capturedImage: _userImage!, personImage: _memberImageFile);
+      isSamePerson = await NativeSDKFunctions.verifyPerson(
+          capturedImage: _userImage!, personImage: memberImageFile);
     }
-    return _isSamePerson;
+    return isSamePerson;
   }
 
   @override
@@ -153,8 +153,8 @@ class _MemberEditScreenState extends State<MemberEditScreen> {
                         // the file user has picked
                         if (_userImage != null) {
                           _userPickedImage.trigger(true);
-                          bool _isSamePerosn = await isSameUserFace();
-                          if (_isSamePerosn) {
+                          bool isSamePerosn = await isSameUserFace();
+                          if (isSamePerosn) {
                             print("Same person");
                           } else {
                             print("not same person");

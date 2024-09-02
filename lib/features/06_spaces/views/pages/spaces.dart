@@ -10,7 +10,7 @@ import 'space_create_page.dart';
 import 'space_info.dart';
 
 class SpacesScreen extends StatelessWidget {
-  const SpacesScreen({Key? key}) : super(key: key);
+  const SpacesScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -27,18 +27,18 @@ class SpacesScreen extends StatelessWidget {
                   return ListView.builder(
                     itemCount: controller.allSpaces.length,
                     itemBuilder: (context, index) {
-                      Space _currentSpace = controller.allSpaces[index];
+                      Space currentSpace = controller.allSpaces[index];
                       return ListTile(
                         onTap: () {
-                          Get.to(() => SpaceInfoScreen(space: _currentSpace));
+                          Get.to(() => SpaceInfoScreen(space: currentSpace));
                         },
                         leading: Icon(
-                          _currentSpace.icon,
+                          currentSpace.icon,
                           color: AppColors.primaryColor,
                         ),
-                        title: Text(_currentSpace.name),
+                        title: Text(currentSpace.name),
                         subtitle: Text(
-                          'Total Member: ${_currentSpace.memberList.length}',
+                          'Total Member: ${currentSpace.memberList.length}',
                         ),
                         trailing: const Icon(Icons.arrow_forward_ios_rounded),
                       );

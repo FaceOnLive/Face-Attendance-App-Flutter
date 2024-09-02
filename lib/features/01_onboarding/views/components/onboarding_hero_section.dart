@@ -6,9 +6,9 @@ import '../../models/intro_model.dart';
 
 class OnboardingHeroSection extends StatelessWidget {
   const OnboardingHeroSection({
-    Key? key,
+    super.key,
     required this.onboardingModel,
-  }) : super(key: key);
+  });
 
   final OnboardingModel onboardingModel;
 

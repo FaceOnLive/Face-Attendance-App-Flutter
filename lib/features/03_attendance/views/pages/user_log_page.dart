@@ -10,7 +10,7 @@ import '../../../../core/themes/text.dart';
 import '../../../06_spaces/views/controllers/space_controller.dart';
 
 class SpaceLogScreen extends StatefulWidget {
-  const SpaceLogScreen({Key? key}) : super(key: key);
+  const SpaceLogScreen({super.key});
 
   @override
   _SpaceLogScreenState createState() => _SpaceLogScreenState();
@@ -114,9 +114,8 @@ class _SpaceLogScreenState extends State<SpaceLogScreen> {
 
 class _LogMessageTile extends StatelessWidget {
   const _LogMessageTile({
-    Key? key,
     required this.message,
-  }) : super(key: key);
+  });
 
   final LogMessage message;
 

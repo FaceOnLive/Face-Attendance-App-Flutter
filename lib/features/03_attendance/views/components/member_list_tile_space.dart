@@ -11,12 +11,12 @@ import '../pages/member_details_page.dart';
 
 class MemberListTileSpace extends StatelessWidget {
   const MemberListTileSpace({
-    Key? key,
+    super.key,
     required this.member,
     required this.currentSpaceID,
     this.attendedTime,
     this.fetchingTodaysLog = true,
-  }) : super(key: key);
+  });
 
   final Member member;
   final String currentSpaceID;

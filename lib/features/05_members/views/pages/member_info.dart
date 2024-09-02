@@ -11,9 +11,9 @@ import 'member_edit.dart';
 
 class MemberInfoScreen extends StatelessWidget {
   const MemberInfoScreen({
-    Key? key,
+    super.key,
     required this.member,
-  }) : super(key: key);
+  });
 
   final Member member;
 

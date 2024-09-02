@@ -8,7 +8,7 @@ import '../../../widgets/app_button.dart';
 import '../../controllers/signup_controller.dart';
 
 class SignUpPage extends StatefulWidget {
-  const SignUpPage({Key? key}) : super(key: key);
+  const SignUpPage({super.key});
 
   @override
   _SignUpPageState createState() => _SignUpPageState();
@@ -53,9 +53,9 @@ class _SignUpPageState extends State<SignUpPage> {
   final RxBool _isAddingUser = false.obs;
 
   Future<void> _onCreateUser() async {
-    bool _isFormOkay =
+    bool isFormOkay =
         _formKey.currentState!.validate() && _isPasswordMatching();
-    if (_isFormOkay) {
+    if (isFormOkay) {
       AppUiUtil.dismissKeyboard(context: context);
       _isAddingUser.trigger(true);
       try {

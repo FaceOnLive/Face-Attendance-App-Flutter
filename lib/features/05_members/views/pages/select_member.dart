@@ -9,7 +9,7 @@ import '../../../06_spaces/views/controllers/space_controller.dart';
 /// This is used for when you want to select a member from other screen,
 /// there could be a thousand of member here, so we need to build pagination here
 class SelectMemberScreen extends StatefulWidget {
-  const SelectMemberScreen({Key? key}) : super(key: key);
+  const SelectMemberScreen({super.key});
 
   @override
   _SelectMemberScreenState createState() => _SelectMemberScreenState();
@@ -76,12 +76,10 @@ class _SelectMemberScreenState extends State<SelectMemberScreen> {
 
 class _MemberList extends StatelessWidget {
   const _MemberList({
-    Key? key,
     required List<Member> allMember,
     required Rxn<Member> selectedMember,
   })  : _allMember = allMember,
-        _selectedMember = selectedMember,
-        super(key: key);
+        _selectedMember = selectedMember;
 
   final List<Member> _allMember;
   final Rxn<Member> _selectedMember;
@@ -92,24 +90,24 @@ class _MemberList extends StatelessWidget {
       child: ListView.builder(
         itemCount: _allMember.length,
         itemBuilder: (context, index) {
-          Member _currentMember = _allMember[index];
+          Member currentMember = _allMember[index];
           return ListTile(
             onTap: () {
-              _selectedMember.value = _currentMember;
+              _selectedMember.value = currentMember;
             },
             leading: MemberImageLeading(
-              imageLink: _currentMember.memberPicture,
+              imageLink: currentMember.memberPicture,
             ),
-            title: Text(_currentMember.memberName),
+            title: Text(currentMember.memberName),
             subtitle: Text(
-              _currentMember.memberNumber.toString(),
+              currentMember.memberNumber.toString(),
             ),
             trailing: Obx(
               () => Radio(
                 value: true,
-                groupValue: _currentMember == _selectedMember.value,
+                groupValue: currentMember == _selectedMember.value,
                 onChanged: (bool? value) {
-                  _selectedMember.value = _currentMember;
+                  _selectedMember.value = currentMember;
                 },
               ),
             ),

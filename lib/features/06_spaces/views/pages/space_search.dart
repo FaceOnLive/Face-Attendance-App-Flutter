@@ -14,7 +14,7 @@ import '../../../05_members/views/controllers/member_controller.dart';
 import '../../../05_members/views/pages/select_member.dart';
 
 class SpaceSearchScreen extends StatefulWidget {
-  const SpaceSearchScreen({Key? key, required this.space}) : super(key: key);
+  const SpaceSearchScreen({super.key, required this.space});
 
   final Space space;
 
@@ -103,11 +103,11 @@ class _SpaceSearchScreenState extends State<SpaceSearchScreen> {
                               Icons.arrow_forward_ios_rounded,
                             ),
                             onPressed: () async {
-                              Member? _selectedM = await Get.to(
+                              Member? selectedM = await Get.to(
                                 () => const SelectMemberScreen(),
                               );
-                              if (_selectedM != null) {
-                                _selectedMember.value = _selectedM;
+                              if (selectedM != null) {
+                                _selectedMember.value = selectedM;
                               }
                             },
                           ),
@@ -118,10 +118,10 @@ class _SpaceSearchScreenState extends State<SpaceSearchScreen> {
                           width: Get.width * 0.9,
                           label: 'Select A Member',
                           onTap: () async {
-                            Member? _selectedM =
+                            Member? selectedM =
                                 await Get.to(() => const SelectMemberScreen());
-                            if (_selectedM != null) {
-                              _selectedMember.value = _selectedM;
+                            if (selectedM != null) {
+                              _selectedMember.value = selectedM;
                             }
                           },
                           suffixIcon: const Icon(
@@ -150,15 +150,15 @@ class _SpaceSearchScreenState extends State<SpaceSearchScreen> {
                     width: Get.width * 0.9,
                     label: 'Select A Date',
                     onTap: () async {
-                      DateTime? _selectedD = await Get.dialog(
+                      DateTime? selectedD = await Get.dialog(
                         DatePickerDialog(
                           initialDate: DateTime.now(),
                           firstDate: DateTime(2000),
                           lastDate: DateTime.now(),
                         ),
                       );
-                      if (_selectedD != null) {
-                        _selectedDate.value = _selectedD;
+                      if (selectedD != null) {
+                        _selectedDate.value = selectedD;
                       }
                       // print(DateFormat.yMEd(result));
                     },
@@ -196,9 +196,7 @@ class _SpaceSearchScreenState extends State<SpaceSearchScreen> {
 }
 
 class _MemberWasNotAttended extends StatelessWidget {
-  const _MemberWasNotAttended({
-    Key? key,
-  }) : super(key: key);
+  const _MemberWasNotAttended();
 
   @override
   Widget build(BuildContext context) {
@@ -223,9 +221,7 @@ class _MemberWasNotAttended extends StatelessWidget {
 }
 
 class _MemberWasAttended extends StatelessWidget {
-  const _MemberWasAttended({
-    Key? key,
-  }) : super(key: key);
+  const _MemberWasAttended();
 
   @override
   Widget build(BuildContext context) {
@@ -250,9 +246,7 @@ class _MemberWasAttended extends StatelessWidget {
 }
 
 class _SearchLoading extends StatelessWidget {
-  const _SearchLoading({
-    Key? key,
-  }) : super(key: key);
+  const _SearchLoading();
 
   @override
   Widget build(BuildContext context) {

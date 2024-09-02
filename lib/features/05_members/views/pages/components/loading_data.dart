@@ -7,8 +7,8 @@ import '../../../../../core/themes/text.dart';
 class LoadingMemberData extends StatelessWidget {
 // To Add A Loading List Effect
   const LoadingMemberData({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

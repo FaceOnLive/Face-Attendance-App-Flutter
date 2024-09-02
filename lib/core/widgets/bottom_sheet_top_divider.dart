@@ -4,8 +4,8 @@ import '../constants/constants.dart';
 
 class BottomSheetTopDivider extends StatelessWidget {
   const BottomSheetTopDivider({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

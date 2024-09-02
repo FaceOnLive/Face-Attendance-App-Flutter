@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class VerifierTestFaceLoginPage extends StatefulWidget {
-  const VerifierTestFaceLoginPage({Key? key}) : super(key: key);
+  const VerifierTestFaceLoginPage({super.key});
 
   @override
   _VerifierTestFaceLoginPageState createState() =>
@@ -23,9 +23,9 @@ class _VerifierTestFaceLoginPageState extends State<VerifierTestFaceLoginPage> {
 
   /// Pick User Image
   _pickUserImage() async {
-    File? _pickedFile = await Get.dialog(const CameraGallerySelectDialog());
-    if (_pickedFile != null) {
-      _userImage.value = _pickedFile;
+    File? pickedFile = await Get.dialog(const CameraGallerySelectDialog());
+    if (pickedFile != null) {
+      _userImage.value = pickedFile;
     } else {
       AppToast.show('No Image has been selected');
     }

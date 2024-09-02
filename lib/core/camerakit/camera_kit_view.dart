@@ -52,7 +52,7 @@ class CameraKitView extends StatefulWidget {
   late _BarcodeScannerViewState viewState;
 
   CameraKitView(
-      {Key? key,
+      {super.key,
       this.doFaceAnalysis = true,
       this.scaleType = ScaleTypeMode.fill,
       this.onRecognized,
@@ -60,8 +60,7 @@ class CameraKitView extends StatefulWidget {
       this.cameraKitController,
       this.onPermissionDenied,
       this.androidCameraMode = AndroidCameraMode.apiX,
-      this.cameraSelector = CameraSelector.back})
-      : super(key: key);
+      this.cameraSelector = CameraSelector.back});
 
   dispose() {
     viewState.disposeView();
@@ -84,7 +83,7 @@ class _BarcodeScannerViewState extends State<CameraKitView>
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance!.addObserver(this);
+    WidgetsBinding.instance.addObserver(this);
     if (defaultTargetPlatform == TargetPlatform.android) {
       visibilityDetector = VisibilityDetector(
           key: const Key('visible-camerakit-key-1'),
@@ -147,7 +146,7 @@ class _BarcodeScannerViewState extends State<CameraKitView>
 
   @override
   void dispose() {
-    WidgetsBinding.instance!.removeObserver(this);
+    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
 
@@ -168,7 +167,7 @@ class NativeCameraKitController {
   CameraKitView widget;
 
   NativeCameraKitController._(int id, this.context, this.widget)
-      : _channel = MethodChannel('plugins/camera_kit_' + id.toString());
+      : _channel = MethodChannel('plugins/camera_kit_$id');
 
   final MethodChannel _channel;
 

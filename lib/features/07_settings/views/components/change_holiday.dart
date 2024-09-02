@@ -6,7 +6,7 @@ import '../../../../core/themes/text.dart';
 import '../controllers/app_admin_controller.dart';
 
 class ChangeHolidaySheet extends StatefulWidget {
-  const ChangeHolidaySheet({Key? key}) : super(key: key);
+  const ChangeHolidaySheet({super.key});
 
   @override
   _ChangeHolidaySheetState createState() => _ChangeHolidaySheetState();
@@ -73,11 +73,10 @@ class _ChangeHolidaySheetState extends State<ChangeHolidaySheet> {
 
 class _DayTile extends StatelessWidget {
   const _DayTile({
-    Key? key,
     required this.isSelected,
     required this.dayName,
     required this.onTap,
-  }) : super(key: key);
+  });
 
   final bool isSelected;
   final String dayName;

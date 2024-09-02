@@ -1,12 +1,12 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:qr_code_scanner/qr_code_scanner.dart';
+import 'package:qr_code_scanner_plus/qr_code_scanner_plus.dart';
 
 import '../../../../core/constants/constants.dart';
 
 class SpaceAddQrPersonScreen extends StatefulWidget {
-  const SpaceAddQrPersonScreen({Key? key}) : super(key: key);
+  const SpaceAddQrPersonScreen({super.key});
 
   @override
   _SpaceAddQrPersonScreenState createState() => _SpaceAddQrPersonScreenState();

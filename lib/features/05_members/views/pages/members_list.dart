@@ -8,8 +8,8 @@ import 'components/no_member_found.dart';
 
 class MembersList extends StatelessWidget {
   const MembersList({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

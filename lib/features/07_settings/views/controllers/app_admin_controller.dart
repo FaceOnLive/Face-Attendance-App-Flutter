@@ -65,12 +65,12 @@ class AppAdminController extends GetxController {
     try {
       isUpdatingPicture = true;
       update();
-      String? _downloadURL = await UploadPicture.ofUser(
+      String? downloadURL = await UploadPicture.ofUser(
         userID: currentUser.userID!,
         imageFile: image,
       );
       await _collectionReference.doc(_currentUserID).update({
-        'userProfilePicture': _downloadURL,
+        'userProfilePicture': downloadURL,
       });
       await _fetchUserData();
       isUpdatingPicture = false;
@@ -95,12 +95,12 @@ class AppAdminController extends GetxController {
     try {
       isUpdatingFaceID = true;
       update();
-      String? _downloadURL = await UploadPicture.ofUserFaceID(
+      String? downloadURL = await UploadPicture.ofUserFaceID(
         userID: currentUser.userID!,
         imageFile: imageFile,
       );
       await _collectionReference.doc(_currentUserID).update({
-        'userFace': _downloadURL,
+        'userFace': downloadURL,
       });
       await _fetchUserData();
 
@@ -139,26 +139,26 @@ class AppAdminController extends GetxController {
   }) async {
     String email = currentUser.email;
     // Need to authenticate the user again to refresh token
-    AuthCredential _credential = EmailAuthProvider.credential(
+    AuthCredential credential = EmailAuthProvider.credential(
       email: email,
       password: oldPassword,
     );
     await FirebaseAuth.instance.currentUser!
-        .reauthenticateWithCredential(_credential);
+        .reauthenticateWithCredential(credential);
     await FirebaseAuth.instance.currentUser!.updatePassword(newPassword);
   }
 
   /// Reauthenticate Users
   Future<bool> reauthenticateUser({required String password}) async {
-    String _email = currentUser.email;
+    String email = currentUser.email;
     // Need to authenticate the user again to refresh token
     try {
-      AuthCredential _credential = EmailAuthProvider.credential(
-        email: _email,
+      AuthCredential credential = EmailAuthProvider.credential(
+        email: email,
         password: password,
       );
       await FirebaseAuth.instance.currentUser!
-          .reauthenticateWithCredential(_credential);
+          .reauthenticateWithCredential(credential);
 
       return true;
     } on FirebaseAuthException catch (_) {

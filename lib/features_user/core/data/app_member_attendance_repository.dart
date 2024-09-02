@@ -13,39 +13,39 @@ class AppMemberAttendanceRepository {
     required String spaceID,
     DateTime? userDate,
   }) async {
-    final _reference = collectionReference
+    final reference = collectionReference
         .doc(memberID)
         .collection('attendance')
         .doc(spaceID)
         .collection('data');
 
-    final String _thisYear = DateTime.now().year.toString();
+    final String thisYear = DateTime.now().year.toString();
 
-    final _attendenceDoc = await _reference
-        .doc(userDate == null ? _thisYear : userDate.year.toString())
+    final attendenceDoc = await reference
+        .doc(userDate == null ? thisYear : userDate.year.toString())
         .get();
 
     /// Where the firebase data will be stored
-    List<Timestamp> _unAttendedDate = [];
+    List<Timestamp> unAttendedDate = [];
 
-    if (_attendenceDoc.exists) {
-      Map<String, dynamic>? _theDates = _attendenceDoc.data();
-      _unAttendedDate = List.from(_theDates!['unattended_date']);
+    if (attendenceDoc.exists) {
+      Map<String, dynamic>? theDates = attendenceDoc.data();
+      unAttendedDate = List.from(theDates!['unattended_date']);
     } else {
-      await _attendenceDoc.reference.set({
+      await attendenceDoc.reference.set({
         'unattended_date': [],
       });
     }
 
     /// Return Type
-    List<DateTime> _unattendedDateInDateTime = [];
+    List<DateTime> unattendedDateInDateTime = [];
 
     /// Convert the data
-    for (Timestamp dateInTimeStamp in _unAttendedDate) {
-      _unattendedDateInDateTime.add(dateInTimeStamp.toDate());
+    for (Timestamp dateInTimeStamp in unAttendedDate) {
+      unattendedDateInDateTime.add(dateInTimeStamp.toDate());
     }
 
-    return _unattendedDateInDateTime;
+    return unattendedDateInDateTime;
   }
 
   /// Attendance Give [App_Member]
@@ -54,7 +54,7 @@ class AppMemberAttendanceRepository {
     required String spaceID,
     required DateTime date,
   }) async {
-    final _reference = collectionReference
+    final reference = collectionReference
         .doc(memberID)
         .collection('attendance')
         .doc(spaceID)
@@ -65,13 +65,13 @@ class AppMemberAttendanceRepository {
     print("The date is $theDate");
 
     try {
-      final _attendenceDoc = await _reference.doc(date.year.toString()).get();
-      if (_attendenceDoc.exists) {
-        await _attendenceDoc.reference.update({
+      final attendenceDoc = await reference.doc(date.year.toString()).get();
+      if (attendenceDoc.exists) {
+        await attendenceDoc.reference.update({
           'unattended_date': FieldValue.arrayRemove([theDate])
         });
       } else {
-        await _reference.doc(date.year.toString()).set({
+        await reference.doc(date.year.toString()).set({
           'unattended_date': [],
         });
       }

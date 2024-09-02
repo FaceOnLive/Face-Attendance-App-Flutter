@@ -8,8 +8,8 @@ import '../../core/controllers/app_member_verify.dart';
 
 class UnverifiedSection extends StatelessWidget {
   const UnverifiedSection({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

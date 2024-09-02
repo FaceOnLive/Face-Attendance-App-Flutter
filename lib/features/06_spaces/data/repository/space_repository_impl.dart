@@ -48,8 +48,8 @@ class SpaceRepositoryImpl extends SpaceRepository {
       {required Space space}) async {
     try {
       final docRef = await spaceCollection.add(space.toMap());
-      String _id = docRef.id;
-      return Right(_id);
+      String id = docRef.id;
+      return Right(id);
     } on Exception catch (_) {
       return Left(ServerFailure());
     }
@@ -68,7 +68,7 @@ class SpaceRepositoryImpl extends SpaceRepository {
   Future<Either<ServerFailure, List<Space>>> getAllSpaces(
       String ownerUID) async {
     try {
-      List<Space> _fethcedSpaces = [];
+      List<Space> fethcedSpaces = [];
 
       // Get All Spaces
       await spaceCollection
@@ -79,10 +79,10 @@ class SpaceRepositoryImpl extends SpaceRepository {
           .get()
           .then((spaces) => {
                 for (var space in spaces.docs)
-                  {_fethcedSpaces.add(Space.fromDocumentSnap(space))}
+                  {fethcedSpaces.add(Space.fromDocumentSnap(space))}
               });
 
-      return Right(_fethcedSpaces);
+      return Right(fethcedSpaces);
     } catch (e) {
       return Left(ServerFailure());
     }
@@ -96,8 +96,8 @@ class SpaceRepositoryImpl extends SpaceRepository {
       if (documentSnap.data() == null) {
         throw Exception();
       }
-      Space _fethcedSpace = Space.fromDocumentSnap(documentSnap);
-      return Right(_fethcedSpace);
+      Space fethcedSpace = Space.fromDocumentSnap(documentSnap);
+      return Right(fethcedSpace);
     } catch (e) {
       return Left(ServerFailure());
     }

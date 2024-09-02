@@ -5,8 +5,8 @@ import '../../../core/themes/text.dart';
 
 class TodayDateRowWidget extends StatelessWidget {
   const TodayDateRowWidget({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

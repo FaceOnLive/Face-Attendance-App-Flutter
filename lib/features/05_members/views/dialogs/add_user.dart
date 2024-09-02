@@ -7,7 +7,7 @@ import '../../../../core/constants/constants.dart';
 import '../../../../core/themes/text.dart';
 
 class AddUserDialog extends StatelessWidget {
-  const AddUserDialog({Key? key}) : super(key: key);
+  const AddUserDialog({super.key});
 
   @override
   Widget build(BuildContext context) {

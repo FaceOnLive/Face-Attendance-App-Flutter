@@ -9,7 +9,7 @@ import 'verifier_section_open_camera_.dart';
 import 'verifying_section_animation.dart';
 
 class AppMemberVerifierWidget extends GetView<AppMemberVerifyController> {
-  const AppMemberVerifierWidget({Key? key}) : super(key: key);
+  const AppMemberVerifierWidget({super.key});
 
   @override
   Widget build(BuildContext context) {

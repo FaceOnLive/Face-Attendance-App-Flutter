@@ -8,7 +8,7 @@ import '../../../../core/data/services/app_photo.dart';
 import '../../../../core/themes/text.dart';
 
 class CameraGallerySelectDialog extends StatelessWidget {
-  const CameraGallerySelectDialog({Key? key}) : super(key: key);
+  const CameraGallerySelectDialog({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -42,9 +42,9 @@ class CameraGallerySelectDialog extends StatelessWidget {
                   children: [
                     InkWell(
                       onTap: () async {
-                        File? _image =
+                        File? image =
                             await AppPhotoService.getImageFromCamera();
-                        Get.back(result: _image);
+                        Get.back(result: image);
                       },
                       child: Column(
                         children: [
@@ -58,9 +58,9 @@ class CameraGallerySelectDialog extends StatelessWidget {
                     ),
                     InkWell(
                       onTap: () async {
-                        File? _image =
+                        File? image =
                             await AppPhotoService.getImageFromGallery();
-                        Get.back(result: _image);
+                        Get.back(result: image);
                       },
                       child: Column(
                         children: [

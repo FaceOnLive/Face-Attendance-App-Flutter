@@ -54,10 +54,10 @@ class MembersController extends GetxController {
   Future<void> fetchMembersList() async {
     isFetchingUser = true;
     // We are going to fetch multiple times, this is to avoid duplication
-    final _fetchedData =
+    final fetchedData =
         await _repository.getAllMembers(adminID: _currentAdminID);
 
-    _fetchedData.fold(
+    fetchedData.fold(
       (l) => {
         AppToast.show('There is an error with fetching Members'),
       },
@@ -76,7 +76,7 @@ class MembersController extends GetxController {
     required String fullAddress,
   }) async {
     try {
-      Member _member = Member(
+      Member member = Member(
         memberName: name,
         memberPicture: '',
         memberNumber: phoneNumber,
@@ -84,24 +84,24 @@ class MembersController extends GetxController {
         isCustom: true,
       );
       // We should add the member first so that we can get a user Id
-      final documentRef = await _repository.addCustomMember(member: _member);
+      final documentRef = await _repository.addCustomMember(member: member);
 
-      String _id = 'null';
+      String id = 'null';
 
       documentRef.fold(
-          (l) => throw ServerExeption(), (_docRef) => {_id = _docRef});
+          (l) => throw ServerExeption(), (docRef) => {id = docRef});
 
-      String? _downloadUrl = await UploadPicture.ofMember(
-        memberID: _id,
+      String? downloadUrl = await UploadPicture.ofMember(
+        memberID: id,
         imageFile: memberPictureFile,
         userID: _currentAdminID,
       );
 
-      await _customMembersCollections.doc(_id).update({
-        'memberPicture': _downloadUrl,
+      await _customMembersCollections.doc(id).update({
+        'memberPicture': downloadUrl,
       });
 
-      print("Member Added $_id");
+      print("Member Added $id");
       fetchMembersList();
     } on FirebaseException catch (e) {
       print(e.message);
@@ -118,16 +118,16 @@ class MembersController extends GetxController {
     required bool isCustom,
   }) async {
     try {
-      String? _imagePictureUrl;
+      String? imagePictureUrl;
       // If user has picked an image
       if (memberPicture != null) {
-        _imagePictureUrl = await UploadPicture.ofMember(
+        imagePictureUrl = await UploadPicture.ofMember(
           memberID: member.memberID!,
           imageFile: memberPicture,
           userID: _currentAdminID,
         );
       } else {
-        _imagePictureUrl = member.memberPicture;
+        imagePictureUrl = member.memberPicture;
       }
 
       await _customMembersCollections.doc(member.memberID!).get().then(
@@ -135,7 +135,7 @@ class MembersController extends GetxController {
           value.reference.update(
             Member(
               memberName: name,
-              memberPicture: _imagePictureUrl!,
+              memberPicture: imagePictureUrl!,
               memberNumber: phoneNumber,
               memberFullAdress: fullAddress,
               isCustom: isCustom,
@@ -166,23 +166,23 @@ class MembersController extends GetxController {
 
   /// Add Members by QR Code
   Future<void> addAppMembersFromQRCode({required String userID}) async {
-    final _response = await _repository.addAppMember(
+    final response = await _repository.addAppMember(
         userID: userID, adminID: _currentAdminID);
-    _response.fold((l) => AppToast.show('There is an error Adding This Member'),
-        (r) => {Get.back(), AppToast.show('Member has been added')});
+    response.fold((l) => AppToast.show('There is an error Adding This Member'),
+        (r) {Get.back(); AppToast.show('Member has been added');});
   }
 
   /// Delete App Member by QR Code
   Future<void> deleteAppMember({required String userID}) async {
-    final _response = await _repository.removeAppMember(
+    final response = await _repository.removeAppMember(
       userID: userID,
       adminID: _currentAdminID,
     );
     await Get.find<SpaceController>()
         .removeAmemberFromAllSpace(userID: userID, isCustom: false);
-    _response.fold(
+    response.fold(
         (l) => AppToast.show('There is an error Removing This Member'),
-        (r) => {Get.back(), AppToast.show('Member has been removed')});
+        (r) {Get.back(); AppToast.show('Member has been removed');});
     await onRefresh();
   }
 
@@ -192,14 +192,14 @@ class MembersController extends GetxController {
   /// So always check for null;
   Member? getMemberByIDLocal({required String memberID}) {
     // Check If Member EXISTS
-    List<String> _allMemberID = [];
+    List<String> allMemberID = [];
     for (var element in allMembers) {
-      _allMemberID.add(element.memberID!);
+      allMemberID.add(element.memberID!);
     }
 
     Member? member;
     // if the member exist
-    if (_allMemberID.contains(memberID)) {
+    if (allMemberID.contains(memberID)) {
       member =
           allMembers.singleWhere((element) => element.memberID == memberID);
     } else {
@@ -281,8 +281,8 @@ class MembersController extends GetxController {
     required DateTime date,
     required bool isCustom,
   }) async {
-    List<DateTime> _unattendedDate = [];
-    _unattendedDate = await MemberAttendanceRepository(adminID: _currentAdminID)
+    List<DateTime> unattendedDate = [];
+    unattendedDate = await MemberAttendanceRepository(adminID: _currentAdminID)
         .fetchThisYearAttendnce(
       memberID: memberID,
       spaceID: spaceID,
@@ -290,12 +290,12 @@ class MembersController extends GetxController {
       isCustom: isCustom,
     );
 
-    bool _isMemberWasAttended = false;
-    _isMemberWasAttended = !DateUtil.doesContainThisDate(
+    bool isMemberWasAttended = false;
+    isMemberWasAttended = !DateUtil.doesContainThisDate(
       date: date,
-      allDates: _unattendedDate,
+      allDates: unattendedDate,
     );
-    return _isMemberWasAttended;
+    return isMemberWasAttended;
   }
 
   /// On Refresh

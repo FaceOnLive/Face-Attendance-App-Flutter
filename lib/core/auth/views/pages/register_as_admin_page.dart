@@ -10,7 +10,7 @@ import '../dialogs/we_received_your_request.dart';
 import 'login_page.dart';
 
 class RegisterAsAdminPage extends StatefulWidget {
-  const RegisterAsAdminPage({Key? key}) : super(key: key);
+  const RegisterAsAdminPage({super.key});
 
   @override
   _RegisterAsAdminPageState createState() => _RegisterAsAdminPageState();
@@ -45,8 +45,8 @@ class _RegisterAsAdminPageState extends State<RegisterAsAdminPage> {
   final RxBool _isSendingData = false.obs;
 
   Future<void> _onCreateUser() async {
-    bool _isFormOkay = _formKey.currentState!.validate();
-    if (_isFormOkay) {
+    bool isFormOkay = _formKey.currentState!.validate();
+    if (isFormOkay) {
       AppUiUtil.dismissKeyboard(context: context);
       _isSendingData.trigger(true);
 

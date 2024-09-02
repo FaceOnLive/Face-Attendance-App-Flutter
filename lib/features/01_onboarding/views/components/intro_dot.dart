@@ -5,9 +5,9 @@ import '../../../../core/constants/constants.dart';
 class IntroDot extends StatelessWidget {
   /// Used For The Dots on the screen
   const IntroDot({
-    Key? key,
+    super.key,
     required this.active,
-  }) : super(key: key);
+  });
 
   final bool active;
 

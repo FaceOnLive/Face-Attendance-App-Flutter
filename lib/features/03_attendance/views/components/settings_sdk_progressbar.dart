@@ -7,8 +7,8 @@ import '../../../../core/themes/text.dart';
 
 class SettingSDKDatabase extends StatelessWidget {
   const SettingSDKDatabase({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

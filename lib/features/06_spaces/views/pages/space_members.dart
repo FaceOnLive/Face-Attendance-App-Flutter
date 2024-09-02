@@ -13,7 +13,7 @@ import 'space_member_add.dart';
 import 'space_member_remove.dart';
 
 class SpaceMembersScreen extends StatefulWidget {
-  const SpaceMembersScreen({Key? key, required this.space}) : super(key: key);
+  const SpaceMembersScreen({super.key, required this.space});
 
   final Space space;
 
@@ -58,8 +58,8 @@ class _SpaceMembersScreenState extends State<SpaceMembersScreen> {
                     child: ListView.builder(
                       itemCount: _allSpacesMember.length,
                       itemBuilder: (context, index) {
-                        Member _currentMember = _allSpacesMember[index];
-                        return _MemberListTile(member: _currentMember);
+                        Member currentMember = _allSpacesMember[index];
+                        return _MemberListTile(member: currentMember);
                       },
                     ),
                   ),
@@ -109,9 +109,8 @@ class _SpaceMembersScreenState extends State<SpaceMembersScreen> {
 
 class _MemberListTile extends StatelessWidget {
   const _MemberListTile({
-    Key? key,
     required this.member,
-  }) : super(key: key);
+  });
 
   final Member member;
 

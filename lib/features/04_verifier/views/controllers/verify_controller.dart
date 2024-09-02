@@ -34,17 +34,17 @@ class VerifyController extends GetxController {
   /// Local Way of Getting Images URL
   Future<void> _getAllMembersImagesURL() async {
     allMemberImagesURL.clear();
-    final _membersController = Get.find<MembersController>();
-    List<Member> _allMember = [];
+    final membersController = Get.find<MembersController>();
+    List<Member> allMember = [];
     await retry(
       () {
-        return _allMember = _membersController.allMembers;
+        return allMember = membersController.allMembers;
       },
-      retryIf: (e) => _membersController.isFetchingUser,
+      retryIf: (e) => membersController.isFetchingUser,
       maxAttempts: 12,
     );
 
-    await Future.forEach<Member>(_allMember, (element) {
+    await Future.forEach<Member>(allMember, (element) {
       if (element.memberPicture != null) {
         allMemberImagesURL.addAll({element.memberID!: element.memberPicture!});
       }
@@ -62,47 +62,47 @@ class VerifyController extends GetxController {
   /// storing it to the memory
   Future<void> _getAllMemberImagesToFile() async {
     allMemberImagesFile.clear();
-    List<String> _memberUIDs = List<String>.from(allMemberImagesURL.keys);
-    List<String> _memberImagesUrl =
+    List<String> memberUIDs = List<String>.from(allMemberImagesURL.keys);
+    List<String> memberImagesUrl =
         List<String>.from(allMemberImagesURL.values);
 
     // You can delay this a little bit to get performance
-    await Future.forEach<String>(_memberImagesUrl, (element) async {
-      File _file = await AppPhotoService.fileFromImageUrl(element);
+    await Future.forEach<String>(memberImagesUrl, (element) async {
+      File file = await AppPhotoService.fileFromImageUrl(element);
 
       // get current index
-      int _currentPictureIndex = _memberImagesUrl.indexOf(element);
+      int currentPictureIndex = memberImagesUrl.indexOf(element);
 
       // get current userID
-      String _currentUserID = _memberUIDs[_currentPictureIndex];
+      String currentUserID = memberUIDs[currentPictureIndex];
 
-      allMemberImagesFile.addAll({_currentUserID: _file});
+      allMemberImagesFile.addAll({currentUserID: file});
     });
 
     /* <---- Set SDK -----> */
-    List<File> _memberImagesLoadedList =
+    List<File> memberImagesLoadedList =
         List<File>.from(allMemberImagesFile.values);
 
     /// Map<String, Uin8List> this will be the type
-    Map<int, Uint8List> _allUsersImage = {};
-    Map<int, String> _inTtoKeepTrackOfUsers = {};
+    Map<int, Uint8List> allUsersImage = {};
+    Map<int, String> inTtoKeepTrackOfUsers = {};
 
     /// Convert All User Face Data
-    await Future.forEach<File>(_memberImagesLoadedList, (imageFile) async {
-      Uint8List? _convertedFile = await NativeSDKFunctions.getFaceData(
+    await Future.forEach<File>(memberImagesLoadedList, (imageFile) async {
+      Uint8List? convertedFile = await NativeSDKFunctions.getFaceData(
         image: imageFile,
       );
-      int _currentIndex = _memberImagesLoadedList.indexOf(imageFile);
-      String _userID = _memberUIDs[_currentIndex];
+      int currentIndex = memberImagesLoadedList.indexOf(imageFile);
+      String userID = memberUIDs[currentIndex];
 
-      if (_convertedFile != null) {
-        _allUsersImage.addAll({_currentIndex: _convertedFile});
-        _inTtoKeepTrackOfUsers.addAll({_currentIndex: _userID});
+      if (convertedFile != null) {
+        allUsersImage.addAll({currentIndex: convertedFile});
+        inTtoKeepTrackOfUsers.addAll({currentIndex: userID});
       }
     });
 
-    await NativeSDKFunctions.setSdkDatabase(_allUsersImage);
-    Get.find<UserSerialKeeper>().saveDatabase(_inTtoKeepTrackOfUsers);
+    await NativeSDKFunctions.setSdkDatabase(allUsersImage);
+    Get.find<UserSerialKeeper>().saveDatabase(inTtoKeepTrackOfUsers);
 
     update();
   }
@@ -116,12 +116,12 @@ class VerifyController extends GetxController {
     try {
       String email = Get.find<AppAdminController>().currentUser.email;
       // Need to authenticate the user again to refresh token
-      AuthCredential _credential = EmailAuthProvider.credential(
+      AuthCredential credential = EmailAuthProvider.credential(
         email: email,
         password: userPass,
       );
       await FirebaseAuth.instance.currentUser!
-          .reauthenticateWithCredential(_credential);
+          .reauthenticateWithCredential(credential);
 
       print('Authenticated_successfully');
 
@@ -143,12 +143,12 @@ class VerifyController extends GetxController {
     try {
       String? email = FirebaseAuth.instance.currentUser!.email;
       // Need to authenticate the user again to refresh token
-      AuthCredential _credential = EmailAuthProvider.credential(
+      AuthCredential credential = EmailAuthProvider.credential(
         email: email!,
         password: userPass,
       );
       await FirebaseAuth.instance.currentUser!
-          .reauthenticateWithCredential(_credential);
+          .reauthenticateWithCredential(credential);
 
       print('Authenticated_successfully');
 
@@ -184,17 +184,17 @@ class VerifyController extends GetxController {
 
     /// User Should Be Verified Here
     if (userId != null) {
-      Member? _fetchMember =
+      Member? fetchMember =
           Get.find<MembersController>().getMemberByIDLocal(memberID: userId);
-      if (_fetchMember != null) {
-        verifiedMember = _fetchMember;
+      if (fetchMember != null) {
+        verifiedMember = fetchMember;
         await MemberAttendanceRepository(adminID: _currentUserID).addAttendance(
           date: DateTime.now(),
-          memberID: _fetchMember.memberID!,
+          memberID: fetchMember.memberID!,
           spaceID: Get.find<SpaceController>().currentSpace!.spaceID!,
-          isCustomMember: _fetchMember.isCustom,
+          isCustomMember: fetchMember.isCustom,
         );
-        print(_fetchMember.memberName);
+        print(fetchMember.memberName);
       }
     } else {
       verifiedMember = null;
@@ -215,8 +215,8 @@ class VerifyController extends GetxController {
     showProgressIndicator = true;
     update();
 
-    bool _isThisIsThePerson = false;
-    _isThisIsThePerson = await NativeSDKFunctions.verifyPerson(
+    bool isThisIsThePerson = false;
+    isThisIsThePerson = await NativeSDKFunctions.verifyPerson(
       capturedImage: capturedImage,
       personImage: personImage,
     );
@@ -225,7 +225,7 @@ class VerifyController extends GetxController {
     isVerifyingNow = false;
     update();
     _disableCardAfterSomeTime();
-    return _isThisIsThePerson;
+    return isThisIsThePerson;
   }
 
   /// Detect if a person exist in a photo
@@ -233,9 +233,9 @@ class VerifyController extends GetxController {
       {required Uint8List capturedImage,
       required int imageWidth,
       required int imageHeight}) async {
-    bool _isPersonDetected = false;
+    bool isPersonDetected = false;
 
-    return _isPersonDetected;
+    return isPersonDetected;
   }
 
   /* <---- HELPER METHOD FOR VERIFYER -----> */
@@ -247,8 +247,8 @@ class VerifyController extends GetxController {
   Future<void> _disableCardAfterSomeTime() async {
     if (_isCloseFunctionAlreadyTriggerd &&
         _durationOfCardShowing < _maxDurationTime) {
-      int _newDuration = _durationOfCardShowing + 10;
-      await Future.delayed(Duration(seconds: _newDuration)).then((value) {
+      int newDuration = _durationOfCardShowing + 10;
+      await Future.delayed(Duration(seconds: newDuration)).then((value) {
         showProgressIndicator = false;
         _isCloseFunctionAlreadyTriggerd = false;
         update();

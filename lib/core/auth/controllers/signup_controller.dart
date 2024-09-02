@@ -25,14 +25,14 @@ class SignUpController extends GetxController {
     required String password,
   }) async {
     try {
-      UserCredential _credintial =
+      UserCredential credintial =
           await _firebaseAuth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
 
-      String _newUserID = _credintial.user!.uid;
-      await _collectionReference.doc(_newUserID).set(
+      String newUserID = credintial.user!.uid;
+      await _collectionReference.doc(newUserID).set(
             AppUser(
               name: userName,
               email: email,
@@ -44,7 +44,7 @@ class SignUpController extends GetxController {
               deviceIDToken: _idTokenOfDevice,
             ).toMap,
           );
-      await _credintial.user!.sendEmailVerification();
+      await credintial.user!.sendEmailVerification();
       await Get.dialog(const EmailSentSuccessfullDialog());
       Get.find<LoginController>().isAdmin = false;
       Get.find<LoginController>().currentAuthState.value ==
@@ -62,13 +62,13 @@ class SignUpController extends GetxController {
     required String companyName,
     required String extraInfo,
   }) async {
-    final _metaData = FirebaseFirestore.instance
+    final metaData = FirebaseFirestore.instance
         .collection('meta_data')
         .doc('admin_requests')
         .collection('the_requests');
 
     try {
-      await _metaData.add({
+      await metaData.add({
         'name': name,
         'email': email,
         'companyName': companyName,

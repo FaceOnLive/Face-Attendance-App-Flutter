@@ -8,10 +8,10 @@ import '../../../widgets/app_button.dart';
 
 class GenerateQRDialog extends StatelessWidget {
   const GenerateQRDialog({
-    Key? key,
+    super.key,
     required this.data,
     this.title,
-  }) : super(key: key);
+  });
 
   final String data;
   final String? title;
@@ -36,12 +36,12 @@ class GenerateQRDialog extends StatelessWidget {
               color: AppColors.placeholderColor,
               thickness: 0.3,
             ),
-            QrImage(
+            QrImageView(
               padding: const EdgeInsets.all(5),
               data: data,
               version: QrVersions.auto,
               size: Get.height * 0.3,
-              foregroundColor: AppColors.primaryColor,
+              eyeStyle: const QrEyeStyle(color: AppColors.primaryColor),
             ),
             AppSizes.hGap10,
             AppButton(

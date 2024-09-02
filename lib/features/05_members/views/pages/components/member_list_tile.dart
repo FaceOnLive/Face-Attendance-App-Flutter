@@ -9,9 +9,9 @@ import '../member_info.dart';
 
 class MemberListTile extends StatelessWidget {
   const MemberListTile({
-    Key? key,
+    super.key,
     required this.member,
-  }) : super(key: key);
+  });
 
   final Member member;
 

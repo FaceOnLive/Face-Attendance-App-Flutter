@@ -9,8 +9,8 @@ import '../../../07_settings/views/pages/settings.dart';
 
 class UserProfilePicture extends StatelessWidget {
   const UserProfilePicture({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

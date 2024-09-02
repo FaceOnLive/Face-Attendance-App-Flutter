@@ -6,7 +6,7 @@ import '../../../core/camerakit/camera_kit_view.dart';
 import '../../core/controllers/app_member_verify.dart';
 
 class OpenCameraPreview extends StatefulWidget {
-  const OpenCameraPreview({Key? key}) : super(key: key);
+  const OpenCameraPreview({super.key});
 
   @override
   State<OpenCameraPreview> createState() => _OpenCameraPreviewState();
@@ -32,9 +32,7 @@ class _OpenCameraPreviewState extends State<OpenCameraPreview> {
 }
 
 class _CameraSection extends StatelessWidget {
-  const _CameraSection({
-    Key? key,
-  }) : super(key: key);
+  const _CameraSection();
 
   @override
   Widget build(BuildContext context) {

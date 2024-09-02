@@ -10,8 +10,8 @@ class LoadingMembers extends StatelessWidget {
   /// For Example in Member Adding or Removing
   /// Reusing widgets makes our app efficient
   const LoadingMembers({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

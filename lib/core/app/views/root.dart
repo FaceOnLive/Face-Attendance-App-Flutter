@@ -14,7 +14,7 @@ import 'components/loading_app.dart';
 class TuringTechApp extends StatelessWidget {
   final CoreController core;
 
-  const TuringTechApp({Key? key, required this.core}) : super(key: key);
+  const TuringTechApp({super.key, required this.core});
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +32,7 @@ class TuringTechApp extends StatelessWidget {
 
 /// Loading Builder
 class AppRoot extends StatelessWidget {
-  const AppRoot({Key? key}) : super(key: key);
+  const AppRoot({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -50,41 +50,39 @@ class AppRoot extends StatelessWidget {
 }
 
 class _MainUI extends GetView<CoreController> {
-  const _MainUI({
-    Key? key,
-  }) : super(key: key);
+  const _MainUI();
 
   @override
   Widget build(BuildContext context) {
-    LoginController _login = Get.find();
+    LoginController login = Get.find();
     if (controller.isInVerifierMode()) {
       /// When the app has been locked into static verifier mode
       return const StaticVerifierScreen();
     } else {
       return Obx(() {
         // Intro Screen or Login Screen
-        if (_login.user == null) {
+        if (login.user == null) {
           return controller.introOrLogin();
         }
 
         /// If we are checking admin
-        else if (_login.currentAuthState.value == AuthState.isCheckingAdmin) {
+        else if (login.currentAuthState.value == AuthState.isCheckingAdmin) {
           // are we checking user is admin
           return const LoadingApp();
         }
 
         /// If the user is not admin but a app member
-        else if (_login.currentAuthState.value == AuthState.userLoggedIn) {
+        else if (login.currentAuthState.value == AuthState.userLoggedIn) {
           return const AppMemberMainUi();
         }
 
         /// If It is admin
-        else if (_login.currentAuthState.value == AuthState.adminLoggedIn) {
+        else if (login.currentAuthState.value == AuthState.adminLoggedIn) {
           return const EntryPointUI();
         }
 
         /// If the email is unverified
-        else if (_login.currentAuthState.value == AuthState.emailUnverified) {
+        else if (login.currentAuthState.value == AuthState.emailUnverified) {
           return const EmailNotVerifiedPage();
         }
 

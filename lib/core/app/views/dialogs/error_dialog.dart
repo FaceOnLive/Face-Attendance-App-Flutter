@@ -6,8 +6,7 @@ import '../../../themes/text.dart';
 
 class ErrorDialog extends StatelessWidget {
   final String message, title;
-  const ErrorDialog({Key? key, required this.title, required this.message})
-      : super(key: key);
+  const ErrorDialog({super.key, required this.title, required this.message});
 
   @override
   Widget build(BuildContext context) {

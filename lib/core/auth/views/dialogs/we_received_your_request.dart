@@ -4,7 +4,7 @@ import '../../../constants/constants.dart';
 import '../../../themes/text.dart';
 
 class RequestReceivedDialog extends StatelessWidget {
-  const RequestReceivedDialog({Key? key}) : super(key: key);
+  const RequestReceivedDialog({super.key});
 
   @override
   Widget build(BuildContext context) {

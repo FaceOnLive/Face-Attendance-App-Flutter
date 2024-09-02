@@ -10,7 +10,7 @@ import '../../../core/utils/form_verify.dart';
 import '../../core/controllers/app_member_user.dart';
 
 class ChangeAddressSheet extends StatefulWidget {
-  const ChangeAddressSheet({Key? key}) : super(key: key);
+  const ChangeAddressSheet({super.key});
 
   @override
   _ChangeAddressSheetState createState() => _ChangeAddressSheetState();
@@ -31,8 +31,8 @@ class _ChangeAddressSheetState extends State<ChangeAddressSheet> {
 
   /// on update
   Future<void> _onAddressUpdate() async {
-    bool _isFormOkay = _formKey.currentState!.validate();
-    if (_isFormOkay) {
+    bool isFormOkay = _formKey.currentState!.validate();
+    if (isFormOkay) {
       try {
         _isUpdating.trigger(true);
         await _controller.changeUserAddress(address: _address.text);

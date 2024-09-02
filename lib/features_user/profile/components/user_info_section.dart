@@ -6,7 +6,7 @@ import '../../../core/themes/text.dart';
 import '../../core/controllers/app_member_user.dart';
 
 class UserInfoSection extends GetView<AppMemberUserController> {
-  const UserInfoSection({Key? key}) : super(key: key);
+  const UserInfoSection({super.key});
 
   @override
   Widget build(BuildContext context) {

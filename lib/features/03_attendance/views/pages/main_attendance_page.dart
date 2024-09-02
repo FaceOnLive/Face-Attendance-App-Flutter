@@ -7,7 +7,7 @@ import '../../../06_spaces/views/controllers/space_controller.dart';
 import '../components/components.dart';
 
 class AttendancePage extends StatelessWidget {
-  const AttendancePage({Key? key}) : super(key: key);
+  const AttendancePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -39,9 +39,9 @@ class AttendancePage extends StatelessWidget {
                     SpaceViewState.isNoSpaceFound) {
                   return const NoSpaceFound();
                 } else {
-                  return Expanded(
+                  return const Expanded(
                     child: Column(
-                      children: const [
+                      children: [
                         /* <---- DropDown and Date----> */
                         DropDownRowSection(),
 

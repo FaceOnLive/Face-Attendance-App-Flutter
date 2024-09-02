@@ -8,8 +8,8 @@ import '../../../../core/widgets/app_button.dart';
 
 class BottomLogoutButton extends StatelessWidget {
   const BottomLogoutButton({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

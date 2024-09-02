@@ -58,11 +58,11 @@ class AppMemberSpaceController extends GetxController {
   Future<void> joinNewSpaceByScan({required String? spaceIdEncrypted}) async {
     if (spaceIdEncrypted != null) {
       String? spaceID = AppAlgorithmUtil.decrypt(spaceIdEncrypted);
-      final _spaceDoc = await _spaceCollection.doc(spaceID).get();
+      final spaceDoc = await _spaceCollection.doc(spaceID).get();
 
-      if (_spaceDoc.exists) {
-        _spaceDoc.data()?[''];
-        _spaceDoc.reference.update({
+      if (spaceDoc.exists) {
+        spaceDoc.data()?[''];
+        spaceDoc.reference.update({
           'appMembers': FieldValue.arrayUnion([_currentUserID])
         });
         Get.back();
@@ -83,10 +83,10 @@ class AppMemberSpaceController extends GetxController {
   /// On Space drop down change
   void onSpaceDropDownChange(String? changedValue) {
     if (changedValue != null) {
-      Space? _space = allSpaces.singleWhere(
+      Space? space = allSpaces.singleWhere(
         (singleSpace) => singleSpace.name.toLowerCase() == changedValue,
       );
-      currentSpace = _space;
+      currentSpace = space;
       update();
     }
   }

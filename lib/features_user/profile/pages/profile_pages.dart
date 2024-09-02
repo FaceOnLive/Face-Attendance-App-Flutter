@@ -14,7 +14,7 @@ import '../components/user_info_section.dart';
 import '../components/user_setting_section.dart';
 
 class AppMemberProfileScreen extends GetView<AppMemberUserController> {
-  const AppMemberProfileScreen({Key? key}) : super(key: key);
+  const AppMemberProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +26,7 @@ class AppMemberProfileScreen extends GetView<AppMemberUserController> {
           children: [
             // Dark Mode
             GetBuilder<CoreController>(
-              builder: (_controller) {
+              builder: (controller) {
                 return Container(
                   margin:
                       const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
@@ -34,9 +34,9 @@ class AppMemberProfileScreen extends GetView<AppMemberUserController> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       CupertinoSwitch(
-                        value: _controller.isAppInDarkMode,
+                        value: controller.isAppInDarkMode,
                         onChanged: (v) {
-                          _controller.switchTheme(v);
+                          controller.switchTheme(v);
                         },
                       ),
                       const Icon(Icons.dark_mode_rounded),
@@ -55,10 +55,10 @@ class AppMemberProfileScreen extends GetView<AppMemberUserController> {
                       profileLink: controller.currentUser.userProfilePicture,
                       isUpdating: controller.isUpdatingPicture,
                       onTap: () async {
-                        File? _userImage =
+                        File? userImage =
                             await Get.dialog(const CameraGallerySelectDialog());
-                        if (_userImage != null) {
-                          await controller.updateUserProfilePicture(_userImage);
+                        if (userImage != null) {
+                          await controller.updateUserProfilePicture(userImage);
                         }
                       },
                     );

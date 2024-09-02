@@ -8,9 +8,9 @@ import '../controllers/space_controller.dart';
 
 class DeleteSpaceDialog extends StatefulWidget {
   const DeleteSpaceDialog({
-    Key? key,
+    super.key,
     required this.spaceID,
-  }) : super(key: key);
+  });
 
   final String spaceID;
 

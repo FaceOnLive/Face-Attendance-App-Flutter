@@ -8,8 +8,8 @@ import '../views/join_qr_code_page.dart';
 
 class NoSpaceFoundSection extends StatelessWidget {
   const NoSpaceFoundSection({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

@@ -9,8 +9,8 @@ import '../../core/controllers/app_member_user.dart';
 
 class AppMemberUserProfilePicture extends StatelessWidget {
   const AppMemberUserProfilePicture({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

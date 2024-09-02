@@ -56,12 +56,12 @@ class AppMemberUserController extends GetxController {
     try {
       isUpdatingPicture = true;
       update();
-      String? _downloadURL = await UploadPicture.ofUser(
+      String? downloadURL = await UploadPicture.ofUser(
         userID: currentUser.userID!,
         imageFile: image,
       );
       await _collectionReference.doc(_currentUserID).update({
-        'userProfilePicture': _downloadURL,
+        'userProfilePicture': downloadURL,
       });
       await _fetchUserData();
       Get.find<AppMemberVerifyController>().setSDK();
@@ -144,15 +144,15 @@ class AppMemberUserController extends GetxController {
 
   /// Add Attendance
   Future<void> addAttendanceToday() async {
-    final _spaceController = Get.find<AppMemberSpaceController>();
+    final spaceController = Get.find<AppMemberSpaceController>();
 
-    String? _currentSpaceID = _spaceController.currentSpace!.spaceID;
+    String? currentSpaceID = spaceController.currentSpace!.spaceID;
 
-    if (_currentSpaceID != null) {
+    if (currentSpaceID != null) {
       try {
         await attendanceRepository.addAttendanceAppMember(
           memberID: currentUser.userID!,
-          spaceID: _currentSpaceID,
+          spaceID: currentSpaceID,
           date: DateTime.now(),
         );
         AppToast.show('Attendance Added');
@@ -180,32 +180,32 @@ class AppMemberUserController extends GetxController {
 
   /// Set Space and SDK when the app starts
   Future<void> setSpaceAndSDK() async {
-    final _spaceController = Get.find<AppMemberSpaceController>();
-    final _verifyController = Get.find<AppMemberVerifyController>();
+    final spaceController = Get.find<AppMemberSpaceController>();
+    final verifyController = Get.find<AppMemberVerifyController>();
 
-    String? currentSpaceID = await _spaceController.fetchUserSpaces();
+    String? currentSpaceID = await spaceController.fetchUserSpaces();
     if (currentSpaceID != null) {
       unAttendedDate = await getAttendanceAppMember(
           memberID: _currentUserID, spaceID: currentSpaceID);
 
-      _verifyController.setSDK();
+      verifyController.setSDK();
 
       isMemberAttendedToday =
           MemberAttendanceRepository.isMemberAttendedTodayLocal(
               unattendedDate: unAttendedDate);
 
       if (isMemberAttendedToday) {
-        _verifyController.verifyingState = VerifyState.attended;
-        _verifyController.update();
+        verifyController.verifyingState = VerifyState.attended;
+        verifyController.update();
       } else {
-        _verifyController.verifyingState = VerifyState.unverified;
-        _verifyController.update();
+        verifyController.verifyingState = VerifyState.unverified;
+        verifyController.update();
       }
     }
     // if there is no space
     else {
-      _verifyController.verifyingState = VerifyState.noSpaceFound;
-      _verifyController.update();
+      verifyController.verifyingState = VerifyState.noSpaceFound;
+      verifyController.update();
     }
   }
 

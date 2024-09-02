@@ -11,7 +11,7 @@ import '../components/use_as_a_verifier_button.dart';
 import '../controllers/verify_controller.dart';
 
 class VerifierPage extends StatefulWidget {
-  const VerifierPage({Key? key}) : super(key: key);
+  const VerifierPage({super.key});
 
   @override
   State<VerifierPage> createState() => _VerifierPageState();
@@ -81,9 +81,7 @@ class _VerifierPageState extends State<VerifierPage> {
 }
 
 class _CameraSection extends StatelessWidget {
-  const _CameraSection({
-    Key? key,
-  }) : super(key: key);
+  const _CameraSection();
 
   @override
   Widget build(BuildContext context) {
@@ -105,7 +103,7 @@ class _CameraSection extends StatelessWidget {
                         scaleType: ScaleTypeMode.fit,
                         onRecognized: (serachID) {
                           print("Recognized");
-                          print("-----serach id: " + serachID.toString());
+                          print("-----serach id: $serachID");
                           Get.find<VerifyController>()
                               .onRecognizedMember(verifiedUserIDint: serachID);
                           controller.pauseCamera();
@@ -117,10 +115,10 @@ class _CameraSection extends StatelessWidget {
                       ),
               ),
               /* <---- Verifier Button ----> */
-              Positioned(
+              const Positioned(
                 bottom: 0,
                 child: Column(
-                  children: const [
+                  children: [
                     UseAsAVerifierButton(),
                   ],
                 ),
@@ -157,9 +155,9 @@ class _CameraSection extends StatelessWidget {
 
 class CameraPausedWidget extends StatelessWidget {
   const CameraPausedWidget({
-    Key? key,
+    super.key,
     required this.onResume,
-  }) : super(key: key);
+  });
 
   final void Function() onResume;
 

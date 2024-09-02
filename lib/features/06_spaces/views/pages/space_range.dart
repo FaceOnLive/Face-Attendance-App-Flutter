@@ -12,7 +12,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../../../../core/constants/constants.dart';
 
 class SpaceRangeScreen extends StatelessWidget {
-  const SpaceRangeScreen(this.space, {Key? key}) : super(key: key);
+  const SpaceRangeScreen(this.space, {super.key});
 
   final Space space;
 
@@ -106,9 +106,9 @@ class SpaceRangeScreen extends StatelessWidget {
                 currentLat: controller.currentLat,
                 currentLon: controller.currentLon,
                 onForwardButton: () async {
-                  double _selectedLat = controller.currentLat;
-                  double _selectedLon = controller.currentLon;
-                  double _selectedRadius = controller.defaultRadius;
+                  double selectedLat = controller.currentLat;
+                  double selectedLon = controller.currentLon;
+                  double selectedRadius = controller.defaultRadius;
                   final spaceController = Get.find<SpaceController>();
 
                   Get.showOverlay(
@@ -121,9 +121,9 @@ class SpaceRangeScreen extends StatelessWidget {
                           appMembers: space.appMembers,
                           ownerUID: space.ownerUID,
                           spaceID: space.spaceID,
-                          spaceLat: _selectedLat,
-                          spaceLon: _selectedLon,
-                          spaceRadius: _selectedRadius,
+                          spaceLat: selectedLat,
+                          spaceLon: selectedLon,
+                          spaceRadius: selectedRadius,
                         ),
                       );
                     },
@@ -144,11 +144,10 @@ class SpaceRangeScreen extends StatelessWidget {
 
 class _BottomLatLn extends StatelessWidget {
   const _BottomLatLn({
-    Key? key,
     required this.currentLat,
     required this.currentLon,
     required this.onForwardButton,
-  }) : super(key: key);
+  });
 
   final double currentLat;
   final double currentLon;

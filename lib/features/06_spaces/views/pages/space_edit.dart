@@ -10,7 +10,7 @@ import '../controllers/space_controller.dart';
 import '../dialogs/delete_space.dart';
 
 class SpaceEditScreen extends StatefulWidget {
-  const SpaceEditScreen({Key? key, required this.space}) : super(key: key);
+  const SpaceEditScreen({super.key, required this.space});
 
   final Space space;
 
@@ -145,10 +145,9 @@ class _SpaceEditScreenState extends State<SpaceEditScreen> {
 
 class _CustomBottomActionButton extends StatelessWidget {
   const _CustomBottomActionButton({
-    Key? key,
     required this.isLoading,
     required this.onTap,
-  }) : super(key: key);
+  });
 
   final bool isLoading;
   final void Function() onTap;
@@ -182,11 +181,10 @@ class _CustomBottomActionButton extends StatelessWidget {
 
 class _SelectIconWidget extends StatelessWidget {
   const _SelectIconWidget({
-    Key? key,
     required this.active,
     required this.iconData,
     required this.onTap,
-  }) : super(key: key);
+  });
 
   final bool active;
   final IconData iconData;

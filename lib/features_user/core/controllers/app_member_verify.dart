@@ -32,12 +32,12 @@ class AppMemberVerifyController extends GetxController {
       File userPicture = await AppPhotoService.fileFromImageUrl(userPictureUrl);
 
       // get face data
-      Uint8List? _userPictureBytes =
+      Uint8List? userPictureBytes =
           await NativeSDKFunctions.getFaceData(image: userPicture);
 
       // set it
-      if (_userPictureBytes != null) {
-        NativeSDKFunctions.setSdkDatabase({1: _userPictureBytes});
+      if (userPictureBytes != null) {
+        NativeSDKFunctions.setSdkDatabase({1: userPictureBytes});
       }
     }
   }

@@ -7,7 +7,7 @@ import '../../core/themes/text.dart';
 
 class AppButton extends StatelessWidget {
   const AppButton({
-    Key? key,
+    super.key,
     required this.label,
     required this.onTap,
     this.isLoading = false,
@@ -22,7 +22,7 @@ class AppButton extends StatelessWidget {
     this.disableBorderRadius = false,
     this.isButtonDisabled = false,
     this.fontSize,
-  }) : super(key: key);
+  });
 
   final String label;
   final void Function() onTap;
@@ -101,7 +101,7 @@ class AppButton extends StatelessWidget {
 
 class AppButtonOutline extends StatelessWidget {
   const AppButtonOutline({
-    Key? key,
+    super.key,
     required this.label,
     required this.onTap,
     this.isLoading = false,
@@ -112,7 +112,7 @@ class AppButtonOutline extends StatelessWidget {
     this.suffixIcon,
     this.prefixIcon,
     this.color,
-  }) : super(key: key);
+  });
 
   final String label;
   final void Function() onTap;
@@ -182,11 +182,11 @@ class AppButtonOutline extends StatelessWidget {
 
 class CircleIconButton extends StatelessWidget {
   const CircleIconButton({
-    Key? key,
+    super.key,
     required this.icon,
     required this.onTap,
     this.backgroundColor = AppColors.primaryColor,
-  }) : super(key: key);
+  });
 
   final void Function() onTap;
   final Icon icon;

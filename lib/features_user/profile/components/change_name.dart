@@ -10,7 +10,7 @@ import '../../../core/utils/form_verify.dart';
 import '../../core/controllers/app_member_user.dart';
 
 class ChangeNameSheet extends StatefulWidget {
-  const ChangeNameSheet({Key? key}) : super(key: key);
+  const ChangeNameSheet({super.key});
 
   @override
   _ChangeNameSheetState createState() => _ChangeNameSheetState();
@@ -31,8 +31,8 @@ class _ChangeNameSheetState extends State<ChangeNameSheet> {
 
   /// on update
   Future<void> _onNameUpdate() async {
-    bool _isFormOkay = _formKey.currentState!.validate();
-    if (_isFormOkay) {
+    bool isFormOkay = _formKey.currentState!.validate();
+    if (isFormOkay) {
       try {
         _isUpdating.trigger(true);
         await _controller.changeUserName(newName: _name.text);

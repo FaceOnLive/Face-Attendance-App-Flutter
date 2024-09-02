@@ -12,9 +12,9 @@ import '../../../06_spaces/views/pages/space_member_add.dart';
 /// Reusing widgets makes our app efficient
 class NoMemberFound extends StatelessWidget {
   const NoMemberFound({
-    Key? key,
+    super.key,
     required this.currentSpace,
-  }) : super(key: key);
+  });
 
   final Space currentSpace;
 

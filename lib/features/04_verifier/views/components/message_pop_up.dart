@@ -8,8 +8,8 @@ import '../controllers/verify_controller.dart';
 class ShowMessagePopUP extends StatelessWidget {
   /// This will show up when verification started
   const ShowMessagePopUP({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -31,12 +31,12 @@ class ShowMessagePopUP extends StatelessWidget {
                 boxShadow: AppDefaults.boxShadow,
               ),
               child: controller.isVerifyingNow
-                  ? Padding(
-                      padding: const EdgeInsets.all(10),
+                  ? const Padding(
+                      padding: EdgeInsets.all(10),
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: const [
+                        children: [
                           CircularProgressIndicator(),
                           AppSizes.wGap10,
                           Text('Verifying'),

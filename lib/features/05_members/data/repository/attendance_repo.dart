@@ -78,20 +78,20 @@ class MemberAttendanceRepository {
     required String memberID,
     required bool isCustom,
   }) async {
-    List<DateTime> _allUnattendedDates = [];
+    List<DateTime> allUnattendedDates = [];
     if (isCustom) {
-      _allUnattendedDates = await getAttendanceCustom(
+      allUnattendedDates = await getAttendanceCustom(
         spaceID: spaceID,
         memberID: memberID,
       );
     } else {
-      _allUnattendedDates = await getAttendanceAppMember(
+      allUnattendedDates = await getAttendanceAppMember(
         spaceID: spaceID,
         memberID: memberID,
       );
     }
 
-    return _allUnattendedDates;
+    return allUnattendedDates;
   }
 
   /// Multiple Date Add
@@ -148,17 +148,17 @@ class MemberAttendanceRepository {
     required String spaceID,
     required DateTime date,
   }) async {
-    final _spaceReference = _customMemberCollection
+    final spaceReference = _customMemberCollection
         .doc(memberID)
         .collection('attendance')
         .doc(spaceID);
 
-    await _spaceReference.set({'lastUpdated': FieldValue.serverTimestamp()});
+    await spaceReference.set({'lastUpdated': FieldValue.serverTimestamp()});
 
-    final _attendancReference =
-        _spaceReference.collection('data').doc(date.year.toString());
+    final attendancReference =
+        spaceReference.collection('data').doc(date.year.toString());
 
-    final docSnap = await _attendancReference.get();
+    final docSnap = await attendancReference.get();
 
     if (docSnap.exists) {
       await docSnap.reference.update({
@@ -177,17 +177,17 @@ class MemberAttendanceRepository {
     required String spaceID,
     required DateTime date,
   }) async {
-    final _spaceReference = _customMemberCollection
+    final spaceReference = _customMemberCollection
         .doc(memberID)
         .collection('attendance')
         .doc(spaceID);
 
-    await _spaceReference.set({'lastUpdated': FieldValue.serverTimestamp()});
+    await spaceReference.set({'lastUpdated': FieldValue.serverTimestamp()});
 
-    final _attendancReference =
-        _spaceReference.collection('data').doc(date.year.toString());
+    final attendancReference =
+        spaceReference.collection('data').doc(date.year.toString());
 
-    final docSnap = await _attendancReference.get();
+    final docSnap = await attendancReference.get();
 
     if (docSnap.exists) {
       await docSnap.reference.update({
@@ -209,33 +209,33 @@ class MemberAttendanceRepository {
     // the date
     DateTime date = DateTime.now();
 
-    final _attendancReference = _customMemberCollection
+    final attendancReference = _customMemberCollection
         .doc(memberID)
         .collection('attendance')
         .doc(spaceID)
         .collection('data')
         .doc(time == null ? date.year.toString() : time.year.toString());
 
-    final docSnap = await _attendancReference.get();
+    final docSnap = await attendancReference.get();
 
     /// Where the firebase firestore value will be stored
-    List<Timestamp> _unAttendedDate = [];
+    List<Timestamp> unAttendedDate = [];
 
     /// Get the data
     if (docSnap.exists) {
-      Map<String, dynamic>? _theDates = docSnap.data();
-      _unAttendedDate = List.from(_theDates!['unattended_date']);
+      Map<String, dynamic>? theDates = docSnap.data();
+      unAttendedDate = List.from(theDates!['unattended_date']);
     } else {}
 
     /// Return Type
-    List<DateTime> _unattendedDateInDateTime = [];
+    List<DateTime> unattendedDateInDateTime = [];
 
     /// Convert the data
-    for (Timestamp dateInTimeStamp in _unAttendedDate) {
-      _unattendedDateInDateTime.add(dateInTimeStamp.toDate());
+    for (Timestamp dateInTimeStamp in unAttendedDate) {
+      unattendedDateInDateTime.add(dateInTimeStamp.toDate());
     }
 
-    return _unattendedDateInDateTime;
+    return unattendedDateInDateTime;
   }
 
   /// Remove Multiple Attendance
@@ -244,32 +244,32 @@ class MemberAttendanceRepository {
     required String spaceID,
     required List<DateTime> dates,
   }) async {
-    List<Timestamp> _dateInTimeStamp = [];
+    List<Timestamp> dateInTimeStamp = [];
 
     await Future.forEach<DateTime>(dates, (element) {
-      _dateInTimeStamp.add(DateUtil.convertDate(element));
+      dateInTimeStamp.add(DateUtil.convertDate(element));
     });
 
-    final String _thisYear = DateTime.now().year.toString();
+    final String thisYear = DateTime.now().year.toString();
 
-    final _spaceReference = _customMemberCollection
+    final spaceReference = _customMemberCollection
         .doc(memberID)
         .collection('attendance')
         .doc(spaceID);
 
-    await _spaceReference.set({'lastUpdated': FieldValue.serverTimestamp()});
+    await spaceReference.set({'lastUpdated': FieldValue.serverTimestamp()});
 
-    final _documentReference =
-        _spaceReference.collection('data').doc(_thisYear);
+    final documentReference =
+        spaceReference.collection('data').doc(thisYear);
 
-    final attendanceDoc = await _documentReference.get();
+    final attendanceDoc = await documentReference.get();
 
     if (attendanceDoc.exists) {
       attendanceDoc.reference
-          .update({'unattended_date': FieldValue.arrayUnion(_dateInTimeStamp)});
+          .update({'unattended_date': FieldValue.arrayUnion(dateInTimeStamp)});
     } else {
-      _documentReference
-          .set({'unattended_date': FieldValue.arrayUnion(_dateInTimeStamp)});
+      documentReference
+          .set({'unattended_date': FieldValue.arrayUnion(dateInTimeStamp)});
     }
   }
 
@@ -279,32 +279,32 @@ class MemberAttendanceRepository {
     required String spaceID,
     required List<DateTime> dates,
   }) async {
-    List<Timestamp> _dateInTimeStamp = [];
+    List<Timestamp> dateInTimeStamp = [];
 
     await Future.forEach<DateTime>(dates, (element) {
-      _dateInTimeStamp.add(DateUtil.convertDate(element));
+      dateInTimeStamp.add(DateUtil.convertDate(element));
     });
 
-    final String _thisYear = DateTime.now().year.toString();
+    final String thisYear = DateTime.now().year.toString();
 
-    final _spaceReference = _customMemberCollection
+    final spaceReference = _customMemberCollection
         .doc(memberID)
         .collection('attendance')
         .doc(spaceID);
 
-    await _spaceReference.set({'lastUpdated': FieldValue.serverTimestamp()});
+    await spaceReference.set({'lastUpdated': FieldValue.serverTimestamp()});
 
-    final _documentReference =
-        _spaceReference.collection('data').doc(_thisYear);
+    final documentReference =
+        spaceReference.collection('data').doc(thisYear);
 
-    final attendanceDoc = await _documentReference.get();
+    final attendanceDoc = await documentReference.get();
 
     if (attendanceDoc.exists) {
       attendanceDoc.reference.update(
-          {'unattended_date': FieldValue.arrayRemove(_dateInTimeStamp)});
+          {'unattended_date': FieldValue.arrayRemove(dateInTimeStamp)});
     } else {
-      _documentReference
-          .set({'unattended_date': FieldValue.arrayRemove(_dateInTimeStamp)});
+      documentReference
+          .set({'unattended_date': FieldValue.arrayRemove(dateInTimeStamp)});
     }
   }
 
@@ -318,20 +318,20 @@ class MemberAttendanceRepository {
     required String spaceID,
     required DateTime date,
   }) async {
-    final _spaceReference =
+    final spaceReference =
         _userCollection.doc(memberID).collection('attendance').doc(spaceID);
 
-    await _spaceReference.set({'lastUpdated': FieldValue.serverTimestamp()});
+    await spaceReference.set({'lastUpdated': FieldValue.serverTimestamp()});
 
-    final _reference = _spaceReference.collection('data');
+    final reference = spaceReference.collection('data');
 
-    final _attendenceDoc = await _reference.doc(date.year.toString()).get();
-    if (_attendenceDoc.exists) {
-      _attendenceDoc.reference.update({
+    final attendenceDoc = await reference.doc(date.year.toString()).get();
+    if (attendenceDoc.exists) {
+      attendenceDoc.reference.update({
         'unattended_date': FieldValue.arrayRemove([DateUtil.convertDate(date)])
       });
     } else {
-      _reference.doc(date.year.toString()).set({
+      reference.doc(date.year.toString()).set({
         'unattended_date': FieldValue.arrayRemove([DateUtil.convertDate(date)])
       });
     }
@@ -343,20 +343,20 @@ class MemberAttendanceRepository {
     required String spaceID,
     required DateTime date,
   }) async {
-    final _spaceReference =
+    final spaceReference =
         _userCollection.doc(memberID).collection('attendance').doc(spaceID);
 
-    await _spaceReference.set({'lastUpdated': FieldValue.serverTimestamp()});
+    await spaceReference.set({'lastUpdated': FieldValue.serverTimestamp()});
 
-    final _reference = _spaceReference.collection('data');
+    final reference = spaceReference.collection('data');
 
-    final _attendenceDoc = await _reference.doc(date.year.toString()).get();
-    if (_attendenceDoc.exists) {
-      _attendenceDoc.reference.update({
+    final attendenceDoc = await reference.doc(date.year.toString()).get();
+    if (attendenceDoc.exists) {
+      attendenceDoc.reference.update({
         'unattended_date': FieldValue.arrayUnion([DateUtil.convertDate(date)])
       });
     } else {
-      _reference.doc(date.year.toString()).set({
+      reference.doc(date.year.toString()).set({
         'unattended_date': FieldValue.arrayUnion([DateUtil.convertDate(date)])
       });
     }
@@ -368,35 +368,35 @@ class MemberAttendanceRepository {
     required String spaceID,
     DateTime? userDate,
   }) async {
-    final _reference = _userCollection
+    final reference = _userCollection
         .doc(memberID)
         .collection('attendance')
         .doc(spaceID)
         .collection('data');
 
-    final String _thisYear = DateTime.now().year.toString();
+    final String thisYear = DateTime.now().year.toString();
 
-    final _attendenceDoc = await _reference
-        .doc(userDate == null ? _thisYear : userDate.year.toString())
+    final attendenceDoc = await reference
+        .doc(userDate == null ? thisYear : userDate.year.toString())
         .get();
 
     /// Where the firebase data will be stored
-    List<Timestamp> _unAttendedDate = [];
+    List<Timestamp> unAttendedDate = [];
 
-    if (_attendenceDoc.exists) {
-      Map<String, dynamic>? _theDates = _attendenceDoc.data();
-      _unAttendedDate = List.from(_theDates!['unattended_date']);
+    if (attendenceDoc.exists) {
+      Map<String, dynamic>? theDates = attendenceDoc.data();
+      unAttendedDate = List.from(theDates!['unattended_date']);
     } else {}
 
     /// Return Type
-    List<DateTime> _unattendedDateInDateTime = [];
+    List<DateTime> unattendedDateInDateTime = [];
 
     /// Convert the data
-    for (Timestamp dateInTimeStamp in _unAttendedDate) {
-      _unattendedDateInDateTime.add(dateInTimeStamp.toDate());
+    for (Timestamp dateInTimeStamp in unAttendedDate) {
+      unattendedDateInDateTime.add(dateInTimeStamp.toDate());
     }
 
-    return _unattendedDateInDateTime;
+    return unattendedDateInDateTime;
   }
 
   /// Multiple Attendance Add [APP_MEMBER]
@@ -405,28 +405,28 @@ class MemberAttendanceRepository {
     required String spaceID,
     required List<DateTime> dates,
   }) async {
-    List<Timestamp> _dateInTimeStamp = [];
+    List<Timestamp> dateInTimeStamp = [];
 
     await Future.forEach<DateTime>(dates, (element) {
-      _dateInTimeStamp.add(DateUtil.convertDate(element));
+      dateInTimeStamp.add(DateUtil.convertDate(element));
     });
 
-    final String _thisYear = DateTime.now().year.toString();
+    final String thisYear = DateTime.now().year.toString();
 
-    final _spaceReference =
+    final spaceReference =
         _userCollection.doc(memberID).collection('attendance').doc(spaceID);
 
-    await _spaceReference.set({'lastUpdated': FieldValue.serverTimestamp()});
+    await spaceReference.set({'lastUpdated': FieldValue.serverTimestamp()});
 
-    final _reference = _spaceReference.collection('data');
+    final reference = spaceReference.collection('data');
 
-    final _attendenceDoc = await _reference.doc(_thisYear).get();
-    if (_attendenceDoc.exists) {
-      _attendenceDoc.reference.update(
-          {'unattended_date': FieldValue.arrayRemove(_dateInTimeStamp)});
+    final attendenceDoc = await reference.doc(thisYear).get();
+    if (attendenceDoc.exists) {
+      attendenceDoc.reference.update(
+          {'unattended_date': FieldValue.arrayRemove(dateInTimeStamp)});
     } else {
-      _reference.doc(_thisYear).set(
-        {'unattended_date': FieldValue.arrayRemove(_dateInTimeStamp)},
+      reference.doc(thisYear).set(
+        {'unattended_date': FieldValue.arrayRemove(dateInTimeStamp)},
       );
     }
   }
@@ -437,29 +437,29 @@ class MemberAttendanceRepository {
     required String spaceID,
     required List<DateTime> dates,
   }) async {
-    List<Timestamp> _dateInTimeStamp = [];
+    List<Timestamp> dateInTimeStamp = [];
 
     await Future.forEach<DateTime>(dates, (element) {
-      _dateInTimeStamp.add(DateUtil.convertDate(element));
+      dateInTimeStamp.add(DateUtil.convertDate(element));
     });
 
-    final String _thisYear = DateTime.now().year.toString();
+    final String thisYear = DateTime.now().year.toString();
 
-    final _spaceReference =
+    final spaceReference =
         _userCollection.doc(memberID).collection('attendance').doc(spaceID);
 
-    await _spaceReference.set({'lastUpdated': FieldValue.serverTimestamp()});
+    await spaceReference.set({'lastUpdated': FieldValue.serverTimestamp()});
 
-    final _reference = _spaceReference.collection('data');
+    final reference = spaceReference.collection('data');
 
-    final _attendenceDoc = await _reference.doc(_thisYear).get();
-    if (_attendenceDoc.exists) {
-      _attendenceDoc.reference.update(
-        {'unattended_date': FieldValue.arrayUnion(_dateInTimeStamp)},
+    final attendenceDoc = await reference.doc(thisYear).get();
+    if (attendenceDoc.exists) {
+      attendenceDoc.reference.update(
+        {'unattended_date': FieldValue.arrayUnion(dateInTimeStamp)},
       );
     } else {
-      _reference.doc(_thisYear).set(
-        {'unattended_date': FieldValue.arrayUnion(_dateInTimeStamp)},
+      reference.doc(thisYear).set(
+        {'unattended_date': FieldValue.arrayUnion(dateInTimeStamp)},
       );
     }
   }
@@ -476,7 +476,7 @@ class MemberAttendanceRepository {
     required bool isCustom,
   }) async {
     String thisYear = year.toString();
-    List<DateTime> _unatttendedDates = [];
+    List<DateTime> unatttendedDates = [];
     await _customMemberCollection
         .doc(memberID)
         .collection('attendance')
@@ -486,47 +486,47 @@ class MemberAttendanceRepository {
         .get()
         .then(
       (value) {
-        Map<String, dynamic>? _allDateMonth = value.data();
-        List<dynamic> _unattendedDateInTimeStamp = [];
-        if (_allDateMonth != null && _allDateMonth['unattended_date'] != null) {
-          _unattendedDateInTimeStamp = _allDateMonth['unattended_date'];
-          for (var element in _unattendedDateInTimeStamp) {
-            DateTime _date = element.toDate();
-            _unatttendedDates.add(_date);
+        Map<String, dynamic>? allDateMonth = value.data();
+        List<dynamic> unattendedDateInTimeStamp = [];
+        if (allDateMonth != null && allDateMonth['unattended_date'] != null) {
+          unattendedDateInTimeStamp = allDateMonth['unattended_date'];
+          for (var element in unattendedDateInTimeStamp) {
+            DateTime date = element.toDate();
+            unatttendedDates.add(date);
           }
         }
       },
     );
 
-    return _unatttendedDates;
+    return unatttendedDates;
   }
 
   /// Is Member Present Today
   static bool isMemberAttendedTodayLocal(
       {required List<DateTime> unattendedDate}) {
     // We should format this accoroding to this one
-    DateFormat _dateFormat = DateFormat.yMMMMd();
+    DateFormat dateFormat = DateFormat.yMMMMd();
 
     /// To compare if the date exist in the list
-    List<String> _allDateString = [];
+    List<String> allDateString = [];
     for (var element in unattendedDate) {
-      String date = _dateFormat.format(element);
-      _allDateString.add(date);
+      String date = dateFormat.format(element);
+      allDateString.add(date);
     }
 
-    String _todayDateInFormat = _dateFormat.format(DateTime.now());
+    String todayDateInFormat = dateFormat.format(DateTime.now());
 
-    bool _isMemberAttended = false;
+    bool isMemberAttended = false;
 
-    if (_allDateString.contains(_todayDateInFormat)) {
+    if (allDateString.contains(todayDateInFormat)) {
       print('Member is unattended today');
-      _isMemberAttended = false;
+      isMemberAttended = false;
     } else {
       print('Member is attended today');
-      _isMemberAttended = true;
+      isMemberAttended = true;
     }
 
-    return _isMemberAttended;
+    return isMemberAttended;
   }
 
   /// If the member attended today
@@ -534,7 +534,7 @@ class MemberAttendanceRepository {
     required String memberID,
     required String spaceID,
   }) async {
-    bool _isAttended = false;
+    bool isAttended = false;
 
     DateTime todayDate = DateTime.now();
 
@@ -550,22 +550,22 @@ class MemberAttendanceRepository {
             .then((attendanceDoc) {
           Map<String, dynamic>? map = attendanceDoc.data();
           if (map != null) {
-            List<Timestamp> _unattendedList =
+            List<Timestamp> unattendedList =
                 List<Timestamp>.from(map['unattended_date']);
 
-            bool _doesContain = DateUtil.doesContainThisDateInTimeStamp(
+            bool doesContain = DateUtil.doesContainThisDateInTimeStamp(
               date: todayDate,
-              allDates: _unattendedList,
+              allDates: unattendedList,
             );
 
-            _isAttended = !_doesContain;
+            isAttended = !doesContain;
           }
         });
       } else {
-        _isAttended = false;
+        isAttended = false;
       }
     });
 
-    return _isAttended;
+    return isAttended;
   }
 }

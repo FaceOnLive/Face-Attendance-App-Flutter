@@ -6,10 +6,10 @@ import '../../../../core/constants/constants.dart';
 /// A widget that holds an user image in a c circle avatar
 class MemberImageLeading extends StatelessWidget {
   const MemberImageLeading({
-    Key? key,
+    super.key,
     required this.imageLink,
     this.radius,
-  }) : super(key: key);
+  });
 
   final String? imageLink;
   final double? radius;

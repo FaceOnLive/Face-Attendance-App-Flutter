@@ -1,4 +1,3 @@
-import 'dart:io';
 
 import 'package:face_attendance/features/07_settings/views/components/add_user_face.dart';
 import 'package:flutter/cupertino.dart';
@@ -7,7 +6,6 @@ import 'package:get/get.dart';
 
 import '../../../../core/app/controllers/core_controller.dart';
 import '../../../../core/constants/constants.dart';
-import '../../../../core/data/services/app_photo.dart';
 import '../../../../core/widgets/app_custom_list_tile.dart';
 import '../../../06_spaces/views/pages/spaces.dart';
 import '../components/bottom_logout_botton.dart';
@@ -18,13 +16,13 @@ import '../controllers/app_admin_controller.dart';
 import '../components/change_admin_details.dart';
 
 class AdminSettingScreen extends StatelessWidget {
-  const AdminSettingScreen({Key? key}) : super(key: key);
+  const AdminSettingScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Admin Setting', style: context.textTheme.headline6),
+        title: Text('Admin Setting', style: context.textTheme.bodySmall),
       ),
       body: SizedBox(
         width: Get.width,
@@ -97,7 +95,7 @@ class AdminSettingScreen extends StatelessWidget {
                         ),
                         // Dark Mode
                         GetBuilder<CoreController>(
-                          builder: (_controller) {
+                          builder: (controller) {
                             return AppCustomListTile(
                               onTap: () {},
                               label: 'Dark Mode',
@@ -106,9 +104,9 @@ class AdminSettingScreen extends StatelessWidget {
                                 color: AppColors.primaryColor,
                               ),
                               trailing: CupertinoSwitch(
-                                value: _controller.isAppInDarkMode,
+                                value: controller.isAppInDarkMode,
                                 onChanged: (v) {
-                                  _controller.switchTheme(v);
+                                  controller.switchTheme(v);
                                 },
                               ),
                             );

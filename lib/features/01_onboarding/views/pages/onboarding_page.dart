@@ -11,7 +11,7 @@ import '../components/intro_dot.dart';
 import '../components/onboarding_hero_section.dart';
 
 class OnboardingPage extends StatefulWidget {
-  const OnboardingPage({Key? key}) : super(key: key);
+  const OnboardingPage({super.key});
 
   @override
   _OnboardingPageState createState() => _OnboardingPageState();
@@ -92,7 +92,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
 
 class OnboardingBottomSection extends StatelessWidget {
   const OnboardingBottomSection({
-    Key? key,
+    super.key,
     required CoreController controller,
     required RxInt currentPage,
     required List<OnboardingModel> allIntros,
@@ -100,8 +100,7 @@ class OnboardingBottomSection extends StatelessWidget {
   })  : _controller = controller,
         _currentPage = currentPage,
         _allIntros = allIntros,
-        _pageController = pageController,
-        super(key: key);
+        _pageController = pageController;
 
   final CoreController _controller;
   final RxInt _currentPage;

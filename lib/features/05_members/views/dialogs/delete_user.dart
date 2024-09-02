@@ -8,10 +8,10 @@ import '../../../../core/themes/text.dart';
 
 class DeleteUserDialog extends StatefulWidget {
   const DeleteUserDialog({
-    Key? key,
+    super.key,
     required this.memberID,
     required this.isCustom,
-  }) : super(key: key);
+  });
 
   final String memberID;
   final bool isCustom;

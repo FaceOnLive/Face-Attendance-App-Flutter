@@ -13,7 +13,7 @@ import '../controllers/member_controller.dart';
 import '../dialogs/camera_or_gallery.dart';
 
 class MemberAddScreen extends StatefulWidget {
-  const MemberAddScreen({Key? key}) : super(key: key);
+  const MemberAddScreen({super.key});
 
   @override
   _MemberAddScreenState createState() => _MemberAddScreenState();
@@ -54,8 +54,8 @@ class _MemberAddScreenState extends State<MemberAddScreen> {
   /// When user clicks the add button
   Future<void> _onCreateUserButton() async {
     _addingMember.value = true;
-    bool _isFormOkay = _formKey.currentState!.validate();
-    if (_isFormOkay) {
+    bool isFormOkay = _formKey.currentState!.validate();
+    if (isFormOkay) {
       AppUiUtil.dismissKeyboard(context: Get.context!);
       if (_userImage != null) {
         await _controller.addMember(

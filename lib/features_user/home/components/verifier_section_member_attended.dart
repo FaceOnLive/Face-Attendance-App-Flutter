@@ -5,8 +5,8 @@ import '../../../core/constants/constants.dart';
 
 class MemberAttendedSection extends StatelessWidget {
   const MemberAttendedSection({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -16,9 +16,9 @@ class MemberAttendedSection extends StatelessWidget {
           AppImages.illustrationAttendFound,
           width: Get.width * 0.8,
         ),
-        Row(
+        const Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: const [
+          children: [
             Text('You attended today in {Space}'),
             Icon(
               Icons.check_box_rounded,

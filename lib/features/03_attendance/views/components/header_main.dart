@@ -9,8 +9,8 @@ import 'user_profile_picture.dart';
 
 class HeaderMainPage extends StatelessWidget {
   const HeaderMainPage({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -48,17 +48,17 @@ class HeaderMainPage extends StatelessWidget {
 
 class TitleAndSubtitle extends StatelessWidget {
   const TitleAndSubtitle({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () async {
-        String _websiteURL = "http://www.faceonlive.com";
-        bool _canLaunch = await url.canLaunch(_websiteURL);
-        if (_canLaunch) {
-          await url.launch(_websiteURL);
+        String websiteURL = "http://www.faceonlive.com";
+        bool canLaunch = await url.canLaunch(websiteURL);
+        if (canLaunch) {
+          await url.launch(websiteURL);
         } else {
           AppToast.show(
             "Oops! Faceonlive is not available",
@@ -71,13 +71,13 @@ class TitleAndSubtitle extends StatelessWidget {
         children: [
           Text(
             AppConfig.appName,
-            style: context.textTheme.bodyText2!.copyWith(
+            style: context.textTheme.bodyLarge!.copyWith(
               fontWeight: FontWeight.bold,
             ),
           ),
           Text(
             AppConfig.appSubtitle,
-            style: context.textTheme.caption,
+            style: context.textTheme.bodySmall,
           )
         ],
       ),

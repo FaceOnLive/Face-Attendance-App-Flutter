@@ -16,7 +16,7 @@ import 'register_as_admin_page.dart';
 import 'sign_up_page.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
+  const LoginPage({super.key});
 
   @override
   _LoginPageState createState() => _LoginPageState();
@@ -53,8 +53,8 @@ class _LoginPageState extends State<LoginPage> {
   Rxn<String> errorMessage = Rxn<String>();
 
   Future<void> _onLoginButtonPressed() async {
-    bool _isFormOkay = _formKey.currentState!.validate();
-    if (_isFormOkay) {
+    bool isFormOkay = _formKey.currentState!.validate();
+    if (isFormOkay) {
       // Dismiss Keyboard
       AppUiUtil.dismissKeyboard(context: context);
       try {

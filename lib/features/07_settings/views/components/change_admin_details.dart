@@ -12,7 +12,7 @@ import '../../../../core/widgets/app_button.dart';
 import '../controllers/app_admin_controller.dart';
 
 class AdminDetailsSheet extends StatefulWidget {
-  const AdminDetailsSheet({Key? key, required this.name}) : super(key: key);
+  const AdminDetailsSheet({super.key, required this.name});
 
   final String name;
 
@@ -35,8 +35,8 @@ class _AdminDetailsSheetState extends State<AdminDetailsSheet> {
 
   // on name update
   Future<void> _onNameUpdate() async {
-    bool _isFormOkay = _formKey.currentState!.validate();
-    if (_isFormOkay) {
+    bool isFormOkay = _formKey.currentState!.validate();
+    if (isFormOkay) {
       try {
         _isUpdating.trigger(true);
         await _controller.changeAdminName(

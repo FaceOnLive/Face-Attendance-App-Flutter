@@ -10,45 +10,45 @@ class UploadPicture {
     required File imageFile,
     required String userID,
   }) async {
-    FirebaseStorage _firebaseStorage = FirebaseStorage.instance;
+    FirebaseStorage firebaseStorage = FirebaseStorage.instance;
 
     // uploadingProfilePicture.value = true;
     /* <---- Delete Exisiting profile picture ----> */
     try {
-      Reference _existingImage =
-          _firebaseStorage.ref('members/$userID/$memberID');
-      if (_existingImage.fullPath != '') {
-        await _existingImage.delete();
+      Reference existingImage =
+          firebaseStorage.ref('members/$userID/$memberID');
+      if (existingImage.fullPath != '') {
+        await existingImage.delete();
       }
     } catch (e) {
       print("There is no old picture found of this user");
     }
 
     /* <---- Download Url ----> */
-    String? _downloadUrl;
+    String? downloadUrl;
 
-    Reference _storageReference =
-        _firebaseStorage.ref('members/$userID/$memberID');
+    Reference storageReference =
+        firebaseStorage.ref('members/$userID/$memberID');
 
-    UploadTask _uploadImage = _storageReference.putFile(imageFile);
+    UploadTask uploadImage = storageReference.putFile(imageFile);
 
-    String _fullPath = _uploadImage.snapshot.ref.fullPath;
+    String fullPath = uploadImage.snapshot.ref.fullPath;
 
-    await _uploadImage.whenComplete(() async {
+    await uploadImage.whenComplete(() async {
       // String newFileName = '${_fullPath}_600x600';
-      String newFileName = _fullPath;
+      String newFileName = fullPath;
       /* <---- This will retry until it gets the download link ----> */
       await retry(
         () async {
-          _downloadUrl =
-              await _firebaseStorage.ref().child(newFileName).getDownloadURL();
+          downloadUrl =
+              await firebaseStorage.ref().child(newFileName).getDownloadURL();
         },
-        retryIf: (e) => _downloadUrl == null,
+        retryIf: (e) => downloadUrl == null,
         maxAttempts: 20,
         delayFactor: const Duration(seconds: 2),
       );
     });
-    return _downloadUrl;
+    return downloadUrl;
   }
 
   /// Upload Images to the user directory and gives download link
@@ -56,44 +56,44 @@ class UploadPicture {
     required String userID,
     required File imageFile,
   }) async {
-    FirebaseStorage _firebaseStorage = FirebaseStorage.instance;
+    FirebaseStorage firebaseStorage = FirebaseStorage.instance;
 
     // uploadingProfilePicture.value = true;
     /* <---- Delete Exisiting profile picture ----> */
-    Reference _existingImage = _firebaseStorage.ref('users/$userID');
+    Reference existingImage = firebaseStorage.ref('users/$userID');
 
     try {
-      if (_existingImage.fullPath != '') {
-        await _existingImage.delete();
+      if (existingImage.fullPath != '') {
+        await existingImage.delete();
       }
     } catch (e) {
       print(e);
     }
 
     /* <---- Download Url ----> */
-    String? _downloadUrl;
+    String? downloadUrl;
 
-    Reference _storageReference = _firebaseStorage.ref('users/$userID');
+    Reference storageReference = firebaseStorage.ref('users/$userID');
 
-    UploadTask _uploadImage = _storageReference.putFile(imageFile);
+    UploadTask uploadImage = storageReference.putFile(imageFile);
 
-    String _fullPath = _uploadImage.snapshot.ref.fullPath;
+    String fullPath = uploadImage.snapshot.ref.fullPath;
 
-    await _uploadImage.whenComplete(() async {
+    await uploadImage.whenComplete(() async {
       // String newFileName = '${_fullPath}_600x600';
-      String newFileName = _fullPath;
+      String newFileName = fullPath;
       /* <---- This will retry until it gets the download link ----> */
       await retry(
         () async {
-          _downloadUrl =
-              await _firebaseStorage.ref().child(newFileName).getDownloadURL();
+          downloadUrl =
+              await firebaseStorage.ref().child(newFileName).getDownloadURL();
         },
-        retryIf: (e) => _downloadUrl == null,
+        retryIf: (e) => downloadUrl == null,
         maxAttempts: 20,
         delayFactor: const Duration(seconds: 2),
       );
     });
-    return _downloadUrl;
+    return downloadUrl;
   }
 
   /// Upload Images to the user directory and gives download link
@@ -101,39 +101,39 @@ class UploadPicture {
     required String userID,
     required File imageFile,
   }) async {
-    FirebaseStorage _firebaseStorage = FirebaseStorage.instance;
+    FirebaseStorage firebaseStorage = FirebaseStorage.instance;
 
     // uploadingProfilePicture.value = true;
     /* <---- Delete Exisiting profile picture ----> */
-    Reference _existingImage = _firebaseStorage.ref('usersFaceID/$userID');
+    Reference existingImage = firebaseStorage.ref('usersFaceID/$userID');
 
-    if (_existingImage.fullPath != '') {
-      _existingImage.delete();
+    if (existingImage.fullPath != '') {
+      existingImage.delete();
     }
 
     /* <---- Download Url ----> */
-    String? _downloadUrl;
+    String? downloadUrl;
 
-    Reference _storageReference = _firebaseStorage.ref('usersFaceID/$userID');
+    Reference storageReference = firebaseStorage.ref('usersFaceID/$userID');
 
-    UploadTask _uploadImage = _storageReference.putFile(imageFile);
+    UploadTask uploadImage = storageReference.putFile(imageFile);
 
-    String _fullPath = _uploadImage.snapshot.ref.fullPath;
+    String fullPath = uploadImage.snapshot.ref.fullPath;
 
-    await _uploadImage.whenComplete(() async {
+    await uploadImage.whenComplete(() async {
       // String newFileName = '${_fullPath}_600x600';
-      String newFileName = _fullPath;
+      String newFileName = fullPath;
       /* <---- This will retry until it gets the download link ----> */
       await retry(
         () async {
-          _downloadUrl =
-              await _firebaseStorage.ref().child(newFileName).getDownloadURL();
+          downloadUrl =
+              await firebaseStorage.ref().child(newFileName).getDownloadURL();
         },
-        retryIf: (e) => _downloadUrl == null,
+        retryIf: (e) => downloadUrl == null,
         maxAttempts: 20,
         delayFactor: const Duration(seconds: 2),
       );
     });
-    return _downloadUrl;
+    return downloadUrl;
   }
 }

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../core/constants/constants.dart';
-import '../../core/utils/ui_helper.dart';
 import 'text.dart';
 
 class AppThemes {
@@ -53,10 +52,7 @@ class AppThemes {
         padding: const EdgeInsets.all(AppDefaults.padding),
       ),
     ),
-    colorScheme: ColorScheme.fromSwatch(
-            primarySwatch:
-                AppUiUtil.generateMaterialColor(AppColors.primaryColor))
-        .copyWith(secondary: AppColors.accentColor),
+    colorScheme: ColorScheme.fromSeed(seedColor: AppColors.primaryColor),
   );
 
   /* <-----------------------> 
@@ -118,10 +114,8 @@ class AppThemes {
         ),
       ),
     ),
-    colorScheme: ColorScheme.fromSwatch(
-      primaryColorDark: AppColors.primaryColor,
-      primarySwatch: AppUiUtil.generateMaterialColor(AppColors.primaryColor),
-      accentColor: AppColors.accentColor,
+    colorScheme: ColorScheme.fromSeed(
+      seedColor: AppColors.primaryColor,
       brightness: Brightness.dark,
     ),
   );

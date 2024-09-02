@@ -42,16 +42,16 @@ class LoginController extends GetxController {
   Future<void> loginWithEmail(
       {required String email, required String password}) async {
     /// Get user credintials
-    UserCredential _userCredintial = await _firebaseAuth
+    UserCredential userCredintial = await _firebaseAuth
         .signInWithEmailAndPassword(email: email, password: password);
 
     // get user
-    _firebaseUser.value = _userCredintial.user;
+    _firebaseUser.value = userCredintial.user;
     // if the user is admin
-    isAdmin = await UserServices.isAnAdmin(_userCredintial.user!.uid);
+    isAdmin = await UserServices.isAnAdmin(userCredintial.user!.uid);
 
     // if the email is verified
-    isEmailVerified = _userCredintial.user!.emailVerified;
+    isEmailVerified = userCredintial.user!.emailVerified;
 
     // let's redirect 🚀
     if (isAdmin && isEmailVerified) {
@@ -133,12 +133,12 @@ class LoginController extends GetxController {
   /// Verify that email has been verified
   Future<void> emailHasBeenVerified() async {
     isVerifiyingEmail.trigger(true);
-    User _currentUser = _firebaseUser.value!;
-    await _currentUser.reload();
-    if (_currentUser.emailVerified) {
-      bool _isAdmin = await UserServices.isAnAdmin(_currentUser.uid);
-      if (_isAdmin) Get.offAll(() => const EntryPointUI());
-      if (!_isAdmin) Get.offAll(() => const AppMemberMainUi());
+    User currentUser = _firebaseUser.value!;
+    await currentUser.reload();
+    if (currentUser.emailVerified) {
+      bool isAdmin = await UserServices.isAnAdmin(currentUser.uid);
+      if (isAdmin) Get.offAll(() => const EntryPointUI());
+      if (!isAdmin) Get.offAll(() => const AppMemberMainUi());
     } else {
       Get.dialog(const ErrorDialog(
         title: 'Email not verified',

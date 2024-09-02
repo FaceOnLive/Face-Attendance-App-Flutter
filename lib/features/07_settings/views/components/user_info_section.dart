@@ -10,8 +10,8 @@ import '../controllers/app_admin_controller.dart';
 
 class UserInfoSection extends GetView<AppAdminController> {
   const UserInfoSection({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -24,10 +24,10 @@ class UserInfoSection extends GetView<AppAdminController> {
               profileLink: controller.currentUser.userProfilePicture,
               isUpdating: controller.isUpdatingPicture,
               onTap: () async {
-                File? _userImage =
+                File? userImage =
                     await Get.dialog(const CameraGallerySelectDialog());
-                if (_userImage != null) {
-                  await controller.updateUserProfilePicture(_userImage);
+                if (userImage != null) {
+                  await controller.updateUserProfilePicture(userImage);
                 }
               },
             );
@@ -36,13 +36,13 @@ class UserInfoSection extends GetView<AppAdminController> {
         AppSizes.hGap10,
         Text(
           controller.currentUser.name,
-          style: context.textTheme.headline6!.copyWith(
+          style: context.textTheme.headlineSmall!.copyWith(
             fontWeight: FontWeight.bold,
           ),
         ),
         Text(
           controller.currentUser.email,
-          style: context.textTheme.bodyText1,
+          style: context.textTheme.bodySmall,
         ),
         AppSizes.hGap10,
       ],

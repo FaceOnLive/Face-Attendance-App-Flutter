@@ -9,8 +9,8 @@ import 'components.dart';
 
 class AttendedUserListSection extends StatelessWidget {
   const AttendedUserListSection({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +21,7 @@ class AttendedUserListSection extends StatelessWidget {
           children: [
             Text(
               DateFormat.yMMMEd().format(DateTime.now()),
-              style: context.textTheme.caption,
+              style: context.textTheme.bodySmall,
             ),
             // Header
             GetBuilder<SpaceController>(
@@ -79,7 +79,6 @@ class AttendedUserListSection extends StatelessWidget {
             GetBuilder<SpaceController>(
               builder: (controller) {
                 switch (controller.spaceViewState) {
-
                   /// Initializing
                   case SpaceViewState.isInitializing:
                     return const LoadingMembers();
@@ -122,8 +121,8 @@ class AttendedUserListSection extends StatelessWidget {
 
 class UserListFetched extends GetView<SpaceController> {
   const UserListFetched({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -135,12 +134,12 @@ class UserListFetched extends GetView<SpaceController> {
         child: ListView.separated(
             itemCount: controller.filteredListMember.length,
             itemBuilder: (context, index) {
-              Member _currentMember = controller.filteredListMember[index];
+              Member currentMember = controller.filteredListMember[index];
               return MemberListTileSpace(
-                member: _currentMember,
+                member: currentMember,
                 currentSpaceID: controller.currentSpace!.spaceID!,
                 attendedTime: controller.isMemberAttendedToday(
-                  memberID: _currentMember.memberID!,
+                  memberID: currentMember.memberID!,
                 ),
                 fetchingTodaysLog: controller.fetchingTodaysLog,
               );

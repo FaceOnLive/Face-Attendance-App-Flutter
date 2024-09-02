@@ -10,8 +10,8 @@ import '../../../06_spaces/views/pages/space_info.dart';
 
 class DropDownRowSection extends GetView<SpaceController> {
   const DropDownRowSection({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -70,9 +70,7 @@ class DropDownRowSection extends GetView<SpaceController> {
 }
 
 class _TheDropDown extends GetView<SpaceController> {
-  const _TheDropDown({
-    Key? key,
-  }) : super(key: key);
+  const _TheDropDown();
 
   @override
   Widget build(BuildContext context) {
@@ -86,25 +84,25 @@ class _TheDropDown extends GetView<SpaceController> {
           // Create button
           if (index == controller.allSpaces.length) {
             return const DropdownMenuItem(
-              child: _CreateNewSpaceButton(),
               value: 'create',
+              child: _CreateNewSpaceButton(),
             );
           }
 
           /// List
-          Space _indexedSpace = controller.allSpaces[index];
+          Space indexedSpace = controller.allSpaces[index];
           return DropdownMenuItem(
+            value: indexedSpace.name.toLowerCase(),
             child: _DropDownSpaceItem(
               active: true,
-              iconData: _indexedSpace.icon,
-              label: _indexedSpace.name,
+              iconData: indexedSpace.icon,
+              label: indexedSpace.name,
               onTap: () {
                 Get.to(
-                  () => SpaceInfoScreen(space: _indexedSpace),
+                  () => SpaceInfoScreen(space: indexedSpace),
                 );
               },
             ),
-            value: _indexedSpace.name.toLowerCase(),
           );
         },
       ),
@@ -115,9 +113,7 @@ class _TheDropDown extends GetView<SpaceController> {
 }
 
 class _CreateNewSpaceButton extends StatelessWidget {
-  const _CreateNewSpaceButton({
-    Key? key,
-  }) : super(key: key);
+  const _CreateNewSpaceButton();
 
   @override
   Widget build(BuildContext context) {
@@ -145,12 +141,11 @@ class _CreateNewSpaceButton extends StatelessWidget {
 
 class _DropDownSpaceItem extends StatelessWidget {
   const _DropDownSpaceItem({
-    Key? key,
     required this.label,
     required this.active,
     required this.iconData,
     required this.onTap,
-  }) : super(key: key);
+  });
 
   final String label;
   final bool active;

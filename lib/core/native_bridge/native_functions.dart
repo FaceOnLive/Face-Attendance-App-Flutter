@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:typed_data';
 
 import 'package:flutter/services.dart';
 import 'package:get/instance_manager.dart';
@@ -25,22 +24,22 @@ class NativeSDKFunctions {
     required File capturedImage,
     required File personImage,
   }) async {
-    bool _isTheSamePerson = false;
+    bool isTheSamePerson = false;
 
     /// Convert Data
     // Uint8List? _capturedImageBytes = await getFaceData(image: capturedImage);
     // Uint8List? _personImageBytes = await getFaceData(image: personImage);
 
-    Uint8List? _capturedImageBytes = await capturedImage.readAsBytes();
-    Uint8List? _personImageBytes = await personImage.readAsBytes();
+    Uint8List? capturedImageBytes = await capturedImage.readAsBytes();
+    Uint8List? personImageBytes = await personImage.readAsBytes();
 
     // Invoke Method
-    _isTheSamePerson = await _channel.invokeMethod('verifySinglePerson', {
-      'capturedImage': _capturedImageBytes,
-      'personImage': _personImageBytes,
+    isTheSamePerson = await _channel.invokeMethod('verifySinglePerson', {
+      'capturedImage': capturedImageBytes,
+      'personImage': personImageBytes,
     });
 
-    return _isTheSamePerson;
+    return isTheSamePerson;
   }
 
   /// Get Feature or Uin8List
@@ -50,19 +49,19 @@ class NativeSDKFunctions {
     int mode = 0,
   }) async {
     //convert
-    Uint8List _unExtractedImage = await image.readAsBytes();
+    Uint8List unExtractedImage = await image.readAsBytes();
 
     // initiate
-    Uint8List? _file;
+    Uint8List? file;
 
-    _file = await _channel.invokeMethod(
+    file = await _channel.invokeMethod(
       'getFeature',
       {
-        'image': _unExtractedImage,
+        'image': unExtractedImage,
         'mode': mode //1 -> enroll mode, 0 -> verify mode
       },
     );
 
-    return _file;
+    return file;
   }
 }

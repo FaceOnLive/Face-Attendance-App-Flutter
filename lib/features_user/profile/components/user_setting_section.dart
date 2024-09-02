@@ -10,8 +10,8 @@ import 'change_number.dart';
 
 class UserSettingsSection extends StatelessWidget {
   const UserSettingsSection({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

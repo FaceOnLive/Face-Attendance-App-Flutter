@@ -8,7 +8,7 @@ import '../components/today_date_widget.dart';
 import '../components/verifier_section.dart';
 
 class AppMemberHomeScreen extends StatelessWidget {
-  const AppMemberHomeScreen({Key? key}) : super(key: key);
+  const AppMemberHomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

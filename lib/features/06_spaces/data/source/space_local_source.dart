@@ -15,17 +15,17 @@ class SpaceLocalSource {
     print("Total Fetched Space: ${fetchedSpaces.length} ");
 
     if (savedSpaceID != null) {
-      List<String> _spacesIDs = [];
+      List<String> spacesIDs = [];
       for (var item in fetchedSpaces) {
-        _spacesIDs.add(item.spaceID!);
+        spacesIDs.add(item.spaceID!);
       }
       // If we have the space id saved or not
-      bool isAvailable = _spacesIDs.contains(savedSpaceID);
+      bool isAvailable = spacesIDs.contains(savedSpaceID);
 
       if (isAvailable) {
-        Space _space = fetchedSpaces
+        Space space0 = fetchedSpaces
             .singleWhere((element) => element.spaceID == savedSpaceID);
-        space = _space;
+        space = space0;
       } else {
         // if not then the default is the first one
         space = fetchedSpaces[0];
@@ -57,7 +57,7 @@ class SpaceLocalSource {
   /// currentSpace + userID is the key, not the value
   static Future<String?> getSavedSpaceID({required String userID}) async {
     Box box = Hive.box(spaceBoxName);
-    String? _space = await box.get(currentSpace + userID);
-    return _space;
+    String? space = await box.get(currentSpace + userID);
+    return space;
   }
 }

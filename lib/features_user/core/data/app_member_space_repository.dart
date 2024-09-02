@@ -17,7 +17,7 @@ class AppMemberSpaceRepostitoryImpl implements AppMemberSpaceRepository {
 
   @override
   Future<List<Space>> getAllSpaces({required String userID}) async {
-    List<Space> _fetchedSpace = [];
+    List<Space> fetchedSpace = [];
 
     try {
       await spaceCollection
@@ -25,22 +25,22 @@ class AppMemberSpaceRepostitoryImpl implements AppMemberSpaceRepository {
           .get()
           .then((spaceList) => {
                 for (var item in spaceList.docs)
-                  {_fetchedSpace.add(Space.fromDocumentSnap(item))}
+                  {fetchedSpace.add(Space.fromDocumentSnap(item))}
               });
     } on FirebaseException catch (e) {
       AppToast.show(e.message ?? "Something Error happened");
     }
 
-    return _fetchedSpace;
+    return fetchedSpace;
   }
 
   @override
   Future<Space?> getSpacebyID({required String spaceID}) async {
-    Space? _theSpace;
+    Space? theSpace;
     final doc = await spaceCollection.doc(spaceID).get();
     if (doc.exists) {
-      _theSpace = Space.fromDocumentSnap(doc);
+      theSpace = Space.fromDocumentSnap(doc);
     }
-    return _theSpace;
+    return theSpace;
   }
 }

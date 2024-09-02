@@ -4,7 +4,7 @@ import '../../../../core/constants/constants.dart';
 import '../../../../core/themes/text.dart';
 
 class SuccessfullDialog extends StatelessWidget {
-  const SuccessfullDialog({Key? key, this.message}) : super(key: key);
+  const SuccessfullDialog({super.key, this.message});
 
   final String? message;
 

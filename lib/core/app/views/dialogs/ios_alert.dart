@@ -4,7 +4,7 @@ import '../../../constants/constants.dart';
 import '../../../themes/text.dart';
 
 class IosAlertDialog extends StatelessWidget {
-  const IosAlertDialog({Key? key}) : super(key: key);
+  const IosAlertDialog({super.key});
 
   @override
   Widget build(BuildContext context) {

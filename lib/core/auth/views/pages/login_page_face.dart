@@ -1,5 +1,3 @@
-import 'package:face_attendance/core/camerakit/camera_kit_controller.dart';
-import 'package:face_attendance/core/camerakit/camera_kit_view.dart';
 import 'package:face_attendance/core/utils/app_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -11,7 +9,7 @@ import 'login_page.dart';
 import 'sign_up_page.dart';
 
 class LoginPageFace extends StatefulWidget {
-  const LoginPageFace({Key? key}) : super(key: key);
+  const LoginPageFace({super.key});
 
   @override
   _LoginPageFaceState createState() => _LoginPageFaceState();

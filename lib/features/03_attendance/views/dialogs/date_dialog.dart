@@ -12,11 +12,11 @@ import '../../../05_members/views/controllers/member_controller.dart';
 
 class DateInfoDialog extends StatelessWidget {
   const DateInfoDialog({
-    Key? key,
+    super.key,
     required this.dateTime,
     required this.spaceID,
     required this.member,
-  }) : super(key: key);
+  });
 
   final DateTime dateTime;
   final String spaceID;
@@ -56,11 +56,10 @@ class DateInfoDialog extends StatelessWidget {
 
 class _UpdateAttendane extends StatefulWidget {
   const _UpdateAttendane({
-    Key? key,
     required this.spaceID,
     required this.member,
     required this.date,
-  }) : super(key: key);
+  });
   final String spaceID;
   final Member member;
   final DateTime date;

@@ -6,8 +6,8 @@ import '../../../../core/themes/text.dart';
 
 class DeleteAttendDialog extends StatelessWidget {
   const DeleteAttendDialog({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

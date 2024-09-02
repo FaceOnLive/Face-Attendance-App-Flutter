@@ -70,16 +70,16 @@ class SpaceController extends GetxController {
   /// On initial startup we don't want to show the empty illustration
   Future<int> _fetchAllSpaces() async {
     allSpaces.clear();
-    final _fetchedData = await _repository.getAllSpaces(_currentUserID);
-    int _totalSpaceFetched = 0;
+    final fetchedData = await _repository.getAllSpaces(_currentUserID);
+    int totalSpaceFetched = 0;
 
-    _fetchedData.fold((l) {
+    fetchedData.fold((l) {
       return AppToast.show(
         'Oops! There is an fatal error',
       );
     }, (fetchedSpacesVal) async {
       if (fetchedSpacesVal.isNotEmpty) {
-        _totalSpaceFetched = fetchedSpacesVal.length;
+        totalSpaceFetched = fetchedSpacesVal.length;
         allSpaces = fetchedSpacesVal;
         currentSpace = await SpaceLocalSource.getDefaultSpace(
           fetchedSpaces: fetchedSpacesVal,
@@ -91,20 +91,20 @@ class SpaceController extends GetxController {
         spaceViewState = SpaceViewState.isNoSpaceFound;
       }
     });
-    return _totalSpaceFetched;
+    return totalSpaceFetched;
   }
 
   /// When user tap on a space in dropdown
   void onDropDownUpdate(String? newSpace) {
     if (newSpace != null) {
-      Space? _space = allSpaces.singleWhere(
+      Space? space = allSpaces.singleWhere(
         (singleSpace) => singleSpace.name.toLowerCase() == newSpace,
       );
-      currentSpace = _space;
-      _addCurrentSpaceMemberToList(_space);
+      currentSpace = space;
+      _addCurrentSpaceMemberToList(space);
       _onAllRadioSelection();
       selectedOption = MemberFilterList.all;
-      SpaceLocalSource.saveToLocal(space: _space, userID: _currentUserID);
+      SpaceLocalSource.saveToLocal(space: space, userID: _currentUserID);
       update();
     }
   }
@@ -118,7 +118,7 @@ class SpaceController extends GetxController {
 
   /// Add Current Space Members To List
   Future<void> _addCurrentSpaceMemberToList(Space theSpace) async {
-    final _memberController = Get.find<MembersController>();
+    final memberController = Get.find<MembersController>();
 
     _allMembersSpace.clear();
 
@@ -126,10 +126,10 @@ class SpaceController extends GetxController {
 
     await retry(
       () {
-        fetchedMembers = _memberController.allMembers;
+        fetchedMembers = memberController.allMembers;
         return fetchedMembers;
       },
-      retryIf: (_) => _memberController.isFetchingUser == true,
+      retryIf: (_) => memberController.isFetchingUser == true,
     );
 
     print(
@@ -154,18 +154,18 @@ class SpaceController extends GetxController {
 
   /// Get Member List By Space
   List<Member> getMembersBySpaceID({required String spaceID}) {
-    List<Member> _allSpaceMembers = [];
+    List<Member> allSpaceMembers = [];
     // Check if the space exist
-    Space? _space = getSpaceByIdLocal(spaceID: spaceID);
+    Space? space = getSpaceByIdLocal(spaceID: spaceID);
 
     // if the space exist
-    if (_space != null) {
-      List<Member> _allFetchedMembers =
+    if (space != null) {
+      List<Member> allFetchedMembers =
           Get.find<MembersController>().allMembers;
-      for (var element in _allFetchedMembers) {
-        if (_space.memberList.contains(element.memberID) ||
-            _space.appMembers.contains(element.memberID)) {
-          _allSpaceMembers.add(element);
+      for (var element in allFetchedMembers) {
+        if (space.memberList.contains(element.memberID) ||
+            space.appMembers.contains(element.memberID)) {
+          allSpaceMembers.add(element);
         } else {
           // print('Member does not belong to ${currentSpace!.name}');
         }
@@ -173,7 +173,7 @@ class SpaceController extends GetxController {
     }
 
     // return list
-    return _allSpaceMembers;
+    return allSpaceMembers;
   }
 
   /// Add Space
@@ -274,17 +274,17 @@ class SpaceController extends GetxController {
 
   /// Get Space by ID
   Space? getSpaceByIdLocal({required String spaceID}) {
-    Space? _space;
+    Space? space;
     List<String> allSpacesId = [];
     for (var element in allSpaces) {
       allSpacesId.add(element.spaceID!);
     }
     if (allSpacesId.contains(spaceID)) {
-      _space = allSpaces.singleWhere((element) => element.spaceID == spaceID);
+      space = allSpaces.singleWhere((element) => element.spaceID == spaceID);
     } else {
-      _space = null;
+      space = null;
     }
-    return _space;
+    return space;
   }
 
   /// When user select attendance button
@@ -405,7 +405,7 @@ class SpaceController extends GetxController {
 
   /// Fetch Log Messages
   Future<List<LogMessage>> fetchLogMessages({required String spaceID}) async {
-    List<LogMessage> _logMessages = [];
+    List<LogMessage> logMessages = [];
 
     await _spaceCollection
         .doc(spaceID)
@@ -414,22 +414,22 @@ class SpaceController extends GetxController {
         .then((messages) => {
               // ignore: avoid_function_literals_in_foreach_calls
               messages.docs.forEach((aMessage) {
-                LogMessage _fetchedMessage =
+                LogMessage fetchedMessage =
                     LogMessage.fromDocumentSnap(aMessage);
-                _logMessages.add(_fetchedMessage);
+                logMessages.add(fetchedMessage);
               })
             });
 
-    return _logMessages;
+    return logMessages;
   }
 
   /// Refreshes Everything from Start
   /// Everything goes in order
   Future<void> refreshData() async {
-    int _spaceFetched = await _fetchAllSpaces();
+    int spaceFetched = await _fetchAllSpaces();
     filteredListMember = _allMembersSpace;
 
-    if (_spaceFetched <= 0) {
+    if (spaceFetched <= 0) {
       spaceViewState = SpaceViewState.isNoSpaceFound;
     }
     // await _fetchTodaysLogCurrentSpace();

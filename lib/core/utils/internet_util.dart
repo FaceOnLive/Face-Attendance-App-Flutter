@@ -12,20 +12,20 @@ class InternetUtil {
   /// Is internet currently available
 
   static Future<bool> isAvailable() async {
-    bool _isInternetAvailable = false;
+    bool isInternetAvailable = false;
 
     var connectivityResult = await (Connectivity().checkConnectivity());
     if (connectivityResult == ConnectivityResult.mobile) {
-      _isInternetAvailable = true;
+      isInternetAvailable = true;
     } else if (connectivityResult == ConnectivityResult.wifi) {
-      _isInternetAvailable = true;
+      isInternetAvailable = true;
     } else if (connectivityResult == ConnectivityResult.none) {
-      _isInternetAvailable = false;
+      isInternetAvailable = false;
     }
 
     bool result = await DataConnectionChecker().hasConnection;
-    _isInternetAvailable = result;
+    isInternetAvailable = result;
 
-    return _isInternetAvailable;
+    return isInternetAvailable;
   }
 }

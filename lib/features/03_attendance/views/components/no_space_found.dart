@@ -7,8 +7,8 @@ import '../../../06_spaces/views/pages/space_create_page.dart';
 
 class NoSpaceFound extends StatelessWidget {
   const NoSpaceFound({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

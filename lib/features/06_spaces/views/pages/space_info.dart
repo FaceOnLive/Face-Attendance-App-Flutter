@@ -14,7 +14,7 @@ import 'space_range.dart';
 import 'space_search.dart';
 
 class SpaceInfoScreen extends StatelessWidget {
-  const SpaceInfoScreen({Key? key, required this.space}) : super(key: key);
+  const SpaceInfoScreen({super.key, required this.space});
 
   final Space space;
 

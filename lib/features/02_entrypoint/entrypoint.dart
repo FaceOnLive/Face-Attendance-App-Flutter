@@ -18,7 +18,7 @@ import '../07_settings/views/controllers/app_admin_controller.dart';
 
 class EntryPointUI extends StatelessWidget {
   /// Works as a foundation of all the other screen
-  const EntryPointUI({Key? key}) : super(key: key);
+  const EntryPointUI({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -39,10 +39,10 @@ class EntryPointUI extends StatelessWidget {
                 duration: AppDefaults.duration,
                 transitionBuilder: (child, animation, secondAnimation) {
                   return SharedAxisTransition(
-                    child: child,
                     animation: animation,
                     secondaryAnimation: secondAnimation,
                     transitionType: SharedAxisTransitionType.horizontal,
+                    child: child,
                   );
                 },
                 child: controller.currentSelectedPage(),
@@ -58,7 +58,7 @@ class EntryPointUI extends StatelessWidget {
               backgroundColor: context.theme.cardColor,
               selectedLabelStyle: TextStyle(
                 fontWeight: FontWeight.bold,
-                fontSize: context.textTheme.bodyText1!.fontSize,
+                fontSize: context.textTheme.bodySmall!.fontSize,
               ),
               selectedItemColor: AppColors.primaryColor,
               // unselectedLabelStyle: TextStyle(color: Colors.grey),

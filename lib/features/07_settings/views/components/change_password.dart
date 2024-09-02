@@ -10,7 +10,7 @@ import '../../../../core/widgets/app_button.dart';
 import '../controllers/app_admin_controller.dart';
 
 class ChangePasswordSheet extends StatefulWidget {
-  const ChangePasswordSheet({Key? key}) : super(key: key);
+  const ChangePasswordSheet({super.key});
 
   @override
   _ChangePasswordSheetState createState() => _ChangePasswordSheetState();
@@ -55,8 +55,8 @@ class _ChangePasswordSheetState extends State<ChangePasswordSheet> {
 
   /// On Change Pass Click
   Future<void> _onChangePass() async {
-    bool _isFormOkay = _formKey.currentState!.validate();
-    if (_isFormOkay) {
+    bool isFormOkay = _formKey.currentState!.validate();
+    if (isFormOkay) {
       try {
         _isChanginPass.trigger(true);
         await _controller.changePassword(

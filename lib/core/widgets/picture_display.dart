@@ -10,7 +10,7 @@ import '../../../../core/constants/constants.dart';
 
 class ProfilePictureWidget extends StatelessWidget {
   const ProfilePictureWidget({
-    Key? key,
+    super.key,
     this.profileLink,
     this.heroTag,
     this.onTap,
@@ -18,7 +18,7 @@ class ProfilePictureWidget extends StatelessWidget {
     this.isLocal = false,
     this.isUpdating = false,
     this.localImage,
-  }) : super(key: key);
+  });
 
   final String? profileLink;
   final String? heroTag;

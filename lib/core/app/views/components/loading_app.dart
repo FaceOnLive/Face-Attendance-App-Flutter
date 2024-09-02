@@ -8,8 +8,8 @@ class LoadingApp extends StatelessWidget {
   /// this will give a user a full loading screen. Great way to let user know
   /// somthing is happening behind the scene.
   const LoadingApp({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

@@ -5,7 +5,7 @@ import '../../../constants/constants.dart';
 import '../../../themes/text.dart';
 
 class NoInternetDialog extends StatelessWidget {
-  const NoInternetDialog({Key? key}) : super(key: key);
+  const NoInternetDialog({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -5,8 +5,8 @@ import '../../../../../core/constants/constants.dart';
 
 class NoMemberFoundSection extends StatelessWidget {
   const NoMemberFoundSection({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

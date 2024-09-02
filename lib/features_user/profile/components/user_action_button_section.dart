@@ -12,8 +12,8 @@ import '../../core/controllers/app_member_user.dart';
 
 class UserActionButtonSection extends GetView<AppMemberUserController> {
   const UserActionButtonSection({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -29,8 +29,8 @@ class UserActionButtonSection extends GetView<AppMemberUserController> {
             suffixIcon: const Icon(Icons.qr_code_2_rounded),
             onTap: () {
               String userId = controller.currentUser.userID ?? 'no-user-id';
-              bool _isValidForShare = controller.isUserDataAvailable();
-              if (_isValidForShare) {
+              bool isValidForShare = controller.isUserDataAvailable();
+              if (isValidForShare) {
                 Get.dialog(
                   /// Returns an encrypted USER ID
                   GenerateQRDialog(

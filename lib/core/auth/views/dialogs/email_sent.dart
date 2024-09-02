@@ -4,7 +4,7 @@ import '../../../constants/constants.dart';
 import '../../../themes/text.dart';
 
 class EmailSentSuccessfullDialog extends StatelessWidget {
-  const EmailSentSuccessfullDialog({Key? key}) : super(key: key);
+  const EmailSentSuccessfullDialog({super.key});
 
   @override
   Widget build(BuildContext context) {

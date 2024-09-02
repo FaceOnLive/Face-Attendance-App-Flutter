@@ -35,7 +35,7 @@ class CoreController extends GetxController {
 
       bool? initRet = await _channel.invokeMethod('initSDK', {});
 
-      print("_onApp Start!!!!! " + initRet.toString());
+      print("_onApp Start!!!!! $initRet");
 
       Get.put(LoginController(), permanent: true);
       everyThingLoadedUp = true;
@@ -71,13 +71,13 @@ class CoreController extends GetxController {
   /// Used For Home Navigation
   int currentIndex = 0;
   onNavTap(int index) {
-    int _totalMembers = Get.find<MembersController>().allMembers.length;
+    int totalMembers = Get.find<MembersController>().allMembers.length;
 
     if (isSettingSdk && index == 1) {
       /// This means user is tapping verifier screen
       /// when the SDK is not setted up
       AppToast.show('Please wait for the SDK Loading');
-    } else if (_totalMembers <= 0 && index == 1) {
+    } else if (totalMembers <= 0 && index == 1) {
       AppToast.show('Please add some member first');
     } else {
       currentIndex = index;
@@ -115,22 +115,22 @@ class CoreController extends GetxController {
   /// Returns true/false if the intro has been done
   bool isOnboardDone() {
     Box box = Hive.box(_appsBoolBox);
-    bool _isDone = box.get(_boxKeyOnBoard) ?? false;
-    return _isDone;
+    bool isDone = box.get(_boxKeyOnBoard) ?? false;
+    return isDone;
   }
 
   /// If user logged in
   bool isUserLoggedIn() {
-    LoginController _controller = Get.find();
-    return _controller.user != null ? true : false;
+    LoginController controller = Get.find();
+    return controller.user != null ? true : false;
   }
 
   /* <---- VERIFIER ----> */
   /// If the app is in verifier mode
   bool isInVerifierMode() {
     Box box = Hive.box(_appsBoolBox);
-    bool _isInVerify = box.get(_inVerifierMode) ?? false;
-    return _isInVerify;
+    bool isInVerify = box.get(_inVerifierMode) ?? false;
+    return isInVerify;
   }
 
   /// Set The Apps In Verify Mode
@@ -171,14 +171,14 @@ class CoreController extends GetxController {
   /// Storage For Dark Mode, This value is used on main.dart file
   bool _isTheAppInDarkMode() {
     final box = GetStorage();
-    bool _isAppInDark = false;
-    String _data = box.read(_themeModeString) ?? 'light';
-    ThemeMode _theme = _convertToThemeMode(_data);
-    if (_theme == ThemeMode.dark) {
-      _isAppInDark = true;
+    bool isAppInDark = false;
+    String data = box.read(_themeModeString) ?? 'light';
+    ThemeMode theme = _convertToThemeMode(data);
+    if (theme == ThemeMode.dark) {
+      isAppInDark = true;
       isAppInDarkMode = true;
     }
-    return _isAppInDark;
+    return isAppInDark;
   }
 
   /// Write Theme To Storage (For Saving The Theme Setting on Device)
@@ -208,11 +208,11 @@ class CoreController extends GetxController {
 
   /// Gives App Theme Mode
   ThemeMode appThemeMode() {
-    ThemeMode _theme = ThemeMode.light;
+    ThemeMode theme = ThemeMode.light;
     final box = GetStorage();
-    String _data = box.read(_themeModeString) ?? 'light';
-    _theme = _convertToThemeMode(_data);
-    return _theme;
+    String data = box.read(_themeModeString) ?? 'light';
+    theme = _convertToThemeMode(data);
+    return theme;
   }
 
   /* <-----------------------> 
@@ -221,8 +221,8 @@ class CoreController extends GetxController {
 
   /// Internet Check
   Future<void> _checkInternetOnStart() async {
-    bool _isAvailable = await InternetUtil.isAvailable();
-    if (_isAvailable) {
+    bool isAvailable = await InternetUtil.isAvailable();
+    if (isAvailable) {
       // do nothing
     } else {
       Get.dialog(const NoInternetDialog(), barrierDismissible: false);

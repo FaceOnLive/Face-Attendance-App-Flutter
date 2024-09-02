@@ -76,11 +76,11 @@ class MemberRepositoryImpl extends MemberRepository {
   @override
   Future<Either<ServerFailure, String>> addCustomMember(
       {required Member member}) async {
-    String _memberID;
+    String memberID;
     try {
-      DocumentReference _doc = await customMemberCollection.add(member.toMap());
-      _memberID = _doc.id;
-      return Right(_memberID);
+      DocumentReference doc = await customMemberCollection.add(member.toMap());
+      memberID = doc.id;
+      return Right(memberID);
     } on FirebaseException catch (_) {
       return Left(ServerFailure(errorMessage: 'Failed To Add Custom Member'));
     }
@@ -102,35 +102,35 @@ class MemberRepositoryImpl extends MemberRepository {
   @override
   Future<Either<ServerFailure, List<Member>>> getAppMembersALL(
       {required String adminID}) async {
-    List<Member> _memberCollection = [];
+    List<Member> memberCollection = [];
     try {
       // Get Admin Doc
-      DocumentSnapshot _docSnapShot =
+      DocumentSnapshot docSnapShot =
           await appMemberCollection.doc(adminID).get();
 
-      if (_docSnapShot.exists) {
+      if (docSnapShot.exists) {
         // Convert it
-        Map<String, dynamic> _allMemberIDs =
-            _docSnapShot.data() as Map<String, dynamic>;
+        Map<String, dynamic> allMemberIDs =
+            docSnapShot.data() as Map<String, dynamic>;
 
         /// Member ID in String
-        List<String> _memberIDs =
-            List<String>.from(_allMemberIDs['appMembers']);
+        List<String> memberIDs =
+            List<String>.from(allMemberIDs['appMembers']);
 
         // Convert it
-        await Future.forEach<String>(_memberIDs, (singleMember) async {
+        await Future.forEach<String>(memberIDs, (singleMember) async {
           // Fetch Member
-          Member? _member =
+          Member? member =
               await UserServices.getMemberByID(userID: singleMember);
           // Check null
-          if (_member != null) {
-            _memberCollection.add(_member);
+          if (member != null) {
+            memberCollection.add(member);
           }
         });
       }
 
       /// Return The Data
-      return Right(_memberCollection);
+      return Right(memberCollection);
     } on Exception catch (_) {
       return Left(ServerFailure());
     }
@@ -138,15 +138,15 @@ class MemberRepositoryImpl extends MemberRepository {
 
   @override
   Future<Either<ServerFailure, List<Member>>> getCustomMembersALL() async {
-    List<Member> _memberCollection = [];
+    List<Member> memberCollection = [];
     try {
       await customMemberCollection.get().then((queryDoc) {
         for (var memberQ in queryDoc.docs) {
-          Member _member = Member.fromDocumentSnap(memberQ);
-          _memberCollection.add(_member);
+          Member member = Member.fromDocumentSnap(memberQ);
+          memberCollection.add(member);
         }
       });
-      return Right(_memberCollection);
+      return Right(memberCollection);
     } on Exception catch (_) {
       return Left(ServerFailure());
     }
@@ -155,24 +155,24 @@ class MemberRepositoryImpl extends MemberRepository {
   @override
   Future<Either<ServerFailure, List<Member>>> getAllMembers(
       {required String adminID}) async {
-    List<Member> _fetchedAllMember = [];
+    List<Member> fetchedAllMember = [];
     try {
       // Get The Data
-      final _allAppMember = await getAppMembersALL(adminID: adminID);
-      final _allCustomMember = await getCustomMembersALL();
+      final allAppMember = await getAppMembersALL(adminID: adminID);
+      final allCustomMember = await getCustomMembersALL();
 
       // Extract
-      _allAppMember.fold(
+      allAppMember.fold(
         (l) => throw Exception(),
-        (r) => {_fetchedAllMember.addAll(r)},
+        (r) => {fetchedAllMember.addAll(r)},
       );
 
-      _allCustomMember.fold(
+      allCustomMember.fold(
         (l) => throw Exception(),
-        (r) => {_fetchedAllMember.addAll(r)},
+        (r) => {fetchedAllMember.addAll(r)},
       );
       // Return
-      return Right(_fetchedAllMember);
+      return Right(fetchedAllMember);
     } on Exception catch (_) {
       return Left(ServerFailure());
     }
@@ -188,10 +188,10 @@ class MemberRepositoryImpl extends MemberRepository {
       return const Right(null);
     } else {
       try {
-        Member _updated = newData;
+        Member updated = newData;
         await customMemberCollection
             .doc(oldData.memberID)
-            .update(_updated.toMap());
+            .update(updated.toMap());
 
         return const Right(null);
       } on FirebaseException catch (_) {
@@ -204,11 +204,11 @@ class MemberRepositoryImpl extends MemberRepository {
   Future<Either<ServerFailure, void>> addAppMember(
       {required String userID, required String adminID}) async {
     try {
-      final _docRef = await appMemberCollection.doc(adminID).get();
-      if (_docRef.exists) {
-        _docRef.reference.update({});
+      final docRef = await appMemberCollection.doc(adminID).get();
+      if (docRef.exists) {
+        docRef.reference.update({});
       } else {
-        _docRef.reference.set({
+        docRef.reference.set({
           'appMembers': FieldValue.arrayUnion([userID])
         });
       }
@@ -234,9 +234,9 @@ class MemberRepositoryImpl extends MemberRepository {
   @override
   Future<Either<NotFoundFailure, Member>> getAppMember(
       {required String userID}) async {
-    Member? _fetchedMember = await UserServices.getMemberByID(userID: userID);
-    if (_fetchedMember != null) {
-      return Right(_fetchedMember);
+    Member? fetchedMember = await UserServices.getMemberByID(userID: userID);
+    if (fetchedMember != null) {
+      return Right(fetchedMember);
     } else {
       return Left(NotFoundFailure(errorMessage: 'Member Not Found'));
     }
@@ -250,8 +250,8 @@ class MemberRepositoryImpl extends MemberRepository {
       if (docSnap.data() == null) {
         throw ServerExeption();
       }
-      Member? _fetchedMember = Member.fromDocumentSnap(docSnap);
-      return Right(_fetchedMember);
+      Member? fetchedMember = Member.fromDocumentSnap(docSnap);
+      return Right(fetchedMember);
     } on ServerExeption catch (_) {
       return Left(NotFoundFailure(errorMessage: 'Member Not Found'));
     }

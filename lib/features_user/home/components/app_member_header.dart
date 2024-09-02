@@ -11,8 +11,8 @@ import 'app_member_user_profile.dart';
 
 class AppMemberHeaderHome extends GetView<AppMemberUserController> {
   const AppMemberHeaderHome({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -51,17 +51,17 @@ class AppMemberHeaderHome extends GetView<AppMemberUserController> {
 
 class TitleAndSubtitle extends StatelessWidget {
   const TitleAndSubtitle({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () async {
-        String _websiteURL = "http://www.faceonlive.com";
-        bool _canLaunch = await url.canLaunch(_websiteURL);
-        if (_canLaunch) {
-          await url.launch(_websiteURL);
+        String websiteURL = "http://www.faceonlive.com";
+        bool canLaunch = await url.canLaunch(websiteURL);
+        if (canLaunch) {
+          await url.launch(websiteURL);
         } else {
           AppToast.show(
             "Oops! Faceonlive is not available",

@@ -13,7 +13,7 @@ import '../controllers/verify_controller.dart';
 import '../dialogs/static_verifier_sheet_lock.dart';
 
 class StaticVerifierScreen extends StatefulWidget {
-  const StaticVerifierScreen({Key? key}) : super(key: key);
+  const StaticVerifierScreen({super.key});
 
   @override
   State<StaticVerifierScreen> createState() => _StaticVerifierScreenState();
@@ -75,9 +75,7 @@ class _StaticVerifierScreenState extends State<StaticVerifierScreen> {
 }
 
 class _LoadingCamera extends StatelessWidget {
-  const _LoadingCamera({
-    Key? key,
-  }) : super(key: key);
+  const _LoadingCamera();
 
   @override
   Widget build(BuildContext context) {
@@ -101,9 +99,7 @@ class _LoadingCamera extends StatelessWidget {
 }
 
 class _CameraSection extends StatelessWidget {
-  const _CameraSection({
-    Key? key,
-  }) : super(key: key);
+  const _CameraSection();
 
   @override
   Widget build(BuildContext context) {
@@ -122,7 +118,7 @@ class _CameraSection extends StatelessWidget {
                 scaleType: ScaleTypeMode.fit,
                 onRecognized: (serachID) {
                   print("Recognized");
-                  print("-----serach id: " + serachID.toString());
+                  print("-----serach id: $serachID");
                   Get.find<VerifyController>()
                       .onRecognizedMember(verifiedUserIDint: serachID);
                 },
@@ -144,8 +140,8 @@ class _CameraSection extends StatelessWidget {
               right: 10,
               child: FloatingActionButton(
                 onPressed: controller.toggleCameraLens,
-                child: const Icon(Icons.switch_camera_rounded),
                 backgroundColor: AppColors.primaryColor,
+                child: const Icon(Icons.switch_camera_rounded),
               ),
             ),
 
@@ -167,9 +163,7 @@ class _CameraSection extends StatelessWidget {
 }
 
 class _UnlockButton extends StatelessWidget {
-  const _UnlockButton({
-    Key? key,
-  }) : super(key: key);
+  const _UnlockButton();
 
   @override
   Widget build(BuildContext context) {
@@ -185,11 +179,11 @@ class _UnlockButton extends StatelessWidget {
         children: [
           InkWell(
             onTap: () async {
-              String _url = 'https://turingtech.vip';
+              String url = 'https://turingtech.vip';
               // Launch Website
-              await canLaunch(_url)
-                  ? await launch(_url)
-                  : throw 'Could not launch $_url';
+              await canLaunch(url)
+                  ? await launch(url)
+                  : throw 'Could not launch $url';
             },
             child: const CircleAvatar(
               backgroundColor: Colors.transparent,
@@ -220,9 +214,7 @@ class _UnlockButton extends StatelessWidget {
 
 class _ShowMessage extends StatelessWidget {
   /// This will show up when verification started
-  const _ShowMessage({
-    Key? key,
-  }) : super(key: key);
+  const _ShowMessage();
 
   @override
   Widget build(BuildContext context) {
@@ -246,10 +238,10 @@ class _ShowMessage extends StatelessWidget {
               child: controller.isVerifyingNow
                   ? Container(
                       padding: const EdgeInsets.all(10),
-                      child: Row(
+                      child: const Row(
                         mainAxisSize: MainAxisSize.min,
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: const [
+                        children: [
                           CircularProgressIndicator(),
                           AppSizes.wGap10,
                           Text('Verifying'),

@@ -8,7 +8,7 @@ import '../../../widgets/app_button.dart';
 import '../../controllers/login_controller.dart';
 
 class EmailNotVerifiedPage extends StatelessWidget {
-  const EmailNotVerifiedPage({Key? key}) : super(key: key);
+  const EmailNotVerifiedPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -62,9 +62,7 @@ class EmailNotVerifiedPage extends StatelessWidget {
 }
 
 class _ActionButtons extends StatelessWidget {
-  const _ActionButtons({
-    Key? key,
-  }) : super(key: key);
+  const _ActionButtons();
 
   @override
   Widget build(BuildContext context) {

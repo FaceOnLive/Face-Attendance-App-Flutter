@@ -9,19 +9,19 @@ class DateUtil {
     required DateTime date2,
   }) {
     /// This inlcudes all formating
-    DateFormat _dateFormat = DateFormat.yMEd();
-    bool _isSame = false;
+    DateFormat dateFormat = DateFormat.yMEd();
+    bool isSame = false;
 
-    String _firstDateInString = _dateFormat.format(date1);
-    String _secondDateInString = _dateFormat.format(date2);
+    String firstDateInString = dateFormat.format(date1);
+    String secondDateInString = dateFormat.format(date2);
 
-    if (_firstDateInString == _secondDateInString) {
-      _isSame = true;
+    if (firstDateInString == secondDateInString) {
+      isSame = true;
     } else {
-      _isSame = false;
+      isSame = false;
     }
 
-    return _isSame;
+    return isSame;
   }
 
   /// Compare List of Date Against one
@@ -30,25 +30,25 @@ class DateUtil {
     required List<DateTime> allDates,
   }) {
     //Format to match
-    DateFormat _dateFormat = DateFormat.yMEd();
-    bool _isPresent = false;
+    DateFormat dateFormat = DateFormat.yMEd();
+    bool isPresent = false;
 
     // For comparing
-    List<String> _allDateInString = [];
+    List<String> allDateInString = [];
     for (var _date in allDates) {
-      String _formattedDate = _dateFormat.format(_date);
-      _allDateInString.add(_formattedDate);
+      String formattedDate = dateFormat.format(_date);
+      allDateInString.add(formattedDate);
     }
 
     // Date
-    String _dateInString = _dateFormat.format(date);
+    String dateInString = dateFormat.format(date);
 
-    if (_allDateInString.contains(_dateInString)) {
-      _isPresent = true;
+    if (allDateInString.contains(dateInString)) {
+      isPresent = true;
     } else {
-      _isPresent = false;
+      isPresent = false;
     }
-    return _isPresent;
+    return isPresent;
   }
 
   /// Compare List of Date Against one
@@ -57,25 +57,25 @@ class DateUtil {
     required List<dynamic> allDates,
   }) {
     //Format to match
-    DateFormat _dateFormat = DateFormat.yMEd();
-    bool _isPresent = false;
+    DateFormat dateFormat = DateFormat.yMEd();
+    bool isPresent = false;
 
     // For comparing
-    List<String> _allDateInString = [];
+    List<String> allDateInString = [];
     for (var _date in allDates) {
-      String _formattedDate = _dateFormat.format(_date.toDate());
-      _allDateInString.add(_formattedDate);
+      String formattedDate = dateFormat.format(_date.toDate());
+      allDateInString.add(formattedDate);
     }
 
     // Date
-    String _dateInString = _dateFormat.format(date);
+    String dateInString = dateFormat.format(date);
 
-    if (_allDateInString.contains(_dateInString)) {
-      _isPresent = true;
+    if (allDateInString.contains(dateInString)) {
+      isPresent = true;
     } else {
-      _isPresent = false;
+      isPresent = false;
     }
-    return _isPresent;
+    return isPresent;
   }
 
   /// Match the date of server

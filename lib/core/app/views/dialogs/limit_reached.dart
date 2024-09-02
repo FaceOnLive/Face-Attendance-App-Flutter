@@ -6,7 +6,7 @@ import '../../../themes/text.dart';
 import '../../../widgets/app_button.dart';
 
 class LimitReachedDialog extends StatelessWidget {
-  const LimitReachedDialog({Key? key}) : super(key: key);
+  const LimitReachedDialog({super.key});
 
   @override
   Widget build(BuildContext context) {

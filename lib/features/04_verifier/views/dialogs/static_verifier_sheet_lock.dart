@@ -10,8 +10,7 @@ import '../controllers/verify_controller.dart';
 /* <---- This is a sheet ----> */
 
 class StaticVerifierLockUnlock extends StatefulWidget {
-  const StaticVerifierLockUnlock({Key? key, this.isLockMode = false})
-      : super(key: key);
+  const StaticVerifierLockUnlock({super.key, this.isLockMode = false});
 
   final bool isLockMode;
 
@@ -41,17 +40,17 @@ class _StaticVerifierLockUnlockState extends State<StaticVerifierLockUnlock> {
 
   /// On Lock
   Future<void> _onLock() async {
-    bool _isFormOkay = _formKey.currentState!.validate();
-    if (_isFormOkay) {
+    bool isFormOkay = _formKey.currentState!.validate();
+    if (isFormOkay) {
       _isInProgress.trigger(true);
-      String? _error = await _verifyController.startStaticVerifyMode(
+      String? error = await _verifyController.startStaticVerifyMode(
         userPass: passController.text,
       );
 
-      if (_error != null && _error == 'wrong-password') {
+      if (error != null && error == 'wrong-password') {
         _errorMessage.value = 'The password is wrong';
       } else {
-        _errorMessage.value = _error;
+        _errorMessage.value = error;
       }
 
       _isInProgress.trigger(false);
@@ -60,17 +59,17 @@ class _StaticVerifierLockUnlockState extends State<StaticVerifierLockUnlock> {
 
   /// On Unlock
   Future<void> _onUnlock() async {
-    bool _isFormOkay = _formKey.currentState!.validate();
-    if (_isFormOkay) {
+    bool isFormOkay = _formKey.currentState!.validate();
+    if (isFormOkay) {
       _isInProgress.trigger(true);
-      String? _error = await _verifyController.stopStaticVerifyMode(
+      String? error = await _verifyController.stopStaticVerifyMode(
         userPass: passController.text,
       );
 
-      if (_error != null && _error == 'wrong-password') {
+      if (error != null && error == 'wrong-password') {
         _errorMessage.value = 'The password is wrong';
       } else {
-        _errorMessage.value = _error;
+        _errorMessage.value = error;
       }
 
       _isInProgress.trigger(false);

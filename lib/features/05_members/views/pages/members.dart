@@ -9,7 +9,7 @@ import '../dialogs/add_user.dart';
 import 'members_list.dart';
 
 class MembersScreen extends GetView<MembersController> {
-  const MembersScreen({Key? key}) : super(key: key);
+  const MembersScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

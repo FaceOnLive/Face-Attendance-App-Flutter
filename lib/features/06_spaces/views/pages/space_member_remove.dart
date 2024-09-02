@@ -12,8 +12,7 @@ import '../../../05_members/views/controllers/member_controller.dart';
 import '../controllers/space_controller.dart';
 
 class SpaceMemberRemoveScreen extends StatefulWidget {
-  const SpaceMemberRemoveScreen({Key? key, required this.space})
-      : super(key: key);
+  const SpaceMemberRemoveScreen({super.key, required this.space});
 
   final Space space;
 
@@ -45,13 +44,13 @@ class _SpaceMemberRemoveScreenState extends State<SpaceMemberRemoveScreen> {
 
   /// Remove Member From Available List
   void _filterOutAddedMember() {
-    List<Member> _allMember = Get.find<MembersController>().allMembers;
-    List<String> _allMemberIDs = [];
-    for (Member singleMember in _allMember) {
-      _allMemberIDs.add(singleMember.memberID!);
+    List<Member> allMember = Get.find<MembersController>().allMembers;
+    List<String> allMemberIDs = [];
+    for (Member singleMember in allMember) {
+      allMemberIDs.add(singleMember.memberID!);
     }
 
-    for (var element in _allMember) {
+    for (var element in allMember) {
       if (widget.space.memberList.contains(element.memberID) ||
           widget.space.appMembers.contains(element.memberID!)) {
         _availableMemberInSpace.add(element);
@@ -97,14 +96,14 @@ class _SpaceMemberRemoveScreenState extends State<SpaceMemberRemoveScreen> {
                             child: ListView.builder(
                               itemCount: _availableMemberInSpace.length,
                               itemBuilder: (context, index) {
-                                Member _currentMember =
+                                Member currentMember =
                                     _availableMemberInSpace[index];
                                 return _MemberListTile(
-                                  member: _currentMember,
+                                  member: currentMember,
                                   isSelected:
-                                      _selectedMember.contains(_currentMember),
+                                      _selectedMember.contains(currentMember),
                                   onTap: () {
-                                    _onMemberSelect(_currentMember);
+                                    _onMemberSelect(currentMember);
                                   },
                                 );
                               },
@@ -154,9 +153,7 @@ class _SpaceMemberRemoveScreenState extends State<SpaceMemberRemoveScreen> {
 }
 
 class _EmptyMemberList extends StatelessWidget {
-  const _EmptyMemberList({
-    Key? key,
-  }) : super(key: key);
+  const _EmptyMemberList();
 
   @override
   Widget build(BuildContext context) {
@@ -178,11 +175,10 @@ class _EmptyMemberList extends StatelessWidget {
 
 class _MemberListTile extends StatelessWidget {
   const _MemberListTile({
-    Key? key,
     required this.member,
     required this.onTap,
     this.isSelected = false,
-  }) : super(key: key);
+  });
 
   final Member member;
   final bool isSelected;

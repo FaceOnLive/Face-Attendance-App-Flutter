@@ -64,51 +64,46 @@ class Space {
 
   /// USED FOR TRANSLATING THE ICON STRING TO ICONDATA
   static IconData _stringToIcon(String string) {
-    IconData _default = Icons.business_rounded;
+    IconData defaultIcon = Icons
+        .business_rounded; // Renamed `default` to `defaultIcon` to avoid conflicts
+
     switch (string) {
       case "home":
-        _default = Icons.home_rounded;
-        break;
+        return Icons.home_rounded;
 
       case "office":
-        _default = Icons.business_rounded;
-        break;
+        return Icons.business_rounded;
 
       case "city":
-        _default = Icons.location_city_rounded;
-        break;
+        return Icons.location_city_rounded;
 
       case "foodbank":
-        _default = Icons.food_bank_rounded;
-        break;
+        return Icons.food_bank_rounded;
 
       case "golf":
-        _default = Icons.golf_course_rounded;
-        break;
+        return Icons.golf_course_rounded;
 
       default:
-        _default = Icons.business_rounded;
+        return defaultIcon;
     }
-
-    return _default;
   }
 
   String _iconToString(IconData icon) {
-    String _default = 'office';
+    String result =
+        'office'; // Renamed `default` to `result` to avoid conflicts
+
     if (icon == Icons.home_rounded) {
-      _default = 'home';
+      result = 'home';
     } else if (icon == Icons.business_rounded) {
-      _default = 'office';
+      result = 'office';
     } else if (icon == Icons.location_city_rounded) {
-      _default = 'city';
+      result = 'city';
     } else if (icon == Icons.food_bank_rounded) {
-      _default = 'foodbank';
+      result = 'foodbank';
     } else if (icon == Icons.golf_course_rounded) {
-      _default = 'golf';
-    } else {
-      _default = 'office';
+      result = 'golf';
     }
 
-    return _default;
+    return result;
   }
 }

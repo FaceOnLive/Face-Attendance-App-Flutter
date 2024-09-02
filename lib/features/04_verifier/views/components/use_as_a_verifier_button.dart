@@ -7,8 +7,8 @@ import '../dialogs/static_verifier_sheet_lock.dart';
 
 class UseAsAVerifierButton extends StatelessWidget {
   const UseAsAVerifierButton({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

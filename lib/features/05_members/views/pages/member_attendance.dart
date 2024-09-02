@@ -9,11 +9,11 @@ import '../controllers/member_controller.dart';
 
 class MemberAttendanceEditScreen extends StatefulWidget {
   const MemberAttendanceEditScreen({
-    Key? key,
+    super.key,
     required this.member,
     required this.spaceID,
     required this.unattendedDates,
-  }) : super(key: key);
+  });
 
   final Member member;
   final String spaceID;
@@ -46,10 +46,10 @@ class _MemberAttendanceEditScreenState
 
   /// On Attendance add
   Future<void> _onAttendanceAdd() async {
-    bool _confirmDelete = await Get.dialog(
+    bool confirmDelete = await Get.dialog(
       const DeleteAttendDialog(),
     );
-    if (_confirmDelete) {
+    if (confirmDelete) {
       _addingAttendance.trigger(true);
       await _controller.attendanceAddMultiple(
         memberID: widget.member.memberID!,
@@ -84,19 +84,19 @@ class _MemberAttendanceEditScreenState
                     child: ListView.builder(
                       itemCount: widget.unattendedDates.length,
                       itemBuilder: (context, index) {
-                        DateTime _currentDate = widget.unattendedDates[index];
+                        DateTime currentDate = widget.unattendedDates[index];
                         return ListTile(
                           onTap: () {
-                            _onCheckBoxTapped(_currentDate);
+                            _onCheckBoxTapped(currentDate);
                           },
                           leading: Checkbox(
                             onChanged: (v) {
-                              _onCheckBoxTapped(_currentDate);
+                              _onCheckBoxTapped(currentDate);
                             },
-                            value: _selectedDate.contains(_currentDate),
+                            value: _selectedDate.contains(currentDate),
                           ),
                           title: Text(
-                            DateFormat.yMMMEd().format(_currentDate),
+                            DateFormat.yMMMEd().format(currentDate),
                           ),
                           trailing: IconButton(
                             icon: const Icon(Icons.delete),

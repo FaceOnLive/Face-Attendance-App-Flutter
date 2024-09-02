@@ -16,10 +16,10 @@ import '../dialogs/date_dialog.dart';
 
 class MemberAttendanceDetails extends StatelessWidget {
   const MemberAttendanceDetails({
-    Key? key,
+    super.key,
     required this.member,
     this.spaceID,
-  }) : super(key: key);
+  });
 
   final Member member;
   final String? spaceID;
@@ -90,10 +90,9 @@ class MemberAttendanceDetails extends StatelessWidget {
 
 class _MemberAttendance extends StatefulWidget {
   const _MemberAttendance({
-    Key? key,
     required this.spaceID,
     required this.member,
-  }) : super(key: key);
+  });
 
   final String spaceID;
   final Member member;
@@ -116,11 +115,11 @@ class _MemberAttendanceState extends State<_MemberAttendance> {
   final RxBool _isAttendedToday = false.obs;
 
   Future<void> _fetchThisMemberAttendance() async {
-    String _currentAdminId = Get.find<AppAdminController>().currentUser.userID!;
+    String currentAdminId = Get.find<AppAdminController>().currentUser.userID!;
 
     _unAttendedDate = [];
     _isFetchingUserData.trigger(true);
-    _unAttendedDate = await MemberAttendanceRepository(adminID: _currentAdminId)
+    _unAttendedDate = await MemberAttendanceRepository(adminID: currentAdminId)
         .getAttendance(
       memberID: widget.member.memberID!,
       isCustom: widget.member.isCustom,

@@ -18,7 +18,7 @@ import '../../../../core/native_bridge/native_functions.dart';
 
 class VerifierCheckPage extends StatefulWidget {
   /// This page was used for testing the SDK
-  const VerifierCheckPage({Key? key}) : super(key: key);
+  const VerifierCheckPage({super.key});
 
   @override
   State<VerifierCheckPage> createState() => _VerifierCheckPageState();
@@ -120,8 +120,8 @@ class _VerifierCheckPageState extends State<VerifierCheckPage> {
             const Divider(),
 
             _isVerifying.isTrue
-                ? Column(
-                    children: const [
+                ? const Column(
+                    children: [
                       CircularProgressIndicator(),
                       AppSizes.hGap15,
                       Text('Verifying'),

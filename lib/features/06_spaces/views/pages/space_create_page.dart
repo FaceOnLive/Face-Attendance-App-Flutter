@@ -11,7 +11,7 @@ import '../../../../core/utils/form_verify.dart';
 import '../controllers/space_controller.dart';
 
 class SpaceCreatePage extends StatefulWidget {
-  const SpaceCreatePage({Key? key}) : super(key: key);
+  const SpaceCreatePage({super.key});
 
   @override
   _SpaceCreatePageState createState() => _SpaceCreatePageState();
@@ -33,7 +33,7 @@ class _SpaceCreatePageState extends State<SpaceCreatePage> {
 
   /// When user Clicks Create Button
   Future<void> _onSubmitButtonClicked() async {
-    String _ownerID = Get.find<LoginController>().user!.uid;
+    String ownerID = Get.find<LoginController>().user!.uid;
     try {
       _isAdding.trigger(true);
       await _controller.addSpace(
@@ -43,7 +43,7 @@ class _SpaceCreatePageState extends State<SpaceCreatePage> {
           memberList: [],
           appMembers: [],
           spaceID: '',
-          ownerUID: _ownerID,
+          ownerUID: ownerID,
         ),
       );
       Get.offAll(() => const EntryPointUI());
@@ -174,10 +174,9 @@ class _SpaceCreatePageState extends State<SpaceCreatePage> {
 
 class _CustomBottomActionButton extends StatelessWidget {
   const _CustomBottomActionButton({
-    Key? key,
     required this.onTap,
     required this.isLoading,
-  }) : super(key: key);
+  });
 
   final void Function() onTap;
   final bool isLoading;
@@ -212,11 +211,10 @@ class _CustomBottomActionButton extends StatelessWidget {
 
 class _SelectIconWidget extends StatelessWidget {
   const _SelectIconWidget({
-    Key? key,
     required this.active,
     required this.iconData,
     required this.onTap,
-  }) : super(key: key);
+  });
 
   final bool active;
   final IconData iconData;

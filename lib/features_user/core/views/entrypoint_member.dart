@@ -17,7 +17,7 @@ import '../controllers/app_member_verify.dart';
  <-----------------------> */
 
 class AppMemberMainUi extends StatelessWidget {
-  const AppMemberMainUi({Key? key}) : super(key: key);
+  const AppMemberMainUi({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -38,10 +38,10 @@ class AppMemberMainUi extends StatelessWidget {
                   duration: AppDefaults.duration,
                   transitionBuilder: (child, animation, secondAnimation) {
                     return SharedAxisTransition(
-                      child: child,
                       animation: animation,
                       secondaryAnimation: secondAnimation,
                       transitionType: SharedAxisTransitionType.horizontal,
+                      child: child,
                     );
                   },
                   child: controller.currentSelectedPage(),

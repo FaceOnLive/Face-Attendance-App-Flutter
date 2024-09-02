@@ -14,7 +14,7 @@ import '../../../../core/widgets/bottom_sheet_top_divider.dart';
 import '../controllers/app_admin_controller.dart';
 
 class AddUserFaceDialog extends StatefulWidget {
-  const AddUserFaceDialog({Key? key}) : super(key: key);
+  const AddUserFaceDialog({super.key});
 
   @override
   _AddUserFaceDialogState createState() => _AddUserFaceDialogState();
@@ -30,19 +30,19 @@ class _AddUserFaceDialogState extends State<AddUserFaceDialog> {
 
   _verifyUser() async {
     _isCheckingUser.trigger(true);
-    final _controller = Get.find<AppAdminController>();
-    bool _isFormOkay = _formKey.currentState!.validate();
-    if (_isFormOkay) {
+    final controller = Get.find<AppAdminController>();
+    bool isFormOkay = _formKey.currentState!.validate();
+    if (isFormOkay) {
       try {
-        bool _isUserValid =
-            await _controller.reauthenticateUser(password: _password.text);
-        if (_isUserValid) {
-          File? _image = await AppPhotoService.getImageFromCamera();
-          if (_image != null) {
-            await _controller.updateUserFaceID(
-              imageFile: _image,
+        bool isUserValid =
+            await controller.reauthenticateUser(password: _password.text);
+        if (isUserValid) {
+          File? image = await AppPhotoService.getImageFromCamera();
+          if (image != null) {
+            await controller.updateUserFaceID(
+              imageFile: image,
               password: _password.text,
-              email: _controller.currentUser.email,
+              email: controller.currentUser.email,
             );
             Get.back();
           }
@@ -91,14 +91,14 @@ class _AddUserFaceDialogState extends State<AddUserFaceDialog> {
           AppSizes.hGap15,
           Text(
             'Please Verify',
-            style: Theme.of(context).textTheme.headline6?.copyWith(
+            style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                   fontWeight: FontWeight.bold,
                   color: AppColors.primaryColor,
                 ),
           ),
           Text(
             'We need you to verify your identity',
-            style: Theme.of(context).textTheme.caption,
+            style: Theme.of(context).textTheme.bodySmall,
           ),
           AppSizes.hGap15,
           Form(

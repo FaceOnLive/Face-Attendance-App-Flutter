@@ -3,13 +3,13 @@ import 'dart:io';
 import 'package:face_attendance/core/utils/app_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:qr_code_scanner/qr_code_scanner.dart';
+import 'package:qr_code_scanner_plus/qr_code_scanner_plus.dart';
 
 import '../../../../core/constants/constants.dart';
 import '../../core/controllers/app_member_space.dart';
 
 class AppMemberJoinQRCODEPage extends StatefulWidget {
-  const AppMemberJoinQRCODEPage({Key? key}) : super(key: key);
+  const AppMemberJoinQRCODEPage({super.key});
 
   @override
   _AppMemberJoinQRCODEPageState createState() =>
@@ -58,9 +58,9 @@ class _AppMemberJoinQRCODEPageState extends State<AppMemberJoinQRCODEPage> {
                     onPressed: () async {
                       await controller.flipCamera();
                     },
-                    child: const Icon(Icons.switch_camera_rounded),
                     backgroundColor: AppColors.primaryColor,
                     foregroundColor: Colors.white,
+                    child: const Icon(Icons.switch_camera_rounded),
                   ),
                 )
               ],

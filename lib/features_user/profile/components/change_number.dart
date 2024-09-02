@@ -11,7 +11,7 @@ import '../../../core/utils/form_verify.dart';
 import '../../core/controllers/app_member_user.dart';
 
 class ChangeNumberSheet extends StatefulWidget {
-  const ChangeNumberSheet({Key? key}) : super(key: key);
+  const ChangeNumberSheet({super.key});
 
   @override
   _ChangeNumberSheetState createState() => _ChangeNumberSheetState();
@@ -32,8 +32,8 @@ class _ChangeNumberSheetState extends State<ChangeNumberSheet> {
 
   /// on update
   Future<void> _onNumberUpdate() async {
-    bool _isFormOkay = _formKey.currentState!.validate();
-    if (_isFormOkay) {
+    bool isFormOkay = _formKey.currentState!.validate();
+    if (isFormOkay) {
       try {
         _isUpdating.trigger(true);
         await _controller.changeUserNumber(phone: int.parse(_number.text));

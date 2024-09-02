@@ -12,6 +12,7 @@ class AppFormVerify {
     } else if (email.isEmpty) {
       return 'Please enter email';
     }
+    return null;
   }
 
   /// [Password] Returns Error Message based on inputs
@@ -31,6 +32,7 @@ class AppFormVerify {
         (password != confirmPassword || confirmPassword != password)) {
       return 'Password does\'nt match';
     }
+    return null;
   }
 
   /// [Name] Returns Error Message based on inputs

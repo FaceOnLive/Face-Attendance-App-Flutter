@@ -6,7 +6,7 @@ publish_to: "none"
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.12.0 <3.0.0"
+  sdk: '>=3.1.3 <4.0.0'
 
 dependencies:
   animations: ^2.0.1
@@ -15,45 +15,45 @@ dependencies:
     sdk: flutter
 
   get: ^4.6.1
-  google_fonts: ^2.2.0
-  intl: ^0.17.0
-  lottie: ^1.2.1
-  shimmer: ^2.0.0
-  image_picker: ^0.8.4
-  image_cropper: ^1.4.1
-  syncfusion_flutter_calendar: ^19.2.60
+  google_fonts: ^6.2.1
+  intl: ^0.19.0
+  lottie: ^3.1.2
+  shimmer: ^3.0.0
+  image_picker: ^1.1.2
+  image_cropper: ^8.0.2
+  syncfusion_flutter_calendar: ^26.2.11+1
   hive: ^2.0.4
   hive_flutter: ^1.1.0
   url_launcher: ^6.0.10
 
-  firebase_core: ^1.10.0
-  firebase_auth: ^3.2.0
-  cloud_firestore: ^3.1.0
-  firebase_messaging: ^11.1.0
-  firebase_storage: ^10.1.0
+  firebase_core: ^2.24.2
+  firebase_auth: ^4.16.0
+  cloud_firestore: ^4.14.0
+  firebase_messaging: ^14.7.10
+  firebase_storage: ^11.6.0
   retry: ^3.1.0
   path_provider: ^2.0.5
-  http: ^0.13.3
+  http: ^1.2.2
   flutter_cache_manager: ^3.1.2
   fluttertoast: ^8.0.8
   google_maps_flutter: ^2.0.11
   get_storage: ^2.0.3
-  qr_flutter: ^4.0.0
-  qr_code_scanner: ^0.6.1
-  connectivity_plus: ^2.0.2
+  qr_flutter: ^4.1.0
+  qr_code_scanner_plus: ^2.0.3
+  connectivity_plus: ^6.0.5
   data_connection_checker_tv: ^0.3.5-nullsafety
   encrypt: ^5.0.1
-  visibility_detector: ^0.2.0
+  visibility_detector: ^0.4.0+2
   dartz: ^0.10.0
-  worker_manager: ^4.2.5
-  persistent_bottom_nav_bar: ^4.0.2
+  worker_manager: ^7.0.3
+  persistent_bottom_nav_bar: ^6.2.1
   auto_size_text: ^3.0.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  flutter_lints: ^1.0.0
+  flutter_lints: ^4.0.0
   change_app_package_name: ^1.0.0
 
 flutter:

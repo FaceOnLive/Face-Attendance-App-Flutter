@@ -6,8 +6,8 @@ import 'package:lottie/lottie.dart';
 
 class VerifyAnimation extends StatelessWidget {
   const VerifyAnimation({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

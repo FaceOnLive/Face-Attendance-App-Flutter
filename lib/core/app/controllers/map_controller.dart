@@ -55,11 +55,11 @@ class AppMapController extends GetxController {
   // If the app is in dark mode we will load dark version of google map
   Future<void> _setMapInDarkMode(
       GoogleMapController controller, BuildContext context) async {
-    bool _isDark = Get.find<CoreController>().isAppInDarkMode;
-    if (_isDark) {
-      String _darkModeStyle = await DefaultAssetBundle.of(context)
+    bool isDark = Get.find<CoreController>().isAppInDarkMode;
+    if (isDark) {
+      String darkModeStyle = await DefaultAssetBundle.of(context)
           .loadString('assets/mapstyle/dark_mode.json');
-      _googleMapController.setMapStyle(_darkModeStyle);
+      _googleMapController.setMapStyle(darkModeStyle);
     }
   }
 
@@ -123,8 +123,8 @@ class AppMapController extends GetxController {
   /// Map Type
   MapType mapType = MapType.hybrid;
 
-  changeMapType(MapType _value) {
-    mapType = _value;
+  changeMapType(MapType value) {
+    mapType = value;
     update();
   }
 
