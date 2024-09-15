@@ -13,10 +13,10 @@ class RegisterAsAdminPage extends StatefulWidget {
   const RegisterAsAdminPage({super.key});
 
   @override
-  _RegisterAsAdminPageState createState() => _RegisterAsAdminPageState();
+  RegisterAsAdminPageState createState() => RegisterAsAdminPageState();
 }
 
-class _RegisterAsAdminPageState extends State<RegisterAsAdminPage> {
+class RegisterAsAdminPageState extends State<RegisterAsAdminPage> {
   final SignUpController _controller = Get.put(SignUpController());
 
   /* <---- Text Editing Controllers ----> */

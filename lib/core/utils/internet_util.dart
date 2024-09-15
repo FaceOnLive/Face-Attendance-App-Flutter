@@ -1,31 +1,33 @@
+import 'dart:async';
 import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:data_connection_checker_tv/data_connection_checker.dart';
+import 'package:http/http.dart' as http;
 
-/// Internet util is used for checking the internet availablity
-/// in the whole app
-///
-/// connectivity package cannot reliably determine if a data connection
-/// is actually available.
-///
-/// More info on its page here: https://pub.dev/packages/connectivity
 class InternetUtil {
-  /// Is internet currently available
+  static final Connectivity _connectivity = Connectivity();
+  static const Duration _timeout = Duration(seconds: 5);
+  static const String _testUrl = 'https://www.google.com';
 
+  /// Checks if internet is currently available
   static Future<bool> isAvailable() async {
-    bool isInternetAvailable = false;
+    try {
+      // First, check connectivity
+      final connectivityResults = await _connectivity.checkConnectivity();
+      if (connectivityResults.contains(ConnectivityResult.none) &&
+          connectivityResults.length == 1) {
+        return false;
+      }
 
-    var connectivityResult = await (Connectivity().checkConnectivity());
-    if (connectivityResult == ConnectivityResult.mobile) {
-      isInternetAvailable = true;
-    } else if (connectivityResult == ConnectivityResult.wifi) {
-      isInternetAvailable = true;
-    } else if (connectivityResult == ConnectivityResult.none) {
-      isInternetAvailable = false;
+      // If connected, perform an actual internet check
+      final response = await http.get(Uri.parse(_testUrl)).timeout(_timeout);
+      return response.statusCode == 200;
+    } catch (e) {
+      return false;
     }
+  }
 
-    bool result = await DataConnectionChecker().hasConnection;
-    isInternetAvailable = result;
-
-    return isInternetAvailable;
+  /// Stream of connectivity changes
+  static Stream<bool> get onConnectivityChanged {
+    return _connectivity.onConnectivityChanged.map((results) =>
+        !results.contains(ConnectivityResult.none) || results.length > 1);
   }
 }

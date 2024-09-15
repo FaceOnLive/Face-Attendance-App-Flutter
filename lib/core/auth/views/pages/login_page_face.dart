@@ -12,10 +12,10 @@ class LoginPageFace extends StatefulWidget {
   const LoginPageFace({super.key});
 
   @override
-  _LoginPageFaceState createState() => _LoginPageFaceState();
+  LoginPageFaceState createState() => LoginPageFaceState();
 }
 
-class _LoginPageFaceState extends State<LoginPageFace>
+class LoginPageFaceState extends State<LoginPageFace>
     with TickerProviderStateMixin {
   late final AnimationController _controller;
 

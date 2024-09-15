@@ -11,6 +11,7 @@ class AppThemes {
     brightness: Brightness.light,
     textTheme: GoogleFonts.poppinsTextTheme(),
     scaffoldBackgroundColor: Colors.white,
+    useMaterial3: false,
     appBarTheme: AppBarTheme(
       actionsIconTheme: const IconThemeData(
         color: AppColors.darkColor,
@@ -70,6 +71,7 @@ class AppThemes {
       bodyColor: Colors.white,
       displayColor: Colors.white38,
     ),
+    useMaterial3: false,
     appBarTheme: AppBarTheme(
       actionsIconTheme: const IconThemeData(
         color: AppColors.primaryColor,

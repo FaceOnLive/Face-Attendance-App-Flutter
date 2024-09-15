@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../../constants/constants.dart';
 import '../../../themes/text.dart';
@@ -51,8 +51,8 @@ class LimitReachedDialog extends StatelessWidget {
                         path: 'contact@faceonlive.com',
                       );
                       String url = params.toString();
-                      if (await canLaunch(url)) {
-                        await launch(url);
+                      if (await canLaunchUrlString(url)) {
+                        await launchUrlString(url);
                       } else {
                         print('Could not launch $url');
                       }

@@ -49,6 +49,7 @@ class SpaceRangeScreen extends StatelessWidget {
                       markers: controller.allMarker,
                       circles: controller.allCircles,
                       onTap: controller.onTap,
+                      style: controller.style,
                     ),
                     Positioned(
                       top: 10,

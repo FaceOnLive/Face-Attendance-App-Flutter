@@ -1,8 +1,9 @@
 import 'dart:async';
 import 'dart:io';
-import 'dart:typed_data';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:retry/retry.dart';
 
@@ -63,50 +64,87 @@ class VerifyController extends GetxController {
   Future<void> _getAllMemberImagesToFile() async {
     allMemberImagesFile.clear();
     List<String> memberUIDs = List<String>.from(allMemberImagesURL.keys);
-    List<String> memberImagesUrl =
-        List<String>.from(allMemberImagesURL.values);
+    List<String> memberImagesUrl = List<String>.from(allMemberImagesURL.values);
 
-    // You can delay this a little bit to get performance
+    final rootIsolateToken = RootIsolateToken.instance!;
+
     await Future.forEach<String>(memberImagesUrl, (element) async {
-      File file = await AppPhotoService.fileFromImageUrl(element);
+      File file = await compute(_fileFromImageUrlInIsolate, {
+        'imageUrl': element,
+        'rootIsolateToken': rootIsolateToken,
+      });
 
-      // get current index
       int currentPictureIndex = memberImagesUrl.indexOf(element);
-
-      // get current userID
       String currentUserID = memberUIDs[currentPictureIndex];
 
       allMemberImagesFile.addAll({currentUserID: file});
     });
 
-    /* <---- Set SDK -----> */
+    await _processFaceData();
+  }
+
+  static Future<File> _fileFromImageUrlInIsolate(
+      Map<String, dynamic> params) async {
+    final String imageUrl = params['imageUrl'];
+    final RootIsolateToken rootIsolateToken = params['rootIsolateToken'];
+
+    BackgroundIsolateBinaryMessenger.ensureInitialized(rootIsolateToken);
+
+    File? cachedImage = await AppPhotoService.getImageFromCache(imageUrl);
+    if (cachedImage != null) return cachedImage;
+
+    return await AppPhotoService.downloadAndSaveImage(imageUrl);
+  }
+
+  Future<void> _processFaceData() async {
     List<File> memberImagesLoadedList =
         List<File>.from(allMemberImagesFile.values);
+    List<String> memberUIDs = List<String>.from(allMemberImagesFile.keys);
 
-    /// Map<String, Uin8List> this will be the type
-    Map<int, Uint8List> allUsersImage = {};
-    Map<int, String> inTtoKeepTrackOfUsers = {};
+    final rootIsolateToken = RootIsolateToken.instance!;
 
-    /// Convert All User Face Data
-    await Future.forEach<File>(memberImagesLoadedList, (imageFile) async {
-      Uint8List? convertedFile = await NativeSDKFunctions.getFaceData(
-        image: imageFile,
-      );
-      int currentIndex = memberImagesLoadedList.indexOf(imageFile);
-      String userID = memberUIDs[currentIndex];
-
-      if (convertedFile != null) {
-        allUsersImage.addAll({currentIndex: convertedFile});
-        inTtoKeepTrackOfUsers.addAll({currentIndex: userID});
-      }
+    final result = await compute(_processInIsolate, {
+      'memberImagesLoadedList': memberImagesLoadedList,
+      'memberUIDs': memberUIDs,
+      'rootIsolateToken': rootIsolateToken,
     });
 
-    await NativeSDKFunctions.setSdkDatabase(allUsersImage);
-    Get.find<UserSerialKeeper>().saveDatabase(inTtoKeepTrackOfUsers);
+    if (result['allUsersImage'].isNotEmpty) {
+      await NativeSDKFunctions.setSdkDatabase(result['allUsersImage']);
+      Get.find<UserSerialKeeper>()
+          .saveDatabase(result['inTtoKeepTrackOfUsers']);
+    }
 
     update();
   }
 
+  static Future<Map<String, dynamic>> _processInIsolate(
+      Map<String, dynamic> params) async {
+    final List<File> memberImagesLoadedList = params['memberImagesLoadedList'];
+    final List<String> memberUIDs = params['memberUIDs'];
+    final RootIsolateToken rootIsolateToken = params['rootIsolateToken'];
+
+    BackgroundIsolateBinaryMessenger.ensureInitialized(rootIsolateToken);
+
+    Map<int, Uint8List> allUsersImage = {};
+    Map<int, String> inTtoKeepTrackOfUsers = {};
+
+    for (int i = 0; i < memberImagesLoadedList.length; i++) {
+      File imageFile = memberImagesLoadedList[i];
+      Uint8List? convertedFile =
+          await NativeSDKFunctions.getFaceData(image: imageFile);
+
+      if (convertedFile != null) {
+        allUsersImage[i] = convertedFile;
+        inTtoKeepTrackOfUsers[i] = memberUIDs[i];
+      }
+    }
+
+    return {
+      'allUsersImage': allUsersImage,
+      'inTtoKeepTrackOfUsers': inTtoKeepTrackOfUsers,
+    };
+  }
   /* <-----------------------> 
       STATIC VERIFY MODE    
    <-----------------------> */
@@ -210,22 +248,36 @@ class VerifyController extends GetxController {
     required File capturedImage,
     required File personImage,
   }) async {
-    // Show progress
     isVerifyingNow = true;
     showProgressIndicator = true;
     update();
 
-    bool isThisIsThePerson = false;
-    isThisIsThePerson = await NativeSDKFunctions.verifyPerson(
-      capturedImage: capturedImage,
-      personImage: personImage,
-    );
+    final rootIsolateToken = RootIsolateToken.instance!;
 
-    // Show progress
+    bool isThisIsThePerson = await compute(_verifyPersonInIsolate, {
+      'capturedImage': capturedImage,
+      'personImage': personImage,
+      'rootIsolateToken': rootIsolateToken,
+    });
+
     isVerifyingNow = false;
     update();
     _disableCardAfterSomeTime();
     return isThisIsThePerson;
+  }
+
+  static Future<bool> _verifyPersonInIsolate(
+      Map<String, dynamic> params) async {
+    final File capturedImage = params['capturedImage'];
+    final File personImage = params['personImage'];
+    final RootIsolateToken rootIsolateToken = params['rootIsolateToken'];
+
+    BackgroundIsolateBinaryMessenger.ensureInitialized(rootIsolateToken);
+
+    return await NativeSDKFunctions.verifyPerson(
+      capturedImage: capturedImage,
+      personImage: personImage,
+    );
   }
 
   /// Detect if a person exist in a photo

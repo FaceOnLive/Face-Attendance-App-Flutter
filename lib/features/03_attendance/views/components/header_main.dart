@@ -1,7 +1,7 @@
 import 'package:face_attendance/core/utils/app_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:url_launcher/url_launcher.dart' as url;
+import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../../../config/config.dart';
 import '../../../../core/constants/constants.dart';
@@ -56,9 +56,9 @@ class TitleAndSubtitle extends StatelessWidget {
     return InkWell(
       onTap: () async {
         String websiteURL = "http://www.faceonlive.com";
-        bool canLaunch = await url.canLaunch(websiteURL);
+        bool canLaunch = await canLaunchUrlString(websiteURL);
         if (canLaunch) {
-          await url.launch(websiteURL);
+          await launchUrlString(websiteURL);
         } else {
           AppToast.show(
             "Oops! Faceonlive is not available",

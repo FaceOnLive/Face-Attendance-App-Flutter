@@ -35,8 +35,8 @@ class DateUtil {
 
     // For comparing
     List<String> allDateInString = [];
-    for (var _date in allDates) {
-      String formattedDate = dateFormat.format(_date);
+    for (var date in allDates) {
+      String formattedDate = dateFormat.format(date);
       allDateInString.add(formattedDate);
     }
 
@@ -62,8 +62,8 @@ class DateUtil {
 
     // For comparing
     List<String> allDateInString = [];
-    for (var _date in allDates) {
-      String formattedDate = dateFormat.format(_date.toDate());
+    for (var date in allDates) {
+      String formattedDate = dateFormat.format(date.toDate());
       allDateInString.add(formattedDate);
     }
 

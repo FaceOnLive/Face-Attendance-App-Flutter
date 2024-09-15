@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../../../core/camerakit/camera_kit_controller.dart';
 import '../../../../core/camerakit/camera_kit_view.dart';
@@ -181,8 +181,8 @@ class _UnlockButton extends StatelessWidget {
             onTap: () async {
               String url = 'https://turingtech.vip';
               // Launch Website
-              await canLaunch(url)
-                  ? await launch(url)
+              await canLaunchUrlString(url)
+                  ? await launchUrlString(url)
                   : throw 'Could not launch $url';
             },
             child: const CircleAvatar(
