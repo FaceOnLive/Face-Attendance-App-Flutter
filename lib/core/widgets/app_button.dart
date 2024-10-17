@@ -59,9 +59,10 @@ class AppButton extends StatelessWidget {
                 const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
             width: width,
             child: isLoading
-                ? const CircularProgressIndicator(
-                    color: Colors.white,
-                    strokeWidth: 3,
+                ? const FittedBox(
+                    child: CircularProgressIndicator(
+                      color: Colors.white,
+                    ),
                   )
                 : Row(
                     mainAxisSize: MainAxisSize.min,
@@ -145,10 +146,9 @@ class AppButtonOutline extends StatelessWidget {
             alignment: Alignment.center,
             width: width,
             child: isLoading
-                ? const AspectRatio(
-                    aspectRatio: 1 / 1,
+                ? const FittedBox(
                     child: CircularProgressIndicator(
-                      color: Colors.white,
+                      color: AppColors.primaryColor,
                     ),
                   )
                 : Row(

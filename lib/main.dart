@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -25,7 +26,7 @@ void main() async {
     await GetStorage.init();
     AppUiUtil.autoRotateOff();
     final core = Get.put(CoreController());
-    await w.workerManager.init();
+    await w.workerManager.init(dynamicSpawning: true);
 
     runApp(TuringTechApp(core: core));
   }, (Object error, StackTrace stack) {

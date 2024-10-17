@@ -60,6 +60,8 @@ class CameraGallerySelectDialog extends StatelessWidget {
                       onTap: () async {
                         File? image =
                             await AppPhotoService.getImageFromGallery();
+
+                        print("selected image path: ${image?.path}");
                         Get.back(result: image);
                       },
                       child: Column(

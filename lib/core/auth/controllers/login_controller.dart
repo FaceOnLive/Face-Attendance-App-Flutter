@@ -54,7 +54,7 @@ class LoginController extends GetxController {
     isEmailVerified = userCredintial.user!.emailVerified;
 
     // let's redirect 🚀
-    if (isAdmin && isEmailVerified) {
+    if (isAdmin) {
       // this is admin logging in
       currentAuthState.value = AuthState.adminLoggedIn;
       Get.offAll(() => const EntryPointUI());
@@ -106,7 +106,11 @@ class LoginController extends GetxController {
       isAdmin = await UserServices.isAnAdmin(user.uid);
       isEmailVerified = user.emailVerified;
       if (!isEmailVerified) {
-        currentAuthState.value = AuthState.emailUnverified;
+        if (isAdmin) {
+          currentAuthState.value = AuthState.adminLoggedIn;
+        } else {
+          currentAuthState.value = AuthState.emailUnverified;
+        }
       } else {
         if (isAdmin) currentAuthState.value = AuthState.adminLoggedIn;
         if (!isAdmin) currentAuthState.value = AuthState.userLoggedIn;

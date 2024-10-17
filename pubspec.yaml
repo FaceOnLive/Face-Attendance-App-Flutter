@@ -45,7 +45,7 @@ dependencies:
   encrypt: ^5.0.1
   visibility_detector: ^0.4.0+2
   dartz: ^0.10.0
-  worker_manager: ^7.0.3
+  worker_manager: ^7.2.2
   persistent_bottom_nav_bar: ^6.2.1
   auto_size_text: ^3.0.0
   firebase_crashlytics: ^3.5.7

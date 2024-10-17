@@ -11,11 +11,14 @@ class NativeSDKFunctions {
 
   /// Initiate Database of Users to letter verify
   static Future<bool> setSdkDatabase(Map<int, Uint8List> userLists) async {
-    Get.find<CoreController>().settingSDK();
-    bool isDone =
-        await _channel.invokeMethod('setDatabase', {'membersList': userLists});
-    Get.find<CoreController>().settingSdkDone();
-    AppToast.show('Face Data Updated');
+    bool isDone = false;
+    if (userLists.isNotEmpty) {
+      Get.find<CoreController>().settingSDK();
+      isDone = await _channel
+          .invokeMethod('setDatabase', {'membersList': userLists});
+      Get.find<CoreController>().settingSdkDone();
+      AppToast.show('Face Data Updated');
+    }
     return isDone;
   }
 

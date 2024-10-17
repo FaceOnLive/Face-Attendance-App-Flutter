@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:face_attendance/core/data/repository/face_repo.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../../core/auth/controllers/login_controller.dart';
@@ -31,6 +32,7 @@ class AppAdminController extends GetxController {
       await _collectionReference.doc(_currentUserID).get().then((value) {
         currentUser = AppUser.fromDocumentSnap(value);
         isUserInitialized = true;
+        debugPrint("Current user ${currentUser.name}");
         update();
       });
     } catch (e) {

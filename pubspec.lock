@@ -1153,10 +1153,10 @@ packages:
     dependency: "direct main"
     description:
       name: worker_manager
-      sha256: "8de97b794040a988b41f475ab0efa03015cc8dff8e130fa3606043572abb4a2c"
+      sha256: "0c6c4e7d246bcbe7221273ef955732dafb097347d536ebe6acd6547d0398c49c"
       url: "https://pub.dev"
     source: hosted
-    version: "7.0.3"
+    version: "7.2.2"
   xdg_directories:
     dependency: transitive
     description:
