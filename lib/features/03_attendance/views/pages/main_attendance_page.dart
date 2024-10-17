@@ -17,16 +17,16 @@ class AttendancePage extends StatelessWidget {
       child: SafeArea(
         child: Column(
           children: [
-            AppButton(
-              label: 'Test Face Login',
-              onTap: () => Get.to(() => const VerifierTestFaceLoginPage()),
-              margin: EdgeInsets.zero,
-              suffixIcon: const Icon(
-                Icons.arrow_forward_ios_rounded,
-                color: Colors.white,
-              ),
-              disableBorderRadius: true,
-            ),
+            // AppButton(
+            //   label: 'Test Face Login',
+            //   onTap: () => Get.to(() => const VerifierTestFaceLoginPage()),
+            //   margin: EdgeInsets.zero,
+            //   suffixIcon: const Icon(
+            //     Icons.arrow_forward_ios_rounded,
+            //     color: Colors.white,
+            //   ),
+            //   disableBorderRadius: true,
+            // ),
             /* <---- Header ----> */
             const HeaderMainPage(),
             /* <---- Attendance List -----> */

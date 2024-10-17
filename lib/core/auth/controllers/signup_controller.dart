@@ -42,7 +42,7 @@ class SignUpController extends GetxController {
               userProfilePicture: null,
               userFace: null,
               deviceIDToken: _idTokenOfDevice,
-            ).toMap,
+            ).toMap(isAdmin: false),
           );
       await credintial.user!.sendEmailVerification();
       await Get.dialog(const EmailSentSuccessfullDialog());

@@ -1,5 +1,9 @@
+import 'package:face_attendance/core/auth/controllers/login_controller.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:restart_app/restart_app.dart';
 
 class ErrorScreen extends StatelessWidget {
@@ -39,6 +43,7 @@ class ErrorScreen extends StatelessWidget {
               ElevatedButton(
                 child: const Text('Restart App'),
                 onPressed: () {
+                  FirebaseAuth.instance.signOut();
                   Restart.restartApp(
                     notificationTitle: 'Restarting App',
                     notificationBody: 'Please tap here to open the app again.',
