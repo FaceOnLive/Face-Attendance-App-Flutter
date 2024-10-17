@@ -25,6 +25,10 @@
 6. Create a Firebase project and set up Firestore
 7. Run the project: `flutter run` or use your IDE's run button
 
+## Demos
+- You can check the [demo admin panel](https://face-attendance-dcec9.web.app/) here.
+- Also for the demo of the app you can use the credentials in release page.
+
 ## Firebase Setup
 For detailed instructions on setting up Firebase for this project, including authentication and Firestore configuration, please refer to our [Firebase Setup Guide](FIREBASE_SETUP.md).
 
