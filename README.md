@@ -8,7 +8,7 @@
 [Video Demo](https://user-images.githubusercontent.com/91896009/164498733-955df7c1-71d6-42e4-8cdc-7e6b7e30e460.mp4)
 
 ### Quick Links
-[Slack](https://join.slack.com/t/faceonlive/shared_invite/zt-2drx19c5t-vQsR4TUGPD8oL7i7BXdKZA) | [Website](https://www.faceonlive.com/) | [Portfolio](https://portfolio.faceonlive.com) | [Hugging Face](https://www.huggingface.co/FaceOnLive) | [Free APIs](https://getapi.faceonlive.com) | [OpenKYC](https://github.com/FaceOnLive/OpenKYC) | [Face Attendance](https://github.com/FaceOnLive/Mask-Face-Attendance-App-Flutter) | [Contact](mailto:contact@faceonlive.com)
+[Website](https://www.faceonlive.com/) | [Portfolio](https://portfolio.faceonlive.com) | [Hugging Face](https://www.huggingface.co/FaceOnLive) | [OpenKYC](https://github.com/FaceOnLive/OpenKYC) | [Contact](mailto:contact@faceonlive.com)
 
 ## Prerequisites
 - Currently supports Android platform (arm64) only
@@ -18,7 +18,7 @@
 
 ## Setup Instructions
 1. Install [Flutter](https://docs.flutter.dev/get-started/install) and [Android Studio](https://developer.android.com/studio)
-2. Clone the project: `git clone https://github.com/Turing311/FaceAttendance.git`
+2. Clone the project
 3. (Optional) Change package name: `flutter pub run change_app_package_name:main com.new.package.name` (Disclaimer: If you change the package name, you will need a new AAR Library)
 4. Update app name in `android/app/src/main/AndroidManifest.xml`
 5. Build APK: `flutter build apk --split-per-abi`
@@ -35,7 +35,6 @@ For detailed instructions on setting up Firebase for this project, including aut
 ## Common Errors and Solutions
 - Red lines: Run `flutter pub get`
 - SDK initialization error: Probably changed the package name
-- 
 
 ## Features
 - [x] Easy attendance management with face verification
